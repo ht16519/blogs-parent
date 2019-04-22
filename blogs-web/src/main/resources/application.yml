@@ -1,0 +1,44 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: the_blogs
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/db_blogs?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT
+    username: root
+    password: 123456
+#    jackson:
+#      date-format: yyyy-MM-dd HH:mm:ss
+#      time-zone: GMT+8
+  freemarker:
+    suffix: .ftl
+    template-loader-path: classpath:/templates/
+    cache: false
+    settings:
+      classic_compatible: true #处理空值
+      template_update_delay: 0
+      datetime_format: yyyy-MM-dd HH:mm
+      number_format: 0.##
+  resources:
+      static-locations: classpath:/static/
+  mvc:
+      static-path-pattern: /static/**
+mybatis:
+  mapper-locations: classpath:mappers/*Mapper.xml
+  type-aliases-package: com.xh.blogs.po
+  configuration:
+    mapUnderscoreToCamelCase: true
+    callSettersOnNulls: true
+mapper:
+  mappers: com.xh.blogs.dao.base.IBaseMapper
+  not-empty: false
+  identity: MYSQL
+pagehelper:
+    helper-dialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+logging:
+  level:
+    com.xh.blogs.dao.mapper: debug
