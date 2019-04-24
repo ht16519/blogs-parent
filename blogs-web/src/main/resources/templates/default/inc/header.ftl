@@ -7,7 +7,7 @@
         <div class="loginwrap">
             <div class="loginh">
                 <div class="fl">会员登录</div>
-                <div class="fr">还没有账号<a id="sigup_now" href="${base}/reg">立即注册</a></div>
+                <div class="fr">还没有账号<a id="sigup_now" href="${base}/register">立即注册</a></div>
             </div>
             <h3><span class="login_warning" id="login_warning" style="display: none;">用户名或密码错误</span><div class="clear"></div></h3>
             <form action="" method="post" id="login_form">
@@ -56,7 +56,7 @@
     			<ul class="nav navbar-nav">
 					<#if profile??>
     				<li data="home">
-    					<a href="${base}/home" nav="home">我的主页</a>
+    					<a href="${base}/home/feeds/1" nav="home">我的主页</a>
     				</li>
 					</#if>
 					<#list groups as row>
@@ -76,24 +76,24 @@
     			<ul class="nav navbar-nav navbar-right sign">
     				<#if profile??>
 					<li class="dropdown">
-                        <a href="${base}/post/new" class="publish"><i class="fa fa-magic"></i> 写文章</a>
+                        <a href="${base}/article/new" class="publish"><i class="fa fa-magic"></i> 写文章</a>
 					</li>
     				<li class="dropdown">
     					<a href="#" class="ava dropdown-toggle" data-toggle="dropdown">
-    						<img class="img-circle" src="${"/static/" + profile.avatar}">
+    						<img class="img-circle" src="${"/static" + profile.avatar}">
     					</a>
     					<ul class="dropdown-menu" role="menu">
     		                <li>
     		                	<a href="${base}/account/profile" class="ava">
 									<@showAva profile.avatar "img-circle" />
-    		                		<span>${profile.name}</span>
+    		                		<span>${profile.nickName}</span>
     		                	</a>
     		               	</li>
     		                <li class="divider"></li>
 
-							<@shiro.hasPermission name="admin">
-								<li><a href="${base}/admin">后台管理</a></li>
-							</@shiro.hasPermission>
+							<#--<@shiro.hasPermission name="admin">-->
+								<#--<li><a href="${base}/admin">后台管理</a></li>-->
+							<#--</@shiro.hasPermission>-->
 
     		                <li><a href="${base}/logout">退出</a></li>
     		              </ul>
@@ -101,7 +101,7 @@
     				<#else>
     				<li><a href="${base}/login" class="signin">登录</a></li>
                     
-                    <li><a href="${base}/reg" class="signup">注册</a></li>
+                    <li><a href="${base}/register" class="signup">注册</a></li>
 					</#if>
     			</ul>
     		</div>

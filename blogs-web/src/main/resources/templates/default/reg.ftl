@@ -8,21 +8,21 @@
     <h1>${site_welcomes}</h1>
     <a href="${base}/login" class="signup-link gapps"><span>已有账号, 登录</span></a>
     <hr>
-    <form action="reg" method="post">
+    <form action="register" method="post">
         <div id="message">
             <#include "/default/inc/action_message.ftl"/>
         </div>
         <label for="id_email">用户名:</label>
         <div id="id_email">
-            <input maxlength="18" class="form-control border" name="username" value="${post.username}" placeholder="用户名" type="text" data-required data-conditional="username" data-description="username" data-describedby="message">
+            <input maxlength="16" class="form-control border" name="userName" value="${post.userName}" placeholder="用户名" type="text" data-required data-conditional="username" data-description="username" data-describedby="message">
         </div>
         <label for="id_name">昵称:</label>
         <div id="id_name">
-            <input maxlength="9" class="form-control border" name="name" value="${post.name}" placeholder="昵称" type="text" data-required>
+            <input maxlength="9" class="form-control border" name="nickName" value="${post.nickName}" placeholder="昵称" type="text" data-required>
         </div>
         <label for="id_name">邮箱:</label>
         <div id="id_name">
-            <input maxlength="64" class="form-control border" name="email" value="${post.email}" placeholder="邮箱地址" type="text" data-required data-conditional="email" data-description="email" data-describedby="message">
+            <input maxlength="16" class="form-control border" name="email" value="${post.email}" placeholder="邮箱地址" type="text" data-required data-conditional="email" data-description="email" data-describedby="message">
         </div>
         <label for="id_password">密码:</label>
         <div id="id_password">
@@ -30,7 +30,7 @@
         </div>
         <label for="id_password2">确认密码:</label>
         <div id="id_password2">
-            <input maxlength="18" class="form-control border" name="password2" placeholder="请再输入一次密码" type="password" data-required data-conditional="confirm" data-describedby="message" data-description="confirm">
+            <input maxlength="18" class="form-control border" name="rePassword" placeholder="请再输入一次密码" type="password" data-required data-conditional="confirm" data-describedby="message" data-description="confirm">
         </div>
         <input type="submit" class="btn btn-success border" value="注 册">
     </form>

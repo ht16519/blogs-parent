@@ -24,9 +24,9 @@
                         <h1 class="post-title">${ret.title}</h1>
                         <div class="clearfix post-other">
             <span class="pull-left author">
-                <a class="author-name" href="${base}/ta/${ret.author.id}" target="_blank">${ret.author.name}</a>
+                <a class="author-name" href="${base}/ta/${ret.user.id}" target="_blank">${ret.user.nickName}</a>
             </span>
-                            <time class="pull-left time">${ret.created?string('yyyy-MM-dd')}</time>
+                            <time class="pull-left time">${ret.createTime?string('yyyy-MM-dd')}</time>
                             <span class="pull-left time">浏览: ${ret.views}</span>
                             <ul class="tags">
                             <#list ret.tagsArray as tag>
@@ -39,7 +39,7 @@
                         </div>
                         <div class="post-frame">
                             <div class="post-content">
-                            ${ret.content}
+                            ${ret.editor}
                             </div>
                             <div class="post-footer">
                                 <div class="tip">分享到：</div>

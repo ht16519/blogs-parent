@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xh.blogs.dao.mapper.UserMapper" >
-  <resultMap id="BaseResultMap" type="com.xh.blogs.po.User" >
+  <resultMap id="BaseResultMap" type="com.xh.blogs.domain.po.User" >
     <!--
       WARNING - @mbg.generated
     -->
@@ -26,4 +26,38 @@
     <result column="posts" property="posts" jdbcType="INTEGER" />
     <result column="signature" property="signature" jdbcType="VARCHAR" />
   </resultMap>
+
+  <select id="selectUserInfoByName" parameterType="java.lang.String" resultType="com.xh.blogs.domain.po.User">
+      SELECT
+          r.id AS `role.id`,
+          r.`name` AS `role.name`,
+          p.`name` AS `permission.name`,
+          p.id AS `permission.id`,
+          p.url AS `permission.url`,
+          u.id,
+          u.email,
+          u.last_login,
+          u.mobile,
+          u.`password`,
+          u.user_name,
+          u.nick_name,
+          u.avatar,
+          u.sex,
+          u.source,
+          u.comments,
+          u.fans,
+          u.favors,
+          u.follows,
+          u.posts,
+          u.signature
+      FROM
+          t_user u
+      LEFT JOIN t_user_role ur ON u.id = ur.user_id
+      LEFT JOIN t_role r ON r.id = ur.role_id
+      LEFT JOIN t_role_permission pr ON r.id = pr.permission_id
+      LEFT JOIN t_permission p ON p.id = pr.role_id
+      WHERE
+          u.user_name = #{userName}
+      AND u.`status` = 10
+  </select>
 </mapper>

@@ -27,7 +27,8 @@
 				</label>
 			</div>
 			<div class="update_ava">
-				<img src="<@resource src=profile.avatar/>" id="target" alt="[Jcrop Example]" />
+				<#--<img src="<@resource src=profile.avatar/>" id="target" alt="[Jcrop Example]" />-->
+				<img src="${"/static" + profile.avatar}" id="target" alt="[Jcrop Example]" />
 			</div>
 
 			<div class="form-group">

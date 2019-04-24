@@ -70,6 +70,4 @@ public class MD5Util {
         return formPass2DBPass(inputPass2FormPass(inputPass), salt);
     }
 
-
-
 }

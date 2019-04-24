@@ -2,12 +2,12 @@
 <ul class="list-group about-user">
     <li class="list-group-item user-card" >
         <div class="ava">
-            <a href="${base}/ta/${user.id}">
-                <@showAva user.avatar "img-circle"/>
+            <a href="${base}/blogger/${profile.id}">
+                <@showAva profile.avatar "img-circle"/>
             </a>
         </div>
         <div class="user-info">
-            <div class="nk mb10">${user.name}</div>
+            <div class="nk mb10">${profile.nickName}</div>
             <div class="mb6">
                 <a class="btn btn-success btn-xs" href="${base}/account/profile"><i class="fa fa-pencil"></i> 修改账户</a>
             </div>
@@ -30,10 +30,10 @@
     <div id="home-navbar" class="collapse navbar-collapse">
         <ul class="list-group user-nav first">
             <li class="list-group-item">
-                <a href="${base}/home"><i class="fa fa-feed"></i> 动态</a>
+                <a href="${base}/home/feeds/1"><i class="fa fa-feed"></i> 动态</a>
             </li>
             <li class="list-group-item">
-                <a href="${base}/home?method=posts"><i class="fa fa-file-text-o"></i> 我的文章</a>
+                <a href="${base}/home/articles/1"><i class="fa fa-file-text-o"></i> 我的文章</a>
             </li>
             <li class="list-group-item">
                 <a href="${base}/home?method=comments"><i class="fa fa-comment-o"></i> 我的评论</a>

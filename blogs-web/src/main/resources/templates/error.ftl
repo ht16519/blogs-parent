@@ -6,8 +6,8 @@
 	<div class="panel-heading">提示</div>
 	<div class="panel-body">
 		<fieldset>
-			<#if error??>
-				${error}
+			<#if msg??>
+				${msg}
 			</#if>
 		</fieldset>
 	</div><!-- /panel-content -->

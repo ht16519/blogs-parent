@@ -21,26 +21,24 @@ public enum EmError implements CommomError {
     REQUEST_METHOD_NOT_SUPPORTED(10003, "不支持的请求类型"),
     PARAMETER_VERIFICATION_ERROR(10020, "参数不合法"),
 
-    //200开头为天气信息相关错误
-    GET_WEATHER_INFO_ERROR(20001, "天气数据获取异常"),
-    USER_DATA_ERROR(20002, "用户数据错误"),
-    USER_PASSWORD_ERROR(20004, "密码错误"),
-    USER_SESSION_NOT_EXITS(20003, "用户未登录或登录已超时"),
+    //200开头为用户信息相关错误
+    USER_DATA_ERROR(20002, "用户不存在"),
+    USER_NAME_OR_PASSWORD_ERROR(20003, "用户名或密码错误"),
+    USER_IS_DISABLE(20004, "用户被禁用"),
+    USER_SESSION_NOT_EXITS(20005, "用户未登录或登录已超时"),
+    USER_NAME_IS_EXIST(20006, "用户名已存在"),
+    USER_NICK_NAME_IS_EXIST(20007, "昵称已存在"),
+    USER_EMAIL_IS_EXIST(20008, "邮箱已被注册"),
+    USER_AUTHENTICATION_FAILED(20009, "认证失败，请联系管理员"),
+
 
     //300开头为文件相关错误
     FILE_WRITE_ERROR(30001, "文件写入失败"),
     FILE_IS_NOT_PICTURE(30003, "不支持的文件类型"),
     MAX_UPLOAD_SIZE_EXCEEDED(30002, "文件不能超过1MB"),
 
-    //400开头为秒杀相关错误
-    SECKILL_DATA_REWRITE(40001, "秒杀失败，令牌错误或已失效"),
-    SECKILL_IS_OVER(40002, "秒杀已经结束"),
-    SECKILL_REPEATED(40003, "重复秒杀"),
-    ORDER_INFO_NOT_EXIST(40004, "商品信息不存在"),
-    USER_IS_NOT_EXIST(40005, "用户不存在"),
-    SECKILL_SUCCESSED(40000, "秒杀成功"),
-    SECKILL_FAILED(40500, "秒杀失败，请稍后再试")
-
+    //400开头为文章相关错误
+    ARTICLE_IS_NOT_EXIST(40001, "该文章已被删除"),
     ;
 
     private int code;

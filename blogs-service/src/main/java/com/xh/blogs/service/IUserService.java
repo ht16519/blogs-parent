@@ -1,6 +1,9 @@
 package com.xh.blogs.service;
 
-import com.xh.blogs.po.User;
+
+import com.xh.blogs.domain.po.User;
+import com.xh.blogs.domain.vo.UserVo;
+import com.xh.blogs.exception.BusinessException;
 
 /**
  * @Name IUserService
@@ -30,4 +33,23 @@ public interface IUserService {
     */
     User getByUserName(String userName);
 
+    /**
+    * @Name getUserInfoByName
+    * @Description 根据用户名获取用户信息（角色加权限）
+    * @Author wen
+    * @Date 2019/4/23
+    * @param userName
+    * @return com.xh.blogs.domain.po.User
+    */
+    User getUserInfoByName(String userName);
+
+    /**
+    * @Name register
+    * @Description 用户注册
+    * @Author wen
+    * @Date 2019/4/23
+    * @param user
+    * @return int
+    */
+    int register(UserVo userVo) throws BusinessException;
 }

@@ -45,7 +45,7 @@
 					<div class="col-xs-12 col-md-12">
 						<div class="shadow-box mt20">
 							<div class="stream-list">
-								<#list page.content as row>
+								<#list page.items as row>
 								<div class="stream-item" id="loop-${row.id}">
 									<div class="blog-rank">
 										<div class="votes #if(${row.favors} > 0) plus #end">
@@ -67,7 +67,8 @@
 											<#list row.albums as alb>
 												<#if (alb_index < 3)>
 												<div class="media col-xs-4 col-sm-4 col-md-4">
-													<a title="${row.title}" href="<@resource src=alb.original/>">
+													<#--<a title="${row.title}" href="<@resource src=alb.original/>">-->
+													<a title="${row.title}" href="${"/static" + alb.original}">
 														<@albShow alb/>
 													</a>
 												</div>
@@ -97,7 +98,7 @@
 								</div>
 								</#list>
 
-								<#if page.content?size == 0>
+								<#if page.items?size == 0>
 								<div class="stream-item">
 									<i class="fa fa-info-circle fa-lg"></i> TA还没发表过文章!
 								</div>

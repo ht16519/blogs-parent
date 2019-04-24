@@ -33,7 +33,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                        <#list page.content as row>
+                        <#list page.items as row>
                         <tr>
                             <td class="text-center">${row.id}</td>
                             <td>${row.name}</td>

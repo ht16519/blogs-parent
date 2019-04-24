@@ -11,7 +11,7 @@
 	</div>
 	<!-- tab panes -->
 	<div class="stream-list p-stream no-bg">
-		<#list page.content as row>
+		<#list page.items as row>
 			<div class="stream-item comment-item" el="loop-${row.id}">
 				<h2 class="title" style="color:#F36C52">我说：${row.content}</h2>
 				<div class="foot-block clearfix">
@@ -30,12 +30,12 @@
 				<div class="stream-item">文章已删除</div>
 			</#if>
 
-			<#if row_index < page.content?size>
+			<#if row_index < page.items?size>
                 <div class="stream-blank"></div>
 			</#if>
 		</#list>
 
-		<#if page.content?size == 0>
+		<#if page.items?size == 0>
 		<div class="stream-item">
 			<i class="fa fa-info-circle fa-lg"></i> 您还没发表过评论!
 		</div>

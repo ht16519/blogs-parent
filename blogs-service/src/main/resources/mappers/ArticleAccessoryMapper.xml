@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xh.blogs.dao.mapper.ArticleAccessoryMapper" >
-  <resultMap id="BaseResultMap" type="com.xh.blogs.po.ArticleAccessory" >
+  <resultMap id="BaseResultMap" type="com.xh.blogs.domain.po.ArticleAccessory" >
     <!--
       WARNING - @mbg.generated
     -->
@@ -15,4 +15,7 @@
     <result column="store" property="store" jdbcType="INTEGER" />
     <result column="to_id" property="toId" jdbcType="INTEGER" />
   </resultMap>
+
+
+
 </mapper>

@@ -7,10 +7,10 @@
 		</div>
 	</div>
 	<div class="stream-list p-stream">
-		#foreach($row in $page.content)
+		#foreach($row in $page.items)
 			#showBlog($row)
 		#end
-		#if($page.content.size() == 0)
+		#if($page.items.size() == 0)
             <div class="stream-item">
                 <i class="fa fa-info-circle fa-lg"></i> 该标签下没发表过文章!
             </div>

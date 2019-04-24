@@ -11,7 +11,7 @@
     </div>
     <!-- tab panes -->
     <div class="stream-list">
-        <#list page.content as row>
+        <#list page.items as row>
             <div class="stream-item" id="loop-${row.id}">
                 <div class="blog-rank">
                     <div class="user" title="${row.name}">
@@ -32,7 +32,7 @@
             </div>
         </#list>
 
-        <#if page.content?size == 0>
+        <#if page.items?size == 0>
         <div class="stream-item">
             <i class="fa fa-info-circle fa-lg"></i> 还没有人关注您!
         </div>

@@ -13,13 +13,13 @@
     <hr>
     <form action="login" method="post">
         <div id="message">
-            <#if message??>
-            <div class="alert alert-danger">${message}</div>
+            <#if msg??>
+            <div class="alert alert-danger">${msg}</div>
             </#if>
         </div>
         <label for="id_email">登录名:</label>
         <div id="id_email">
-            <input name="username" class="form-control border" placeholder="用户名" type="text" data-required>
+            <input name="userName" class="form-control border" placeholder="用户名" type="text" data-required>
         </div>
         <label for="id_password">密码:</label>
         <div id="id_password">
@@ -35,7 +35,7 @@
             <input type="submit" class="btn btn-success border" value="登录 Use it">
 
             <div class="forgot">
-                <a href="${base}/reg">
+                <a href="${base}/register">
                     注册
                 </a>
                 <a href="${base}/forgot/apply">

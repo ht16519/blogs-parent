@@ -3,7 +3,8 @@
     <#if avatar?starts_with("http:")>
     <img class="${clazz}" src="${avatar}"/>
     <#else>
-    <img class="${clazz}" src="<@resource src=avatar />"/>
+    <#--<img class="${clazz}" src="<@resource src=avatar />"/>-->
+    <img class="${clazz}" src="${"/static" + avatar}"/>
     </#if>
 </#macro>
 
@@ -17,7 +18,20 @@
     <#if att.store == 1>
         <img src="/static/assets/images/spinner-overlay.png" data-original="${att.preview}"/>
     <#else>
-        <img src="/static/assets/images/spinner-overlay.png" data-original="<@resource src=att.preview />"/>
+        <#--<img src="/static/assets/images/spinner-overlay.png" data-original="<@resource src=att.preview />"/>-->
+        <img src="/static/assets/images/spinner-overlay.png" data-original="${"/static" + att.preview}"/>
+    </#if>
+</#macro>
+
+<#macro albShow2 row att>
+    <#if att.store == 1>
+        <a title="${row.title}" href="${att.original}">
+            <img src="/static/assets/images/spinner-overlay.png" data-original="${att.preview}"/>
+        </a>
+    <#else>
+        <a title="${row.title}" href="${"/static/" + att.original}">
+            <img src="/static/assets/images/spinner-overlay.png" data-original="${"/static" + att.preview}"/>
+        </a>
     </#if>
 </#macro>
 
@@ -25,7 +39,7 @@
 <#macro showBlog row>
 <div class="stream-item" id="loop-${row.id}">
     <div class="summary">
-        <a href="${base}/view/${row.id}">
+        <a href="${base}/article/${row.id}">
             <div class="title"><@showGroup row/><h2>${row.title}</h2></div>
             <!--<div class="excerpt wordbreak hidden-xs">$!{row.summary} </div>-->
         </a>
@@ -36,9 +50,11 @@
             <#list row.albums as alb>
                 <#if (alb_index < 4) >
                 <div class="media col-xs-3 col-sm-3 col-md-3">
-                    <a title="${row.title}" href="<@resource src=alb.original/>">
-                        <@albShow alb/>
-                    </a>
+                    <#--<a title="${row.title}" href="<@resource src=alb.original/>">-->
+                    <#--<a title="${row.title}" href="${"/static" + alb.original}">-->
+                        <#--<@albShow alb/>-->
+                    <#--</a>-->
+                    <@albShow2 row alb/>
                 </div>
                 </#if>
             </#list>
@@ -49,15 +65,15 @@
     </div>
     <div class="p-rank clearfix">
         <div class="users">
-            <a href="${base}/ta/${row.author.id}">
+            <a href="${base}/blogger/${row.user.id}">
                 <div class="ava">
-                    <@showAva row.author.avatar "img-circle"/>
+                    <@showAva row.user.avatar "img-circle"/>
                 </div>
             </a>
             <div class="info">
-                <strong> ${row.author.name}</strong>
-                <time> ${row.created?string('MM月dd日')}</time>
-                <time> ${timeAgo(row.created)}</time>
+                <strong> ${row.user.nickName}</strong>
+                <time> ${row.createTime?string('MM月dd日')}</time>
+                <#--TODO加上时间 <time> ${timeAgo(row.createTime)}</time>-->
             </div>
 
         </div>
@@ -83,11 +99,7 @@
 <#macro pager url p spans>
     <#local span = (spans - 3)/2 />
     <#local pageNo = p.number + 1 />
-    <#if (url?index_of("?") != -1)>
-        <#local cURL = (url + "&pn=") />
-    <#else>
-        <#local cURL = (url + "?pn=") />
-    </#if>
+    <#local cURL = (url + "/number") />
 
 <ul class="pagination">
     <#if (pageNo > 1)>

@@ -11,7 +11,7 @@
 	</div>
 	<!-- tab panes -->
 	<div class="stream-list">
-		<#list page.content as row>
+		<#list page.items as row>
 		<div class="stream-item" id="loop-${row.post.id}">
 			<#if row.post??>
 				<div class="p-rank clearfix">
@@ -43,7 +43,8 @@
 							<#list row.post.albums as alb>
 								<#if (alb_index <= 3)>
 									<div class="media col-xs-4 col-sm-4 col-md-4">
-										<a title="${row.post.title}" href="<@resource src=alb.original/>">
+										<#--<a title="${row.post.title}" href="<@resource src=alb.original/>">-->
+										<a title="${row.post.title}" href="${"/static" + alb.original}">
 											<@albShow alb/>
 										</a>
 									</div>
@@ -72,7 +73,7 @@
 		</div>
 		</#list>
 
-		<#if page.content?size == 0>
+		<#if page.items?size == 0>
             <div class="stream-item">
                 <i class="fa fa-info-circle fa-lg"></i> 您还没收藏过文章!
             </div>

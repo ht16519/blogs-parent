@@ -39,7 +39,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                        <#list page.content as row>
+                        <#list page.items as row>
                         <tr>
                             <td>
                                 <input type="checkbox" name="id" value="${row.id}">

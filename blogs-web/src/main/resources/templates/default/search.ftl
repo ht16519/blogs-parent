@@ -11,11 +11,11 @@
         <!-- tab end -->
         <!-- tab panes -->
         <div class="stream-list p-stream">
-			<#list page.content as row>
+			<#list page.items as row>
 				<@showBlog row/>
 			</#list>
 
-			<#if  page.content?size == 0>
+			<#if  page.items?size == 0>
                 <div class="stream-item">
                     该目录下还没有内容!
                 </div>

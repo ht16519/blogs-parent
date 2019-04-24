@@ -1,8 +1,15 @@
 server:
   port: 8888
+  tomcat:
+    uri-encoding: UTF-8
 spring:
   application:
     name: the_blogs
+  http:
+    encoding:
+      charset: utf-8
+      force: true
+      enabled: true
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/db_blogs?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT
@@ -26,7 +33,7 @@ spring:
       static-path-pattern: /static/**
 mybatis:
   mapper-locations: classpath:mappers/*Mapper.xml
-  type-aliases-package: com.xh.blogs.po
+  type-aliases-package: com.xh.blogs.domain.po
   configuration:
     mapUnderscoreToCamelCase: true
     callSettersOnNulls: true
