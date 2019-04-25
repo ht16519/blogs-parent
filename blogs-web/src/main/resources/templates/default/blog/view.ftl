@@ -24,7 +24,7 @@
                         <h1 class="post-title">${ret.title}</h1>
                         <div class="clearfix post-other">
             <span class="pull-left author">
-                <a class="author-name" href="${base}/ta/${ret.user.id}" target="_blank">${ret.user.nickName}</a>
+                <a class="author-name" href="${base}/ta/${ret.user.id}/1" target="_blank">${ret.user.nickName}</a>
             </span>
                             <time class="pull-left time">${ret.createTime?string('yyyy-MM-dd')}</time>
                             <span class="pull-left time">浏览: ${ret.views}</span>
@@ -120,14 +120,14 @@
                     <ul class="list-group about-user">
                         <li class="list-group-item user-card" >
                             <div class="ava">
-                                <a href="${base}/ta/${ret.author.id}">
-                                    <@showAva ret.author.avatar "img-circle"/>
+                                <a href="${base}/ta/${ret.user.id}/1">
+                                    <@showAva ret.user.avatar "img-circle"/>
                                 </a>
                             </div>
                             <div class="user-info">
-                                <div class="nk mb10">${ret.author.name}</div>
+                                <div class="nk mb10">${ret.user.nickName}</div>
                                 <div class="mb6">
-                                    <a class="btn btn-success btn-xs" href="javascript:void(0);" data-id="${ret.author.id}" rel="follow">+ 关注</a>
+                                    <a class="btn btn-success btn-xs" href="javascript:void(0);" data-id="${ret.user.id}" rel="follow">+ 关注</a>
                                 </div>
                             </div>
                         </li>
@@ -135,8 +135,8 @@
                         <li class="list-group-item">
                             <div class="user-datas">
                                 <ul>
-                                    <li><strong>${ret.author.posts}</strong><span>发布</span></li>
-                                    <li class="noborder"><strong>${ret.author.comments}</strong><span>评论</span></li>
+                                    <li><strong>${ret.user.posts}</strong><span>发布</span></li>
+                                    <li class="noborder"><strong>${ret.user.comments}</strong><span>评论</span></li>
                                 </ul>
                             </div>
                         </li>
@@ -157,12 +157,12 @@
 
 <script type="text/plain" id="chat_template">
     <li id="chat{5}">
-        <a class="avt fl" target="_blank" href="${base}/ta/{0}">
+        <a class="avt fl" target="_blank" href="${base}/ta/{0}/1">
             <img src="/static/{1}">
         </a>
         <div class="chat_body">
             <h5>
-                <div class="fl"><a class="chat_name" href="${base}/ta/{0}">{2}</a><span>{3}</span></div>
+                <div class="fl"><a class="chat_name" href="${base}/ta/{0}/1">{2}</a><span>{3}</span></div>
                 <div class="fr reply_this"><a href="javascript:void(0);" onclick="goto('{5}', '{2}')">[回复]</a></div>
                 <div class="clear"></div>
             </h5>
@@ -201,7 +201,7 @@
                 if (data.pid > 0 && !(data.parent === null)) {
                     var pat = data.parent;
                     var pcontent = ContentRender.wrapItem(pat.content);
-                    quoto = '<div class="quote"><a href="${base}/ta/' + pat.author.id + '">@' + pat.author.name + '</a>: ' + pcontent + '</div>';
+                    quoto = '<div class="quote"><a href="${base}/ta/' + pat.author.id + '/1' + '">@' + pat.author.name + '</a>: ' + pcontent + '</div>';
                 }
                 var item = jQuery.format(template,
                         data.author.id,

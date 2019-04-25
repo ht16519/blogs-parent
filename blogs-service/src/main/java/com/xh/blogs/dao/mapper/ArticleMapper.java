@@ -1,8 +1,8 @@
 package com.xh.blogs.dao.mapper;
 
 import com.xh.blogs.dao.base.IBaseMapper;
+import com.xh.blogs.domain.entity.EHotArticle;
 import com.xh.blogs.domain.po.Article;
-import com.xh.blogs.domain.vo.PageResult;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -39,4 +39,14 @@ public interface ArticleMapper extends IBaseMapper<Article> {
     * @return com.xh.blogs.domain.po.Article
     */
     Article selectById(@Param("id") int id);
+
+    /**
+    * @Name selectByHost
+    * @Description 查询热门文章
+    * @Author wen
+    * @Date 2019/4/25
+    * @param count
+    * @return java.util.List<com.xh.blogs.domain.entity.EHostArticle> 
+    */
+    List<EHotArticle> selectByCondition(@Param("orderBy") Integer orderBy, @Param("count") Integer count);
 }

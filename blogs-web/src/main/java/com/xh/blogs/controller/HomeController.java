@@ -1,5 +1,6 @@
 package com.xh.blogs.controller;
 
+import com.xh.blogs.api.INotifyService;
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.ViewUrl;
 import com.xh.blogs.domain.po.Article;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * @Name HomeController
@@ -21,24 +23,62 @@ import org.springframework.web.bind.annotation.PathVariable;
  * @Author wen
  * @Date 2019-04-22
  */
-@Controller
 @Slf4j
+@Controller
+@RequestMapping("/home")
 public class HomeController extends BaseController{
 
     @Autowired
     private IUserService userService;
     @Autowired
+    private INotifyService notifyService;
+    @Autowired
     private IArticleService articleService;
 
-    @GetMapping("/home/feeds/{number}")
-    public String homeFeeds(@PathVariable("number") int number, ModelMap model) throws BusinessException {
-        model.put(CommonConst.RESULT_PAGE_INFO_KEY, articleService.getByIdWithPage(ShiroUtil.getUser().getId(), number));
+    /**
+    * @Name homeNotifies
+    * @Description 我的通知分页
+    * @Author wen
+    * @Date 2019/4/25
+    * @param number
+    * @param model
+    * @return java.lang.String
+    */
+    @GetMapping("/notifies/{number}")
+    public String homeNotifies(@PathVariable("number") int number, ModelMap model) {
+        //1.分页查询消息
+        int userId = super.getProfile().getId();
+        model.put(CommonConst.RESULT_PAGE_INFO_KEY, notifyService.getByUserIdWithPage(userId, number));
+        //2.设置消息为已读
+        notifyService.setStatusByUserId(userId);
+        return ViewUrl.HOME_NOTIFIES;
+    }
+
+    /**
+    * @Name homeFeeds
+    * @Description 我的动态分页
+    * @Author wen
+    * @Date 2019/4/25
+    * @param number
+    * @return java.lang.String
+    */
+    @GetMapping("/feeds/{number}")
+    public String homeFeeds(@PathVariable("number") int number, ModelMap model) {
+        model.put(CommonConst.RESULT_PAGE_INFO_KEY, articleService.getByIdWithPage(super.getProfile().getId(), number));
         return ViewUrl.HOME_FEEDS;
     }
 
-    @GetMapping("/home/articles/{number}")
-    public String homeArticles(@PathVariable("number") int number, ModelMap model) throws BusinessException {
-        model.put(CommonConst.RESULT_PAGE_INFO_KEY, articleService.getByIdWithPage(ShiroUtil.getUser().getId(), number));
+    /**
+    * @Name homeArticles
+    * @Description 我的文章分页
+    * @Author wen
+    * @Date 2019/4/25
+    * @param number
+    * @return java.lang.String
+    */
+    @GetMapping("/articles/{number}")
+    public String homeArticles(@PathVariable("number") int number, ModelMap model) {
+        model.put(CommonConst.RESULT_PAGE_INFO_KEY, articleService.getByIdWithPage(super.getProfile().getId(), number));
         return ViewUrl.HOME_ARTICLES;
     }
 

@@ -23,28 +23,11 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
 
-    <sql id="commonField">
-          SELECT
-              u.id "user.id",
-              u.nick_name "user.nickName",
-              u.user_name "user.userName",
-              u.avatar "user.avatar",
-              a.id,
-              a.author_id,
-              a.comments,
-              a.favors,
-              a.belong_group,
-              a.images,
-              a.last_image_id,
-              a.summary,
-              a.tags,
-              a.title,
-              a.views,
-              a.create_time,
-    </sql>
-
   <select id="selectById" parameterType="java.lang.Integer" resultType="com.xh.blogs.domain.po.Article">
       <include refid="commonField"/>
+          u.comments "user.comments",
+          u.posts "user.posts",
+          u.fans "user.fans",
           ac.id "albums.id",
           ac.original "albums.original",
           ac.preview "albums.preview",
@@ -61,12 +44,7 @@
   </select>
 
   <select id="selectInfoWithPage" parameterType="java.util.Map" resultType="com.xh.blogs.domain.po.Article">
-      <include refid="commonField"/>
-          group_concat(CONCAT(ac.id,'---',ac.original,'---',ac.preview,'---',ac.store) separator '===') accessorys
-      FROM
-          t_article a
-      LEFT JOIN t_article_accessory ac ON ac.to_id = a.id
-      LEFT JOIN t_user u ON u.id = a.author_id
+      <include refid="commonJoint"/>
       <where>
           <if test="status != null and status != ''"> a.`status` = #{status} </if>
           <if test="userId != null and userId != ''"> AND u.id = #{userId} </if>
@@ -74,5 +52,58 @@
       GROUP BY a.id
       ORDER BY a.create_time DESC
   </select>
+
+    <!--<select id="selectByHottest" resultType="com.xh.blogs.domain.entity.EHostArticle">-->
+        <!--<include refid="commonJoint"/>-->
+        <!--WHERE-->
+            <!--a.`status` = 10-->
+        <!--GROUP BY a.id-->
+        <!--ORDER BY (a.favors + floor(a.views / 3)) DESC-->
+    <!--</select>-->
+
+    <select id="selectByCondition" resultType="com.xh.blogs.domain.entity.EHotArticle">
+        SELECT
+            a.id,a.title,a.favors,a.views
+        FROM
+            t_article a
+        WHERE
+            a.`status` = 10
+        <if test="orderBy == 10"> AND a.featured = 10 </if>
+        GROUP BY a.id
+        <if test="orderBy == 20"> ORDER BY (a.favors + FLOOR(a.views / 3)) DESC </if>
+        <if test="orderBy == 40 or orderBy == 40"> ORDER BY a.create_time DESC </if>
+        LIMIT #{count}
+    </select>
+
+
+    <sql id="commonJoint">
+        <include refid="commonField"/>
+        group_concat(CONCAT(ac.id,'---',ac.original,'---',ac.preview,'---',ac.store) separator '===') accessorys
+        FROM
+        t_article a
+        LEFT JOIN t_article_accessory ac ON ac.to_id = a.id
+        LEFT JOIN t_user u ON u.id = a.author_id
+    </sql>
+
+    <sql id="commonField">
+        SELECT
+            u.id "user.id",
+            u.nick_name "user.nickName",
+            u.user_name "user.userName",
+            u.avatar "user.avatar",
+            a.id,
+            a.author_id,
+            a.comments,
+            a.favors,
+            a.belong_group,
+            a.images,
+            a.last_image_id,
+            a.summary,
+            a.tags,
+            a.title,
+            a.views,
+            a.create_time,
+    </sql>
+
 
 </mapper>

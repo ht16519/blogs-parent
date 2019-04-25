@@ -18,16 +18,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DefaultExceptionHandler implements HandlerExceptionResolver {
 
-    /**
-     *
-     */
     private static final String CODE_KEY = "code";
 
-    /**
-     *
-     */
     private static final String MSG_KEY = "msg";
-
 
     @Override
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler,
@@ -36,7 +29,7 @@ public class DefaultExceptionHandler implements HandlerExceptionResolver {
         log.error("请求异常： params:{}, url:{}", JsonUtil.serialize(request.getParameterMap()), requestURI, ex);
         ModelAndView mv;
         //判断是否ajax请求（本系统ajax请求后缀统一为.json）
-        if (requestURI.endsWith(".json")) {
+        if (requestURI.contains(".json")) {
             this.writerExceptionInfo(response, ex);
             mv = new ModelAndView();
         } else {

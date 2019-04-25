@@ -9,8 +9,42 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="event" property="event" jdbcType="INTEGER" />
     <result column="from_id" property="fromId" jdbcType="INTEGER" />
-    <result column="own_id" property="ownId" jdbcType="INTEGER" />
+    <result column="to_id" property="toId" jdbcType="INTEGER" />
     <result column="article_id" property="articleId" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
+
+  <select id="selectUnreadCountByUserId" resultType="java.lang.Integer">
+      SELECT
+          COUNT(id)
+      FROM
+          t_notify
+      WHERE `status` = 5
+      AND to_id = #{userId}
+  </select>
+
+    <select id="selectByCondition" parameterType="java.util.Map" resultType="com.xh.blogs.domain.po.Notify">
+        SELECT
+            u.id "user.id",
+            u.nick_name "user.nickName",
+            u.avatar "user.avatar",
+            a.id "article.id",
+            a.title "article.title",
+            n.id,
+            n.create_time,
+            n.`event`
+        FROM
+            t_notify n
+        LEFT JOIN t_user u ON u.id = n.from_id
+        LEFT JOIN t_article a ON a.id = n.article_id
+        <where>
+            <if test="status != null and status != ''"> AND n.`status` = ${status} </if>
+            <if test="userId != null and userId != ''"> AND n.to_id = #{userId} </if>
+        </where>
+        ORDER BY n.create_time
+    </select>
+
+    <update id="updateStatusByUserId">
+        UPDATE t_notify SET `status` = 10 WHERE to_id = #{userId}
+    </update>
 </mapper>

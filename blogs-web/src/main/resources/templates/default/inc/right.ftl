@@ -13,7 +13,7 @@
     <div class="title">
         <h3>
             <i class="fa fa-area-chart"></i> 热门文章
-            <a href="" class="rrh-refresh"><i class="fa fa-refresh"></i>换一批</a>
+            <a href="#" class="rrh-refresh"><i class="fa fa-refresh"></i>换一批</a>
         </h3>
 
     </div>
@@ -36,31 +36,29 @@
 <script type="text/javascript">
     var hot_li_template = '<li><div class="li-out"><span class="last"><i>{0}</i></span><span class="name"><a  href="{1}">{2}</a></span><span class="nums">{3}</span></div></li>'
     var latest_li_template = '<li><div class="li-out"><span class="name"><a  href="{1}">{2}</a></span><span class="nums">{3}</span></div></li>'
-
     var hotUser_li_template = '<li class=""><a  href="{1}"><img src="/static/{0}" class="imguser"/></a></li>'
 
     seajs.use('sidebox', function (sidebox) {
         sidebox.init({
             latestUrl: '${base}/api/latests.json',
-            hotUrl: '${base}/api/hots.json',
+            hotUrl: '${base}/api/hottests.json',
             hotTagUrl: '${base}/api/hot_tags.json',
             hotUserUrl: '${base}/api/hotusers.json',
 
-            maxResults: 10,
             // callback
             onLoadHot: function (i, data) {
-                var url = '${base}/view/' + data.id;
+                var url = '${base}/article/' + data.id;
                 var item = jQuery.format(hot_li_template, i + 1, url, data.title, numberScale(data.views));
                 return item;
             },
             onLoadLatest: function (i, data) {
-                var url = '${base}/view/' + data.id;
+                var url = '${base}/article/' + data.id;
                 var item = jQuery.format(latest_li_template, i + 1, url, data.title, numberScale(data.views));
                 return item;
             },
             onLoadHotUser: function (i, data) {
-                var url = '${base}/ta/' + data.id;
-                var item = jQuery.format(hotUser_li_template, data.avatar, url, data.name, data.fans);
+                var url = '${base}/ta/' + data.id + '/1';
+                var item = jQuery.format(hotUser_li_template, data.avatar, url, data.nickName, data.fans);
                 return item;
             }
         });

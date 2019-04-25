@@ -98,6 +98,7 @@ define(function(require, exports, module) {
 
 	// 绑定按钮事件
 	var bindClickEvent = function () {
+
 		// Favor
 		$('a[rel=favor]').click(function () {
 			var id = $(this).attr('data-id');
@@ -130,11 +131,11 @@ define(function(require, exports, module) {
 			}
 
 			if (parseInt(id) > 0) {
-				jQuery.getJSON(app.base +'/account/follow', {'id': id}, function (ret) {
-					if (ret.code >=0) {
+				jQuery.getJSON(app.base +'/api/favor.json/'+ id, function (ret) {
+					if (ret.code == 0) {
 						that.text("已关注");
 					} else {
-						layer.msg(ret.message, {icon: 2});
+						layer.msg(ret.msg, {icon: 2});
 					}
 				});
 			}
@@ -143,10 +144,9 @@ define(function(require, exports, module) {
 		$('a[rel=follow]').each(function () {
 			var that = $(this);
 			var id = that.attr('data-id');
-
 			if (parseInt(id) > 0) {
-				jQuery.getJSON(app.base +'/account/check_follow', {'id': id}, function (ret) {
-					if (ret.code >=0 && ret.data) {
+				jQuery.getJSON(app.base +'/api/follow.json/' + id, function (ret) {
+					if (ret.code == 0) {
 						that.text("已关注");
 					}
 				});
@@ -160,6 +160,19 @@ define(function(require, exports, module) {
 		//});
 	}
 
+    // 初始化加载器
+    var initLoader = function () {
+        //Notify
+        $('span[rel=notifys]').each(function () {
+            var that = $(this);
+            jQuery.getJSON(app.base +'/api/messages.json', function (ret) {
+                if (ret.code == 0) {
+                    that.text(ret.data);
+                }
+            });
+        });
+    }
+
     exports.init = function () {
     	imagesLazyload();
 
@@ -170,6 +183,8 @@ define(function(require, exports, module) {
     	masonry();
 
 		bindClickEvent();
+
+		initLoader();
     }
     
 });

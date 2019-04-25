@@ -5,7 +5,7 @@
 <div class="shadow-box">
     <div class="filter">
         <ul class="">
-            <li><a class="active" href="${base}/home/notifies">通知</a></li>
+            <li><a class="active" href="${base}/home/notifies/1">通知</a></li>
         </ul>
     </div>
     <!-- tab panes -->
@@ -13,29 +13,33 @@
         <#list page.items as row>
             <div class="stream-item" id="loop-${row.id}">
                 <div class="blog-rank">
-                    <div class="user" title="${row.from.name}">
-                        <a href="${base}/ta/${row.from.id}">
-                            <@showAva row.from.avatar "img-circle"/>
+                    <div class="user" title="${row.user.nickName}">
+                        <a href="${base}/ta/${row.user.id}/1">
+                            <@showAva row.user.avatar "img-circle"/>
                         </a>
                     </div>
                 </div>
                 <div class="summary">
-                    <h2 class="title">${row.from.name}</h2>
+                    <h2 class="title">
+                        <a href="${base}/ta/${row.user.id}/1">
+                            ${row.user.nickName}
+                        </a>
+                    </h2>
                     <div class="excerpt wordbreak">
                         <#if (row.event == 1)>
-                            喜欢了你的文章 - <a href="${base}/view/${row.postId}">${row.post.title}</a>
+                            喜欢了你的文章 - <a href="${base}/view/${row.article.id}"><b>${row.article.title}</b></a>
                         <#elseif (row.event == 2)>
                             关注了你, 你的粉丝+1
                         <#elseif (row.event == 3)>
-                            评论了你的文章 - <a href="${base}/view/${row.postId}">点击查看详情</a>
+                            评论了你的文章 - <a href="${base}/view/${row.article.id}"><b>点击查看详情</b></a>
                         <#elseif (row.event == 4)>
-                            回复了你的评论 - <a href="${base}/view/${row.postId}">点击查看详情</a>
+                            回复了你的评论 - <a href="${base}/view/${row.article.id}"><b>点击查看详情</b></a>
                         </#if>
                     </div>
                     </h2>
                     <div class="foot-block clearfix">
                         <div class="author">
-                            <time>${timeAgo(row.created)}</time>
+                            <#--<time>${timeAgo(row.created)}</time>-->
                         </div>
                     </div>
                 </div>

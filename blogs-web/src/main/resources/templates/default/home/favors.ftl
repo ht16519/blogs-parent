@@ -16,7 +16,7 @@
 			<#if row.post??>
 				<div class="p-rank clearfix">
 					<div class="users">
-						<a href="${base}/ta/${row.post.author.id}">
+						<a href="${base}/ta/${row.post.author.id}/1">
 							<div class="ava">
 								<@showAva row.post.author.avatar "img-circle"/>
 							</div>

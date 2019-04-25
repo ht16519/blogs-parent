@@ -35,7 +35,7 @@ public class BlogsController extends BaseController{
 
     @GetMapping("/index")
     public String index() {
-        PageResult<Article> articleList = articleService.getArticleInfoWithPage(CommonConst.ARTICLE_ORDER_NEWSET);
+        //TODO index
         return ViewUrl.INDEX;
     }
 
@@ -56,6 +56,7 @@ public class BlogsController extends BaseController{
     public String viewArticle(@PathVariable("id") int id, ModelMap model) {
         try {
             model.put(CommonConst.COMMON_RETURN_RESULT_KEY, articleService.getById(id));
+            //TODO 文章浏览量 +1
         } catch (BusinessException ex) {
             super.getModelMap(ex, model);
         }

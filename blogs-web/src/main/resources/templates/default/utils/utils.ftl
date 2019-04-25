@@ -65,7 +65,7 @@
     </div>
     <div class="p-rank clearfix">
         <div class="users">
-            <a href="${base}/blogger/${row.user.id}">
+            <a href="${base}/ta/${row.user.id}/1">
                 <div class="ava">
                     <@showAva row.user.avatar "img-circle"/>
                 </div>

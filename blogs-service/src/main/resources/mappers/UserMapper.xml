@@ -27,6 +27,17 @@
     <result column="signature" property="signature" jdbcType="VARCHAR" />
   </resultMap>
 
+  <select id="selectByHottest" resultType="com.xh.blogs.domain.entity.EHotUser">
+      SELECT
+          id,nick_name,avatar,fans
+      FROM
+          t_user
+      WHERE
+          `status` = 10
+      ORDER BY (fans + FLOOR(posts / 3)) DESC
+      LIMIT #{count}
+  </select>
+
   <select id="selectUserInfoByName" parameterType="java.lang.String" resultType="com.xh.blogs.domain.po.User">
       SELECT
           r.id AS `role.id`,

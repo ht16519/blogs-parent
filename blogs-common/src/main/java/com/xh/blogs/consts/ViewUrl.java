@@ -8,13 +8,17 @@ package com.xh.blogs.consts;
  */
 public interface ViewUrl {
 
+    String HOME_NOTIFIES = "default/home/notifies";
+
+    String BLOGGER_HOME = "default/ta/home";
+
     String LOGIN = "default/login";
 
-    String REG = "default/reg";
+    String REGISTER = "default/reg";
 
     String INDEX = "default/index";
 
-    String REG_RESULT = "default/reg_result";
+    String REGISTER_RESULT = "default/reg_result";
 
     String HOME_FEEDS = "default/home/feeds";
 

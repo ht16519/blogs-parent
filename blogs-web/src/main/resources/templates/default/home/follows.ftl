@@ -16,7 +16,7 @@
 			<div class="stream-item" id="loop-${row.id}">
 				<div class="blog-rank">
 					<div class="user" title="${row.name}">
-						<a href="${base}/ta/${row.id}">
+						<a href="${base}/ta/${row.id}/1">
 							<@showAva row.avatar "img-circle"/>
 						</a>
 					</div>

@@ -84,13 +84,14 @@
     					</a>
     					<ul class="dropdown-menu" role="menu">
     		                <li>
-    		                	<a href="${base}/account/profile" class="ava">
+    		                	<a href="${base}/ta/${profile.id}/1" class="ava">
 									<@showAva profile.avatar "img-circle" />
-    		                		<span>${profile.nickName}</span>
+    		                		<span>个人中心</span>
     		                	</a>
     		               	</li>
     		                <li class="divider"></li>
-
+                            <li><a href="${base}/account/profile">修改信息</a></li>
+                            <li class="divider"></li>
 							<#--<@shiro.hasPermission name="admin">-->
 								<#--<li><a href="${base}/admin">后台管理</a></li>-->
 							<#--</@shiro.hasPermission>-->

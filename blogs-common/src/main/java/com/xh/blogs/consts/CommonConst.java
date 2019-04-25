@@ -8,6 +8,12 @@ package com.xh.blogs.consts;
  */
 public interface CommonConst {
 
+    String FOCUS_ON_YOURSELF_MSG = "您不能关注自己";
+
+    String FOCUS_IS_EXIST = "您已经关注过此用户了";
+
+    String USER_INFO_KEY = "user";
+
     String COMMON_RETURN_RESULT_KEY = "ret";
 
     String THE_HTTP_PREFIX = "http";
@@ -46,13 +52,13 @@ public interface CommonConst {
     String ORDER_BY_KEY = "orderBy";
 
     /** 文章最新排序*/
-    String ARTICLE_ORDER_NEWSET = "newest";
+    int ARTICLE_ORDER_NEWSET = 40;
 
     /** 文章推荐排序*/
-    String ARTICLE_ORDER_FEATURED = "featured";
+    int ARTICLE_ORDER_FEATURED = 10;
 
     /** 文章热门排序*/
-    String ARTICLE_ORDER_HOTTEST= "hottest";
+    int ARTICLE_ORDER_HOTTEST = 20;
 
     String ARTICLE_ACCESSORY_SEPARATOR = "===";
 

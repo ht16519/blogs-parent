@@ -2,7 +2,7 @@
 <ul class="list-group about-user">
     <li class="list-group-item user-card" >
         <div class="ava">
-            <a href="${base}/blogger/${profile.id}">
+            <a href="${base}/ta/${profile.id}/1">
                 <@showAva profile.avatar "img-circle"/>
             </a>
         </div>
@@ -54,8 +54,9 @@
 
         <ul class="list-group user-nav">
             <li class="list-group-item">
-                <a href="${base}/home/notifies">
-                    <i class="fa fa-bell-o"></i> 通知 <span class="label label-danger">${profile.badgesCount.notifies}</span>
+                <a href="${base}/home/notifies/1">
+                    <#--<i class="fa fa-bell-o"></i> 通知 <span class="label label-danger">${profile.badgesCount.notifies}</span>-->
+                    <i class="fa fa-bell-o"></i> 通知 <span class="label label-danger" rel="notifys">0</span>
                 </a>
             </li>
         </ul>

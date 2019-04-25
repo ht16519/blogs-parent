@@ -19,7 +19,7 @@
 
         <#if page.items?size == 0>
             <div class="stream-item">
-                <i class="fa fa-info-circle fa-lg"></i> 没有动态,赶紧去关注几个屌丝吧!
+                <i class="fa fa-info-circle fa-lg"></i> 没有动态,赶紧去关注几个大神吧!
             </div>
         </#if>
     </div>

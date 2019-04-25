@@ -4,29 +4,23 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-
 /**
- * @Name EUser
+ * @Name EHotUser
  * @Description
  * @Author wen
- * @Date 2019-04-23
+ * @Date 2019-04-25
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EUser implements Serializable{
-
-    /**
-    *
-    */
-    private static final long serialVersionUID = 1L;
+public class EHotUser {
 
     private Integer id;
-
-    private String userName;
 
     private String nickName;
 
     private String avatar;
+
+    private Integer fans;
+
 }

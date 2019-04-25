@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>${user.name} 的Mtons</title>
+    <title>${user.nickName} 的Mtons</title>
 	<#include "/default/inc/include.ftl"/>
 </head>
 <body>
@@ -20,7 +20,7 @@
 					<#--<@showAva user.avatar "img-circle"/>-->
                     <img src="${"/static/" + user.avatar}" class="img-circle">
 				</div>
-				<h1>${user.name}</h1>
+				<h1>${user.nickName}</h1>
 
 				<h2>${user.signature}</h2>
 				<a class="btn btn-white" href="javascript:void(0);" data-id="${user.id}" rel="follow">+ 关注</a>
@@ -56,7 +56,7 @@
 										</div>
 									</div>
 									<div class="summary">
-										<h2 class="title"><a href="${base}/view/${row.id}">${row.title}</a></h2>
+										<h2 class="title"><a href="${base}/article/${row.id}">${row.title}</a></h2>
 
 										<div class="excerpt wordbreak hidden-xs">${row.summary} &nbsp;</div>
 
@@ -67,10 +67,7 @@
 											<#list row.albums as alb>
 												<#if (alb_index < 3)>
 												<div class="media col-xs-4 col-sm-4 col-md-4">
-													<#--<a title="${row.title}" href="<@resource src=alb.original/>">-->
-													<a title="${row.title}" href="${"/static" + alb.original}">
-														<@albShow alb/>
-													</a>
+													<@albShow2 row alb/>
 												</div>
 												</#if>
 											</#list>
@@ -80,7 +77,7 @@
 
 										<div class="foot-block clearfix">
 											<div class="author">
-												<time>${timeAgo(row.created)}</time>
+												<#--<time>${timeAgo(row.created)}</time>-->
 											</div>
 											<ul class="tags">
 												<#list row.tagsArray as tag>
