@@ -44,7 +44,7 @@
                             <input type="checkbox" name="id" value="${row.id}">
                         </td>
                         <td>${row.title}
-                            <a href="${base}/view/${row.id}" target="_blank">${row.title}</a>
+                            <a href="${base}/article/${row.id}" target="_blank">${row.title}</a>
                         </td>
                         <td>${row.author.username}</td>
                         <td>${row.created?string('yyyy-MM-dd')}</td>

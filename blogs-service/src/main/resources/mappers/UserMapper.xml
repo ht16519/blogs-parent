@@ -27,6 +27,12 @@
     <result column="signature" property="signature" jdbcType="VARCHAR" />
   </resultMap>
 
+    <update id="addFansByUserId">
+        UPDATE t_user
+        SET fans = fans + 1
+        WHERE id = #{userId}
+    </update>
+
   <select id="selectByHottest" resultType="com.xh.blogs.domain.entity.EHotUser">
       SELECT
           id,nick_name,avatar,fans

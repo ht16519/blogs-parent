@@ -9,7 +9,7 @@
 			<#--<@banner>-->
 				<#--<#list page as row>-->
                     <#--<li <#if row_index == 0> class="large" </#if>>-->
-                        <#--<a href="${base}/view/${row.id}">-->
+                        <#--<a href="${base}/article/${row.id}">-->
 							<#--<@albShow row.albums[0]/>-->
                             <#--<h4>${row.title}</h4>-->
                         <#--</a>-->

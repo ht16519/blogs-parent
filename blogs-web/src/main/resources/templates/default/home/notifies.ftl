@@ -27,13 +27,13 @@
                     </h2>
                     <div class="excerpt wordbreak">
                         <#if (row.event == 1)>
-                            喜欢了你的文章 - <a href="${base}/view/${row.article.id}"><b>${row.article.title}</b></a>
+                            喜欢了你的文章 - <a href="${base}/article/${row.article.id}"><b>${row.article.title}</b></a>
                         <#elseif (row.event == 2)>
                             关注了你, 你的粉丝+1
                         <#elseif (row.event == 3)>
-                            评论了你的文章 - <a href="${base}/view/${row.article.id}"><b>点击查看详情</b></a>
+                            评论了你的文章 - <a href="${base}/article/${row.article.id}"><b>点击查看详情</b></a>
                         <#elseif (row.event == 4)>
-                            回复了你的评论 - <a href="${base}/view/${row.article.id}"><b>点击查看详情</b></a>
+                            回复了你的评论 - <a href="${base}/article/${row.article.id}"><b>点击查看详情</b></a>
                         </#if>
                     </div>
                     </h2>

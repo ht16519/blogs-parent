@@ -12,39 +12,39 @@
 	<!-- tab panes -->
 	<div class="stream-list">
 		<#list page.items as row>
-		<div class="stream-item" id="loop-${row.post.id}">
+		<div class="stream-item" id="loop-${row.article.id}">
 			<#if row.post??>
 				<div class="p-rank clearfix">
 					<div class="users">
-						<a href="${base}/ta/${row.post.author.id}/1">
+						<a href="${base}/ta/${row.article.author.id}/1">
 							<div class="ava">
-								<@showAva row.post.author.avatar "img-circle"/>
+								<@showAva row.article.author.avatar "img-circle"/>
 							</div>
 							<div class="info">
-								<strong>${row.post.author.name}</strong>
-								<time>${timeAgo(row.post.created)}</time>
+								<strong>${row.article.author.name}</strong>
+								<time>${timeAgo(row.article.created)}</time>
 							</div>
 						</a>
 					</div>
 					<div class="counts">
-						<span class="act"><i class="praise_icon"></i>${row.post.favors}</span>
-						<span class="act"><i class="comment_icon"></i>${row.post.comments}</span>
+						<span class="act"><i class="praise_icon"></i>${row.article.favors}</span>
+						<span class="act"><i class="comment_icon"></i>${row.article.comments}</span>
 					</div>
 				</div>
 				<div class="summary">
-					<a href="${base}/view/${row.post.id}">
-						<div class="title"><@showGroup row.post/><h2>${row.post.title}</h2></div>
-						<div class="excerpt wordbreak hidden-xs">${row.post.summary} </div>
+					<a href="${base}/article/${row.article.id}">
+						<div class="title"><@showGroup row.post/><h2>${row.article.title}</h2></div>
+						<div class="excerpt wordbreak hidden-xs">${row.article.summary} </div>
 					</a>
 					<!--前端图片显示样式-->
-					<#if row.post.albums??>
+					<#if row.article.albums??>
 						<!--Start-->
 						<div class="thumbs clearfix">
-							<#list row.post.albums as alb>
+							<#list row.article.albums as alb>
 								<#if (alb_index <= 3)>
 									<div class="media col-xs-4 col-sm-4 col-md-4">
-										<#--<a title="${row.post.title}" href="<@resource src=alb.original/>">-->
-										<a title="${row.post.title}" href="${"/static" + alb.original}">
+										<#--<a title="${row.article.title}" href="<@resource src=alb.original/>">-->
+										<a title="${row.article.title}" href="${"/static" + alb.original}">
 											<@albShow alb/>
 										</a>
 									</div>
@@ -56,14 +56,14 @@
 
 					<div class="foot-block clearfix">
 						<ul class="tags">
-							<#list row.post.tagsArray as tag>
+							<#list row.article.tagsArray as tag>
 								<li>
 									<a class="tag tag-sm" href="${base}/tag/${tag}/">${tag}</a>
 								</li>
 							</#list>
 						</ul>
                         <div class="pull-right hidden-xs">
-                            <a class="act" href="javascript:void(0);" data-evt="unfavor" data-id="${row.post.id}">取消喜欢</a>
+                            <a class="act" href="javascript:void(0);" data-evt="unfavor" data-id="${row.article.id}">取消喜欢</a>
                         </div>
 					</div>
 				</div>

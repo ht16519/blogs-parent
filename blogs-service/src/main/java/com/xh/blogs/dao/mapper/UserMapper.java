@@ -28,4 +28,14 @@ public interface UserMapper extends IBaseMapper<User> {
     * @return java.util.List<com.xh.blogs.domain.entity.EHotUser>
     */
     List<EHotUser> selectByHottest(@Param("count") Integer count);
+
+    /**
+    * @Name addFollow
+    * @Description 用户粉丝+1
+    * @Author wen
+    * @Date 2019/4/27
+    * @param
+    * @return int
+    */
+    int addFansByUserId(@Param("userId") int userId);
 }
