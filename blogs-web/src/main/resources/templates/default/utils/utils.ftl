@@ -41,7 +41,7 @@
     <div class="summary">
         <a href="${base}/article/${row.id}">
             <div class="title"><@showGroup row/><h2>${row.title}</h2></div>
-            <!--<div class="excerpt wordbreak hidden-xs">$!{row.summary} </div>-->
+            <div class="excerpt wordbreak hidden-xs">${row.summary} </div>
         </a>
         <!--前端图片显示样式-->
         <#if row.albums??>
@@ -71,7 +71,9 @@
                 </div>
             </a>
             <div class="info">
-                <strong> ${row.user.nickName}</strong>
+                <a href="${base}/ta/${row.user.id}/1">
+                    <strong> ${row.user.nickName}</strong>
+                </a>
                 <time> ${row.createTime?string('MM月dd日')}</time>
                 <#--TODO加上时间 <time> ${timeAgo(row.createTime)}</time>-->
             </div>
@@ -99,7 +101,7 @@
 <#macro pager url p spans>
     <#local span = (spans - 3)/2 />
     <#local pageNo = p.number + 1 />
-    <#local cURL = (url + "/number") />
+    <#local cURL = (url + "/") />
 
 <ul class="pagination">
     <#if (pageNo > 1)>
@@ -109,18 +111,18 @@
 
     <#local totalNo = span * 2 + 3 />
     <#local totalNo1 = totalNo - 1 />
-    <#if (p.totalPages > totalNo)>
+    <#if (p.total > totalNo)>
         <#if (pageNo <= span + 2)>
             <#list 1..totalNo1 as i>
                 <@pagelink pageNo, i, cURL/>
             </#list>
             <@pagelink 0, 0, "#"/>
-            <@pagelink pageNo, p.totalPages, cURL />
-        <#elseif (pageNo > (p.totalPages - (span + 2)))>
+            <@pagelink pageNo, p.total, cURL />
+        <#elseif (pageNo > (p.total - (span + 2)))>
             <@pagelink pageNo, 1, cURL />
             <@pagelink 0, 0, "#"/>
-            <#local num = p.totalPages - totalNo + 2 />
-            <#list num..p.totalPages as i>
+            <#local num = p.total - totalNo + 2 />
+            <#list num..p.total as i>
                 <@pagelink pageNo, i, cURL/>
             </#list>
         <#else>
@@ -132,17 +134,17 @@
                 <@pagelink pageNo, i, cURL />
             </#list>
             <@pagelink 0, 0, "#"/>
-            <@pagelink pageNo, p.totalPages, cURL />
+            <@pagelink pageNo, p.total, cURL />
         </#if>
-    <#elseif (p.totalPages > 1)>
-        <#list 1..p.totalPages as i>
+    <#elseif (p.total > 1)>
+        <#list 1..p.total as i>
             <@pagelink pageNo, i, cURL />
         </#list>
     <#else>
         <@pagelink 1, 1, cURL/>
     </#if>
 
-    <#if (pageNo lt p.totalPages)>
+    <#if (pageNo lt p.total)>
         <#local next = pageNo + 1/>
         <li><a href="${cURL}${next}" pageNo="${next}">&nbsp;<i class="fa fa-angle-right"></i>&nbsp;</a></li>
     </#if>

@@ -8,5 +8,12 @@ package com.xh.blogs.consts;
  */
 public interface ConfigConst {
 
+    /** 加载统计数据条数*/
     int STATISTICAL_COUNT = 10;
+
+    /** 加载文章图片张数*/
+    int ARTICLE_COUNT = 3;
+
+    /** 截取文章简介的字符数*/
+    int CUT_OUT_ARTICLE_SUMMARY_INDEX = 126;
 }

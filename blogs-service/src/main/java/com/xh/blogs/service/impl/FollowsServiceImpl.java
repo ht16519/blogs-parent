@@ -6,6 +6,7 @@ import com.xh.blogs.dao.mapper.FollowsMapper;
 import com.xh.blogs.domain.po.Follows;
 import com.xh.blogs.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +30,7 @@ public class FollowsServiceImpl implements IFollowsService{
         Follows follows = new Follows();
         follows.setFollowId(ownId);
         follows.setUserId(uid);
+        follows.setCreateTime(new Date());
         return followsMapper.customInsert(follows);
     }
 

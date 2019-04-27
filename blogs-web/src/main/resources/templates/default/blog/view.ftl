@@ -143,7 +143,7 @@
                     </ul>
                     <ul class="list-group">
                         <li class="list-group-item">
-                            <a class="btn btn-success btn-sm" href="javascript:void(0);" data-id="${ret.id}" rel="favor">喜欢</a>
+                            <a class="btn btn-success btn-sm" href="javascript:void(0);" data-user-id="${ret.user.id}" data-id="${ret.id}" rel="favor">喜欢</a>
                             <strong id="favors">${ret.favors}</strong> 喜欢
                         </li>
                     </ul>
@@ -190,8 +190,8 @@
 
     seajs.use('comment', function (comment) {
         comment.init({
-            load_url: '${base}/comment/list/${ret.id}',
-            post_url: '${base}/comment/submit',
+            load_url: '${base}/api/comment/list/${ret.id}',
+            post_url: '${base}/api/comment/submit/json',
             toId: '${ret.id}',
             onLoad: function (i, data) {
 

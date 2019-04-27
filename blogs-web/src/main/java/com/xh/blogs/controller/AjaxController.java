@@ -1,19 +1,22 @@
 package com.xh.blogs.controller;
 
-import com.xh.blogs.api.IFollowsService;
-import com.xh.blogs.api.INotifyService;
-import com.xh.blogs.api.IStatisticalService;
-import com.xh.blogs.consts.CommonConst;
+import com.xh.blogs.api.*;
 import com.xh.blogs.consts.ConfigConst;
 import com.xh.blogs.consts.NotifyConst;
+import com.xh.blogs.consts.StringConst;
+import com.xh.blogs.dao.mapper.ArticleMapper;
 import com.xh.blogs.domain.entity.EHotArticle;
 import com.xh.blogs.domain.entity.EHotUser;
+import com.xh.blogs.domain.po.Comments;
+import com.xh.blogs.domain.vo.CommentsVo;
+import com.xh.blogs.domain.vo.PageResult;
 import com.xh.blogs.domain.vo.WebApiResult;
+import com.xh.blogs.exception.BusinessException;
+import com.xh.blogs.service.IArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,9 +33,36 @@ public class AjaxController extends BaseController{
     @Autowired
     private IStatisticalService statisticalService;
     @Autowired
+    private IFavorsService favorsService;
+    @Autowired
     private IFollowsService followsService;
     @Autowired
+    private IArticleService articleService;
+    @Autowired
     private INotifyService notifyService;
+    @Autowired
+    private ICommentsService commentsService;
+
+    @GetMapping("/comment/")
+    public WebApiResult listComments(@PathVariable("articleId") Integer articleId){
+        PageResult<Comments> page = commentsService.getByArticleIdWithPage(articleId);
+        return WebApiResult.success();
+    }
+
+    /**
+     * @Name commentSubmit
+     * @Description 提交
+     * @Author wen
+     * @Date 2019/4/27
+     * @param commentsVo
+     * @return com.xh.blogs.domain.vo.WebApiResult
+     */
+    @PostMapping("/comment/submit.json")
+    public WebApiResult commentSubmit(@RequestBody CommentsVo commentsVo) throws BusinessException {
+        commentsVo.setUserId(super.getProfile().getId());
+        commentsService.add(commentsVo);
+        return WebApiResult.success();
+    }
 
     /**
     * @Name UnreadMessageCount
@@ -54,7 +84,7 @@ public class AjaxController extends BaseController{
     * @param uid
     * @return com.xh.blogs.domain.vo.WebApiResult
     */
-    @GetMapping("/follow.json/{uid}")
+    @GetMapping("/check_follow.json/{uid}")
     public WebApiResult checkFollowIsExist(@PathVariable("uid") Integer uid){
         return WebApiResult.getResult(followsService.checkIsExistByUserId(uid, super.getProfile().getId()));
     }
@@ -67,19 +97,42 @@ public class AjaxController extends BaseController{
     * @param uid
     * @return com.xh.blogs.domain.vo.WebApiResult
     */
-    @GetMapping("/favor.json/{uid}")
+    @GetMapping("/follow.json/{uid}")
     public WebApiResult addFollow(@PathVariable("uid") Integer uid){
         //1.判断是否是自己
         int ownId = super.getProfile().getId();
         if(uid.equals(ownId)){
-            return WebApiResult.fail(CommonConst.FOCUS_ON_YOURSELF_MSG);
+            return WebApiResult.fail(StringConst.FOCUS_ON_YOURSELF_MSG);
         }
         //2.添加关注
         if(followsService.addFollow(uid, ownId) <= 0){
-            return WebApiResult.fail(CommonConst.FOCUS_IS_EXIST);
+            return WebApiResult.fail(StringConst.FOLLOW_FOCUS_IS_EXIST);
         }
         //3.关注成功，发送通知消息
         notifyService.sendMsg(ownId, uid, NotifyConst.EVENT_FOLLOWS, null);
+        return WebApiResult.success();
+    }
+
+    /**
+    * @Name addFavor
+    * @Description 添加收藏并发送通知
+    * @Author wen
+    * @Date 2019/4/27
+    * @param articleId
+    * @return com.xh.blogs.domain.vo.WebApiResult
+    */
+    @GetMapping("/favor.json/{uid}/{articleId}")
+    @Transactional
+    public WebApiResult addFavor(@PathVariable("uid") int uid, @PathVariable("articleId") Integer articleId){
+        //1.添加收藏
+        int ownId = super.getProfile().getId();
+        if(favorsService.addFavor(ownId, articleId) < 0){
+            return WebApiResult.fail(StringConst.FAVOR_FOCUS_IS_EXIST);
+        }
+        //2.文章收藏量增加
+        articleService.updateFavors(articleId);
+        //3.收藏成功，发送通知
+        notifyService.sendMsg(ownId, uid, NotifyConst.EVENT_FAVORS, articleId);
         return WebApiResult.success();
     }
 
@@ -91,7 +144,7 @@ public class AjaxController extends BaseController{
     * @param
     * @return com.xh.blogs.domain.vo.WebApiResult<java.util.List<com.xh.blogs.domain.entity.EHotArticle>>
     */
-//    @GetMapping("/latests.json")
+    @GetMapping("/latests.json")
     public WebApiResult<List<EHotArticle>> latestArticles(){
         return WebApiResult.success(statisticalService.getLatestsArticles(ConfigConst.STATISTICAL_COUNT));
     }
@@ -104,7 +157,7 @@ public class AjaxController extends BaseController{
     * @param
     * @return com.xh.blogs.domain.vo.WebApiResult<java.util.List<com.xh.blogs.domain.entity.EHotArticle>>
     */
-//    @GetMapping("/hottests.json")
+    @GetMapping("/hottests.json")
     public WebApiResult<List<EHotArticle>> hottestArticles(){
         return WebApiResult.success(statisticalService.getHottestArticles(ConfigConst.STATISTICAL_COUNT));
     }

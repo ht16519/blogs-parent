@@ -17,23 +17,23 @@ public interface IArticleService {
 
     /**
     * @Name getArticleInfoWithPage
-    * @Description 分页获取文章信息
+    * @Description 分页获取文章信息（排序）
     * @Author wen
     * @Date 2019/4/23
-    * @param order
+    * @param sort
     * @return PageResult<Article>
     */
-    PageResult<Article> getArticleInfoWithPage(String order);
+    PageResult<Article> getInfoWithPage(int sort, int number);
 
     /**
     * @Name getByIdWithPage
     * @Description 分页查询文章by用户id
     * @Author wen
     * @Date 2019/4/23
-    * @param id
+    * @param userId
     * @return com.xh.blogs.domain.vo.PageResult<com.xh.blogs.domain.po.Article> 
     */
-    PageResult<Article> getByIdWithPage(int id, int pageNum);
+    PageResult<Article> getByIdWithPage(int userId, int number);
 
     /**
     * @Name addArticle
@@ -43,7 +43,7 @@ public interface IArticleService {
     * @param articleVo
     * @return int
     */
-    int addArticle(ArticleVo articleVo);
+    int addArticle(ArticleVo articleVo) throws BusinessException;
 
     /**
     * @Name getById
@@ -54,4 +54,14 @@ public interface IArticleService {
     * @return com.xh.blogs.domain.po.Article
     */
     Article getById(int id) throws BusinessException;
+
+    /**
+    * @Name updateFavors
+    * @Description 修改文章收藏量
+    * @Author wen
+    * @Date 2019/4/27
+    * @param articleId
+    * @return int
+    */
+    int updateFavors(int articleId);
 }

@@ -3,12 +3,8 @@ package com.xh.blogs.controller;
 import com.xh.blogs.api.INotifyService;
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.ViewUrl;
-import com.xh.blogs.domain.po.Article;
-import com.xh.blogs.domain.vo.PageResult;
-import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.service.IArticleService;
 import com.xh.blogs.service.IUserService;
-import com.xh.blogs.utils.ShiroUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -54,14 +50,6 @@ public class HomeController extends BaseController{
         return ViewUrl.HOME_NOTIFIES;
     }
 
-    /**
-    * @Name homeFeeds
-    * @Description 我的动态分页
-    * @Author wen
-    * @Date 2019/4/25
-    * @param number
-    * @return java.lang.String
-    */
     @GetMapping("/feeds/{number}")
     public String homeFeeds(@PathVariable("number") int number, ModelMap model) {
         model.put(CommonConst.RESULT_PAGE_INFO_KEY, articleService.getByIdWithPage(super.getProfile().getId(), number));

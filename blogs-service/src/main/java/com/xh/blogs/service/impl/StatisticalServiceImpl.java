@@ -26,17 +26,17 @@ public class StatisticalServiceImpl implements IStatisticalService{
     private ArticleMapper articleMapper;
 
     @Override
-    public List<EHotArticle> getHottestArticles(Integer count) {
+    public List<EHotArticle> getHottestArticles(int count) {
         return articleMapper.selectByCondition(CommonConst.ARTICLE_ORDER_HOTTEST, count);
     }
 
     @Override
-    public List<EHotArticle> getLatestsArticles(Integer count){
+    public List<EHotArticle> getLatestsArticles(int count){
         return articleMapper.selectByCondition(CommonConst.ARTICLE_ORDER_NEWSET, count);
     }
 
     @Override
-    public List<EHotUser> getHottestUsers(Integer count){
+    public List<EHotUser> getHottestUsers(int count){
         return userMapper.selectByHottest(count);
     }
 

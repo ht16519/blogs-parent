@@ -46,7 +46,7 @@ public class NotifyServiceImpl implements INotifyService {
     public PageResult<Notify> getByUserIdWithPage(Integer userId, int number) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put(CommonConst.USER_ID_KEY, userId);
-        Page<Notify> page = PageHelper.startPage(number, CommonConst.pageSize);
+        Page<Notify> page = PageHelper.startPage(number, CommonConst.PAGE_SIZE);
         notifyMapper.selectByCondition(parameters);
         return new PageResult<>(page.getTotal(), page.getResult());
     }

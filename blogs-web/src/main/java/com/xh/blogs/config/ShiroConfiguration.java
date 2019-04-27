@@ -1,6 +1,7 @@
 package com.xh.blogs.config;
 
-import java.util.LinkedHashMap;
+import com.xh.blogs.auth.AuthRealm;
+import com.xh.blogs.auth.CredentialMatcher;
 import com.xh.blogs.consts.RequestUrl;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
@@ -11,11 +12,21 @@ import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreato
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import com.xh.blogs.auth.AuthRealm;
-import com.xh.blogs.auth.CredentialMatcher;
+
+import java.util.LinkedHashMap;
 
 @Configuration
 public class ShiroConfiguration {
+
+	private static final String ANON = "anon";
+
+	private static final String USER = "user";
+
+	private static final String STATIC_RESOURCES = "/static/**";
+
+	private static final String ALL_RESOURCES = "/**";
+
+
 
 	/**
 	 * @Name shiroFilterFactoryBean
@@ -37,12 +48,16 @@ public class ShiroConfiguration {
 		bean.setUnauthorizedUrl(RequestUrl.INDEX_URL);
 		//定义请求拦截规则
 		LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-		filterChainDefinitionMap.put(RequestUrl.INDEX_URL, "anon");
-		filterChainDefinitionMap.put(RequestUrl.LOGIN_URL, "anon");
-		filterChainDefinitionMap.put(RequestUrl.LOGIN_URL, "anon");
-		filterChainDefinitionMap.put(RequestUrl.REG_URL, "anon");
-		filterChainDefinitionMap.put("/static/**", "anon");
-		filterChainDefinitionMap.put("/**", "user");
+		filterChainDefinitionMap.put(RequestUrl.INDEX_URLS, ANON);
+		filterChainDefinitionMap.put(RequestUrl.LOGIN_URL, ANON);
+		filterChainDefinitionMap.put(RequestUrl.REG_URL, ANON);
+		filterChainDefinitionMap.put(RequestUrl.AJAX_LATESTS, ANON);
+		filterChainDefinitionMap.put(RequestUrl.AJAX_HOTTESTS, ANON);
+		filterChainDefinitionMap.put(RequestUrl.AJAX_HOTUSERS, ANON);
+		filterChainDefinitionMap.put(RequestUrl.BLOGGER_DETAILS, ANON);
+		filterChainDefinitionMap.put(RequestUrl.ARTICLE_DETAILS, ANON);
+		filterChainDefinitionMap.put(STATIC_RESOURCES, ANON);
+		filterChainDefinitionMap.put(ALL_RESOURCES, USER);
 		bean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 		return bean;
 	}

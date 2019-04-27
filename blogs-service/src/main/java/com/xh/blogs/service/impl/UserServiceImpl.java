@@ -7,6 +7,7 @@ import com.xh.blogs.domain.vo.UserVo;
 import com.xh.blogs.enums.EmError;
 import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.service.IUserService;
+import com.xh.blogs.utils.BeanValidator;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,7 +48,8 @@ public class UserServiceImpl implements IUserService {
     @Override
     @Transactional
     public int register(UserVo userVo) throws BusinessException{
-        //TODO 1.参数校验
+        //1.参数校验
+        BeanValidator.check(userVo);
         //2.校验用户信息
         this.checkInputUserInfo(userVo);
         //3.设置基本属性

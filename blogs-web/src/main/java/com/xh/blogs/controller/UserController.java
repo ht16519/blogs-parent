@@ -41,6 +41,16 @@ public class UserController extends BaseController{
     @Autowired
     private IArticleService articleService;
 
+    /**
+    * @Name bloggerInfo
+    * @Description 博主详情
+    * @Author wen
+    * @Date 2019/4/27
+    * @param uid
+    * @param number
+    * @param model
+    * @return java.lang.String
+    */
     @GetMapping("/ta/{uid}/{number}")
     public String bloggerInfo(@PathVariable("uid") int uid, @PathVariable("number") int number, ModelMap model) {
         model.put(CommonConst.USER_INFO_KEY, userService.getById(uid));
@@ -48,26 +58,58 @@ public class UserController extends BaseController{
         return ViewUrl.BLOGGER_HOME;
     }
 
+    /**
+    * @Name doLogout
+    * @Description 退出登录
+    * @Author wen
+    * @Date 2019/4/27
+    * @param
+    * @return java.lang.String
+    */
     @GetMapping("/logout")
     public String doLogout() {
         Subject subject = SecurityUtils.getSubject();
         if(subject != null) {
             subject.logout();
         }
-        //TODO 路径改为index首页
-        return ViewUrl.LOGIN;
+        return RequestUrl.REDIRECT_INDEX;
     }
 
+    /**
+    * @Name loginView
+    * @Description 登录页面
+    * @Author wen
+    * @Date 2019/4/27
+    * @param
+    * @return java.lang.String
+    */
     @GetMapping("/login")
     public String loginView() {
         return ViewUrl.LOGIN;
     }
 
+    /**
+    * @Name registerView
+    * @Description 注册页面
+    * @Author wen
+    * @Date 2019/4/27
+    * @param
+    * @return java.lang.String
+    */
     @GetMapping("/register")
     public String registerView() {
         return ViewUrl.REGISTER;
     }
 
+    /**
+    * @Name doRegister
+    * @Description 注册操作
+    * @Author wen
+    * @Date 2019/4/27
+    * @param userVo
+    * @param model
+    * @return java.lang.String
+    */
     @PostMapping("/register")
     public String doRegister(UserVo userVo, ModelMap model) {
         try {
@@ -85,6 +127,17 @@ public class UserController extends BaseController{
         return ViewUrl.REGISTER;
     }
 
+    /**
+    * @Name doLogin
+    * @Description 登录操作
+    * @Author wen
+    * @Date 2019/4/27
+    * @param userName
+    * @param password
+    * @param rememberMe
+    * @param model
+    * @return java.lang.String
+    */
     @PostMapping("/login")
     public String doLogin(String userName, String password, @RequestParam(value = "rememberMe",defaultValue = "0") int rememberMe, ModelMap model) {
         try {
@@ -94,6 +147,7 @@ public class UserController extends BaseController{
             }
             ShiroUtil.getSubject().login(token);
             super.putProfile(model);
+            //TODO 登录记录生成
             return RequestUrl.REDIRECT_HOME;
         } catch (AuthenticationException e) {
             if (e instanceof UnknownAccountException) {

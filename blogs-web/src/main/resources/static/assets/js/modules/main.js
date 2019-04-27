@@ -101,20 +101,19 @@ define(function(require, exports, module) {
 
 		// Favor
 		$('a[rel=favor]').click(function () {
-			var id = $(this).attr('data-id');
-
+			var articleId = $(this).attr('data-id');
+            var uid = $(this).attr('data-user-id');
 			if (!Authc.isAuthced()) {
 				Authc.showLogin();
 				return false;
 			}
-
-			if (parseInt(id) > 0) {
-				jQuery.getJSON(app.base +'/account/favor', {'id': id}, function (ret) {
-					if (ret.code >=0) {
+			if (parseInt(articleId) > 0) {
+				jQuery.getJSON(app.base +'/api/favor.json/' + uid + '/' + articleId, function (ret) {
+					if (ret.code == 0) {
 						var favors = $('#favors').text();
 						$('#favors').text(parseInt(favors) + 1);
 					} else {
-						layer.msg(ret.message, {icon: 5});
+                        layer.msg(ret.msg, {icon: 5});
 					}
 				});
 			}
@@ -124,14 +123,12 @@ define(function(require, exports, module) {
 		$('a[rel=follow]').click(function () {
 			var that = $(this);
 			var id = that.attr('data-id');
-
 			if (!Authc.isAuthced()) {
 				Authc.showLogin();
 				return false;
 			}
-
 			if (parseInt(id) > 0) {
-				jQuery.getJSON(app.base +'/api/favor.json/'+ id, function (ret) {
+				jQuery.getJSON(app.base +'/api/follow.json/'+ id, function (ret) {
 					if (ret.code == 0) {
 						that.text("已关注");
 					} else {
@@ -145,7 +142,7 @@ define(function(require, exports, module) {
 			var that = $(this);
 			var id = that.attr('data-id');
 			if (parseInt(id) > 0) {
-				jQuery.getJSON(app.base +'/api/follow.json/' + id, function (ret) {
+				jQuery.getJSON(app.base +'/api/check_follow.json/' + id, function (ret) {
 					if (ret.code == 0) {
 						that.text("已关注");
 					}

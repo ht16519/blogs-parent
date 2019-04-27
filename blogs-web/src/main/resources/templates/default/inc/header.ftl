@@ -61,7 +61,7 @@
 					</#if>
 					<#list groups as row>
 					<li>
-    					<a href="${base}/g/${row.key}" nav="${row.name}">${row.name}</a>
+    					<a href="${base}/g/${row.groupKey}" nav="${row.groupValue}">${row.name}</a>
     				</li>
 					</#list>
 					

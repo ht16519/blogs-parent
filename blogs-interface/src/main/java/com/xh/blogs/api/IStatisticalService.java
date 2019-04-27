@@ -21,7 +21,7 @@ public interface IStatisticalService {
     * @param count
     * @return java.util.List<com.xh.blogs.domain.entity.EHostArticle> 
     */
-    List<EHotArticle> getHottestArticles(Integer count);
+    List<EHotArticle> getHottestArticles(int count);
 
     /**
     * @Name getLatestsArticle
@@ -31,7 +31,7 @@ public interface IStatisticalService {
     * @param count
     * @return java.util.List<com.xh.blogs.domain.entity.EHostArticle> 
     */
-    List<EHotArticle> getLatestsArticles(Integer count);
+    List<EHotArticle> getLatestsArticles(int count);
 
     /**
     * @Name getHottestUser
@@ -41,5 +41,5 @@ public interface IStatisticalService {
     * @param count
     * @return java.util.List<com.xh.blogs.domain.entity.EHotUser>
     */
-    List<EHotUser> getHottestUsers(Integer count);
+    List<EHotUser> getHottestUsers(int count);
 }

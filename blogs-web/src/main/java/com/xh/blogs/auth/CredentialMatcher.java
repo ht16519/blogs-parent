@@ -22,8 +22,7 @@ public class CredentialMatcher extends SimpleCredentialsMatcher{
 		String password = new String(usernamePasswordToken.getPassword());
 		//获取AuthRealm中存入的密码
 		String dbPassword = (String) info.getCredentials();
-		//自定义校验规则 
-		// TODO
+		// TODO 自定义密码校验规则
 		return this.equals(password, dbPassword);
 	}
 

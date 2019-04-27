@@ -8,9 +8,7 @@ package com.xh.blogs.consts;
  */
 public interface CommonConst {
 
-    String FOCUS_ON_YOURSELF_MSG = "您不能关注自己";
-
-    String FOCUS_IS_EXIST = "您已经关注过此用户了";
+    String COUNT_KEY = "count";
 
     String USER_INFO_KEY = "user";
 
@@ -30,9 +28,9 @@ public interface CommonConst {
 
     int ARTICLE_STORE_LOCAL = 2;
 
-    int pageNum = 1;
+    int PAGE_NUMBER = 1;
 
-    int pageSize = 1;
+    int PAGE_SIZE = 3;
 
     String USER_ID_KEY = "userId";
 
@@ -49,7 +47,7 @@ public interface CommonConst {
 
     String SYSTEM_PROFILE = "profile";
 
-    String ORDER_BY_KEY = "orderBy";
+    String ORDER_BY_KEY = "sort";
 
     /** 文章最新排序*/
     int ARTICLE_ORDER_NEWSET = 40;
@@ -65,5 +63,7 @@ public interface CommonConst {
     String ACCESSORYS_SEPARATOR = "---";
 
     String SEPARATOR = ",";
+
+    String SEPARATOR_SEMICOLON = ";";
 
 }

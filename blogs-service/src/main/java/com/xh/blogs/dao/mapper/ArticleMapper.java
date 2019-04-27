@@ -11,16 +11,6 @@ import java.util.Map;
 public interface ArticleMapper extends IBaseMapper<Article> {
 
     /**
-    * @Name selectArticleInfoWithPage
-    * @Description 分页查询文章信息
-    * @Author wen
-    * @Date 2019/4/23
-    * @param parameters
-    * @return java.util.List<com.xh.blogs.domain.po.Article>
-    */
-    List<Article> selectArticleInfoWithPage(Map<String, Object> parameters);
-
-    /**
     * @Name selectInfoWithPage
     * @Description 分页查询文章信息包括图片
     * @Author wen
@@ -48,5 +38,15 @@ public interface ArticleMapper extends IBaseMapper<Article> {
     * @param count
     * @return java.util.List<com.xh.blogs.domain.entity.EHostArticle> 
     */
-    List<EHotArticle> selectByCondition(@Param("orderBy") Integer orderBy, @Param("count") Integer count);
+    List<EHotArticle> selectByCondition(@Param("sort") int sort, @Param("count") int count);
+
+    /**
+    * @Name addFavors
+    * @Description 新增文章收藏量
+    * @Author wen
+    * @Date 2019/4/27
+    * @param articleId
+    * @return int
+    */
+    int addFavors(@Param("articleId") int articleId);
 }

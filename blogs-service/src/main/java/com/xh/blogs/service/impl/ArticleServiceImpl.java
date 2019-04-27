@@ -3,6 +3,7 @@ package com.xh.blogs.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.xh.blogs.consts.CommonConst;
+import com.xh.blogs.consts.ConfigConst;
 import com.xh.blogs.dao.mapper.ArticleAccessoryMapper;
 import com.xh.blogs.dao.mapper.ArticleContentMapper;
 import com.xh.blogs.dao.mapper.ArticleMapper;
@@ -14,18 +15,19 @@ import com.xh.blogs.domain.vo.PageResult;
 import com.xh.blogs.enums.EmError;
 import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.service.IArticleService;
+import com.xh.blogs.utils.BeanValidator;
 import com.xh.blogs.utils.CommonUtil;
 import com.xh.blogs.utils.PreviewTextUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -51,34 +53,46 @@ public class ArticleServiceImpl implements IArticleService {
     private ArticleAccessoryMapper articleAccessoryMapper;
 
     @Override
-    public PageResult<Article> getArticleInfoWithPage(String order) {
+    public PageResult<Article> getInfoWithPage(int sort, int number) {
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put(CommonConst.ORDER_BY_KEY, order);
-        Page<Article> page = PageHelper.startPage(CommonConst.pageNum, CommonConst.pageSize);
-        articleMapper.selectArticleInfoWithPage(parameters);
-        return new PageResult<>(page.getTotal(), page.getResult());
+        return this.getCommonWithPage(sort, number, parameters);
     }
 
     @Override
-    public PageResult<Article> getByIdWithPage(int id, int pageNum) {
+    public PageResult<Article> getByIdWithPage(int userId, int number) {
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put(CommonConst.USER_ID_KEY, id);
+        parameters.put(CommonConst.USER_ID_KEY, userId);
+        return this.getCommonWithPage(CommonConst.ARTICLE_ORDER_NEWSET, number, parameters);
+    }
+
+    /**
+    * @Name getCommonWithPage
+    * @Description 获取公共的
+    * @Author wen
+    * @Date 2019/4/27
+    * @param sort
+    * @param number
+    * @param parameters
+    * @return com.xh.blogs.domain.vo.PageResult<com.xh.blogs.domain.po.Article>
+    */
+    private PageResult<Article> getCommonWithPage(int sort, int number, Map<String, Object> parameters) {
         parameters.put(CommonConst.STATUS_KEY, CommonConst.EFFECTIVE_STATUS);
-        Page<Article> page = PageHelper.startPage(pageNum, CommonConst.pageSize);
+        parameters.put(CommonConst.ORDER_BY_KEY, sort);
+        Page<Article> page = PageHelper.startPage(number, CommonConst.PAGE_SIZE);
         articleMapper.selectInfoWithPage(parameters);
         return new PageResult<>(page.getTotal(), this.getArticles(page));
     }
 
     @Override
     @Transactional
-    public int addArticle(ArticleVo articleVo) {
-        //1.TODO 参数校验
-
+    public int addArticle(ArticleVo articleVo) throws BusinessException {
+        //1.参数校验
+        BeanValidator.check(articleVo);
         //2.保存文章基本信息
         Article article = new Article();
         BeanUtils.copyProperties(articleVo, article);
         String voContent = articleVo.getContent();
-        article.setSummary(PreviewTextUtil.getText(voContent, 126));
+        article.setSummary(PreviewTextUtil.getText(voContent, ConfigConst.CUT_OUT_ARTICLE_SUMMARY_INDEX));
         article.setCreateTime(new Date());
         articleMapper.insertSelective(article);
         //3.保存文章内容信息
@@ -105,6 +119,11 @@ public class ArticleServiceImpl implements IArticleService {
         return article;
     }
 
+    @Override
+    public int updateFavors(int articleId) {
+        return articleMapper.addFavors(articleId);
+    }
+
     /**
     * @Name extractImages
     * @Description 提取图片信息
@@ -125,8 +144,8 @@ public class ArticleServiceImpl implements IArticleService {
             ArticleAccessory accessory = new ArticleAccessory();
             accessory.setStatus(CommonConst.EFFECTIVE_STATUS);
             accessory.setOriginal(imageUrl);
-            accessory.setToId(aricleId);
             accessory.setPreview(imageUrl);
+            accessory.setToId(aricleId);
             if (imageUrl.startsWith(CommonConst.THE_HTTP_PREFIX)) {
                 accessory.setStore(CommonConst.ARTICLE_STORE_NETWORK);
             }else {
@@ -147,27 +166,32 @@ public class ArticleServiceImpl implements IArticleService {
     */
     private List<Article> getArticles(Page<Article> page) {
         List<Article> articleList = page.getResult();
-        for (Article article : articleList) {
-            String accessorys = article.getAccessorys();
-            if(StringUtils.isNotEmpty(accessorys)){
-                List<ArticleAccessory> albums = new ArrayList<>();
-                article.setAlbums(albums);
-                String[] accessory = accessorys.split(CommonConst.ARTICLE_ACCESSORY_SEPARATOR);
-                for (String s : accessory) {
-                    try {
-                        String[] field = s.split(CommonConst.ACCESSORYS_SEPARATOR);
-                        ArticleAccessory articleAccessory = new ArticleAccessory();
-                        articleAccessory.setId(CommonUtil.null2Int(field[0]));
-                        articleAccessory.setOriginal(field[1]);
-                        articleAccessory.setPreview(field[2]);
-                        articleAccessory.setStore(CommonUtil.null2Int(field[3]));
-                        article.getAlbums().add(articleAccessory);
-                    } catch (Exception e) {
-                        log.error("cut out ArticleAccessory exception:{}", e);
+        if(articleList != null && articleList.size() > 0) {
+            for (Article article : articleList) {
+                String accessorys = article.getAccessorys();
+                if (StringUtils.isNotEmpty(accessorys)) {
+                    List<ArticleAccessory> albums = new ArrayList<>();
+                    article.setAlbums(albums);
+                    String[] accessory = accessorys.split(CommonConst.ARTICLE_ACCESSORY_SEPARATOR);
+                    for (String s : accessory) {
+                        try {
+                            String[] field = s.split(CommonConst.ACCESSORYS_SEPARATOR);
+                            ArticleAccessory articleAccessory = new ArticleAccessory();
+                            articleAccessory.setId(CommonUtil.null2Int(field[0]));
+                            articleAccessory.setOriginal(field[1]);
+                            articleAccessory.setPreview(field[2]);
+                            articleAccessory.setStore(CommonUtil.null2Int(field[3]));
+                            article.getAlbums().add(articleAccessory);
+                        } catch (Exception e) {
+                            log.error("cut out Article Accessory exception:{}", e);
+                        }
+                    }
+                    if(albums.size() > ConfigConst.ARTICLE_COUNT){
+                        continue;
                     }
                 }
+                article.setAccessorys(null);
             }
-            article.setAccessorys(null);
         }
         return articleList;
     }

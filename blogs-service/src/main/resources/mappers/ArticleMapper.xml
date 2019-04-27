@@ -23,19 +23,20 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
 
+  <update id="addFavors" parameterType="java.lang.Integer" >
+        UPDATE t_article
+        SET favors = favors + 1
+        WHERE id = #{articleId}
+  </update>
+
   <select id="selectById" parameterType="java.lang.Integer" resultType="com.xh.blogs.domain.po.Article">
       <include refid="commonField"/>
           u.comments "user.comments",
           u.posts "user.posts",
           u.fans "user.fans",
-          ac.id "albums.id",
-          ac.original "albums.original",
-          ac.preview "albums.preview",
-          ac.store "albums.store",
           act.content "editor"
       FROM
           t_article a
-      LEFT JOIN t_article_accessory ac ON ac.to_id = a.id
       LEFT JOIN t_user u ON u.id = a.author_id
       LEFT JOIN t_article_content act ON act.id = a.id
       WHERE
@@ -48,30 +49,24 @@
       <where>
           <if test="status != null and status != ''"> a.`status` = #{status} </if>
           <if test="userId != null and userId != ''"> AND u.id = #{userId} </if>
+          <if test="sort == 10"> AND a.featured = 10 </if>
       </where>
       GROUP BY a.id
-      ORDER BY a.create_time DESC
+      <if test="sort == 20"> ORDER BY (a.favors + FLOOR(a.views / 3)) DESC </if>
+      <if test="sort == 40 or sort == 10"> ORDER BY a.create_time DESC </if>
   </select>
 
-    <!--<select id="selectByHottest" resultType="com.xh.blogs.domain.entity.EHostArticle">-->
-        <!--<include refid="commonJoint"/>-->
-        <!--WHERE-->
-            <!--a.`status` = 10-->
-        <!--GROUP BY a.id-->
-        <!--ORDER BY (a.favors + floor(a.views / 3)) DESC-->
-    <!--</select>-->
-
-    <select id="selectByCondition" resultType="com.xh.blogs.domain.entity.EHotArticle">
+    <select id="selectByCondition" parameterType="java.util.Map" resultType="com.xh.blogs.domain.entity.EHotArticle">
         SELECT
             a.id,a.title,a.favors,a.views
         FROM
             t_article a
         WHERE
             a.`status` = 10
-        <if test="orderBy == 10"> AND a.featured = 10 </if>
+        <if test="sort == 10"> AND a.featured = 10 </if>
         GROUP BY a.id
-        <if test="orderBy == 20"> ORDER BY (a.favors + FLOOR(a.views / 3)) DESC </if>
-        <if test="orderBy == 40 or orderBy == 40"> ORDER BY a.create_time DESC </if>
+        <if test="sort == 20"> ORDER BY (a.favors + FLOOR(a.views / 3)) DESC </if>
+        <if test="sort == 40 or sort == 10"> ORDER BY a.create_time DESC </if>
         LIMIT #{count}
     </select>
 
