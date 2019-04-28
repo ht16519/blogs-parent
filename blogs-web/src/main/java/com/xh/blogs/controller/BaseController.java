@@ -73,15 +73,18 @@ public class BaseController {
 	* @Description 从shiro的session中获取用户基础信息
 	* @Author wen
 	* @Date 2019/4/24
-	* @param model
 	* @return com.xh.blogs.domain.vo.AccountProfile
 	*/
-	protected AccountProfile getProfile() {
+	protected AccountProfile getProfile() throws BusinessException {
 		try {
-			return (AccountProfile)ShiroUtil.sessionGetValue(CommonConst.SYSTEM_PROFILE);
+			AccountProfile profile = (AccountProfile) ShiroUtil.sessionGetValue(CommonConst.SYSTEM_PROFILE);
+			if(profile == null){
+				throw new BusinessException(EmError.USER_NOT_LOGGED_IN);
+			}
+			return profile;
 		} catch (Exception e) {
+			throw new BusinessException(EmError.USER_NOT_LOGGED_IN);
 		}
-		return null;
 	}
 
 	public String getIpAddr(HttpServletRequest request){

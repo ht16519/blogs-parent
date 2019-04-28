@@ -108,10 +108,11 @@ define(function(require, exports, module) {
 				return false;
 			}
 			if (parseInt(articleId) > 0) {
-				jQuery.getJSON(app.base +'/api/favor.json/' + uid + '/' + articleId, function (ret) {
+				jQuery.getJSON(app.base +'/api/free/favor.json/' + uid + '/' + articleId, function (ret) {
 					if (ret.code == 0) {
 						var favors = $('#favors').text();
 						$('#favors').text(parseInt(favors) + 1);
+                        layer.msg(ret.msg, {icon: 1});
 					} else {
                         layer.msg(ret.msg, {icon: 5});
 					}
@@ -128,11 +129,12 @@ define(function(require, exports, module) {
 				return false;
 			}
 			if (parseInt(id) > 0) {
-				jQuery.getJSON(app.base +'/api/follow.json/'+ id, function (ret) {
+				jQuery.getJSON(app.base +'/api/free/follow.json/'+ id, function (ret) {
 					if (ret.code == 0) {
 						that.text("已关注");
+                        layer.msg(ret.msg, {icon: 1});
 					} else {
-						layer.msg(ret.msg, {icon: 2});
+						layer.msg(ret.msg, {icon: 5});
 					}
 				});
 			}
@@ -142,9 +144,11 @@ define(function(require, exports, module) {
 			var that = $(this);
 			var id = that.attr('data-id');
 			if (parseInt(id) > 0) {
-				jQuery.getJSON(app.base +'/api/check_follow.json/' + id, function (ret) {
+				jQuery.getJSON(app.base +'/api/free/follow/check.json/' + id, function (ret) {
 					if (ret.code == 0) {
 						that.text("已关注");
+					}else {
+                        that.text("+ 关注");
 					}
 				});
 			}

@@ -8,11 +8,7 @@ package com.xh.blogs.consts;
  */
 public interface RequestUrl {
 
-    String AJAX_LATESTS = "/api/latests.json";
-
-    String AJAX_HOTTESTS = "/api/hottests.json";
-
-    String AJAX_HOTUSERS= "/api/hotusers.json";
+    String ANON_API = "/api/free/**";
 
     String ARTICLE_DETAILS = "/article/**";
 

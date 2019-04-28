@@ -6,7 +6,7 @@
 	</div>
 	<div class="panel-body">
 		<div id="message"></div>
-		<form class="form-horizontal" action="${base}/article/push" method="post" enctype="multipart/form-data">
+		<form class="form-horizontal" action="${base}/home/article/push" method="post" enctype="multipart/form-data">
 			<div class="form-group">
 				<label class="col-sm-2 control-label no-padding-right">标题</label>
 				<div class="col-sm-8">

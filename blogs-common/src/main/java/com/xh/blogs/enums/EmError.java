@@ -30,6 +30,7 @@ public enum EmError implements CommomError {
     USER_NICK_NAME_IS_EXIST(20007, "昵称已存在"),
     USER_EMAIL_IS_EXIST(20008, "邮箱已被注册"),
     USER_AUTHENTICATION_FAILED(20009, "认证失败，请联系管理员"),
+    USER_NOT_LOGGED_IN(20009, "请登录后再进行此操作"),
 
 
     //300开头为文件相关错误
@@ -38,7 +39,7 @@ public enum EmError implements CommomError {
     MAX_UPLOAD_SIZE_EXCEEDED(30002, "文件不能超过1MB"),
 
     //400开头为文章相关错误
-    ARTICLE_IS_NOT_EXIST(40001, "该文章已被删除"),
+    ARTICLE_IS_NOT_EXIST(40001, "文章不存在或已被删除"),
     ;
 
     private int code;

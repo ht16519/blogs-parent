@@ -7,30 +7,22 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
-@Table(name = "t_comments")
+@Table(name = "t_comments_sublist")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Comments implements Serializable{
+public class CommentsSublist implements Serializable{
 
     /**
-     * 评论id
-     */
+    *
+    */
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    /**
-     * 评论的用户id
-     */
-    @Column(name = "user_id")
-    private Integer userId;
-
-    /**
-     * 评论内容
-     */
     private String content;
 
     @Column(name = "create_time")
@@ -42,11 +34,12 @@ public class Comments implements Serializable{
     private Integer status;
 
     /**
-     * 文章id
+     * 评论者id
      */
+    @Column(name = "user_id")
+    private Integer userId;
+
     @Column(name = "article_id")
     private Integer articleId;
-
-    private Article article;
 
 }

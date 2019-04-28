@@ -4,18 +4,14 @@ import com.xh.blogs.api.*;
 import com.xh.blogs.consts.ConfigConst;
 import com.xh.blogs.consts.NotifyConst;
 import com.xh.blogs.consts.StringConst;
-import com.xh.blogs.dao.mapper.ArticleMapper;
 import com.xh.blogs.domain.entity.EHotArticle;
 import com.xh.blogs.domain.entity.EHotUser;
-import com.xh.blogs.domain.po.Comments;
 import com.xh.blogs.domain.vo.CommentsVo;
-import com.xh.blogs.domain.vo.PageResult;
 import com.xh.blogs.domain.vo.WebApiResult;
 import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.service.IArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,25 +39,57 @@ public class AjaxController extends BaseController{
     @Autowired
     private ICommentsService commentsService;
 
-    @GetMapping("/comment/")
-    public WebApiResult listComments(@PathVariable("articleId") Integer articleId){
-        PageResult<Comments> page = commentsService.getByArticleIdWithPage(articleId);
-        return WebApiResult.success();
+    /**
+    * @Name unfavor
+    * @Description 取消收藏
+    * @Author wen
+    * @Date 2019/4/28
+    * @param id
+    * @return com.xh.blogs.domain.vo.WebApiResult
+    */
+    @GetMapping("/unfavor.json/{id}")
+    public WebApiResult unfavor(@PathVariable("id") int id) throws BusinessException {
+        return WebApiResult.getResult(favorsService.unfavor(id, super.getProfile().getId()));
+    }
+
+    /**
+    * @Name unfollow
+    * @Description 取消关注
+    * @Author wen
+    * @Date 2019/4/28
+    * @param id
+    * @return com.xh.blogs.domain.vo.WebApiResult 
+    */
+    @GetMapping("/unfollow.json/{id}")
+    public WebApiResult unfollow(@PathVariable("id") int id) throws BusinessException {
+        return WebApiResult.getResult(followsService.unfollow(id, super.getProfile().getId()));
+    } 
+
+    /**
+    * @Name listComments
+    * @Description 评论列表
+    * @Author wen
+    * @Date 2019/4/27
+    * @param articleId
+    * @return com.xh.blogs.domain.vo.WebApiResult
+    */
+    @GetMapping("/free/comment/list.json/{articleId}/{number}")
+    public WebApiResult listComments(@PathVariable("articleId") Integer articleId, @PathVariable("number") int number){
+        return WebApiResult.success(commentsService.getByArticleIdWithPage(articleId, number));
     }
 
     /**
      * @Name commentSubmit
-     * @Description 提交
+     * @Description 提交评论
      * @Author wen
      * @Date 2019/4/27
      * @param commentsVo
      * @return com.xh.blogs.domain.vo.WebApiResult
      */
-    @PostMapping("/comment/submit.json")
-    public WebApiResult commentSubmit(@RequestBody CommentsVo commentsVo) throws BusinessException {
+    @PostMapping("/free/comment/submit.json")
+    public WebApiResult commentSubmit(CommentsVo commentsVo) throws BusinessException {
         commentsVo.setUserId(super.getProfile().getId());
-        commentsService.add(commentsVo);
-        return WebApiResult.success();
+        return WebApiResult.getResult(commentsService.add(commentsVo));
     }
 
     /**
@@ -73,7 +101,7 @@ public class AjaxController extends BaseController{
     * @return com.xh.blogs.domain.vo.WebApiResult
     */
     @GetMapping("/messages.json")
-    public WebApiResult UnreadMessageCount(){
+    public WebApiResult UnreadMessageCount() throws BusinessException {
         return WebApiResult.success(notifyService.getUnreadCountByUserId(super.getProfile().getId()));
     }
     /**
@@ -84,8 +112,8 @@ public class AjaxController extends BaseController{
     * @param uid
     * @return com.xh.blogs.domain.vo.WebApiResult
     */
-    @GetMapping("/check_follow.json/{uid}")
-    public WebApiResult checkFollowIsExist(@PathVariable("uid") Integer uid){
+    @GetMapping("/free/follow/check.json/{uid}")
+    public WebApiResult checkFollowIsExist(@PathVariable("uid") Integer uid) throws BusinessException {
         return WebApiResult.getResult(followsService.checkIsExistByUserId(uid, super.getProfile().getId()));
     }
 
@@ -97,8 +125,8 @@ public class AjaxController extends BaseController{
     * @param uid
     * @return com.xh.blogs.domain.vo.WebApiResult
     */
-    @GetMapping("/follow.json/{uid}")
-    public WebApiResult addFollow(@PathVariable("uid") Integer uid){
+    @GetMapping("/free/follow.json/{uid}")
+    public WebApiResult addFollow(@PathVariable("uid") Integer uid) throws BusinessException {
         //1.判断是否是自己
         int ownId = super.getProfile().getId();
         if(uid.equals(ownId)){
@@ -121,9 +149,9 @@ public class AjaxController extends BaseController{
     * @param articleId
     * @return com.xh.blogs.domain.vo.WebApiResult
     */
-    @GetMapping("/favor.json/{uid}/{articleId}")
+    @GetMapping("/free/favor.json/{uid}/{articleId}")
     @Transactional
-    public WebApiResult addFavor(@PathVariable("uid") int uid, @PathVariable("articleId") Integer articleId){
+    public WebApiResult addFavor(@PathVariable("uid") int uid, @PathVariable("articleId") Integer articleId) throws BusinessException {
         //1.添加收藏
         int ownId = super.getProfile().getId();
         if(favorsService.addFavor(ownId, articleId) < 0){
@@ -144,7 +172,7 @@ public class AjaxController extends BaseController{
     * @param
     * @return com.xh.blogs.domain.vo.WebApiResult<java.util.List<com.xh.blogs.domain.entity.EHotArticle>>
     */
-    @GetMapping("/latests.json")
+    @GetMapping("/free/latests.json")
     public WebApiResult<List<EHotArticle>> latestArticles(){
         return WebApiResult.success(statisticalService.getLatestsArticles(ConfigConst.STATISTICAL_COUNT));
     }
@@ -157,7 +185,7 @@ public class AjaxController extends BaseController{
     * @param
     * @return com.xh.blogs.domain.vo.WebApiResult<java.util.List<com.xh.blogs.domain.entity.EHotArticle>>
     */
-    @GetMapping("/hottests.json")
+    @GetMapping("/free/hottests.json")
     public WebApiResult<List<EHotArticle>> hottestArticles(){
         return WebApiResult.success(statisticalService.getHottestArticles(ConfigConst.STATISTICAL_COUNT));
     }
@@ -170,7 +198,7 @@ public class AjaxController extends BaseController{
     * @param
     * @return com.xh.blogs.domain.vo.WebApiResult<com.xh.blogs.domain.entity.EHotUser>
     */
-    @GetMapping("/hotusers.json")
+    @GetMapping("/free/hotusers.json")
     public WebApiResult<EHotUser> hottestUsers(){
         return WebApiResult.success(statisticalService.getHottestUsers(ConfigConst.STATISTICAL_COUNT));
     }

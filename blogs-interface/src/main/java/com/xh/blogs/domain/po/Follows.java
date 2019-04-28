@@ -35,4 +35,6 @@ public class Follows implements Serializable{
     @Column(name = "follow_id")
     private Integer followId;
 
+    private User user;
+
 }

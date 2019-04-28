@@ -42,11 +42,21 @@ public interface ArticleMapper extends IBaseMapper<Article> {
 
     /**
     * @Name addFavors
-    * @Description 新增文章收藏量
+    * @Description 文章收藏量+1
     * @Author wen
     * @Date 2019/4/27
     * @param articleId
     * @return int
     */
     int addFavors(@Param("articleId") int articleId);
+
+    /**
+    * @Name minusFavor
+    * @Description 文章收藏量-1
+    * @Author wen
+    * @Date 2019/4/28
+    * @param articleId
+    * @return int
+    */
+    int minusFavors(@Param("articleId") int articleId);
 }

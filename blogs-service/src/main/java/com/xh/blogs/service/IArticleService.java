@@ -53,7 +53,7 @@ public interface IArticleService {
     * @param id
     * @return com.xh.blogs.domain.po.Article
     */
-    Article getById(int id) throws BusinessException;
+    Article getById(int id) ;
 
     /**
     * @Name updateFavors

@@ -40,10 +40,10 @@
 
     seajs.use('sidebox', function (sidebox) {
         sidebox.init({
-            latestUrl: '${base}/api/latests.json',
-            hotUrl: '${base}/api/hottests.json',
-            hotTagUrl: '${base}/api/hot_tags.json',
-            hotUserUrl: '${base}/api/hotusers.json',
+            latestUrl: '${base}/api/free/latests.json',
+            hotUrl: '${base}/api/free/hottests.json',
+            hotTagUrl: '${base}/api/free/hottags.json',
+            hotUserUrl: '${base}/api/free/hotusers.json',
 
             // callback
             onLoadHot: function (i, data) {

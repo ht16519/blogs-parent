@@ -3,7 +3,9 @@ package com.xh.blogs.controller;
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.RequestUrl;
 import com.xh.blogs.consts.ViewUrl;
+import com.xh.blogs.domain.po.Article;
 import com.xh.blogs.domain.vo.ArticleVo;
+import com.xh.blogs.enums.EmError;
 import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.service.IArticleService;
 import com.xh.blogs.service.IGroupService;
@@ -70,7 +72,7 @@ public class BlogsController extends BaseController{
     * @param model
     * @return java.lang.String
     */
-    @GetMapping("/article/new")
+    @GetMapping("/home/article/new")
     public String newArticle(ModelMap model) {
         model.put(CommonConst.ARTICLE_GROUP, groupService.getAll());
         return ViewUrl.ARTICLE_PUBLISH;
@@ -84,10 +86,10 @@ public class BlogsController extends BaseController{
     * @param article
     * @return java.lang.String
     */
-    @PostMapping("/article/push")
+    @PostMapping("/home/article/push")
     public String addArticle(ArticleVo article, ModelMap model) {
-        article.setAuthorId(super.getProfile().getId());
         try {
+            article.setAuthorId(super.getProfile().getId());
             articleService.addArticle(article);
         } catch (BusinessException e) {
             super.getModel(e, model);
@@ -106,12 +108,13 @@ public class BlogsController extends BaseController{
     */
     @GetMapping("/article/{id}")
     public String viewArticle(@PathVariable("id") int id, ModelMap model) {
-        try {
-            model.put(CommonConst.COMMON_RETURN_RESULT_KEY, articleService.getById(id));
-            //TODO 文章浏览量 +1
-        } catch (BusinessException ex) {
-            super.getModelMap(ex, model);
+        Article article = articleService.getById(id);
+        if(article == null){
+            super.getModelMap(EmError.ARTICLE_IS_NOT_EXIST, model);
+            return RequestUrl.INDEX_URL;
         }
+        model.put(CommonConst.COMMON_RETURN_RESULT_KEY, article);
+        //TODO 文章浏览量 +1
         return ViewUrl.ARTICLE_VIEW;
     }
 

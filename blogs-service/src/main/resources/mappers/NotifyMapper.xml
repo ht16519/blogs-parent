@@ -41,7 +41,7 @@
             <if test="status != null and status != ''"> AND n.`status` = ${status} </if>
             <if test="userId != null and userId != ''"> AND n.to_id = #{userId} </if>
         </where>
-        ORDER BY n.create_time
+        ORDER BY n.create_time DESC
     </select>
 
     <update id="updateStatusByUserId">

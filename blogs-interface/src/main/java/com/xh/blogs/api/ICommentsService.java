@@ -31,5 +31,5 @@ public interface ICommentsService {
     * @param articleId
     * @return com.xh.blogs.domain.vo.PageResult<com.xh.blogs.domain.po.Comments>
     */
-    PageResult<Comments> getByArticleIdWithPage(int articleId);
+    PageResult<Comments> getByArticleIdWithPage(int articleId, int number);
 }

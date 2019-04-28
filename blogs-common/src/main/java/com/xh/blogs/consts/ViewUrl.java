@@ -8,6 +8,12 @@ package com.xh.blogs.consts;
  */
 public interface ViewUrl {
 
+    String HOME_FAVORS = "default/home/favors";
+
+    String HOME_FOLLOWS = "default/home/follows";
+
+    String HOME_FANS = "default/home/fans";
+
     String HOME_NOTIFIES = "default/home/notifies";
 
     String BLOGGER_HOME = "default/ta/home";

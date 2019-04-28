@@ -27,6 +27,13 @@
     <result column="signature" property="signature" jdbcType="VARCHAR" />
   </resultMap>
 
+    <update id="minusFansByUserId">
+        UPDATE t_user
+        SET fans = fans - 1
+        WHERE id = #{userId}
+        AND fans > 0
+    </update>
+
     <update id="addFansByUserId">
         UPDATE t_user
         SET fans = fans + 1

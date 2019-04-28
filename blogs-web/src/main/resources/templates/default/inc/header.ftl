@@ -54,6 +54,9 @@
     		</div>
     		<div id="navbar" class="navbar-collapse collapse">
     			<ul class="nav navbar-nav">
+                    <li data="index_">
+                        <a href="${base}/index" nav="index_">首页</a>
+                    </li>
 					<#if profile??>
     				<li data="home">
     					<a href="${base}/home/feeds/1" nav="home">我的主页</a>
@@ -76,7 +79,7 @@
     			<ul class="nav navbar-nav navbar-right sign">
     				<#if profile??>
 					<li class="dropdown">
-                        <a href="${base}/article/new" class="publish"><i class="fa fa-magic"></i> 写文章</a>
+                        <a href="${base}/home/article/new" class="publish"><i class="fa fa-magic"></i> 写文章</a>
 					</li>
     				<li class="dropdown">
     					<a href="#" class="ava dropdown-toggle" data-toggle="dropdown">

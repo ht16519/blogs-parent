@@ -1,10 +1,12 @@
 package com.xh.blogs.controller;
 
+import com.xh.blogs.api.IFavorsService;
+import com.xh.blogs.api.IFollowsService;
 import com.xh.blogs.api.INotifyService;
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.ViewUrl;
+import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.service.IArticleService;
-import com.xh.blogs.service.IUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,11 +27,58 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController extends BaseController{
 
     @Autowired
-    private IUserService userService;
-    @Autowired
     private INotifyService notifyService;
     @Autowired
+    private IFollowsService followsService;
+    @Autowired
+    private IFavorsService favorsService;
+    @Autowired
     private IArticleService articleService;
+
+    /**
+    * @Name favors
+    * @Description 用户收藏的文章
+    * @Author wen
+    * @Date 2019/4/28
+    * @param number
+    * @param model
+    * @return java.lang.String
+    */
+    @GetMapping("/favors/{number}")
+    public String favors(@PathVariable("number") int number, ModelMap model) throws BusinessException {
+        model.put(CommonConst.RESULT_PAGE_INFO_KEY, favorsService.getByUserIdWithPage(super.getProfile().getId(), number));
+        return ViewUrl.HOME_FAVORS;
+    }
+
+    /**
+    * @Name follows
+    * @Description 用户关注
+    * @Author wen
+    * @Date 2019/4/28
+    * @param number
+    * @param model
+    * @return java.lang.String
+    */
+    @GetMapping("/follows/{number}")
+    public String follows(@PathVariable("number") int number, ModelMap model) throws BusinessException {
+        model.put(CommonConst.RESULT_PAGE_INFO_KEY, followsService.getFollowsByUserIdWithPage(super.getProfile().getId(), number));
+        return ViewUrl.HOME_FOLLOWS;
+    }
+
+    /**
+    * @Name fans
+    * @Description 用户粉丝
+    * @Author wen
+    * @Date 2019/4/28
+    * @param number
+    * @param model
+    * @return java.lang.String
+    */
+    @GetMapping("/fans/{number}")
+    public String fans(@PathVariable("number") int number, ModelMap model) throws BusinessException {
+        model.put(CommonConst.RESULT_PAGE_INFO_KEY, followsService.getFansByUserIdWithPage(super.getProfile().getId(), number));
+        return ViewUrl.HOME_FANS;
+    }
 
     /**
     * @Name homeNotifies
@@ -42,17 +91,25 @@ public class HomeController extends BaseController{
     */
     @GetMapping("/notifies/{number}")
     public String homeNotifies(@PathVariable("number") int number, ModelMap model) {
-        //1.分页查询消息
-        int userId = super.getProfile().getId();
-        model.put(CommonConst.RESULT_PAGE_INFO_KEY, notifyService.getByUserIdWithPage(userId, number));
-        //2.设置消息为已读
-        notifyService.setStatusByUserId(userId);
+        try {
+            //1.分页查询消息
+            int userId = super.getProfile().getId();
+            model.put(CommonConst.RESULT_PAGE_INFO_KEY, notifyService.getByUserIdWithPage(userId, number));
+            //2.设置消息为已读
+            notifyService.setStatusByUserId(userId);
+        } catch (BusinessException e) {
+            super.getModel(e, model);
+        }
         return ViewUrl.HOME_NOTIFIES;
     }
 
     @GetMapping("/feeds/{number}")
     public String homeFeeds(@PathVariable("number") int number, ModelMap model) {
-        model.put(CommonConst.RESULT_PAGE_INFO_KEY, articleService.getByIdWithPage(super.getProfile().getId(), number));
+        try {
+            model.put(CommonConst.RESULT_PAGE_INFO_KEY, articleService.getByIdWithPage(super.getProfile().getId(), number));
+        } catch (BusinessException e) {
+            super.getModel(e, model);
+        }
         return ViewUrl.HOME_FEEDS;
     }
 
@@ -66,7 +123,11 @@ public class HomeController extends BaseController{
     */
     @GetMapping("/articles/{number}")
     public String homeArticles(@PathVariable("number") int number, ModelMap model) {
-        model.put(CommonConst.RESULT_PAGE_INFO_KEY, articleService.getByIdWithPage(super.getProfile().getId(), number));
+        try {
+            model.put(CommonConst.RESULT_PAGE_INFO_KEY, articleService.getByIdWithPage(super.getProfile().getId(), number));
+        } catch (BusinessException e) {
+            super.getModel(e, model);
+        }
         return ViewUrl.HOME_ARTICLES;
     }
 

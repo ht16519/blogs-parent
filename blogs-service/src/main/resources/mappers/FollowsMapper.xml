@@ -10,6 +10,22 @@
     <result column="follow_id" property="followId" jdbcType="INTEGER" />
   </resultMap>
 
+    <select id="selectFollowsByUserId" resultType="com.xh.blogs.domain.po.Follows">
+        <include refid="commonSql"/>
+        INNER JOIN t_user u ON u.id = f.user_id
+        WHERE
+            f.follow_id = #{userId}
+        ORDER BY
+            f.create_time DESC
+    </select>
+
+    <select id="selectFansByUserId" resultType="com.xh.blogs.domain.po.Follows">
+        <include refid="commonSql"/>
+        INNER JOIN t_user u ON u.id = f.follow_id
+        WHERE f.user_id = #{userId}
+        ORDER BY f.create_time DESC
+    </select>
+
   <insert id="customInsert">
       INSERT IGNORE INTO t_follows (
           create_time,
@@ -19,4 +35,17 @@
       VALUES
           (NOW(), #{followId}, #{userId})
   </insert>
+
+    <sql id="commonSql">
+        SELECT
+            f.create_time,
+            u.posts "user.posts",
+            u.comments "user.comments",
+            u.nick_name "user.nick_name",
+            u.avatar "user.avatar",
+            u.id "user.id"
+        FROM
+            t_follows f
+    </sql>
+
 </mapper>

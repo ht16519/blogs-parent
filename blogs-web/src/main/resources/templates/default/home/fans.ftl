@@ -5,27 +5,27 @@
 <div class="shadow-box">
     <div class="filter">
         <ul class="">
-            <li><a href="${base}/home/follows">我的关注</a></li>
-            <li><a class="active" href="${base}/home/fans">我的粉丝</a></li>
+            <li><a href="${base}/home/follows/1">我的关注</a></li>
+            <li><a class="active" href="${base}/home/fans/1">我的粉丝</a></li>
         </ul>
     </div>
     <!-- tab panes -->
     <div class="stream-list">
         <#list page.items as row>
-            <div class="stream-item" id="loop-${row.id}">
+            <div class="stream-item" id="loop-${row.user.id}">
                 <div class="blog-rank">
-                    <div class="user" title="${row.name}">
-                        <a href="${base}/ta/${row.id}/1">
-                            <@showAva row.avatar "img-circle"/>
+                    <div class="user" title="${row.user.nickName}">
+                        <a href="${base}/ta/${row.user.id}/1">
+                            <@showAva row.user.avatar "img-circle"/>
                         </a>
                     </div>
                 </div>
                 <div class="summary">
-                    <h2 class="title">${row.name}</h2>
+                    <h2 class="title">${row.user.nickName}</h2>
                     <div class="foot-block clearfix">
                         <div class="author">
-                            <span>文章数 ${row.posts}</span>
-                            <span>评论数 ${row.comments}</span>
+                            <span>文章数 ${row.user.posts}</span>
+                            <span>评论数 ${row.user.comments}</span>
                         </div>
                     </div>
                 </div>

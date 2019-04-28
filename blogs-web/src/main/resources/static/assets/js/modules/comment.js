@@ -96,6 +96,7 @@ define(function(require, exports, module) {
         		var text = $('#chat_text').val();
         		var pid = $('#chat_pid').val();
         		that.post(that.options.toId, pid, text);
+        		$(this).attr('disabled','disabled');
         	});
         },
         
@@ -110,28 +111,26 @@ define(function(require, exports, module) {
         	var $list = $("#chat_container");
         	var html = '';
 
-        	J.getJSON(opts.load_url, {pageSize : opts.pageSize, pn: pn}, function (ret) {
-        		
-        		$('#chat_count').html(ret.totalElements);
-        		
-          		jQuery.each(ret.content, function(i, n) {
-    				var item = opts.onLoad.call(this, i, n);
-
-    				html += item;
-          		});
-        	
-	        	$list.empty().append(html);
-	        	
-	    		if (ret.size < 1) {
-	    			$list.append('<li><p>还没有评论, 快来占沙发吧!</p></li>');
-	    		}
-	    		if (ret.totalPages > 1) {
-	    			$("#pager").page(ret, J.proxy(that, 'pageCallback'));
-	    		}
+        	J.getJSON(opts.load_url + pn, function (res) {
+				if(res.code == 0){
+					var ret = res.data;
+					$('#chat_count').html(ret.total);
+					jQuery.each(ret.items, function (i, n) {
+						var item = opts.onLoad.call(this, i, n);
+						html += item;
+					});
+					$list.empty().append(html);
+					if (ret.size < 1) {
+						$list.append('<li><p>还没有评论, 快来占沙发吧!</p></li>');
+					}
+					if (ret.totalPages > 1) {
+						$("#pager").page(ret, J.proxy(that, 'pageCallback'));
+					}
+				}
         	});
         },
         
-        post: function (toId, pid, text) {
+        post: function (articleId, pid, content) {
         	var opts = this.options;
         	var that = this;
 
@@ -140,36 +139,36 @@ define(function(require, exports, module) {
 				return false;
 			}
 
-        	if (text.length == 0) {
+        	if (content.length == 0) {
         		layer.msg('请输入内容再提交!', {icon: 2});
         		return false;
         	}
-        	if (text.length > 255) {
+        	if (content.length > 255) {
         		layer.msg('内容过长，请输入140以内个字符', {icon: 2});
         		return false;
         	}
         	
         	jQuery.ajax({
         		url: opts.post_url, 
-        		data: {'toId': toId,'pid': pid, 'text': text},
-        		dataType: "json",
+        		data: {'articleId': articleId,'pid': pid, 'content': content},
         		type :  "POST",
         		cache : false,
         		async: false,
+                dataType:'json',
         		error : function(i, g, h) {
         			layer.msg('发送错误', {icon: 2});
         		},
         		success: function(ret){
         			if(ret){
-        				if (ret.code >= 0) {
-        					layer.msg(ret.message, {icon: 1});
+        				if (ret.code == 0) {
+        					layer.msg("发表成功", {icon: 1});
         					$('#chat_text').val('');
         					$('#chat_reply').hide();
         					$('#chat_pid').val('0');
         					//window.location.reload();
         					that.pageCallback(1);
         				} else {
-        					layer.msg(ret.message, {icon: 5});
+        					layer.msg(ret.msg, {icon: 5});
         				}
         			}
               	}

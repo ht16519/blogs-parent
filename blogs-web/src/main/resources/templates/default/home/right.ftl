@@ -42,13 +42,13 @@
 
         <ul class="list-group user-nav">
             <li class="list-group-item">
-                <a href="${base}/home/favors"><i class="fa fa-heart-o"></i> 我的喜欢</a>
+                <a href="${base}/home/favors/1"><i class="fa fa-heart-o"></i> 我的喜欢</a>
             </li>
             <li class="list-group-item">
-                <a href="${base}/home/follows"><i class="fa fa-eye"></i> 我的关注</a>
+                <a href="${base}/home/follows/1"><i class="fa fa-eye"></i> 我的关注</a>
             </li>
             <li class="list-group-item">
-                <a href="${base}/home/fans"><i class="fa fa-users"></i> 我的粉丝</a>
+                <a href="${base}/home/fans/1"><i class="fa fa-users"></i> 我的粉丝</a>
             </li>
         </ul>
 

@@ -9,8 +9,24 @@
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="content" property="content" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="pid" property="pid" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="article_id" property="articleId" jdbcType="INTEGER" />
   </resultMap>
+
+  <select id="selectByArticleId" resultType="com.xh.blogs.domain.entity.EComments">
+        SELECT
+            c.id,
+            c.user_id,
+            c.content,
+            DATE_FORMAT(c.create_time, '%Y-%m-%d %H:%i:%s') AS "create_time",
+            u.id "userId",
+            u.nick_name,
+            u.avatar
+        FROM
+            t_comments AS c
+        INNER JOIN t_user u ON u.id = c.user_id
+        WHERE
+            c.article_id = #{articleId}
+        <if test="status != null and status != ''"> AND c.`status` = #{status} </if>
+  </select>
 </mapper>

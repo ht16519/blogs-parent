@@ -51,9 +51,7 @@ public class ShiroConfiguration {
 		filterChainDefinitionMap.put(RequestUrl.INDEX_URLS, ANON);
 		filterChainDefinitionMap.put(RequestUrl.LOGIN_URL, ANON);
 		filterChainDefinitionMap.put(RequestUrl.REG_URL, ANON);
-		filterChainDefinitionMap.put(RequestUrl.AJAX_LATESTS, ANON);
-		filterChainDefinitionMap.put(RequestUrl.AJAX_HOTTESTS, ANON);
-		filterChainDefinitionMap.put(RequestUrl.AJAX_HOTUSERS, ANON);
+		filterChainDefinitionMap.put(RequestUrl.ANON_API, ANON);
 		filterChainDefinitionMap.put(RequestUrl.BLOGGER_DETAILS, ANON);
 		filterChainDefinitionMap.put(RequestUrl.ARTICLE_DETAILS, ANON);
 		filterChainDefinitionMap.put(STATIC_RESOURCES, ANON);

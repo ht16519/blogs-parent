@@ -16,4 +16,7 @@ public interface ConfigConst {
 
     /** 截取文章简介的字符数*/
     int CUT_OUT_ARTICLE_SUMMARY_INDEX = 126;
+
+    /** 用户未登录异常码*/
+    int USER_NOT_LOGGED_IN_EXCEPTION_CODE = 20009;
 }

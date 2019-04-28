@@ -9,4 +9,42 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="own_id" property="ownId" jdbcType="INTEGER" />
   </resultMap>
+
+  <select id="selectByUserIdWithPage" resultType="com.xh.blogs.domain.po.Article">
+        SELECT
+            a.id,
+            a.comments,
+            a.favors,
+            a.belong_group,
+            a.images,
+            a.last_image_id,
+            a.create_time,
+            a.views,
+            a.title,
+            a.tags,
+            a.summary,
+            u.id "user.id",
+            u.nick_name "user.nickName",
+            u.avatar "user.avatar",
+            group_concat(
+                CONCAT(
+                    ac.id,
+                    '---',
+                    ac.original,
+                    '---',
+                    ac.preview,
+                    '---',
+                    ac.store
+                ) SEPARATOR '==='
+            ) accessorys,
+            a.featured
+        FROM
+            t_favors f
+        LEFT JOIN t_article a ON f.article_id = a.id
+        LEFT JOIN t_article_accessory ac ON ac.to_id = a.id
+        LEFT JOIN t_user u ON u.id = a.author_id
+        WHERE
+            f.own_id = #{userId}
+        ORDER BY f.create_time DESC
+  </select>
 </mapper>

@@ -92,7 +92,7 @@
                             </div>
                             <div class="cbox-post">
                                 <div class="cbox-input">
-                                    <textarea id="chat_text" rows="3" placeholder="请输入评论内容"></textarea>
+                                    <textarea id="chat_text" rows="3" placeholder="请输入评论内容" onfocus="onChanger()"></textarea>
                                     <input type="hidden" value="0" name="chat_pid" id="chat_pid"/>
                                 </div>
                                 <div class="cbox-ats clearfix">
@@ -115,6 +115,13 @@
                         </div>
                     </div>
                 </div>
+
+                <script>
+                    function onChanger() {
+                        $('#btn-chat').removeAttr('disabled');
+                    }
+                </script>
+
                 <!-- right sidebar-->
                 <div class="col-xs-12 col-md-3 side-right hidden-xs hidden-sm">
                     <ul class="list-group about-user">
@@ -190,24 +197,23 @@
 
     seajs.use('comment', function (comment) {
         comment.init({
-            load_url: '${base}/api/comment/list/${ret.id}',
-            post_url: '${base}/api/comment/submit/json',
+            load_url: '${base}/api/free/comment/list.json/'+ ${ret.id} + '/',
+            post_url: '${base}/api/free/comment/submit.json',
             toId: '${ret.id}',
             onLoad: function (i, data) {
-
+                console.log(data);
                 var content = ContentRender.wrapItem(data.content);
-
                 var quoto = '';
-                if (data.pid > 0 && !(data.parent === null)) {
-                    var pat = data.parent;
-                    var pcontent = ContentRender.wrapItem(pat.content);
-                    quoto = '<div class="quote"><a href="${base}/ta/' + pat.author.id + '/1' + '">@' + pat.author.name + '</a>: ' + pcontent + '</div>';
-                }
+                <#--if (data.pid > 0 && !(data.parent === null)) {-->
+                    <#--var pat = data.parent;-->
+                    <#--var pcontent = ContentRender.wrapItem(pat.content);-->
+                    <#--quoto = '<div class="quote"><a href="${base}/ta/' + pat.author.id + '/1' + '">@' + pat.author.name + '</a>: ' + pcontent + '</div>';-->
+                <#--}-->
                 var item = jQuery.format(template,
-                        data.author.id,
-                        data.author.avatar,
-                        data.author.name,
-                        data.created,
+                        data.userId,
+                        data.avatar,
+                        data.nickName,
+                        data.createTime,
                         content,
                         data.id, quoto);
                 return item;

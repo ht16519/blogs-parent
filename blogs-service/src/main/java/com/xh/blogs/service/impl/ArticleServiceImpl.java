@@ -12,14 +12,12 @@ import com.xh.blogs.domain.po.ArticleAccessory;
 import com.xh.blogs.domain.po.ArticleContent;
 import com.xh.blogs.domain.vo.ArticleVo;
 import com.xh.blogs.domain.vo.PageResult;
-import com.xh.blogs.enums.EmError;
 import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.service.IArticleService;
+import com.xh.blogs.utils.ArticleUtil;
 import com.xh.blogs.utils.BeanValidator;
-import com.xh.blogs.utils.CommonUtil;
 import com.xh.blogs.utils.PreviewTextUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -80,7 +78,7 @@ public class ArticleServiceImpl implements IArticleService {
         parameters.put(CommonConst.ORDER_BY_KEY, sort);
         Page<Article> page = PageHelper.startPage(number, CommonConst.PAGE_SIZE);
         articleMapper.selectInfoWithPage(parameters);
-        return new PageResult<>(page.getTotal(), this.getArticles(page));
+        return new PageResult<>(page.getTotal(), ArticleUtil.getArticles(page.getResult()));
     }
 
     @Override
@@ -111,12 +109,8 @@ public class ArticleServiceImpl implements IArticleService {
     }
 
     @Override
-    public Article getById(int id) throws BusinessException {
-        Article article = articleMapper.selectById(id);
-        if(article == null){
-            throw new BusinessException(EmError.ARTICLE_IS_NOT_EXIST);
-        }
-        return article;
+    public Article getById(int id){
+        return articleMapper.selectById(id);
     }
 
     @Override
@@ -154,46 +148,6 @@ public class ArticleServiceImpl implements IArticleService {
             rets.add(accessory);
         }
         return rets;
-    }
-
-    /**
-    * @Name getArticles
-    * @Description 获取文章附件信息
-    * @Author wen
-    * @Date 2019/4/23
-    * @param page
-    * @return java.util.List<com.xh.blogs.domain.po.Article>
-    */
-    private List<Article> getArticles(Page<Article> page) {
-        List<Article> articleList = page.getResult();
-        if(articleList != null && articleList.size() > 0) {
-            for (Article article : articleList) {
-                String accessorys = article.getAccessorys();
-                if (StringUtils.isNotEmpty(accessorys)) {
-                    List<ArticleAccessory> albums = new ArrayList<>();
-                    article.setAlbums(albums);
-                    String[] accessory = accessorys.split(CommonConst.ARTICLE_ACCESSORY_SEPARATOR);
-                    for (String s : accessory) {
-                        try {
-                            String[] field = s.split(CommonConst.ACCESSORYS_SEPARATOR);
-                            ArticleAccessory articleAccessory = new ArticleAccessory();
-                            articleAccessory.setId(CommonUtil.null2Int(field[0]));
-                            articleAccessory.setOriginal(field[1]);
-                            articleAccessory.setPreview(field[2]);
-                            articleAccessory.setStore(CommonUtil.null2Int(field[3]));
-                            article.getAlbums().add(articleAccessory);
-                        } catch (Exception e) {
-                            log.error("cut out Article Accessory exception:{}", e);
-                        }
-                    }
-                    if(albums.size() > ConfigConst.ARTICLE_COUNT){
-                        continue;
-                    }
-                }
-                article.setAccessorys(null);
-            }
-        }
-        return articleList;
     }
 
 }
