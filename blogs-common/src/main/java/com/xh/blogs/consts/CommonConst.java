@@ -8,6 +8,8 @@ package com.xh.blogs.consts;
  */
 public interface CommonConst {
 
+    String DATA_RESULT_KEY = "data";
+
     String COUNT_KEY = "count";
 
     String USER_INFO_KEY = "user";

@@ -4,15 +4,20 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.xh.blogs.api.IFavorsService;
 import com.xh.blogs.consts.CommonConst;
+import com.xh.blogs.consts.NotifyConst;
 import com.xh.blogs.dao.mapper.ArticleMapper;
 import com.xh.blogs.dao.mapper.FavorsMapper;
+import com.xh.blogs.dao.mapper.NotifyMapper;
 import com.xh.blogs.domain.po.Article;
 import com.xh.blogs.domain.po.Favors;
+import com.xh.blogs.domain.po.Notify;
 import com.xh.blogs.domain.vo.PageResult;
 import com.xh.blogs.utils.ArticleUtil;
+import com.xh.blogs.utils.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -29,16 +34,31 @@ public class FavorsServiceImpl implements IFavorsService {
     @Autowired
     private ArticleMapper articleMapper;
     @Autowired
+    private NotifyMapper notifyMapper;
+    @Autowired
     private FavorsMapper favorsMapper;
 
     @Override
-    public int addFavor(int ownId, int articleId) {
+    @Transactional
+    public int addFavor(int userId, int ownId, int articleId) {
         Favors favors = new Favors();
         favors.setArticleId(articleId);
         favors.setCreateTime(new Date());
         favors.setOwnId(ownId);
         try {
-            return favorsMapper.insertSelective(favors);
+            int res = favorsMapper.insertSelective(favors);
+            if(res > 0){
+                //2.文章收藏量增加
+                articleMapper.addFavors(articleId);
+                //3.发送通知
+                Notify notify = new Notify();
+                notify.setCreateTime(new Date());
+                notify.setEvent(NotifyConst.EVENT_FAVORS);
+                notify.setFromId(ownId);
+                notify.setToId(userId);
+                res = notifyMapper.insertSelective(notify);
+            }
+            return res;
         } catch (DataIntegrityViolationException e) {
             return -1;
         }
@@ -48,10 +68,11 @@ public class FavorsServiceImpl implements IFavorsService {
     public PageResult<Article> getByUserIdWithPage(int userId, int number) {
         Page<Article> page = PageHelper.startPage(number, CommonConst.PAGE_SIZE);
         favorsMapper.selectByUserIdWithPage(userId);
-        return new PageResult<>(page.getTotal(), ArticleUtil.getArticles(page.getResult()));
+        return PageUtil.create(page, ArticleUtil.getArticles(page.getResult()));
     }
 
     @Override
+    @Transactional
     public int unfavor(int id, int userId) {
         //1.取消收藏
         Favors favors = new Favors();

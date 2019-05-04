@@ -36,6 +36,9 @@ public class ArticleUtil {
                     article.setAlbums(albums);
                     String[] accessory = accessorys.split(CommonConst.ARTICLE_ACCESSORY_SEPARATOR);
                     for (String s : accessory) {
+                        if(albums.size() > ConfigConst.ARTICLE_COUNT){
+                            break;
+                        }
                         try {
                             String[] field = s.split(CommonConst.ACCESSORYS_SEPARATOR);
                             ArticleAccessory articleAccessory = new ArticleAccessory();
@@ -47,9 +50,6 @@ public class ArticleUtil {
                         } catch (Exception e) {
                             log.error("cut out Article Accessory exception:{}", e);
                         }
-                    }
-                    if(albums.size() > ConfigConst.ARTICLE_COUNT){
-                        continue;
                     }
                 }
                 article.setAccessorys(null);

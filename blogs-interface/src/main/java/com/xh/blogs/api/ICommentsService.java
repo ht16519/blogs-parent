@@ -1,6 +1,6 @@
 package com.xh.blogs.api;
 
-import com.xh.blogs.domain.po.Comments;
+import com.xh.blogs.domain.entity.EComments;
 import com.xh.blogs.domain.vo.CommentsVo;
 import com.xh.blogs.domain.vo.PageResult;
 import com.xh.blogs.exception.BusinessException;
@@ -31,5 +31,5 @@ public interface ICommentsService {
     * @param articleId
     * @return com.xh.blogs.domain.vo.PageResult<com.xh.blogs.domain.po.Comments>
     */
-    PageResult<Comments> getByArticleIdWithPage(int articleId, int number);
+    PageResult<EComments> getByArticleIdWithPage(int articleId, int number);
 }

@@ -104,7 +104,7 @@
 						</div>
 
 						<div class="text-center clr">
-						<@pager "${base}/ta/${user.id}" page 5 />
+						<@pager "${base}/ta/${user.id}" page 3 />
 						</div>
 					</div>
 				</div>

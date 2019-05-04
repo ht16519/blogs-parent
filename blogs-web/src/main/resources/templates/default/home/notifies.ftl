@@ -55,6 +55,6 @@
     </div>
 </div>
 <div class="text-center clr">
-    <@pager "home/notifies" page 5 />
+    <@pager "/home/notifies" page 3 />
 </div>
 </@ui_home>

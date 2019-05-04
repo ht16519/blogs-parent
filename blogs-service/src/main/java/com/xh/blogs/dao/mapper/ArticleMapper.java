@@ -59,4 +59,14 @@ public interface ArticleMapper extends IBaseMapper<Article> {
     * @return int
     */
     int minusFavors(@Param("articleId") int articleId);
+
+    /**
+    * @Name addComments
+    * @Description 文章评论数+1
+    * @Author wen
+    * @Date 2019/4/30
+    * @param articleId
+    * @return int 
+    */
+    int addComments(@Param("articleId") int articleId);
 }

@@ -4,11 +4,15 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.xh.blogs.api.IFollowsService;
 import com.xh.blogs.consts.CommonConst;
+import com.xh.blogs.consts.NotifyConst;
 import com.xh.blogs.dao.mapper.FollowsMapper;
+import com.xh.blogs.dao.mapper.NotifyMapper;
 import com.xh.blogs.dao.mapper.UserMapper;
 import com.xh.blogs.domain.po.Follows;
+import com.xh.blogs.domain.po.Notify;
 import com.xh.blogs.domain.vo.PageResult;
 import com.xh.blogs.exception.BusinessException;
+import com.xh.blogs.utils.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -29,6 +33,8 @@ public class FollowsServiceImpl implements IFollowsService{
     @Autowired
     private FollowsMapper followsMapper;
     @Autowired
+    private NotifyMapper notifyMapper;
+    @Autowired
     private UserMapper userMapper;
 
     @Override
@@ -40,9 +46,16 @@ public class FollowsServiceImpl implements IFollowsService{
         follows.setUserId(userId);
         follows.setCreateTime(new Date());
         int res = followsMapper.customInsert(follows);
-        //2.用户粉丝+1
         if(res > 0){
+            //2.用户粉丝+1
             userMapper.addFansByUserId(userId);
+            //3.发送通知
+            Notify notify = new Notify();
+            notify.setCreateTime(new Date());
+            notify.setEvent(NotifyConst.EVENT_FOLLOWS);
+            notify.setFromId(ownId);
+            notify.setToId(userId);
+            res = notifyMapper.insertSelective(notify);
         }
         return res;
     }
@@ -59,14 +72,14 @@ public class FollowsServiceImpl implements IFollowsService{
     public PageResult<Follows> getFansByUserIdWithPage(int userId, int number) {
         Page<Follows> page = PageHelper.startPage(number, CommonConst.PAGE_SIZE);
         followsMapper.selectFansByUserId(userId);
-        return new PageResult(page.getTotal(), page.getResult());
+        return PageUtil.create(page);
     }
 
     @Override
     public PageResult<Follows> getFollowsByUserIdWithPage(int userId, int number) {
         Page<Follows> page = PageHelper.startPage(number, CommonConst.PAGE_SIZE);
         followsMapper.selectFollowsByUserId(userId);
-        return new PageResult(page.getTotal(), page.getResult());
+        return PageUtil.create(page);
     }
 
     @Override

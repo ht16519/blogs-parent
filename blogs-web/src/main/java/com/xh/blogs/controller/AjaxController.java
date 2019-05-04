@@ -2,7 +2,6 @@ package com.xh.blogs.controller;
 
 import com.xh.blogs.api.*;
 import com.xh.blogs.consts.ConfigConst;
-import com.xh.blogs.consts.NotifyConst;
 import com.xh.blogs.consts.StringConst;
 import com.xh.blogs.domain.entity.EHotArticle;
 import com.xh.blogs.domain.entity.EHotUser;
@@ -11,7 +10,6 @@ import com.xh.blogs.domain.vo.WebApiResult;
 import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.service.IArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -74,7 +72,7 @@ public class AjaxController extends BaseController{
     * @return com.xh.blogs.domain.vo.WebApiResult
     */
     @GetMapping("/free/comment/list.json/{articleId}/{number}")
-    public WebApiResult listComments(@PathVariable("articleId") Integer articleId, @PathVariable("number") int number){
+    public WebApiResult listComments(@PathVariable("articleId") int articleId, @PathVariable("number") int number){
         return WebApiResult.success(commentsService.getByArticleIdWithPage(articleId, number));
     }
 
@@ -113,7 +111,7 @@ public class AjaxController extends BaseController{
     * @return com.xh.blogs.domain.vo.WebApiResult
     */
     @GetMapping("/free/follow/check.json/{uid}")
-    public WebApiResult checkFollowIsExist(@PathVariable("uid") Integer uid) throws BusinessException {
+    public WebApiResult checkFollowIsExist(@PathVariable("uid") int uid) throws BusinessException {
         return WebApiResult.getResult(followsService.checkIsExistByUserId(uid, super.getProfile().getId()));
     }
 
@@ -126,18 +124,16 @@ public class AjaxController extends BaseController{
     * @return com.xh.blogs.domain.vo.WebApiResult
     */
     @GetMapping("/free/follow.json/{uid}")
-    public WebApiResult addFollow(@PathVariable("uid") Integer uid) throws BusinessException {
+    public WebApiResult addFollow(@PathVariable("uid") int uid) throws BusinessException {
         //1.判断是否是自己
         int ownId = super.getProfile().getId();
-        if(uid.equals(ownId)){
+        if(uid == ownId){
             return WebApiResult.fail(StringConst.FOCUS_ON_YOURSELF_MSG);
         }
         //2.添加关注
         if(followsService.addFollow(uid, ownId) <= 0){
             return WebApiResult.fail(StringConst.FOLLOW_FOCUS_IS_EXIST);
         }
-        //3.关注成功，发送通知消息
-        notifyService.sendMsg(ownId, uid, NotifyConst.EVENT_FOLLOWS, null);
         return WebApiResult.success();
     }
 
@@ -150,17 +146,12 @@ public class AjaxController extends BaseController{
     * @return com.xh.blogs.domain.vo.WebApiResult
     */
     @GetMapping("/free/favor.json/{uid}/{articleId}")
-    @Transactional
     public WebApiResult addFavor(@PathVariable("uid") int uid, @PathVariable("articleId") Integer articleId) throws BusinessException {
         //1.添加收藏
         int ownId = super.getProfile().getId();
-        if(favorsService.addFavor(ownId, articleId) < 0){
+        if(favorsService.addFavor(uid, ownId, articleId) <= 0){
             return WebApiResult.fail(StringConst.FAVOR_FOCUS_IS_EXIST);
         }
-        //2.文章收藏量增加
-        articleService.updateFavors(articleId);
-        //3.收藏成功，发送通知
-        notifyService.sendMsg(ownId, uid, NotifyConst.EVENT_FAVORS, articleId);
         return WebApiResult.success();
     }
 

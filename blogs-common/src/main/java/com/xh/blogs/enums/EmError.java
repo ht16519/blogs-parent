@@ -30,8 +30,9 @@ public enum EmError implements CommomError {
     USER_NICK_NAME_IS_EXIST(20007, "昵称已存在"),
     USER_EMAIL_IS_EXIST(20008, "邮箱已被注册"),
     USER_AUTHENTICATION_FAILED(20009, "认证失败，请联系管理员"),
-    USER_NOT_LOGGED_IN(20009, "请登录后再进行此操作"),
-
+    USER_NOT_LOGGED_IN(200010, "请登录后再进行此操作"),
+    PASSWORD_MISMATCH(20011, "两次密码输入不一致"),
+    USER_PASSWORD_ERROR(20012, "当前密码输入错误"),
 
     //300开头为文件相关错误
     FILE_WRITE_ERROR(30001, "文件写入失败"),

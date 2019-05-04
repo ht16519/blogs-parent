@@ -192,6 +192,7 @@
 
         $('#chat_reply').show();
     }
+
     var container = $("#chat_container");
     var template = $('#chat_template')[0].text;
 
@@ -201,13 +202,24 @@
             post_url: '${base}/api/free/comment/submit.json',
             toId: '${ret.id}',
             onLoad: function (i, data) {
-                console.log(data);
                 var content = ContentRender.wrapItem(data.content);
                 var quoto = '';
+                if (!(data.childs === null) && data.childs.length > 0) {
+                    var pat = data.childs;
+                    for(var i = 0; i < pat.length; i++){
+                        if(i < 3) {
+                            var pcontent = ContentRender.wrapItem(pat[i].content);
+                            quoto += '<div class="quote"><a href="${base}/ta/' + pat[i].userId + '/1' + '">' + pat[i].nickName + '</a>： ' + pcontent + '</div>';
+                        }else{
+                            quoto += '<div class="quote"><a href="#">共' + pat.length + '条回复 ></a></div>';
+                            break;
+                        }
+                    }
+                }
                 <#--if (data.pid > 0 && !(data.parent === null)) {-->
                     <#--var pat = data.parent;-->
                     <#--var pcontent = ContentRender.wrapItem(pat.content);-->
-                    <#--quoto = '<div class="quote"><a href="${base}/ta/' + pat.author.id + '/1' + '">@' + pat.author.name + '</a>: ' + pcontent + '</div>';-->
+                    <#--quoto = '<div class="quote"><a href="${base}/ta/' + pat.userId + '">@' + pat.nickName + '</a>: ' + pcontent + '</div>';-->
                 <#--}-->
                 var item = jQuery.format(template,
                         data.userId,

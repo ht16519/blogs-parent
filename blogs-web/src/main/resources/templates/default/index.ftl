@@ -44,8 +44,8 @@
     	</div>
     </div>
     <div class="text-center clr">
-    	<#assign url = "index/"+ ord>
-    	<@pager url page 5 />
+    	<#assign url = "/index/"+ ord>
+    	<@pager url page 3 />
     </div>
 <#--</@contents>-->
 

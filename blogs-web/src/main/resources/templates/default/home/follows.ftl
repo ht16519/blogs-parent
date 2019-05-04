@@ -45,7 +45,7 @@
 	</div>
 </div>
 <div class="text-center clr">
-	<@pager "follows" page 5 />
+	<@pager "/home/follows" page 3 />
 </div>
 
 <script type="text/javascript">

@@ -61,7 +61,7 @@
                         </#list>
                     </tbody>
                 </table>
-                <@pager "list" page 5 />
+                <@pager "/list" page 3 />
             </div>
         </div>
     </div>

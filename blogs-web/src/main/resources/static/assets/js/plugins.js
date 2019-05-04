@@ -122,7 +122,7 @@
 		 * mini: 是否为迷你型，如果true，则只有"上一页"和"下一页"的按钮
 		 */
 		page: function(p, callback, mini){
-			var pc = parseInt(p.totalPages); 	// 总页数
+			var pc = parseInt(p.pages); 	// 总页数
 			if(pc == 0){
 				this.html('');
 				return this;

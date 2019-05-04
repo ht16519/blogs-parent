@@ -72,7 +72,7 @@
 	</div>
 </div>
 <div class="text-center clr">
-	<@pager "home/articles" page 5 />
+	<@pager "/home/articles" page 3 />
 </div>
 
 <script type="text/javascript">

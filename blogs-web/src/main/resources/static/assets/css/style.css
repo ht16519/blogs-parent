@@ -243,7 +243,7 @@ background-color: #ea6f5a;}
 .p-stream .stream-item:hover {/*padding-right: 23px!important;*/}
 
 .stream-item .summary { overflow: hidden; padding: 0; /*border-left: 1px solid #f3f3f3;*/}
-.stream-item .title { display: block; margin: 0 0 10px 0; color: #333; font-size: 16px;}
+.stream-item .title { display: block; color: #333; font-size: 16px;}
 .stream-item .title  h2 { position: relative;display: inline; font-size: 18px; vertical-align: -2px;}
 .stream-item .title  h2:hover{color:#969696;}
 .stream-item .title .label {font-weight: normal;}
@@ -274,10 +274,11 @@ background-color: #ea6f5a;}
 .qus-rank .foot-block {margin-top: 10px!important;}
 
 .p-stream .stream-item  { /*padding: 20px 25px;*/ }
-.p-rank { margin-bottom: 0px; }
+.p-rank { margin-bottom: 10px; }
 .p-rank  .users{}
-.p-rank  .users .ava { width: 35px; height: 35px; float: left;  padding-left: 12px; padding-top:12px; }
-.p-rank  .users .info { float: left; padding-left: 12px; padding-top:12px;}
+.p-rank  .users .ava { width: 40px; height: 40px; float: left; }
+.p-rank  .users .info { float: left; padding-left: 12px; padding-top:12px; }
+.p-rank  .users .append { padding-top:0px; }
 .p-rank  .users .info strong { margin-bottom: 2px; font-size:14px;}
 .p-rank  .users .info time { color: #888; font-size:13px;}
 .p-rank  .counts {float: right; font-size: 14px; color: #888; margin-top:15px;}
@@ -473,9 +474,9 @@ background-color: #ea6f5a;}
 .chats .chat_body a { color: #1f8902; font-size: 12px; }
 .chats .chat_body span { color: #b4b4b4; margin-left: 5px; }
 
-.chats .chat_body .quote { background: #f4f4f4; margin-top: 10px; padding: 10px; }
+.chats .chat_body .quote { background: #f4f4f4; margin-top: 2px; padding: 10px; }
 .chats .reply_this a{ color: #ff8a00; font-size: 12px; height: 20px; cursor: pointer;}
-.chats .chat_p { color: #9c9c9c; }
+/*.chats .chat_p { color: #9c9c9c; }*/
 .chats .chat_reply { }
 
 .cbox-wrap { padding: 15px;}

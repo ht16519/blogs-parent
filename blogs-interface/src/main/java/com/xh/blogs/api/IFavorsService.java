@@ -18,9 +18,10 @@ public interface IFavorsService {
     * @Date 2019/4/27
     * @param ownId
     * @param articleId
+    * @param userId
     * @return int
     */
-    int addFavor(int ownId, int articleId);
+    int addFavor(int userId, int ownId, int articleId);
 
     /**
     * @Name getByUserIdWithPage

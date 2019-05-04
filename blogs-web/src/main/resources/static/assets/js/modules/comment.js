@@ -120,10 +120,10 @@ define(function(require, exports, module) {
 						html += item;
 					});
 					$list.empty().append(html);
-					if (ret.size < 1) {
+					if (ret.items < 1) {
 						$list.append('<li><p>还没有评论, 快来占沙发吧!</p></li>');
 					}
-					if (ret.totalPages > 1) {
+					if (ret.pages > 1) {
 						$("#pager").page(ret, J.proxy(that, 'pageCallback'));
 					}
 				}

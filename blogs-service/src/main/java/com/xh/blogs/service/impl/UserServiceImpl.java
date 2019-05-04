@@ -3,6 +3,8 @@ package com.xh.blogs.service.impl;
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.dao.mapper.UserMapper;
 import com.xh.blogs.domain.po.User;
+import com.xh.blogs.domain.vo.UserBasicVo;
+import com.xh.blogs.domain.vo.UserPasswordVo;
 import com.xh.blogs.domain.vo.UserVo;
 import com.xh.blogs.enums.EmError;
 import com.xh.blogs.exception.BusinessException;
@@ -55,6 +57,41 @@ public class UserServiceImpl implements IUserService {
         //3.设置基本属性
         //TODO 密码加密
         return userMapper.insertSelective(this.getUser(userVo));
+    }
+
+    @Override
+    public User updateBasicById(UserBasicVo userBasicVo) throws BusinessException {
+        BeanValidator.check(userBasicVo);
+        User user = new User();
+        BeanUtils.copyProperties(userBasicVo, user);
+        int res = userMapper.updateByPrimaryKeySelective(user);
+        if(res <= 0){
+            throw new BusinessException(EmError.FAIL);
+        }
+        return userMapper.selectByPrimaryKey(user.getId());
+    }
+
+    @Override
+    public int updatePasswordById(UserPasswordVo passwordVo) throws BusinessException {
+        //1.参数校验
+        BeanValidator.check(passwordVo);
+        if(!passwordVo.getPassword().equals(passwordVo.getRePassword())){
+            throw new BusinessException(EmError.PASSWORD_MISMATCH);
+        }
+        //校验用户输入是否正确
+        User user = new User();
+        user.setUserName(passwordVo.getUserName());
+        //TODO 密码加密
+        user.setPassword(passwordVo.getOldPassword());
+        User dbUser = userMapper.selectOne(user);
+        if(dbUser == null){
+            throw new BusinessException(EmError.USER_PASSWORD_ERROR);
+        }
+        //修改密码
+        user.setUserName(null);
+        user.setId(passwordVo.getId());
+        user.setPassword(passwordVo.getPassword());
+        return userMapper.updateByPrimaryKeySelective(user);
     }
 
     /**

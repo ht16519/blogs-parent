@@ -83,7 +83,7 @@
             </table>
 		</div>
 		<div class="x_content">
-			<@pager "list" page 5 />
+			<@pager "/list" page 3 />
 		</div>
     </div>
 </div>

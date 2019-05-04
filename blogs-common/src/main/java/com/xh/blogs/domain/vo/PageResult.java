@@ -15,7 +15,9 @@ public class PageResult<T> {
 
     private long total;         // 总条数
 
-    private long number;        // 当前页
+    private int number;        // 当前页
+
+    private int pages;          //所有页
 
     private List<T> items;      // 当前页数据
 
@@ -31,9 +33,14 @@ public class PageResult<T> {
         this.items = items;
     }
 
-    public PageResult(long total, long number, List<T> items) {
+    public PageResult(long total, int number, List<T> items) {
         this(total, items);
         this.number = number;
+    }
+
+    public PageResult(long total, int number, int pages, List<T> items) {
+        this(total, number, items);
+        this.pages = pages;
     }
 
 }

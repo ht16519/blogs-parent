@@ -15,14 +15,15 @@
         INNER JOIN t_user u ON u.id = f.user_id
         WHERE
             f.follow_id = #{userId}
-        ORDER BY
-            f.create_time DESC
+        GROUP BY u.id
+        ORDER BY f.create_time DESC
     </select>
 
     <select id="selectFansByUserId" resultType="com.xh.blogs.domain.po.Follows">
         <include refid="commonSql"/>
         INNER JOIN t_user u ON u.id = f.follow_id
         WHERE f.user_id = #{userId}
+        GROUP BY u.id
         ORDER BY f.create_time DESC
     </select>
 

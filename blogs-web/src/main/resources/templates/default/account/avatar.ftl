@@ -4,7 +4,7 @@
 <div class="panel panel-default stacked">
 	<div class="panel-heading">
 		<ul class="nav nav-pills account-tab">
-			<li><a href="profile">基本信息</a></li>
+			<li><a href="basic">基本信息</a></li>
 			<li class="active"><a href="avatar">修改头像</a></li>
 			<li><a href="password">修改密码</a></li>
 		</ul>

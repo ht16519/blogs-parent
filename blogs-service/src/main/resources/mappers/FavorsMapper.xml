@@ -45,6 +45,8 @@
         LEFT JOIN t_user u ON u.id = a.author_id
         WHERE
             f.own_id = #{userId}
+        AND a.`status` = 10
+        GROUP BY a.id
         ORDER BY f.create_time DESC
   </select>
 </mapper>

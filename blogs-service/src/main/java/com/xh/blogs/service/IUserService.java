@@ -2,6 +2,8 @@ package com.xh.blogs.service;
 
 
 import com.xh.blogs.domain.po.User;
+import com.xh.blogs.domain.vo.UserBasicVo;
+import com.xh.blogs.domain.vo.UserPasswordVo;
 import com.xh.blogs.domain.vo.UserVo;
 import com.xh.blogs.exception.BusinessException;
 
@@ -48,8 +50,28 @@ public interface IUserService {
     * @Description 用户注册
     * @Author wen
     * @Date 2019/4/23
-    * @param user
+    * @param userVo
     * @return int
     */
     int register(UserVo userVo) throws BusinessException;
+
+    /**
+    * @Name updateById
+    * @Description 修改用户信息
+    * @Author wen
+    * @Date 2019/5/4
+    * @param userBasicVo
+    * @return int
+    */
+    User updateBasicById(UserBasicVo userBasicVo) throws BusinessException;
+
+    /**
+    * @Name updatePasswordById
+    * @Description 修改用户迷你
+    * @Author wen
+    * @Date 2019/5/4
+    * @param passwordVo
+    * @return int
+    */
+    int updatePasswordById(UserPasswordVo passwordVo) throws BusinessException;
 }

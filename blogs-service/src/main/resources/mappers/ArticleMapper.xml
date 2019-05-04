@@ -23,6 +23,12 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
 
+  <update id="addComments" parameterType="java.lang.Integer" >
+        UPDATE t_article
+        SET comments = comments + 1
+        WHERE id = #{articleId}
+  </update>
+
   <update id="minusFavors" parameterType="java.lang.Integer" >
         UPDATE t_article
         SET favors = favors - 1

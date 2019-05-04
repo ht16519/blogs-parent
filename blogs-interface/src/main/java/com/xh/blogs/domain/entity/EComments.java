@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Name EComments
@@ -26,8 +27,12 @@ public class EComments {
 
     private Integer userId;
 
+    private Integer pid;
+
     private String nickName;
 
     private String avatar;
 
+    private List<EComments> childs;
+//    private EComments parent;
 }

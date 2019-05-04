@@ -16,6 +16,7 @@ import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.service.IArticleService;
 import com.xh.blogs.utils.ArticleUtil;
 import com.xh.blogs.utils.BeanValidator;
+import com.xh.blogs.utils.PageUtil;
 import com.xh.blogs.utils.PreviewTextUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -78,7 +79,7 @@ public class ArticleServiceImpl implements IArticleService {
         parameters.put(CommonConst.ORDER_BY_KEY, sort);
         Page<Article> page = PageHelper.startPage(number, CommonConst.PAGE_SIZE);
         articleMapper.selectInfoWithPage(parameters);
-        return new PageResult<>(page.getTotal(), ArticleUtil.getArticles(page.getResult()));
+        return PageUtil.create(page, ArticleUtil.getArticles(page.getResult()));
     }
 
     @Override

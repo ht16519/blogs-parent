@@ -47,6 +47,7 @@ public class Comments implements Serializable{
     @Column(name = "article_id")
     private Integer articleId;
 
-    private Article article;
+    /** 上级id*/
+    private Integer pid;
 
 }

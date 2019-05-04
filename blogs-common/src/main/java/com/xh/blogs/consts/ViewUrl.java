@@ -8,6 +8,13 @@ package com.xh.blogs.consts;
  */
 public interface ViewUrl {
 
+
+    String ACCOUNT_PASSWORD = "default/account/password";
+
+    String ACCOUNT_AVATAR = "default/account/avatar";
+
+    String ACCOUNT_PROFILE = "default/account/profile";
+
     String HOME_FAVORS = "default/home/favors";
 
     String HOME_FOLLOWS = "default/home/follows";

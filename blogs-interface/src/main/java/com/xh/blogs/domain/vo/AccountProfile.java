@@ -35,4 +35,11 @@ public class AccountProfile implements Serializable {
     private Date lastLogin;
 
     private String avatar;
+
+    private Integer activeEmail;
+
+    private Integer sex;
+
+    private String signature;
+
 }

@@ -44,7 +44,7 @@
 	</div>
 </div>
 <div class="text-center clr">
-	<@pager "home?method=comments" page 5 />
+	<@pager "/home?method=comments" page 3 />
 </div>
 
 <script type="text/javascript">

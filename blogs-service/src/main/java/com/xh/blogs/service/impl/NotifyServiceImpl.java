@@ -7,6 +7,7 @@ import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.dao.mapper.NotifyMapper;
 import com.xh.blogs.domain.po.Notify;
 import com.xh.blogs.domain.vo.PageResult;
+import com.xh.blogs.utils.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,7 +49,7 @@ public class NotifyServiceImpl implements INotifyService {
         parameters.put(CommonConst.USER_ID_KEY, userId);
         Page<Notify> page = PageHelper.startPage(number, CommonConst.PAGE_SIZE);
         notifyMapper.selectByCondition(parameters);
-        return new PageResult<>(page.getTotal(), page.getResult());
+        return PageUtil.create(page);
     }
 
     @Override

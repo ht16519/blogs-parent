@@ -8,8 +8,11 @@ package com.xh.blogs.consts;
  */
 public interface ConfigConst {
 
+    /** 子评论条数*/
+    int COMMENTS_SUBLIST_SIZE = 3;
+
     /** 加载统计数据条数*/
-    int STATISTICAL_COUNT = 10;
+    int STATISTICAL_COUNT = 9;
 
     /** 加载文章图片张数*/
     int ARTICLE_COUNT = 3;

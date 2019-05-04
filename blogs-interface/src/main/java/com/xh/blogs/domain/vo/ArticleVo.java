@@ -25,7 +25,7 @@ public class ArticleVo {
     private Integer authorId;
 
     @NotEmpty(message = "标题不能为空")
-    @Size(max = 18, min = 3, message = "标题长度应在3到18位之间")
+    @Size(max = 32, min = 3, message = "标题长度应在3到32位之间")
     private String title;
 
     @NotNull(message = "组id不能为空")

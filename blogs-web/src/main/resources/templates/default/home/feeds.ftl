@@ -25,6 +25,7 @@
     </div>
 </div>
 <div class="text-center clr">
-    <@pager "home/feeds" page 5 />
+    <@pager "/home/feeds" page 3 />
+    <#--<div id="example" style="text-align: center"> <ul id="pageLimit"></ul> </div>-->
 </div>
 </@ui_home>

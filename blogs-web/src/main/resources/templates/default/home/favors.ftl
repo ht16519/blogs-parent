@@ -20,8 +20,9 @@
 							<div class="ava">
 								<@showAva row.user.avatar "img-circle"/>
 							</div>
-							<div class="info">
-								<strong>${row.user.nickName}</strong>
+							<div class="info append">
+								<strong>${row.user.nickName}</strong><br/>
+                                <time> ${row.createTime?string('yyyy-MM-dd')}</time>
 								<#--<time>${timeAgo(row.createTime)}</time>-->
 							</div>
 						</a>
@@ -33,8 +34,8 @@
 				</div>
 				<div class="summary">
 					<a href="${base}/article/${row.id}">
-						<div class="title"><@showGroup row/><h2>${row.title}</h2></div>
-						<div class="excerpt wordbreak hidden-xs">${row.summary} </div>
+						<div class="title"><@showGroup row/><h2><strong>${row.title}</strong></h2></div>
+						<div class="excerpt wordbreak hidden-xs">${row.summary}</div>
 					</a>
 					<!--前端图片显示样式-->
 					<#if row.article.albums??>
@@ -82,7 +83,7 @@
 	</div>
 </div>
 <div class="text-center clr">
-	<@pager "favors" page 5 />
+	<@pager "/home/favors" page 3 />
 </div>
 
 <script type="text/javascript">

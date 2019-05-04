@@ -16,6 +16,8 @@ ${site_metas}
 <script type="text/javascript" src="/static/assets/js/jquery-migrate-1.2.1.min.js"></script>
 <script type="text/javascript" src="/static/assets/js/utils.js"></script>
 
+<script type="text/javascript" src="/static/assets/vendors/bootstrap/js/bootstrap-paginator.js"></script>
+
 <script type="text/javascript" src="/static/assets/vendors/layer/layer.js"></script>
 
 <script type="text/javascript" src="/static/assets/js/sea.js"></script>

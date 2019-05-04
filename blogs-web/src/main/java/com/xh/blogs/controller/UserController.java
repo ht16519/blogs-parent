@@ -4,8 +4,8 @@ import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.RequestUrl;
 import com.xh.blogs.consts.StringConst;
 import com.xh.blogs.consts.ViewUrl;
-import com.xh.blogs.domain.vo.RegisterSuccess;
-import com.xh.blogs.domain.vo.UserVo;
+import com.xh.blogs.domain.po.User;
+import com.xh.blogs.domain.vo.*;
 import com.xh.blogs.enums.EmError;
 import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.service.IArticleService;
@@ -19,6 +19,7 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +41,110 @@ public class UserController extends BaseController{
     private IUserService userService;
     @Autowired
     private IArticleService articleService;
+
+
+
+    /**
+    * @Name accountPasswordDo
+    * @Description 修改密码操作
+    * @Author wen
+    * @Date 2019/5/4
+    * @param 
+    * @return java.lang.String 
+    */
+    @PostMapping("/account/profile/password")
+    public String accountPasswordDo(UserPasswordVo passwordVo, ModelMap model) {
+        try {
+            passwordVo.setId(super.getProfile().getId());
+            passwordVo.setUserName(super.getProfile().getUserName());
+            userService.updatePasswordById(passwordVo);
+            super.getModelMap(model);
+        } catch (BusinessException e) {
+            super.getModel(e, model);
+        }
+        return ViewUrl.ACCOUNT_PASSWORD;
+    }
+
+    /**
+    * @Name accountPassword
+    * @Description 修改密码跳转
+    * @Author wen
+    * @Date 2019/5/4
+    * @param 
+    * @return java.lang.String 
+    */
+    @GetMapping("/account/profile/password")
+    public String accountPassword() {
+        return ViewUrl.ACCOUNT_PASSWORD;
+    }
+
+    /**
+    * @Name accountAvatarDo
+    * @Description 修改头像操作
+    * @Author wen
+    * @Date 2019/5/4
+    * @param
+    * @return java.lang.String
+    */
+    @PostMapping("/account/profile/avatar")
+    public String accountAvatarDo() {
+        return ViewUrl.ACCOUNT_AVATAR;
+    }
+
+    /**
+    * @Name accountAvatar
+    * @Description 修改头像跳转
+    * @Author wen
+    * @Date 2019/5/4
+    * @param
+    * @return java.lang.String
+    */
+    @GetMapping("/account/profile/avatar")
+    public String accountAvatar() {
+        return ViewUrl.ACCOUNT_AVATAR;
+    }
+
+    /**
+     * @Name profile
+     * @Description 修改基本信息操作
+     * @Author wen
+     * @Date 2019/5/3
+     * @param
+     * @return java.lang.String
+     */
+    @PostMapping("/account/profile/basic")
+    public String accountBasicDo(UserBasicVo userBasicVo, ModelMap model){
+        try {
+            //1.修改用户信息
+            AccountProfile profile = super.getProfile();
+            userBasicVo.setId(profile.getId());
+            User user = userService.updateBasicById(userBasicVo);
+            //2.更新session中用户基本信息
+            super.putProfile(user);
+            super.getModelMap(StringConst.UPDATE_USER_INFO_SUCCESSED, model);
+        } catch (BusinessException e) {
+            super.getModel(e, model);
+        }
+        return ViewUrl.ACCOUNT_PROFILE;
+    }
+
+    /**
+    * @Name profile
+    * @Description 修改基本信息跳转
+    * @Author wen
+    * @Date 2019/5/3
+    * @param
+    * @return java.lang.String
+    */
+    @GetMapping("/account/profile/basic")
+    public String accountBasic(ModelMap model) {
+        try {
+            model.put(CommonConst.DATA_RESULT_KEY, super.getProfile());
+        } catch (BusinessException e) {
+            super.getModel(e, model);
+        }
+        return ViewUrl.ACCOUNT_PROFILE;
+    }
 
     /**
     * @Name bloggerInfo

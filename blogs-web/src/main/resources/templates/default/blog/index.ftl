@@ -29,8 +29,8 @@
 	</div>
 </div>
 <div class="text-center clr">
-	<#assign url = group.key + "?ord=" + ord>
-	<@pager url results 5 />
+	<#assign url = '/' + group.key + "?ord=" + ord>
+	<@pager url results 3 />
 </div>
 </@contents>
 

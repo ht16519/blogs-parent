@@ -11,13 +11,27 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="article_id" property="articleId" jdbcType="INTEGER" />
+    <result column="pid" property="pid" jdbcType="INTEGER" />
   </resultMap>
 
+  <select id="selectSublistByArticleId" resultType="com.xh.blogs.domain.entity.EComments">
+      <include refid="commonSql"/>
+      AND c.pid <![CDATA[ > ]]> 0
+      ORDER BY c.create_time DESC
+  </select>
+
   <select id="selectByArticleId" resultType="com.xh.blogs.domain.entity.EComments">
+        <include refid="commonSql"/>
+        AND c.pid <![CDATA[ <= ]]> 0
+        ORDER BY c.create_time DESC
+  </select>
+
+    <sql id="commonSql">
         SELECT
             c.id,
             c.user_id,
             c.content,
+            c.pid,
             DATE_FORMAT(c.create_time, '%Y-%m-%d %H:%i:%s') AS "create_time",
             u.id "userId",
             u.nick_name,
@@ -28,5 +42,5 @@
         WHERE
             c.article_id = #{articleId}
         <if test="status != null and status != ''"> AND c.`status` = #{status} </if>
-  </select>
+    </sql>
 </mapper>

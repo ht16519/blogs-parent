@@ -1,6 +1,7 @@
 package com.xh.blogs.controller;
 
 import com.xh.blogs.consts.CommonConst;
+import com.xh.blogs.domain.po.User;
 import com.xh.blogs.domain.vo.AccountProfile;
 import com.xh.blogs.enums.EmError;
 import com.xh.blogs.error.CommomError;
@@ -34,6 +35,8 @@ public class BaseController {
 
 	protected static final String DATA_KEY = "data";
 
+	protected static final String SUCCESSED_MESSAGE = "操作成功";
+
 	@Autowired
 	protected HttpSession session;
 
@@ -60,12 +63,16 @@ public class BaseController {
 	*/
 	protected void putProfile(ModelMap model) {
 		try {
-			AccountProfile profile = new AccountProfile();
-			BeanUtils.copyProperties(ShiroUtil.getUser(), profile);
-			ShiroUtil.sessionSetValue(CommonConst.SYSTEM_PROFILE, profile);
+			this.putProfile(ShiroUtil.getUser());
 		} catch (Exception e) {
 			this.getModelMap(EmError.USER_AUTHENTICATION_FAILED, model);
 		}
+	}
+
+	protected void putProfile(User user) {
+		AccountProfile profile = new AccountProfile();
+		BeanUtils.copyProperties(user, profile);
+		ShiroUtil.sessionSetValue(CommonConst.SYSTEM_PROFILE, profile);
 	}
 
 	/**
@@ -115,6 +122,18 @@ public class BaseController {
 	protected ModelMap getModelMap(BusinessException ex, ModelMap model){
 		model.put(CODE_KEY, ex.getErrCode());
 		model.put(MESSAGE_KEY, ex.getErrMsg());
+		return model;
+	}
+
+	protected ModelMap getModelMap(ModelMap model){
+		model.put(CODE_KEY, 0);
+		model.put(MESSAGE_KEY, SUCCESSED_MESSAGE);
+		return model;
+	}
+
+	protected ModelMap getModelMap(String msg, ModelMap model){
+		model.put(CODE_KEY, 0);
+		model.put(MESSAGE_KEY, msg);
 		return model;
 	}
 

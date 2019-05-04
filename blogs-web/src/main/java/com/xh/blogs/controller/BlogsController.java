@@ -49,7 +49,7 @@ public class BlogsController extends BaseController{
 
     /**
     * @Name index
-    * @Description 首页排序
+    * @Description 首页文章排序
     * @Author wen
     * @Date 2019/4/27
     * @param sort

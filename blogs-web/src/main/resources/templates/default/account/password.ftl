@@ -6,7 +6,7 @@
 <div class="panel panel-default stacked">
 	<div class="panel-heading">
 		<ul class="nav nav-pills account-tab">
-			<li><a href="profile">基本信息</a></li>
+			<li><a href="basic">基本信息</a></li>
 			<li><a href="avatar">修改头像</a></li>
 			<li class="active"><a href="password">修改密码</a></li>
 		</ul>
@@ -20,19 +20,19 @@
 				<div class="form-group">
 					<label class="control-label col-lg-3" for="password">当前密码</label>
 					<div class="col-lg-4">
-						<input type="password" class="form-control" name="oldPassword" maxlength="18" placeholder="请输入当前密码" data-required>
+						<input type="password" class="form-control" name="oldPassword" maxlength="16" placeholder="请输入当前密码" data-required>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-lg-3" for="password">新密码</label>
 					<div class="col-lg-4">
-						<input type="password" class="form-control" id="password" name="password" placeholder="请输入新密码" maxlength="18" data-required>
+						<input type="password" class="form-control" id="password" name="password" placeholder="请输入新密码" maxlength="16" data-required>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-lg-3" for="password2">确认密码</label>
 					<div class="col-lg-4">
-						<input type="password" class="form-control" name="password2" data-required placeholder="请再输入一遍新密码" maxlength="18" data-conditional="confirm" data-describedby="message" data-description="passwd">
+						<input type="password" class="form-control" name="rePassword" data-required placeholder="请再输入一遍新密码" maxlength="16" data-conditional="confirm" data-describedby="message" data-description="passwd">
 					</div>
 				</div>
 				<div class="form-group">
