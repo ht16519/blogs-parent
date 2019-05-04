@@ -1,5 +1,6 @@
 package com.xh.blogs.controller;
 
+import com.xh.blogs.api.ICommentsService;
 import com.xh.blogs.api.IFavorsService;
 import com.xh.blogs.api.IFollowsService;
 import com.xh.blogs.api.INotifyService;
@@ -33,7 +34,15 @@ public class HomeController extends BaseController{
     @Autowired
     private IFavorsService favorsService;
     @Autowired
+    private ICommentsService commentsService;
+    @Autowired
     private IArticleService articleService;
+
+    @GetMapping("/comments/{number}")
+    public String comments(@PathVariable("number") int number, ModelMap model) throws BusinessException {
+        model.put(CommonConst.RESULT_PAGE_INFO_KEY, commentsService.getByUserIdWithPage(super.getProfile().getId(), number));
+        return ViewUrl.HOME_COMMENTS;
+    }
 
     /**
     * @Name favors

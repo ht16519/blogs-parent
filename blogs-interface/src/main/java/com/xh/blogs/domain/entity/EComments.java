@@ -34,5 +34,4 @@ public class EComments {
     private String avatar;
 
     private List<EComments> childs;
-//    private EComments parent;
 }

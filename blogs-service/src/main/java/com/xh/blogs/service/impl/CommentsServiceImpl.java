@@ -8,6 +8,7 @@ import com.xh.blogs.consts.NotifyConst;
 import com.xh.blogs.dao.mapper.ArticleMapper;
 import com.xh.blogs.dao.mapper.CommentsMapper;
 import com.xh.blogs.dao.mapper.NotifyMapper;
+import com.xh.blogs.domain.entity.EArticleComments;
 import com.xh.blogs.domain.entity.EComments;
 import com.xh.blogs.domain.po.Article;
 import com.xh.blogs.domain.po.Comments;
@@ -75,6 +76,39 @@ public class CommentsServiceImpl implements ICommentsService {
         Page<EComments> page = PageHelper.startPage(number, CommonConst.PAGE_SIZE);
         commentsMapper.selectByArticleId(articleId, CommonConst.EFFECTIVE_STATUS);
         return PageUtil.create(page, this.getItems(page.getResult(), articleId));
+    }
+
+    @Override
+    public PageResult<EArticleComments> getByUserIdWithPage(int userId, int number) {
+        Page<EArticleComments> page = PageHelper.startPage(number, CommonConst.PAGE_SIZE);
+        commentsMapper.selectByUserId(userId, CommonConst.EFFECTIVE_STATUS);
+        return PageUtil.create(page);
+    }
+
+    @Override
+    @Transactional
+    public int removeById(int id, int userId) throws BusinessException {
+        //1.判断评论书否存在
+        Comments condition = new Comments();
+        condition.setId(id);
+        condition.setUserId(userId);
+        Comments dbComment = commentsMapper.selectOne(condition);
+        if(dbComment == null){
+            throw new BusinessException(EmError.COMMENT_IS_NOT_EXIST);
+        }
+        //2.逻辑删除评论
+        Comments comments = new Comments();
+        comments.setStatus(CommonConst.INVALID_STATUS);
+        comments.setId(id);
+        int res = commentsMapper.updateByPrimaryKeySelective(comments);
+        //如果是父级节点
+        if(res > 0 && dbComment.getPid() != null && dbComment.getPid().equals(0)){
+            //3.逻辑删除下级评论
+            commentsMapper.removeByPid(comments.getId());
+            //5.修改文章评论数-1
+            res = articleMapper.minusComments(dbComment.getArticleId());
+        }
+        return res;
     }
 
     private List<EComments> getItems(List<EComments> items, int articleId) {

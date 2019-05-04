@@ -36,7 +36,7 @@
                 <a href="${base}/home/articles/1"><i class="fa fa-file-text-o"></i> 我的文章</a>
             </li>
             <li class="list-group-item">
-                <a href="${base}/home?method=comments"><i class="fa fa-comment-o"></i> 我的评论</a>
+                <a href="${base}/home/comments/1"><i class="fa fa-comment-o"></i> 我的评论</a>
             </li>
         </ul>
 

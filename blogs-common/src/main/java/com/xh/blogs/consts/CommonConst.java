@@ -40,6 +40,8 @@ public interface CommonConst {
 
     int EFFECTIVE_STATUS = 10;
 
+    int INVALID_STATUS = -10;
+
     String COMMON_REDIS_KEY_PREFIX = "redisKey:";
 
     /**

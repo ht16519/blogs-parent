@@ -8,6 +8,7 @@ package com.xh.blogs.consts;
  */
 public interface ViewUrl {
 
+    String HOME_COMMENTS = "default/home/comments";
 
     String ACCOUNT_PASSWORD = "default/account/password";
 

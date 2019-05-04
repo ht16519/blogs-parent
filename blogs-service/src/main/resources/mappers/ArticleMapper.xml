@@ -29,6 +29,13 @@
         WHERE id = #{articleId}
   </update>
 
+  <update id="minusComments" parameterType="java.lang.Integer" >
+        UPDATE t_article
+        SET comments = comments - 1
+        WHERE id = #{articleId}
+        AND comments > 0
+  </update>
+
   <update id="minusFavors" parameterType="java.lang.Integer" >
         UPDATE t_article
         SET favors = favors - 1

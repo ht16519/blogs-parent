@@ -276,9 +276,8 @@ background-color: #ea6f5a;}
 .p-stream .stream-item  { /*padding: 20px 25px;*/ }
 .p-rank { margin-bottom: 10px; }
 .p-rank  .users{}
-.p-rank  .users .ava { width: 40px; height: 40px; float: left; }
-.p-rank  .users .info { float: left; padding-left: 12px; padding-top:12px; }
-.p-rank  .users .append { padding-top:0px; }
+.p-rank  .users .ava { width: 40px; height: 35px; float: left; }
+.p-rank  .users .info { float: left; padding-left: 12px; padding-top:12px;}
 .p-rank  .users .info strong { margin-bottom: 2px; font-size:14px;}
 .p-rank  .users .info time { color: #888; font-size:13px;}
 .p-rank  .counts {float: right; font-size: 14px; color: #888; margin-top:15px;}

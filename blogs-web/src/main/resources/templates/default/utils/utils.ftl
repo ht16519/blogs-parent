@@ -61,8 +61,8 @@
         </div>
         <!--End-->
         </#if>
-
     </div>
+
     <div class="p-rank clearfix">
         <div class="users">
             <a href="${base}/ta/${row.user.id}/1">

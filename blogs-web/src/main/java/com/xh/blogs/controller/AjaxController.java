@@ -31,11 +31,22 @@ public class AjaxController extends BaseController{
     @Autowired
     private IFollowsService followsService;
     @Autowired
-    private IArticleService articleService;
-    @Autowired
     private INotifyService notifyService;
     @Autowired
     private ICommentsService commentsService;
+
+    /**
+     * @Name unfavor
+     * @Description 删除评论
+     * @Author wen
+     * @Date 2019/4/28
+     * @param id
+     * @return com.xh.blogs.domain.vo.WebApiResult
+     */
+    @GetMapping("/comment/delete.json/{id}")
+    public WebApiResult deleteComment(@PathVariable("id") int id) throws BusinessException {
+        return WebApiResult.getResult(commentsService.removeById(id, super.getProfile().getId()));
+    }
 
     /**
     * @Name unfavor

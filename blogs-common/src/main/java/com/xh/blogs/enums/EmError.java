@@ -41,6 +41,7 @@ public enum EmError implements CommomError {
 
     //400开头为文章相关错误
     ARTICLE_IS_NOT_EXIST(40001, "文章不存在或已被删除"),
+    COMMENT_IS_NOT_EXIST(40001, "只能删除自己的存在的评论"),
     ;
 
     private int code;

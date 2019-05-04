@@ -1,5 +1,6 @@
 package com.xh.blogs.api;
 
+import com.xh.blogs.domain.entity.EArticleComments;
 import com.xh.blogs.domain.entity.EComments;
 import com.xh.blogs.domain.vo.CommentsVo;
 import com.xh.blogs.domain.vo.PageResult;
@@ -32,4 +33,25 @@ public interface ICommentsService {
     * @return com.xh.blogs.domain.vo.PageResult<com.xh.blogs.domain.po.Comments>
     */
     PageResult<EComments> getByArticleIdWithPage(int articleId, int number);
+
+    /**
+    * @Name getByUserIdWithPage
+    * @Description 用户评论列表
+    * @Author wen
+    * @Date 2019/5/4
+    * @param userId
+    * @param number
+    * @return com.xh.blogs.domain.vo.PageResult<com.xh.blogs.domain.entity.EComments>
+    */
+    PageResult<EArticleComments> getByUserIdWithPage(int userId, int number);
+
+    /**
+    * @Name removeById
+    * @Description 移除评论
+    * @Author wen
+    * @Date 2019/5/4
+    * @param id
+    * @return int
+    */
+    int removeById(int id, int userId) throws BusinessException;
 }
