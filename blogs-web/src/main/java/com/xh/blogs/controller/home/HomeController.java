@@ -1,13 +1,10 @@
-package com.xh.blogs.controller;
+package com.xh.blogs.controller.home;
 
-import com.xh.blogs.api.ICommentsService;
-import com.xh.blogs.api.IFavorsService;
-import com.xh.blogs.api.IFollowsService;
-import com.xh.blogs.api.INotifyService;
+import com.xh.blogs.api.*;
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.ViewUrl;
+import com.xh.blogs.controller.base.BaseController;
 import com.xh.blogs.exception.BusinessException;
-import com.xh.blogs.service.IArticleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Slf4j
 @Controller
 @RequestMapping("/home")
-public class HomeController extends BaseController{
+public class HomeController extends BaseController {
 
     @Autowired
     private INotifyService notifyService;

@@ -8,7 +8,9 @@ package com.xh.blogs.consts;
  */
 public interface StringConst {
 
-    String UPDATE_USER_INFO_SUCCESSED = "修改成功";
+    String AVATAR_PARAMETERS_ERROR = "截图失败，图片宽高应在80px到300px之间！";
+
+    String UPDATE_USER_INFO_SUCCESSED = "修改成功！";
 
     String TO_LOG_IN = "去登陆";
 

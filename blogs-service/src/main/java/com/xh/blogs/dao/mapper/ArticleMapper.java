@@ -32,13 +32,13 @@ public interface ArticleMapper extends IBaseMapper<Article> {
 
     /**
     * @Name selectByHost
-    * @Description 查询热门文章
+    * @Description 查询排名文章
     * @Author wen
     * @Date 2019/4/25
     * @param count
     * @return java.util.List<com.xh.blogs.domain.entity.EHostArticle> 
     */
-    List<EHotArticle> selectByCondition(@Param("sort") int sort, @Param("count") int count);
+    List<EHotArticle> selectByRank(@Param("sort") int sort, @Param("count") int count);
 
     /**
     * @Name addFavors
@@ -79,4 +79,5 @@ public interface ArticleMapper extends IBaseMapper<Article> {
      * @return int
      */
     int minusComments(@Param("articleId") int articleId);
+
 }

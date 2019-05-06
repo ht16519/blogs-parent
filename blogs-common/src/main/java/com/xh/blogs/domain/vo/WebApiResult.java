@@ -67,6 +67,10 @@ public class WebApiResult<T> {
         return res > 0 ? success() : fail();
     }
 
+    public static WebApiResult getResult(int res, String msg) {
+        return res > 0 ? success(msg) : fail();
+    }
+
     public static WebApiResult fail() {
         return fail(FAIL_MSG);
     }

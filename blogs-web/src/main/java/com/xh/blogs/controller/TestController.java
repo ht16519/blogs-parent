@@ -18,7 +18,7 @@ public class TestController {
     @GetMapping("/index")
     @ResponseBody
     public String test(){
-        return "Hellow SptingBoot!";
+        return "Hellow Spring Boot!";
     }
 
 }

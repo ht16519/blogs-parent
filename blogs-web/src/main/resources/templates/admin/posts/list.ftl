@@ -6,16 +6,15 @@
 			<div class="x_title">
 				<h2>文章管理</h2>
                 <ul class="nav navbar-right panel_toolbox">
-					<@shiro.hasPermission name="posts:edit">
-                    <li><a href="javascrit:void(0);" data-action="batch_del">批量删除</a>
-                    </li>
-					</@shiro.hasPermission>
+					<#--<@shiro.hasPermission name="posts:edit">-->
+                    <li><a href="javascrit:void(0);" data-action="batch_del">批量删除</a></li>
+					<#--</@shiro.hasPermission>-->
                 </ul>
 				<div class="clearfix"></div>
 			</div>
             <div class="x_content">
 				<form id="qForm" class="form-inline">
-					<input type="hidden" name="pn" value="${page.pageNo}" />
+					<input type="hidden" name="pn" value="${pn}" />
 					<div class="form-group">
 						<input type="text" name="title" class="form-control" value="${title}" placeholder="请输入标题关键字">
 					</div>
@@ -32,9 +31,9 @@
                         <th>发表日期</th>
                         <th>访问数</th>
                         <th>推荐</th>
-                        <@shiro.hasPermission name="posts:edit">
+                        <#--<@shiro.hasPermission name="posts:edit">-->
                         <th width="200"></th>
-                        </@shiro.hasPermission>
+                        <#--</@shiro.hasPermission>-->
                     </tr>
                     </thead>
                     <tbody>
@@ -43,24 +42,24 @@
                         <td>
                             <input type="checkbox" name="id" value="${row.id}">
                         </td>
-                        <td>${row.title}
+                        <td>
                             <a href="${base}/article/${row.id}" target="_blank">${row.title}</a>
                         </td>
-                        <td>${row.author.username}</td>
-                        <td>${row.created?string('yyyy-MM-dd')}</td>
+                        <td><a href="${base}/ta/${row.user.id}">${row.user.nickName}</a></td>
+                        <td>${row.createTime?string('yyyy-MM-dd HH:mm:ss')}</td>
                         <td>${row.views}</td>
                         <td>
                             <#if (row.featured > 0)>
                             <span class="label label-info">置顶</span>
-							</#if>
+                            </#if>
                         </td>
-						<@shiro.hasPermission name="posts:edit">
+						<#--<@shiro.hasPermission name="posts:edit">-->
                         <td class="text-center" align="left">
                             <a href="${base}/admin/posts/update?id=${row.id}" class="btn btn-xs btn-info">
                                 <i class="fa fa-edit"></i>编辑
                             </a>
 
-                            <#if (row.featured == 0)>
+                            <#if (row.featured == -10)>
                             <a href="javascript:void(0);" class="btn btn-xs btn-danger" data-id="${row.id}" rel="featured">
                                 <i class="fa fa-edit"></i>推荐
                             </a>
@@ -73,12 +72,12 @@
                                 <i class="fa fa-bitbucket"></i> 删除
                             </a>
                         </td>
-						</@shiro.hasPermission>
+						<#--</@shiro.hasPermission>-->
                     </tr>
 					</#list>
                     </tbody>
                 </table>
-				<@pager "/list" page 3 />
+				<@pager "list" page 3 />
 			</div>
 		</div>
 	</div>

@@ -6,6 +6,9 @@ import com.xh.blogs.domain.vo.CommentsVo;
 import com.xh.blogs.domain.vo.PageResult;
 import com.xh.blogs.exception.BusinessException;
 
+import java.util.List;
+import java.util.Set;
+
 /**
  * @Name ICommentsService
  * @Description
@@ -54,4 +57,25 @@ public interface ICommentsService {
     * @return int
     */
     int removeById(int id, int userId) throws BusinessException;
+
+    /**
+    * @Name getWithPage
+    * @Description 条件分页查询
+    * @Author wen
+    * @Date 2019/5/6
+    * @param cont
+    * @param pn
+    * @return java.lang.Object
+    */
+    PageResult<EComments> getWithPage(String cont, Integer pn);
+
+    /**
+    * @Name batchRemoveByIds
+    * @Description 批量逻辑删除
+    * @Author wen
+    * @Date 2019/5/6
+    * @param ids
+    * @return int
+    */
+    int batchRemoveByIds(Set<Integer> ids);
 }

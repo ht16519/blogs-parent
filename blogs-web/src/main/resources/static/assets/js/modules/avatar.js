@@ -15,7 +15,7 @@ define(function(require, exports, module) {
 
 	var jcrop_api;
 	var jcrop_init = false;
-	var upload_url = app.base + '/post/upload?scale=true&size=300';
+	// var upload_url = app.base + '/post/upload?scale=true&size=300';
 	var base_url = app.base;
 	
 	function getRandom() {
@@ -47,24 +47,51 @@ define(function(require, exports, module) {
     		jcrop_api.animateTo([100,100,300,300]);
 		});
 	}
-	
-	$('#upload_btn').change(function(){
-		$(this).upload(upload_url, function(data){
-			if (data.code >= 0) {
-				var path = base_url + data.data;
-				$("#target").attr("src", path);
-				$("#path").val(data.data);
-				
-				if (!jcrop_init) {
-					initJcrop();
-					jcrop_init = true;
-				} else {
-					jcrop_api.setImage(path, function () {
-						 this.animateTo(getRandom());
-					});
-				}
-			}
-		});
-	});
+
+    $(document).ready(function() {
+        $("#upload_btn").change(function() {
+            var fil = this.files;
+            if (fil.length > 0) {
+                reads(fil[0]);
+            }
+        });
+    });
+    function reads(fil) {
+        var reader = new FileReader();
+        reader.readAsDataURL(fil);
+        reader.onload = function() {
+        	var path = reader.result;
+            $("#target").attr('src', path);
+            if (!jcrop_init) {
+                initJcrop();
+                jcrop_init = true;
+            } else {
+                jcrop_api.setImage(path, function () {
+                    this.animateTo(getRandom());
+                });
+            }
+        };
+    }
+
+	// $('#upload_btn').change(function(){
+	// 	var fil = this.files;
+	// 	if (fil.length > 0) {
+     //        var reader = new FileReader();
+     //        reader.readAsDataURL(fil[0]);
+     //        var path;
+     //        reader.onload = function() {
+     //            path = reader.result;
+     //        }
+     //        $("#target").attr("src", path);
+     //        if (!jcrop_init) {
+     //            initJcrop();
+     //            jcrop_init = true;
+     //        } else {
+     //            jcrop_api.setImage(path, function () {
+     //                this.animateTo(getRandom());
+     //            });
+     //        }
+	// 	}
+	// });
 	
 });

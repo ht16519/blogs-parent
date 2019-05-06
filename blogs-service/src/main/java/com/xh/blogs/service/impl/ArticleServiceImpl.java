@@ -2,6 +2,7 @@ package com.xh.blogs.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.xh.blogs.api.IArticleService;
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.ConfigConst;
 import com.xh.blogs.dao.mapper.ArticleAccessoryMapper;
@@ -13,7 +14,6 @@ import com.xh.blogs.domain.po.ArticleContent;
 import com.xh.blogs.domain.vo.ArticleVo;
 import com.xh.blogs.domain.vo.PageResult;
 import com.xh.blogs.exception.BusinessException;
-import com.xh.blogs.service.IArticleService;
 import com.xh.blogs.utils.ArticleUtil;
 import com.xh.blogs.utils.BeanValidator;
 import com.xh.blogs.utils.PageUtil;
@@ -118,6 +118,21 @@ public class ArticleServiceImpl implements IArticleService {
     public int updateFavors(int articleId) {
         return articleMapper.addFavors(articleId);
     }
+
+    @Override
+    public PageResult<Article> getByConditionWithPage(String title, Integer number) {
+        if(number == null){
+            number = 1;
+        }
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put(CommonConst.ARTICLE_TITLE_KEY, title);
+        parameters.put(CommonConst.STATUS_KEY, CommonConst.EFFECTIVE_STATUS);
+        parameters.put(CommonConst.ORDER_BY_KEY, CommonConst.ARTICLE_ORDER_NEWSET);
+        Page<Article> page = PageHelper.startPage(number, CommonConst.PAGE_SIZE);
+        articleMapper.selectInfoWithPage(parameters);
+        return PageUtil.create(page);
+    }
+
 
     /**
     * @Name extractImages

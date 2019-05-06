@@ -8,6 +8,8 @@ package com.xh.blogs.consts;
  */
 public interface CommonConst {
 
+    String ARTICLE_TITLE_KEY = "title";
+
     String DATA_RESULT_KEY = "data";
 
     String COUNT_KEY = "count";
@@ -31,6 +33,8 @@ public interface CommonConst {
     int ARTICLE_STORE_LOCAL = 2;
 
     int PAGE_NUMBER = 1;
+
+    String PAGE_NUMBER_KEY = "pn";
 
     int PAGE_SIZE = 3;
 

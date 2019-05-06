@@ -8,6 +8,8 @@ package com.xh.blogs.consts;
  */
 public interface RequestUrl {
 
+    String REDIRECT_ADMIN_GROUP_LIST = "redirect:/admin/group/list";
+
     String ANON_API = "/api/free/**";
 
     String ARTICLE_DETAILS = "/article/**";

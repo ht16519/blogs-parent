@@ -8,6 +8,18 @@ package com.xh.blogs.consts;
  */
 public interface ViewUrl {
 
+    String ADMIN_GROUP_VIEW = "/admin/group/view";
+
+    String ADMIN_GROUP_LIST = "/admin/group/list";
+
+    String ADMIN_COMMENTS_LIST = "admin/comments/list";
+
+    String ADMIN_ARTICLE_LIST ="admin/posts/list";
+
+    String ADMIN_INDEX ="admin/index";
+
+    //==============
+
     String HOME_COMMENTS = "default/home/comments";
 
     String ACCOUNT_PASSWORD = "default/account/password";

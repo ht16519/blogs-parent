@@ -1,6 +1,6 @@
 package com.xh.blogs.handler;
 
-import com.xh.blogs.consts.ConfigConst;
+import com.xh.blogs.consts.ErrorConst;
 import com.xh.blogs.enums.EmError;
 import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.utils.JsonUtil;
@@ -51,7 +51,7 @@ public class DefaultExceptionHandler implements HandlerExceptionResolver {
         Map<String, Object> map = new HashMap<>();
         if (ex instanceof BusinessException) {
             BusinessException businessException = (BusinessException) ex;
-            if(businessException.getErrCode() == ConfigConst.USER_NOT_LOGGED_IN_EXCEPTION_CODE){
+            if(businessException.getErrCode() == ErrorConst.USER_NOT_LOGGED_IN_EXCEPTION_CODE){
                 log.error("请求异常： params:{}, url:{}, errorMsg:{}", JsonUtil.serialize(request.getParameterMap()), requestURI, businessException.getErrMsg());
             }else {
                 log.error("请求异常： params:{}, url:{}", JsonUtil.serialize(request.getParameterMap()), requestURI, ex);

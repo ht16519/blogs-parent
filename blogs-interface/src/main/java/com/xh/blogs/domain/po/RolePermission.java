@@ -1,11 +1,25 @@
 package com.xh.blogs.domain.po;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Table(name = "t_role_permission")
-public class RolePermission {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class RolePermission implements Serializable{
+
+    /**
+    *
+    */
+    private static final long serialVersionUID = 1L;
+
     @Id
     @Column(name = "role_id")
     private Integer roleId;
@@ -13,31 +27,4 @@ public class RolePermission {
     @Column(name = "permission_id")
     private Integer permissionId;
 
-    /**
-     * @return role_id
-     */
-    public Integer getRoleId() {
-        return roleId;
-    }
-
-    /**
-     * @param roleId
-     */
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
-    }
-
-    /**
-     * @return permission_id
-     */
-    public Integer getPermissionId() {
-        return permissionId;
-    }
-
-    /**
-     * @param permissionId
-     */
-    public void setPermissionId(Integer permissionId) {
-        this.permissionId = permissionId;
-    }
 }

@@ -1,4 +1,4 @@
-package com.xh.blogs.controller;
+package com.xh.blogs.controller.base;
 
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.domain.po.User;

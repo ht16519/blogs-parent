@@ -1,10 +1,24 @@
 package com.xh.blogs.domain.po;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Column;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Table(name = "t_role_menu")
-public class RoleMenu {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class RoleMenu implements Serializable{
+
+    /**
+    *
+    */
+    private static final long serialVersionUID = 1L;
+
     /**
      * 角色id
      */
@@ -17,39 +31,4 @@ public class RoleMenu {
     @Column(name = "menu_id")
     private Integer menuId;
 
-    /**
-     * 获取角色id
-     *
-     * @return role_id - 角色id
-     */
-    public Integer getRoleId() {
-        return roleId;
-    }
-
-    /**
-     * 设置角色id
-     *
-     * @param roleId 角色id
-     */
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
-    }
-
-    /**
-     * 获取菜单id
-     *
-     * @return menu_id - 菜单id
-     */
-    public Integer getMenuId() {
-        return menuId;
-    }
-
-    /**
-     * 设置菜单id
-     *
-     * @param menuId 菜单id
-     */
-    public void setMenuId(Integer menuId) {
-        this.menuId = menuId;
-    }
 }

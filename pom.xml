@@ -33,11 +33,62 @@
         <mapper.starter.version>2.0.2</mapper.starter.version>
         <druid.starter.version>1.1.11</druid.starter.version>
         <pageHelper.starter.version>1.2.3</pageHelper.starter.version>
+        <thumbnailator.version>0.4.8</thumbnailator.version>
+        <jsoup.version>1.9.2</jsoup.version>
+        <jackson.databind.version>2.9.7</jackson.databind.version>
+        <persistence.api.version>1.0</persistence.api.version>
+        <commons.collections.version>3.2.1</commons.collections.version>
+        <hibernate.validator.version>5.2.4.Final</hibernate.validator.version>
+        <shiro.correlation.version>1.2.3</shiro.correlation.version>
     </properties>
 
     <dependencyManagement>
 
         <dependencies>
+
+            <!-- shiro支持 -->
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-core</artifactId>
+                <version>${shiro.correlation.version}</version>
+            </dependency>
+            <!-- spring-shiro整合 -->
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-spring</artifactId>
+                <version>${shiro.correlation.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.persistence</groupId>
+                <artifactId>persistence-api</artifactId>
+                <version>${persistence.api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jsoup</groupId>
+                <artifactId>jsoup</artifactId>
+                <version>${jsoup.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.coobird</groupId>
+                <artifactId>thumbnailator</artifactId>
+                <version>${thumbnailator.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.databind.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${hibernate.validator.version}</version>
+            </dependency>
+
             <!-- AspectJ支持 -->
             <dependency>
                 <groupId>org.aspectj</groupId>
@@ -73,6 +124,12 @@
                 <artifactId>druid</artifactId>
                 <version>${druid.starter.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+                <version>${commons.collections.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -90,12 +147,6 @@
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-collections</groupId>
-            <artifactId>commons-collections</artifactId>
-            <version>3.2.1</version>
         </dependency>
 
     </dependencies>

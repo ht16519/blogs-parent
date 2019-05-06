@@ -52,16 +52,10 @@
                     <div class="menu_section">
                         <h3>系统菜单</h3>
                         <ul class="nav side-menu">
-                            <li><a href="${base}/admin"><i class="fa fa-home"></i> Home</a>
-                            </li>
-                            <@authc pid=2>
-                                <#list results as menu>
-                                    <@shiro.hasPermission name=menu.permission>
-                                        <li><a href="${base}/${menu.url}" nav="${menu.sort}"><i class="${menu.icon}"></i>${menu.name}</a></li>
-                                    </@shiro.hasPermission>
-                                </#list>
-                            </@authc>
-
+                            <li><a href="${base}/admin"><i class="fa fa-home"></i> Home</a></li>
+                            <#list userMenus as menu>
+                                <li><a href="${base}/${menu.url}" nav="${menu.seq}"><i class="${menu.icon}"></i>${menu.name}</a></li>
+                            </#list>
                         </ul>
                     </div>
                 </div>
@@ -81,7 +75,7 @@
                         <li class="">
                             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown"
                                aria-expanded="false">
-                                <img src="${"/static/" + profile.avatar}" alt="">${profile.username}
+                                <img src="${"/static/" + profile.avatar}" alt="">${profile.userName}
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -120,8 +114,9 @@
 </#macro>
 
 <#macro pager url p spans>
-    <#local span = (spans - 3)/2 />
-    <#local pageNo = p.number + 1 />
+<#if (p.total > 0)>
+    <#local pageNum = p.number/>
+    <#local pageSize = p.pages/>
     <#if (url?index_of("?") != -1)>
         <#local cURL = (url + "&pn=") />
     <#else>
@@ -129,57 +124,39 @@
     </#if>
 
 <ul class="pagination">
-    <#if (pageNo > 1)>
-        <#local prev = pageNo - 1 />
-        <li><a class="prev" href="${cURL}${prev}" pageNo="1">&nbsp;<i class="fa fa-angle-left"></i>&nbsp;</a></li>
+    <#if (pageNum > 1)>
+        <#local prev = pageNum - 1 />
+        <li><a class="prev" href="${cURL}${prev}">&nbsp;<i class="fa fa-angle-left"></i>&nbsp;</a></li>
     </#if>
-
-    <#local totalNo = span * 2 + 3 />
-    <#local totalNo1 = totalNo - 1 />
-    <#if (p.totalPages > totalNo)>
-        <#if (pageNo <= span + 2)>
-            <#list 1..totalNo1 as i>
-                <@pagelink pageNo, i, cURL/>
-            </#list>
-            <@pagelink 0, 0, "#"/>
-            <@pagelink pageNo, p.totalPages, cURL />
-        <#elseif (pageNo > (p.totalPages - (span + 2)))>
-            <@pagelink pageNo, 1, cURL />
-            <@pagelink 0, 0, "#"/>
-            <#local num = p.totalPages - totalNo + 2 />
-            <#list num..p.totalPages as i>
-                <@pagelink pageNo, i, cURL/>
-            </#list>
-        <#else>
-            <@pagelink pageNo, 1, cURL />
-            <@pagelink 0 0 "#" />
-            <#local num = pageNo - span />
-            <#local num2 = pageNo + span />
-            <#list num..num2 as i>
-                <@pagelink pageNo, i, cURL />
-            </#list>
-            <@pagelink 0, 0, "#"/>
-            <@pagelink pageNo, p.totalPages, cURL />
-        </#if>
-    <#elseif (p.totalPages > 1)>
-        <#list 1..p.totalPages as i>
-            <@pagelink pageNo, i, cURL />
-        </#list>
+    <#if (pageNum > spans)>
+        <#local startPage = pageNum - spans/>
     <#else>
-        <@pagelink 1, 1, cURL/>
+        <#local startPage = 1 />
     </#if>
 
-    <#if (pageNo lt p.totalPages)>
-        <#local next = pageNo + 1/>
-        <li><a href="${cURL}${next}" pageNo="${next}">&nbsp;<i class="fa fa-angle-right"></i>&nbsp;</a></li>
+    <#if (pageSize - pageNum > spans)>
+        <#local size = pageNum + spans/>
+        <#if (startPage == 1)>
+            <#local size = pageNum + spans * 2/>
+        </#if>
+    <#else>
+        <#local size = pageSize />
+    </#if>
+
+    <#list startPage..size as i>
+        <@pagelink pageNum, i, cURL />
+    </#list>
+
+    <#if (pageNum lt pageSize)>
+        <#local next = pageNum + 1/>
+        <li><a href="${cURL}${next}">&nbsp;<i class="fa fa-angle-right"></i>&nbsp;</a></li>
     </#if>
 </ul>
+</#if>
 </#macro>
 
 <#macro pagelink pageNo idx url>
-    <#if (idx == 0)>
-    <li><span>...</span></li>
-    <#elseif (pageNo == idx)>
+    <#if (pageNo == idx)>
     <li class="active"><a href="javascript:void(0);"><span>${idx}</span></a></li>
     <#else>
     <li><a href="${url}${idx}">${idx}</a></li>

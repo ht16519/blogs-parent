@@ -17,4 +17,14 @@
     <result column="level" property="level" jdbcType="INTEGER" />
     <result column="icon" property="icon" jdbcType="VARCHAR" />
   </resultMap>
+
+  <select id="selectAllMenu" resultType="com.xh.blogs.domain.entity.ERoleMenu">
+      SELECT
+          m.*,
+          rm.role_id
+      FROM
+          t_menu m
+      INNER JOIN t_role_menu rm ON m.id = rm.menu_id
+      WHERE m.`status` = 10
+  </select>
 </mapper>

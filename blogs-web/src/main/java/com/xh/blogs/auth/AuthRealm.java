@@ -2,11 +2,17 @@ package com.xh.blogs.auth;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import com.xh.blogs.api.IMenuService;
+import com.xh.blogs.api.IUserService;
+import com.xh.blogs.consts.ConfigConst;
+import com.xh.blogs.domain.entity.ERoleMenu;
 import com.xh.blogs.domain.po.Permission;
 import com.xh.blogs.domain.po.Role;
 import com.xh.blogs.domain.po.User;
+import com.xh.blogs.utils.ShiroUtil;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -18,7 +24,6 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.xh.blogs.service.IUserService;
 
 /**
  * @Name AuthRealm
@@ -30,6 +35,8 @@ public class AuthRealm extends AuthorizingRealm {
 
 	@Autowired
 	private IUserService userService;
+	@Autowired
+	private IMenuService menuService;
 
 	/**
 	 * 授权
@@ -65,8 +72,10 @@ public class AuthRealm extends AuthorizingRealm {
 		UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token;
 		String userName = usernamePasswordToken.getUsername();
 		User user = userService.getUserInfoByName(userName);
-//		redisHelper.set(CommonConst.COMMON_REDIS_KEY_PREFIX + user.getUserName(), user);
+		//存入用户菜单
+		ShiroUtil.sessionSetValue(ConfigConst.ADMIN_USER_MENU_CACHE_KEY, menuService.getUserMenuCache(user));
 		return new SimpleAuthenticationInfo(user, user.getPassword(), this.getClass().getName());
 	}
+
 
 }

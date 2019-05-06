@@ -1,14 +1,14 @@
-package com.xh.blogs.controller;
+package com.xh.blogs.controller.home;
 
 import com.xh.blogs.api.*;
 import com.xh.blogs.consts.ConfigConst;
 import com.xh.blogs.consts.StringConst;
+import com.xh.blogs.controller.base.BaseController;
 import com.xh.blogs.domain.entity.EHotArticle;
 import com.xh.blogs.domain.entity.EHotUser;
 import com.xh.blogs.domain.vo.CommentsVo;
 import com.xh.blogs.domain.vo.WebApiResult;
 import com.xh.blogs.exception.BusinessException;
-import com.xh.blogs.service.IArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +22,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api")
-public class AjaxController extends BaseController{
+public class AjaxController extends BaseController {
 
     @Autowired
     private IStatisticalService statisticalService;

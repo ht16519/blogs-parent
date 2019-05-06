@@ -1,5 +1,6 @@
 package com.xh.blogs.service.impl;
 
+import com.xh.blogs.api.IUserService;
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.dao.mapper.UserMapper;
 import com.xh.blogs.domain.po.User;
@@ -8,7 +9,6 @@ import com.xh.blogs.domain.vo.UserPasswordVo;
 import com.xh.blogs.domain.vo.UserVo;
 import com.xh.blogs.enums.EmError;
 import com.xh.blogs.exception.BusinessException;
-import com.xh.blogs.service.IUserService;
 import com.xh.blogs.utils.BeanValidator;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

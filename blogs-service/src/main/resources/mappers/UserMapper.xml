@@ -27,6 +27,19 @@
     <result column="signature" property="signature" jdbcType="VARCHAR" />
   </resultMap>
 
+    <resultMap id="selectUserInfoByNameMap" type="com.xh.blogs.domain.po.User" extends="BaseResultMap">
+        <collection property="roles" ofType="com.xh.blogs.domain.po.Role" javaType="java.util.Set">
+            <id column="role_id" property="id" jdbcType="INTEGER" />
+            <result column="role_name" property="name" jdbcType="VARCHAR" />
+            <collection property="permissions" ofType="com.xh.blogs.domain.po.Permission" javaType="java.util.Set">
+                <id column="permission_id" property="id" jdbcType="INTEGER" />
+                <result column="permission_name" property="name" jdbcType="VARCHAR" />
+                <result column="permission_url" property="url" jdbcType="VARCHAR" />
+                <result column="permission_status" property="status" jdbcType="INTEGER" />
+            </collection>
+        </collection>
+    </resultMap>
+
     <update id="minusFansByUserId">
         UPDATE t_user
         SET fans = fans - 1
@@ -51,29 +64,15 @@
       LIMIT #{count}
   </select>
 
-  <select id="selectUserInfoByName" parameterType="java.lang.String" resultType="com.xh.blogs.domain.po.User">
+  <select id="selectUserInfoByName" parameterType="java.lang.String" resultMap="selectUserInfoByNameMap">
       SELECT
-          r.id AS `role.id`,
-          r.`name` AS `role.name`,
-          p.`name` AS `permission.name`,
-          p.id AS `permission.id`,
-          p.url AS `permission.url`,
-          u.id,
-          u.email,
-          u.last_login,
-          u.mobile,
-          u.`password`,
-          u.user_name,
-          u.nick_name,
-          u.avatar,
-          u.sex,
-          u.source,
-          u.comments,
-          u.fans,
-          u.favors,
-          u.follows,
-          u.posts,
-          u.signature
+          r.id AS role_id,
+          r.`name` AS role_name,
+          p.`name` AS permission_name,
+          p.id AS permission_id,
+          p.url AS permission_url,
+          p.`status` AS permission_status,
+          u.*
       FROM
           t_user u
       LEFT JOIN t_user_role ur ON u.id = ur.user_id

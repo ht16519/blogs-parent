@@ -1,15 +1,14 @@
-package com.xh.blogs.controller;
+package com.xh.blogs.controller.home;
 
-import com.xh.blogs.consts.CommonConst;
-import com.xh.blogs.consts.RequestUrl;
-import com.xh.blogs.consts.StringConst;
-import com.xh.blogs.consts.ViewUrl;
+import com.xh.blogs.api.IArticleService;
+import com.xh.blogs.api.IUserService;
+import com.xh.blogs.consts.*;
+import com.xh.blogs.controller.base.BaseController;
 import com.xh.blogs.domain.po.User;
 import com.xh.blogs.domain.vo.*;
 import com.xh.blogs.enums.EmError;
 import com.xh.blogs.exception.BusinessException;
-import com.xh.blogs.service.IArticleService;
-import com.xh.blogs.service.IUserService;
+import com.xh.blogs.utils.BeanValidator;
 import com.xh.blogs.utils.ShiroUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
@@ -19,13 +18,13 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @Name UserController
@@ -35,14 +34,12 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Controller
 @Slf4j
-public class UserController extends BaseController{
+public class UserController extends BaseController {
 
     @Autowired
     private IUserService userService;
     @Autowired
     private IArticleService articleService;
-
-
 
     /**
     * @Name accountPasswordDo
@@ -80,14 +77,22 @@ public class UserController extends BaseController{
 
     /**
     * @Name accountAvatarDo
-    * @Description 修改头像操作
+    * @Description 修改头像操作 TODO
     * @Author wen
     * @Date 2019/5/4
     * @param
     * @return java.lang.String
     */
     @PostMapping("/account/profile/avatar")
-    public String accountAvatarDo() {
+    public String accountAvatarDo(MultipartFile file, AvatarVo avatarVo, ModelMap model) {
+        try {
+            BeanValidator.check(avatarVo);
+        } catch (BusinessException ex) {
+            if(ex.getErrCode() == ErrorConst.PARAMETER_VERIFICATION_ERROR_CODE){
+                ex.setErrMsg(StringConst.AVATAR_PARAMETERS_ERROR);
+            }
+            super.getModel(ex, model);
+        }
         return ViewUrl.ACCOUNT_AVATAR;
     }
 

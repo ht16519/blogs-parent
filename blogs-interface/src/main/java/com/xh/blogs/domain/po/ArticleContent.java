@@ -1,12 +1,26 @@
 package com.xh.blogs.domain.po;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Table(name = "t_article_content")
-public class ArticleContent {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ArticleContent implements Serializable{
+
+    /**
+    *
+    */
+    private static final long serialVersionUID = 1L;
+
     /**
      * 文章id
      */
@@ -19,39 +33,4 @@ public class ArticleContent {
      */
     private String content;
 
-    /**
-     * 获取文章id
-     *
-     * @return id - 文章id
-     */
-    public Integer getId() {
-        return id;
-    }
-
-    /**
-     * 设置文章id
-     *
-     * @param id 文章id
-     */
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    /**
-     * 获取文章内容
-     *
-     * @return content - 文章内容
-     */
-    public String getContent() {
-        return content;
-    }
-
-    /**
-     * 设置文章内容
-     *
-     * @param content 文章内容
-     */
-    public void setContent(String content) {
-        this.content = content;
-    }
 }

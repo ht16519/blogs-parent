@@ -1,4 +1,4 @@
-package com.xh.blogs.service;
+package com.xh.blogs.api;
 
 
 import com.xh.blogs.domain.po.User;

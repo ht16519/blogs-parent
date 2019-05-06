@@ -14,9 +14,31 @@
     <result column="pid" property="pid" jdbcType="INTEGER" />
   </resultMap>
 
+    <select id="selectIdsByPids" resultType="java.lang.Integer">
+        SELECT id FROM t_comments WHERE `status` = 10
+        AND pid IN
+        <foreach collection="collection" item="pid" open="(" separator="," close=")">
+            #{pid}
+        </foreach>
+    </select>
+
+    <update id="removeByIds">
+        UPDATE t_comments SET `status` = -10 WHERE `status` = 10
+        AND id IN
+        <foreach collection="collection" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
     <update id="removeByPid">
         UPDATE t_comments SET `status` = -10 WHERE pid = #{pid}
     </update>
+
+  <select id="selectByCondition" resultType="com.xh.blogs.domain.entity.EComments">
+      <include refid="commonSql"/>
+      <if test="cont != null and cont != ''"> AND c.content LIKE CONCAT('%', #{cont}, '%') </if>
+      ORDER BY c.create_time DESC
+  </select>
 
   <select id="selectByUserId" resultType="com.xh.blogs.domain.entity.EArticleComments">
         SELECT
@@ -70,7 +92,7 @@
             t_comments AS c
         INNER JOIN t_user u ON u.id = c.user_id
         WHERE
-            c.article_id = #{articleId}
-        <if test="status != null and status != ''"> AND c.`status` = #{status} </if>
+            c.`status` = #{status}
+            <if test="articleId != null and articleId != ''"> AND c.article_id = #{articleId} </if>
     </sql>
 </mapper>

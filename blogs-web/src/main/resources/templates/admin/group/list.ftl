@@ -24,16 +24,16 @@
                     </tr>
                     </thead>
                     <tbody>
-                        <#list list as row>
+                        <#list data as row>
                         <tr>
                             <td class="text-center">${row.id}</td>
-                            <td>${row.name}</td>
-                            <td>${row.key}</td>
+                            <td>${row.groupValue}</td>
+                            <td>${row.groupKey}</td>
                             <td>
-                                <#if (row.status == 0)>
-                                显示
+                                <#if (row.status == 10)>
+                                    <span class="label label-info">显示</span>
                                 <#else>
-                                隐藏
+                                    隐藏
                                 </#if>
                             </td>
                             <td class="text-center">
@@ -58,13 +58,13 @@
     var J = jQuery;
 
     function ajaxReload(json) {
-        if (json.code >= 0) {
-            if (json.message != null && json.message != '') {
-                layer.msg(json.message, {icon: 1});
-            }
-            $('#qForm').submit();
+        if (json.code == 0) {
+            layer.msg(json.msg, {icon: 1});
+            setTimeout(function(){
+                window.location.reload();
+            },1000);
         } else {
-            layer.msg(json.message, {icon: 2});
+            layer.msg(json.msg, {icon: 2});
         }
     }
 
@@ -72,12 +72,11 @@
         // 删除
         $('#dataGrid a[data-action="delete"]').bind('click', function () {
             var that = $(this);
-
             layer.confirm('确定删除此项吗?', {
                 btn: ['确定', '取消'], //按钮
                 shade: false //不显示遮罩
             }, function () {
-                J.getJSON('${base}/admin/group/delete', {id: that.attr('data-id')}, ajaxReload);
+                J.getJSON('${base}/admin/group/delete/' + that.attr('data-id'), ajaxReload);
             }, function () {
             });
             return false;

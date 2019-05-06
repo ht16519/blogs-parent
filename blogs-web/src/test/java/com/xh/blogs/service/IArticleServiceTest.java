@@ -1,5 +1,6 @@
 package com.xh.blogs.service;
 
+import com.xh.blogs.api.IArticleService;
 import com.xh.blogs.domain.po.Article;
 import com.xh.blogs.domain.vo.PageResult;
 import com.xh.blogs.utils.JsonUtil;

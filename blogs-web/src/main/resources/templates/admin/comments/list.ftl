@@ -6,18 +6,17 @@
             <div class="x_title">
                 <h2>评论管理</h2>
                 <ul class="nav navbar-right panel_toolbox">
-                    <@shiro.hasPermission name="comments:edit">
-                        <li><a href="javascrit:void(0);" data-action="batch_del">批量删除</a>
-                        </li>
-                    </@shiro.hasPermission>
+                    <#--<@shiro.hasPermission name="comments:edit">-->
+                        <li><a href="javascrit:void(0);" data-action="batch_del">批量删除</a></li>
+                    <#--</@shiro.hasPermission>-->
                 </ul>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
                 <form id="qForm" class="form-inline">
-                    <input type="hidden" name="pn" value="${page.pageNo}"/>
+                    <input type="hidden" name="pn" value="${pn}"/>
                     <div class="form-group">
-                        <input type="text" name="key" class="form-control" value="${key}" placeholder="请输入关键字">
+                        <input type="text" name="cont" class="form-control" value="${cont}" placeholder="请输入评论内容">
                     </div>
                     <button type="submit" class="btn btn-default">查询</button>
                 </form>
@@ -30,12 +29,12 @@
                         </th>
                         <th width="80">#</th>
                         <th>内容</th>
-                        <th>目标Id</th>
                         <th>作者</th>
                         <th>发表日期</th>
-                        <@shiro.hasPermission name="comments:edit">
+                        <th>上级ID</th>
+                        <#--<@shiro.hasPermission name="comments:edit">-->
                             <th width="200"></th>
-                        </@shiro.hasPermission>
+                        <#--</@shiro.hasPermission>-->
                     </tr>
                     </thead>
                     <tbody>
@@ -46,22 +45,22 @@
                             </td>
                             <td class="text-center">${row.id}</td>
                             <td>${row.content}</td>
-                            <td>${row.toId}</td>
-                            <td>${row.author.username}</td>
-                            <td>${row.created?string('yyyy-MM-dd')}</td>
-                            <@shiro.hasPermission name="comments:edit">
+                            <td><a href="${base}/ta/${row.userId}">${row.nickName}</a></td>
+                            <td>${row.createTime}</td>
+                            <td>${row.pid}</td>
+                            <#--<@shiro.hasPermission name="comments:edit">-->
                                 <td class="text-center" align="left">
                                     <a href="javascript:void(0);" class="btn btn-xs btn-white" data-id="${row.id}"
                                        data-action="delete">
                                         <i class="fa fa-bitbucket"></i> 删除
                                     </a>
                                 </td>
-                            </@shiro.hasPermission>
+                            <#--</@shiro.hasPermission>-->
                         </tr>
                         </#list>
                     </tbody>
                 </table>
-                <@pager "/list" page 3 />
+                <@pager "list" page 3 />
             </div>
         </div>
     </div>
@@ -72,18 +71,18 @@
     var J = jQuery;
 
     function ajaxReload(json) {
-        if (json.code >= 0) {
-            if (json.message != null && json.message != '') {
-                layer.msg(json.message, {icon: 1});
-            }
-            $('#qForm').submit();
+        if (json.code == 0) {
+            layer.msg(json.msg, {icon: 1});
+            setTimeout(function(){
+                $('#qForm').submit();
+            },1000);
         } else {
-            layer.msg(json.message, {icon: 2});
+            layer.msg(json.msg, {icon: 2});
         }
     }
 
     function doDelete(ids) {
-        J.getJSON('${base}/admin/comments/delete', J.param({'id': ids}, true), ajaxReload);
+        J.getJSON('${base}/admin/comments/delete/' + ids, ajaxReload);
     }
 
     $(function () {

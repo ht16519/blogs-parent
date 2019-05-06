@@ -27,12 +27,12 @@ public class StatisticalServiceImpl implements IStatisticalService{
 
     @Override
     public List<EHotArticle> getHottestArticles(int count) {
-        return articleMapper.selectByCondition(CommonConst.ARTICLE_ORDER_HOTTEST, count);
+        return articleMapper.selectByRank(CommonConst.ARTICLE_ORDER_HOTTEST, count);
     }
 
     @Override
     public List<EHotArticle> getLatestsArticles(int count){
-        return articleMapper.selectByCondition(CommonConst.ARTICLE_ORDER_NEWSET, count);
+        return articleMapper.selectByRank(CommonConst.ARTICLE_ORDER_NEWSET, count);
     }
 
     @Override

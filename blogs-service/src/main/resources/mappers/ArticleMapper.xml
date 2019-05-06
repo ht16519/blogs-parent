@@ -70,13 +70,14 @@
           <if test="status != null and status != ''"> a.`status` = #{status} </if>
           <if test="userId != null and userId != ''"> AND u.id = #{userId} </if>
           <if test="sort == 10"> AND a.featured = 10 </if>
+          <if test="title != null and title != ''"> AND a.title LIKE CONCAT('%', #{title}, '%') </if>
       </where>
       GROUP BY a.id
       <if test="sort == 20"> ORDER BY (a.favors + FLOOR(a.views / 3)) DESC </if>
       <if test="sort == 40 or sort == 10"> ORDER BY a.create_time DESC </if>
   </select>
 
-    <select id="selectByCondition" parameterType="java.util.Map" resultType="com.xh.blogs.domain.entity.EHotArticle">
+    <select id="selectByRank" parameterType="java.util.Map" resultType="com.xh.blogs.domain.entity.EHotArticle">
         SELECT
             a.id,a.title,a.favors,a.views
         FROM

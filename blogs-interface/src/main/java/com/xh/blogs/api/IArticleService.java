@@ -1,4 +1,4 @@
-package com.xh.blogs.service;
+package com.xh.blogs.api;
 
 
 import com.xh.blogs.domain.po.Article;
@@ -64,4 +64,15 @@ public interface IArticleService {
     * @return int
     */
     int updateFavors(int articleId);
+
+    /**
+    * @Name getByConditionWithPage
+    * @Description 条件分页查询
+    * @Author wen
+    * @Date 2019/5/6
+    * @param title
+    * @param number
+    * @return com.xh.blogs.domain.vo.PageResult<com.xh.blogs.domain.po.Article>
+    */
+    PageResult<Article> getByConditionWithPage(String title, Integer number);
 }

@@ -8,4 +8,5 @@
     <result column="role_id" property="roleId" jdbcType="INTEGER" />
     <result column="menu_id" property="menuId" jdbcType="INTEGER" />
   </resultMap>
+
 </mapper>

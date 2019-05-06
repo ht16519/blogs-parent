@@ -7,6 +7,8 @@ import com.xh.blogs.domain.po.Comments;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public interface CommentsMapper extends IBaseMapper<Comments> {
 
@@ -52,4 +54,34 @@ public interface CommentsMapper extends IBaseMapper<Comments> {
     * @return void
     */
     int removeByPid(@Param("pid") int pid);
+
+    /**
+    * @Name selectByCondition
+    * @Description 条件查询评论
+    * @Author wen
+    * @Date 2019/5/6
+    * @param parameters
+    * @return java.util.List<com.xh.blogs.domain.entity.EComments> 
+    */
+    List<EComments> selectByCondition(Map<String, Object> parameters);
+
+    /**
+    * @Name removeByIds
+    * @Description 批量移除
+    * @Author wen
+    * @Date 2019/5/6
+    * @param ids
+    * @return int
+    */
+    int removeByIds(Set<Integer> ids);
+
+    /**
+    * @Name selectPidsByIds
+    * @Description 查询pids by ids
+    * @Author wen
+    * @Date 2019/5/6
+    * @param ids
+    * @return List<Integer>
+    */
+    List<Integer> selectIdsByPids(Set<Integer> ids);
 }

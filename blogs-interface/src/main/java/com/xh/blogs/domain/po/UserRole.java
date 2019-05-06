@@ -1,10 +1,24 @@
 package com.xh.blogs.domain.po;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Column;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Table(name = "t_user_role")
-public class UserRole {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserRole implements Serializable{
+
+    /**
+    *
+    */
+    private static final long serialVersionUID = 1L;
+
     /**
      * 用户id
      */
@@ -17,39 +31,4 @@ public class UserRole {
     @Column(name = "role_id")
     private Integer roleId;
 
-    /**
-     * 获取用户id
-     *
-     * @return user_id - 用户id
-     */
-    public Integer getUserId() {
-        return userId;
-    }
-
-    /**
-     * 设置用户id
-     *
-     * @param userId 用户id
-     */
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    /**
-     * 获取角色id
-     *
-     * @return role_id - 角色id
-     */
-    public Integer getRoleId() {
-        return roleId;
-    }
-
-    /**
-     * 设置角色id
-     *
-     * @param roleId 角色id
-     */
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
-    }
 }

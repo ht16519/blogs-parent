@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.xh.blogs.api.ICommentsService;
 import com.xh.blogs.consts.CommonConst;
+import com.xh.blogs.consts.KeyConst;
 import com.xh.blogs.consts.NotifyConst;
 import com.xh.blogs.dao.mapper.ArticleMapper;
 import com.xh.blogs.dao.mapper.CommentsMapper;
@@ -19,6 +20,8 @@ import com.xh.blogs.enums.EmError;
 import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.utils.BeanValidator;
 import com.xh.blogs.utils.PageUtil;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -109,6 +112,29 @@ public class CommentsServiceImpl implements ICommentsService {
             res = articleMapper.minusComments(dbComment.getArticleId());
         }
         return res;
+    }
+
+    @Override
+    public PageResult<EComments> getWithPage(String cont, Integer number) {
+        if(number == null){
+            number = 1;
+        }
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put(KeyConst.COMMENTS_CONTENT_KEY, cont);
+        parameters.put(CommonConst.STATUS_KEY, CommonConst.EFFECTIVE_STATUS);
+        Page<EComments> page = PageHelper.startPage(number, CommonConst.PAGE_SIZE);
+        commentsMapper.selectByCondition(parameters);
+        return PageUtil.create(page);
+    }
+
+    @Override
+    public int batchRemoveByIds(Set<Integer> ids) {
+        if(CollectionUtils.isNotEmpty(ids)){
+            List<Integer> dbIds = commentsMapper.selectIdsByPids(ids);
+            ids.addAll(dbIds);
+            return commentsMapper.removeByIds(ids);
+        }
+        return -1;
     }
 
     private List<EComments> getItems(List<EComments> items, int articleId) {

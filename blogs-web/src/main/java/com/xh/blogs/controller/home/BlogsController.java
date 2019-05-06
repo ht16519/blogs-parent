@@ -1,14 +1,15 @@
-package com.xh.blogs.controller;
+package com.xh.blogs.controller.home;
 
+import com.xh.blogs.api.IArticleService;
+import com.xh.blogs.api.IGroupService;
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.RequestUrl;
 import com.xh.blogs.consts.ViewUrl;
+import com.xh.blogs.controller.base.BaseController;
 import com.xh.blogs.domain.po.Article;
 import com.xh.blogs.domain.vo.ArticleVo;
 import com.xh.blogs.enums.EmError;
 import com.xh.blogs.exception.BusinessException;
-import com.xh.blogs.service.IArticleService;
-import com.xh.blogs.service.IGroupService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,7 +26,7 @@ import org.springframework.web.bind.annotation.PostMapping;
  */
 @Controller
 @Slf4j
-public class BlogsController extends BaseController{
+public class BlogsController extends BaseController {
 
     @Autowired
     private IArticleService articleService;
@@ -74,7 +75,7 @@ public class BlogsController extends BaseController{
     */
     @GetMapping("/home/article/new")
     public String newArticle(ModelMap model) {
-        model.put(CommonConst.ARTICLE_GROUP, groupService.getAll());
+        model.put(CommonConst.ARTICLE_GROUP, groupService.getByShow());
         return ViewUrl.ARTICLE_PUBLISH;
     }
 
