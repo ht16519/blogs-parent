@@ -243,12 +243,6 @@ public class ArticleServiceImpl implements IArticleService {
             accessory.setToId(aricleId);
             //TODO 暂时写
             accessory.setStore(CommonConst.ARTICLE_STORE_NETWORK);
-            //判断是否网络图片
-//            if (imageUrl.startsWith(CommonConst.THE_HTTP_PREFIX)) {
-//                accessory.setStore(CommonConst.ARTICLE_STORE_NETWORK);
-//            }else {
-//                accessory.setStore(CommonConst.ARTICLE_STORE_LOCAL);
-//            }
             rets.add(accessory);
         }
         return rets;
