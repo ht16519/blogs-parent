@@ -47,9 +47,19 @@ public interface IArticleService {
 
     /**
     * @Name getById
-    * @Description 获取文章by id
+    * @Description 获取文章by 文章和用户id
     * @Author wen
     * @Date 2019/4/24
+    * @param id
+    * @return com.xh.blogs.domain.po.Article
+    */
+    Article getByUserId(int id, int userId) throws BusinessException;
+
+    /**
+    * @Name getById
+    * @Description 获取文章by 文章id
+    * @Author wen
+    * @Date 2019/5/7
     * @param id
     * @return com.xh.blogs.domain.po.Article
     */
@@ -75,4 +85,25 @@ public interface IArticleService {
     * @return com.xh.blogs.domain.vo.PageResult<com.xh.blogs.domain.po.Article>
     */
     PageResult<Article> getByConditionWithPage(String title, Integer number);
+
+    /**
+    * @Name removeById
+    * @Description 移除文章操作
+    * @Author wen
+    * @Date 2019/5/7
+    * @param id
+    * @param userId
+    * @return int
+    */
+    int removeById(int id, int userId) throws BusinessException;
+
+    /**
+    * @Name updateArticleById
+    * @Description 修改文章信息
+    * @Author wen
+    * @Date 2019/5/8
+    * @param articleVo
+    * @return int
+    */
+    int updateArticleById(ArticleVo articleVo) throws BusinessException;
 }

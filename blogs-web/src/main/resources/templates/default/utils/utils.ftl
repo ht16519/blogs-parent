@@ -1,11 +1,11 @@
 <#-- 用户头像显示 -->
 <#macro showAva avatar clazz>
-    <#if avatar?starts_with("http:")>
     <img class="${clazz}" src="${avatar}"/>
-    <#else>
-    <#--<img class="${clazz}" src="<@resource src=avatar />"/>-->
-    <img class="${clazz}" src="${"/static" + avatar}"/>
-    </#if>
+    <#--<#if avatar?starts_with("http:")>-->
+    <#--<img class="${clazz}" src="${avatar}"/>-->
+    <#--<#else>-->
+    <#--<img class="${clazz}" src="${avatar}"/>-->
+    <#--</#if>-->
 </#macro>
 
 <#macro showGroup row>
@@ -18,21 +18,23 @@
     <#if att.store == 1>
         <img src="/static/assets/images/spinner-overlay.png" data-original="${att.preview}"/>
     <#else>
-        <#--<img src="/static/assets/images/spinner-overlay.png" data-original="<@resource src=att.preview />"/>-->
-        <img src="/static/assets/images/spinner-overlay.png" data-original="${"/static" + att.preview}"/>
+        <img src="/static/assets/images/spinner-overlay.png" data-original="${att.preview}"/>
     </#if>
 </#macro>
 
 <#macro albShow2 row att>
-    <#if att.store == 1>
-        <a title="${row.title}" href="${att.original}">
-            <img src="/static/assets/images/spinner-overlay.png" data-original="${att.preview}"/>
-        </a>
-    <#else>
-        <a title="${row.title}" href="${"/static/" + att.original}">
-            <img src="/static/assets/images/spinner-overlay.png" data-original="${"/static" + att.preview}"/>
-        </a>
-    </#if>
+<a title="${row.title}" href="${att.original}">
+    <img src="/static/assets/images/spinner-overlay.png" data-original="${att.preview}"/>
+</a>
+    <#--<#if att.store == 1>-->
+        <#--<a title="${row.title}" href="${att.original}">-->
+            <#--<img src="/static/assets/images/spinner-overlay.png" data-original="${att.preview}"/>-->
+        <#--</a>-->
+    <#--<#else>-->
+        <#--<a title="${row.title}" href="${att.original}">-->
+            <#--<img src="/static/assets/images/spinner-overlay.png" data-original="${att.preview}"/>-->
+        <#--</a>-->
+    <#--</#if>-->
 </#macro>
 
 <#-- 博文列表显示 -->

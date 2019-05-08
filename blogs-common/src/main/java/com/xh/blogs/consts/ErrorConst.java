@@ -9,7 +9,7 @@ package com.xh.blogs.consts;
 public interface ErrorConst {
 
     /** 用户未登录异常码*/
-    int USER_NOT_LOGGED_IN_EXCEPTION_CODE = 20009;
+    int USER_NOT_LOGGED_IN_EXCEPTION_CODE = 200010;
 
     /** 参数校验不合法异常码*/
     int PARAMETER_VERIFICATION_ERROR_CODE = 10020;

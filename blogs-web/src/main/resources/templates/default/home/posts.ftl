@@ -80,28 +80,27 @@ $(function() {
 	// delete
 	$('a[data-evt=trash]').click(function () {
 		var id = $(this).attr('data-id');
-
 		layer.confirm('确定删除此项吗?', {
             btn: ['确定','取消'], //按钮
             shade: false //不显示遮罩
         }, function(){
-			jQuery.getJSON('${base}/post/delete/' + id, function (ret) {
-				layer.msg(ret.message, {icon: 1});
-				if (ret.code >=0) {
+			jQuery.getJSON('${base}/home/article/delete/' + id, function (ret) {
+				if (ret.code == 0) {
+                    layer.msg(ret.msg, {icon: 1});
 					$('#loop-' + id).fadeOut();
 					$('#loop-' + id).remove();
+				} else {
+                    layer.msg(ret.msg, {icon: 5});
 				}
 			});
-
         }, function(){
-
         });
 	});
 	
 	// edit
 	$('a[data-evt=edit]').click(function () {
 		var id = $(this).attr('data-id');
-		window.location.href='${base}/post/to_update/' + id;
+		window.location.href='${base}/home/article/edit/' + id;
 	});
 })
 </script>

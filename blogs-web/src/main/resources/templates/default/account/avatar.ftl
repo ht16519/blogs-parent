@@ -26,11 +26,11 @@
 				</label>
 			</div>
 			<div class="update_ava">
-				<img src="${"/static" + profile.avatar}" id="target" alt="[Change Avatar]" />
+				<img src="${profile.avatar}" id="target" alt="[Change Avatar]" />
 			</div>
             <div class="form-group">
                 <div class="text-center">
-                    <span style="color: red;">提示：截取图片宽高需大于80px</span>
+                    <span style="color: red;">提示：截取图片宽高需大于100px</span>
                 </div>
             </div>
 			<div class="form-group">

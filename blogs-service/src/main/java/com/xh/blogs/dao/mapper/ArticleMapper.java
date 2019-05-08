@@ -80,4 +80,14 @@ public interface ArticleMapper extends IBaseMapper<Article> {
      */
     int minusComments(@Param("articleId") int articleId);
 
+    /**
+    * @Name selectByUserId
+    * @Description 查询by 文章和用户id
+    * @Author wen
+    * @Date 2019/5/7
+    * @param id
+    * @param userId
+    * @return com.xh.blogs.domain.po.Article
+    */
+    Article selectByUserId(@Param("id") int id, @Param("userId") int userId);
 }

@@ -8,6 +8,9 @@ package com.xh.blogs.consts;
  */
 public interface ConfigConst {
 
+    /** 附件映射路径*/
+    String CONFIG_ACCESSORY_PATH = "/accessory/**";
+
     /** 子评论条数*/
     int COMMENTS_SUBLIST_SIZE = 3;
 
@@ -23,6 +26,21 @@ public interface ConfigConst {
     /** 后台角色菜单缓存key*/
     String ADMIN_ROLE_MENU_CACHE_KEY = "redis:roleMenuCache";
 
+    /** 用户菜单缓存key*/
     String ADMIN_USER_MENU_CACHE_KEY = "userMenus";
+
+    /**
+     * 默认头像路径
+     */
+    String AVATAR_PATH = "/static/assets/images/ava/default.png";
+
+    /** 头像图片前缀*/
+    String AVATAR_PREFIX = "/avatar_";
+
+    /** 文章图片前缀*/
+    String ARTICLE_IMAGE_PREFIX = "/article_";
+
+    /** 单个文件上传最大size*/
+    int MAX_FILE_SIZE = 1024 * 1024;
 
 }

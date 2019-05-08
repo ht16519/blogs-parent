@@ -1,7 +1,7 @@
 package com.xh.blogs.service.impl;
 
 import com.xh.blogs.api.IUserService;
-import com.xh.blogs.consts.CommonConst;
+import com.xh.blogs.consts.ConfigConst;
 import com.xh.blogs.dao.mapper.UserMapper;
 import com.xh.blogs.domain.po.User;
 import com.xh.blogs.domain.vo.UserBasicVo;
@@ -64,6 +64,7 @@ public class UserServiceImpl implements IUserService {
         BeanValidator.check(userBasicVo);
         User user = new User();
         BeanUtils.copyProperties(userBasicVo, user);
+        user.setUpdateTime(new Date());
         int res = userMapper.updateByPrimaryKeySelective(user);
         if(res <= 0){
             throw new BusinessException(EmError.FAIL);
@@ -91,7 +92,20 @@ public class UserServiceImpl implements IUserService {
         user.setUserName(null);
         user.setId(passwordVo.getId());
         user.setPassword(passwordVo.getPassword());
+        user.setUpdateTime(new Date());
         return userMapper.updateByPrimaryKeySelective(user);
+    }
+
+    @Override
+    public User updateAvatarById(int id, String path) throws BusinessException {
+        User user = new User();
+        user.setId(id);
+        user.setAvatar(path);
+        user.setUpdateTime(new Date());
+        if(userMapper.updateByPrimaryKeySelective(user) <= 0){
+            throw new BusinessException(EmError.FAIL);
+        }
+        return userMapper.selectByPrimaryKey(id);
     }
 
     /**
@@ -105,7 +119,7 @@ public class UserServiceImpl implements IUserService {
     private User getUser(UserVo userVo) {
         User user = new User();
         BeanUtils.copyProperties(userVo, user);
-        user.setAvatar(CommonConst.AVATAR);
+        user.setAvatar(ConfigConst.AVATAR_PATH);
         user.setCreateTime(new Date());
         return user;
     }

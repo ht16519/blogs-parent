@@ -16,15 +16,16 @@ public interface RequestUrl {
 
     String LOGIN_URL = "/login";
 
-    String REDIRECT_INDEX = "redirect:/index";
-
     String INDEX_URL = "/index";
 
     String REG_URL = "/register";
 
-    String REDIRECT_HOME = "redirect:/home/feeds/1";
-
     String BLOGGER_DETAILS = "/ta/**";
 
     String INDEX_URLS = "/index/**";
+
+    String REDIRECT_INDEX = "redirect:/index";
+
+    String REDIRECT_HOME = "redirect:/home/feeds/1";
+
 }

@@ -47,5 +47,5 @@ logging:
   level:
     com.xh.blogs.dao.mapper: debug
 fileUpload:
-  rootSavePath: C://upload/file/
-  rootHttpPath: http://localhost:8888/images/
+  rootSavePath: C:/accessory/
+  rootHttpPath: /accessory/

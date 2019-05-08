@@ -74,4 +74,15 @@ public interface IUserService {
     * @return int
     */
     int updatePasswordById(UserPasswordVo passwordVo) throws BusinessException;
+
+    /**
+    * @Name updateAvatarById
+    * @Description 更新用户头像路径
+    * @Author wen
+    * @Date 2019/5/7
+    * @param id
+    * @param path
+    * @return com.xh.blogs.domain.po.User
+    */
+    User updateAvatarById(int id, String path) throws BusinessException;
 }

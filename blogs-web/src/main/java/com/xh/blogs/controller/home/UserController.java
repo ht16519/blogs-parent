@@ -1,6 +1,7 @@
 package com.xh.blogs.controller.home;
 
 import com.xh.blogs.api.IArticleService;
+import com.xh.blogs.api.IUploadService;
 import com.xh.blogs.api.IUserService;
 import com.xh.blogs.consts.*;
 import com.xh.blogs.controller.base.BaseController;
@@ -38,6 +39,8 @@ public class UserController extends BaseController {
 
     @Autowired
     private IUserService userService;
+    @Autowired
+    private IUploadService uploadService;
     @Autowired
     private IArticleService articleService;
 
@@ -77,7 +80,7 @@ public class UserController extends BaseController {
 
     /**
     * @Name accountAvatarDo
-    * @Description 修改头像操作 TODO
+    * @Description 修改头像操作
     * @Author wen
     * @Date 2019/5/4
     * @param
@@ -86,7 +89,12 @@ public class UserController extends BaseController {
     @PostMapping("/account/profile/avatar")
     public String accountAvatarDo(MultipartFile file, AvatarVo avatarVo, ModelMap model) {
         try {
-            BeanValidator.check(avatarVo);
+            //1.上传图片
+            String path = uploadService.uploadThum4Image(file, avatarVo, super.getProfile().getUserName());
+            //2.修改用户头像路径
+            User user = userService.updateAvatarById(super.getProfile().getId(), path);
+            //3.更新用户缓存
+            super.putProfile(user);
         } catch (BusinessException ex) {
             if(ex.getErrCode() == ErrorConst.PARAMETER_VERIFICATION_ERROR_CODE){
                 ex.setErrMsg(StringConst.AVATAR_PARAMETERS_ERROR);

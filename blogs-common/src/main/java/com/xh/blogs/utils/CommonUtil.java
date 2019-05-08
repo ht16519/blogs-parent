@@ -12,20 +12,22 @@ public class CommonUtil {
         int v = -1;
         try {
             v = Integer.parseInt(s);
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
         }
         return v;
     }
 
-    public static void main(String[] args) {
-        String s = "2---https://img-blog.csdnimg.cn/20190302220242474.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTMyOTQwOTc=,size_16,color_FFFFFF,t_70---https://img-blog.csdnimg.cn/20190302220242474.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTMyOTQwOTc=,size_16,color_FFFFFF,t_70---1===3---https://img-blog.csdnimg.cn/20190302220425956.png---https://img-blog.csdnimg.cn/20190302220425956.png---1===4---https://img-blog.csdnimg.cn/20190302220408346.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTMyOTQwOTc=,size_16,color_FFFFFF,t_70---https://img-blog.csdnimg.cn/20190302220408346.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTMyOTQwOTc=,size_16,color_FFFFFF,t_70---1";
-        String[] split = s.split("===");
-        for (String s1 : split) {
-            System.err.println(s1);
-            String[] split1 = s1.split("---");
-            for (String s2 : split1) {
-                System.out.println(s2);
-            }
+
+    public static int null2Int(Float f){
+        return null2Int(f, -1);
+    }
+
+
+    public static int null2Int(Float f, int r){
+        try {
+            return f.intValue();
+        } catch (Exception e) {
+           return r;
         }
     }
 

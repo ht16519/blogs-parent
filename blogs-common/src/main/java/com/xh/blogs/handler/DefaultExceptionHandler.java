@@ -6,6 +6,7 @@ import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -59,7 +60,9 @@ public class DefaultExceptionHandler implements HandlerExceptionResolver {
             map.put(CODE_KEY, businessException.getErrCode());
             map.put(MSG_KEY, businessException.getErrMsg());
             return map;
-        } else {
+//        } else if(ex instanceof MaxUploadSizeExceededException) {
+
+        }else{
             log.error("请求异常： params:{}, url:{}", JsonUtil.serialize(request.getParameterMap()), requestURI, ex);
             map.put(CODE_KEY, EmError.UNKNOWN_ERROR.getErrCode());
             map.put(MSG_KEY, EmError.UNKNOWN_ERROR.getErrMsg());

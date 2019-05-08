@@ -7,11 +7,17 @@ import com.xh.blogs.controller.base.BaseController;
 import com.xh.blogs.domain.entity.EHotArticle;
 import com.xh.blogs.domain.entity.EHotUser;
 import com.xh.blogs.domain.vo.CommentsVo;
+import com.xh.blogs.domain.vo.UMEditorResult;
 import com.xh.blogs.domain.vo.WebApiResult;
 import com.xh.blogs.exception.BusinessException;
+import com.xh.blogs.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -33,7 +39,25 @@ public class AjaxController extends BaseController {
     @Autowired
     private INotifyService notifyService;
     @Autowired
+    private IUploadService uploadService;
+    @Autowired
+    private IArticleService articleService;
+    @Autowired
     private ICommentsService commentsService;
+
+    /**
+    * @Name ueditorIpload
+    * @Description 富文本图片上传
+    * @Author wen
+    * @Date 2019/5/7
+    * @param file
+    * @return com.xh.blogs.domain.vo.WebApiResult 
+    */
+    @PostMapping("/ueditor/upload.json")
+    public void ueditorUpload(@RequestParam("upfile") MultipartFile file, HttpServletResponse response) throws BusinessException, IOException {
+        UMEditorResult data = uploadService.ueditorImageUpload(file, super.getProfile().getUserName());
+        response.getWriter().write(JsonUtil.serialize(data));
+    }
 
     /**
      * @Name unfavor

@@ -48,11 +48,6 @@ public interface CommonConst {
 
     String COMMON_REDIS_KEY_PREFIX = "redisKey:";
 
-    /**
-     * 默认头像
-     */
-    String AVATAR = "/assets/images/ava/default.png";
-
     String SYSTEM_PROFILE = "profile";
 
     String ORDER_BY_KEY = "sort";
@@ -73,5 +68,7 @@ public interface CommonConst {
     String SEPARATOR = ",";
 
     String SEPARATOR_SEMICOLON = ";";
+
+    String SEPARATOR_POINT = ".";
 
 }

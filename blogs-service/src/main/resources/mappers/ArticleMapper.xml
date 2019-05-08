@@ -49,19 +49,28 @@
         WHERE id = #{articleId}
   </update>
 
+  <select id="selectByUserId" resultType="com.xh.blogs.domain.po.Article">
+      <include refid="selectByIdCommon"/>
+      AND a.author_id = #{userId}
+  </select>
+
+          <sql id="selectByIdCommon">
+              <include refid="commonField"/>
+              u.comments "user.comments",
+              u.posts "user.posts",
+              u.fans "user.fans",
+              act.content "editor"
+              FROM
+              t_article a
+              LEFT JOIN t_user u ON u.id = a.author_id
+              LEFT JOIN t_article_content act ON act.id = a.id
+              WHERE
+              a.id = #{id}
+              AND a.`status` = 10
+          </sql>
+
   <select id="selectById" parameterType="java.lang.Integer" resultType="com.xh.blogs.domain.po.Article">
-      <include refid="commonField"/>
-          u.comments "user.comments",
-          u.posts "user.posts",
-          u.fans "user.fans",
-          act.content "editor"
-      FROM
-          t_article a
-      LEFT JOIN t_user u ON u.id = a.author_id
-      LEFT JOIN t_article_content act ON act.id = a.id
-      WHERE
-          a.id = #{id}
-      AND a.`status` = 10
+      <include refid="selectByIdCommon"/>
   </select>
 
   <select id="selectInfoWithPage" parameterType="java.util.Map" resultType="com.xh.blogs.domain.po.Article">

@@ -16,6 +16,13 @@
     <result column="to_id" property="toId" jdbcType="INTEGER" />
   </resultMap>
 
+  <delete id="deleteOldAccessorysByArticleId">
+      DELETE FROM t_article_accessory WHERE to_id = #{articleId}
+  </delete>
+
+  <update id="removeByArticleId">
+      UPDATE t_article_accessory SET `status` = -10 WHERE to_id = #{id}
+  </update>
 
 
 </mapper>

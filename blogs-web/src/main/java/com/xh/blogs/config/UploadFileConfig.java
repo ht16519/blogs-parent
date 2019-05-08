@@ -1,5 +1,7 @@
 package com.xh.blogs.config;
 
+import com.xh.blogs.consts.ConfigConst;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,17 +19,22 @@ import javax.servlet.MultipartConfigElement;
 @Configuration
 public class UploadFileConfig extends WebMvcConfigurerAdapter{
 
+    private final String ACCESSORY_MAPPING_PREFIX = "file:/";
+
+    @Value("${fileUpload.rootSavePath}")
+    private String rootSavePath;
+
     @Bean
     public MultipartConfigElement multipartConfigElement(){
         MultipartConfigFactory factory = new MultipartConfigFactory();
-        factory.setMaxFileSize(1024 * 1024);
-        factory.setMaxRequestSize(1024 * 1024 * 5);
+        factory.setMaxFileSize(ConfigConst.MAX_FILE_SIZE);
+        factory.setMaxRequestSize(ConfigConst.MAX_FILE_SIZE * 5);
         return factory.createMultipartConfig();
     }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/images/**").addResourceLocations("file:/C:/images/");
+        registry.addResourceHandler(ConfigConst.CONFIG_ACCESSORY_PATH).addResourceLocations(ACCESSORY_MAPPING_PREFIX + rootSavePath);
         super.addResourceHandlers(registry);
     }
 }

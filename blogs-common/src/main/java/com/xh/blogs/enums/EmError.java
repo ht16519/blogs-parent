@@ -35,13 +35,15 @@ public enum EmError implements CommomError {
     USER_PASSWORD_ERROR(20012, "当前密码输入错误"),
 
     //300开头为文件相关错误
-    FILE_WRITE_ERROR(30001, "文件写入失败"),
-    FILE_IS_NOT_PICTURE(30003, "不支持的文件类型"),
-    MAX_UPLOAD_SIZE_EXCEEDED(30002, "文件不能超过1MB"),
+    FILE_WRITE_ERROR(30001, "文件上传失败"),
+    FILE_IS_NOT_PICTURE(30002, "不支持的文件类型"),
+    MAX_UPLOAD_SIZE_EXCEEDED(30003, "文件不能超过1MB"),
+    FILE_IS_NOT_EXIST(30004, "图片文件不能为空"),
 
     //400开头为文章相关错误
     ARTICLE_IS_NOT_EXIST(40001, "文章不存在或已被删除"),
     COMMENT_IS_NOT_EXIST(40002, "只能删除自己的存在的评论"),
+    CANT_HANDLE_OTHER(40003, "只能操作自己发布的文章"),
     ;
 
     private int code;

@@ -18,7 +18,7 @@
 			<div class="container">
 				<div class="avatar animated fadeInDown">
 					<#--<@showAva user.avatar "img-circle"/>-->
-                    <img src="${"/static/" + user.avatar}" class="img-circle">
+                    <img src="${user.avatar}" class="img-circle">
 				</div>
 				<h1>${user.nickName}</h1>
 

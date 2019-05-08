@@ -36,7 +36,7 @@
 <script type="text/javascript">
     var hot_li_template = '<li><div class="li-out"><span class="last"><i>{0}</i></span><span class="name"><a  href="{1}">{2}</a></span><span class="nums">{3}</span></div></li>'
     var latest_li_template = '<li><div class="li-out"><span class="name"><a  href="{1}">{2}</a></span><span class="nums">{3}</span></div></li>'
-    var hotUser_li_template = '<li class=""><a  href="{1}"><img src="/static/{0}" class="img-circle" title="{2}"/></a></li>'
+    var hotUser_li_template = '<li class=""><a  href="{1}"><img src="{0}" class="img-circle" title="{2}"/></a></li>'
 
     seajs.use('sidebox', function (sidebox) {
         sidebox.init({

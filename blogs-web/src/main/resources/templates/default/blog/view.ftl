@@ -165,7 +165,7 @@
 <script type="text/plain" id="chat_template">
     <li id="chat{5}">
         <a class="avt fl" target="_blank" href="${base}/ta/{0}/1">
-            <img src="/static/{1}">
+            <img src="{1}">
         </a>
         <div class="chat_body">
             <h5>

@@ -83,7 +83,7 @@
 					</li>
     				<li class="dropdown">
     					<a href="#" class="ava dropdown-toggle" data-toggle="dropdown">
-    						<img class="img-circle" src="${"/static" + profile.avatar}">
+    						<img class="img-circle" src="${profile.avatar}">
     					</a>
     					<ul class="dropdown-menu" role="menu">
     		                <li>

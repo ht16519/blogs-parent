@@ -7,28 +7,28 @@
 	</div>
 	<div class="panel-body">
 		<div id="message"></div>
-		<form class="form-horizontal" action="${base}/post/update" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="id" value="${view.id}"/>
-            <input type="hidden" name="authorId" value="${view.authorId}"/>
+		<form class="form-horizontal" action="${base}/home/article/edit" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="${data.id}"/>
+            <#--<input type="hidden" name="authorId" value="${data.user.id}"/>-->
 			<div class="form-group">
 				<label class="col-sm-2 control-label no-padding-right">标题</label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control" name="title" maxlength="32" data-required value="${view.title}">
+					<input type="text" class="form-control" name="title" maxlength="32" data-required value="${data.title}">
 				</div>
 			</div>
             <div class="form-group">
                 <label class="col-sm-2 control-label no-padding-right">发布到</label>
                 <div class="col-sm-3">
-                    <select class="form-control" name="group">
+                    <select class="form-control" name="belongGroup">
 						<#list groups as row>
-                            <option value="${row.id}" <#if (view.group == row.id)> selected </#if>>${row.name}</option>
+                            <option value="${row.id}" <#if (data.belongGroup == row.id)> selected </#if>>${row.groupValue}</option>
 						</#list>
                     </select>
                 </div>
             </div>
 			<div class="form-group">
 				<label for="desc" class="col-sm-2 control-label no-padding-right">内容</label>
-				<input type="hidden" name="editor" value="$!{site_editor}"/>
+				<#--<input type="hidden" name="editor" value="${data.editor}"/>-->
 				<div class="col-sm-8">
 					<#include "/default/blog/editor/ueditor.ftl"/>
 				</div>
@@ -36,7 +36,7 @@
 			<div class="form-group">
 				<label class="col-sm-2 control-label no-padding-right">标签</label>
 				<div class="col-sm-8">
-					<input type="hidden" name="tags" id="fieldTags" value="${view.tags}">
+					<input type="hidden" name="tags" id="fieldTags" value="${data.tags}">
 					<ul id="tags"></ul>
 					<p class="help-block" style="font-size: 12px;">添加相关标签，用逗号或空格分隔 (最多4个).</p>
 				</div>

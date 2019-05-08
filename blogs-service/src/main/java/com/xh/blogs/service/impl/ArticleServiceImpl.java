@@ -13,6 +13,7 @@ import com.xh.blogs.domain.po.ArticleAccessory;
 import com.xh.blogs.domain.po.ArticleContent;
 import com.xh.blogs.domain.vo.ArticleVo;
 import com.xh.blogs.domain.vo.PageResult;
+import com.xh.blogs.enums.EmError;
 import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.utils.ArticleUtil;
 import com.xh.blogs.utils.BeanValidator;
@@ -93,20 +94,32 @@ public class ArticleServiceImpl implements IArticleService {
         String voContent = articleVo.getContent();
         article.setSummary(PreviewTextUtil.getText(voContent, ConfigConst.CUT_OUT_ARTICLE_SUMMARY_INDEX));
         article.setCreateTime(new Date());
-        articleMapper.insertSelective(article);
+        int res = articleMapper.insertSelective(article);
         //3.保存文章内容信息
         Document doc = Jsoup.parse(voContent);
         ArticleContent content = new ArticleContent();
         content.setContent(doc.html());
         content.setId(article.getId());
-        articleContentMapper.insertSelective(content);
-        //4.保存文章附件信息
-        List<ArticleAccessory> articleAccessories = this.extractImages(doc, article.getId());
-        if(articleAccessories.size() > 0){
-            articleAccessoryMapper.insertList(articleAccessories);
+        if(res > 0){
+            res = articleContentMapper.insertSelective(content);
+            if(res > 0){
+                //4.保存文章附件信息
+                List<ArticleAccessory> articleAccessories = this.extractImages(doc, article.getId());
+                if(articleAccessories.size() > 0){
+                    res = articleAccessoryMapper.insertList(articleAccessories);
+                }
+            }
         }
         //TODO 文章信息加入图片数和最后一张图片id
-        return 0;
+        return res;
+    }
+
+    @Override
+    public Article getByUserId(int id, int userId) throws BusinessException {
+        //1.校验文章属性
+        this.checkArticleInfo(id, userId);
+        //2.获取文章信息
+        return articleMapper.selectByUserId(id, userId);
     }
 
     @Override
@@ -133,6 +146,78 @@ public class ArticleServiceImpl implements IArticleService {
         return PageUtil.create(page);
     }
 
+    @Override
+    public int removeById(int id, int userId) throws BusinessException {
+        //1.校验文章属性
+        this.checkArticleInfo(id, userId);
+        //2.修改文章状态
+        Article article = new Article();
+        article.setStatus(CommonConst.INVALID_STATUS);
+        article.setId(id);
+        int res = articleMapper.updateByPrimaryKeySelective(article);
+        if(res > 0){
+            //3.逻辑删除文章所属图片
+            res = articleAccessoryMapper.removeByArticleId(id);
+        }
+        return res;
+    }
+
+    @Override
+    @Transactional
+    public int updateArticleById(ArticleVo articleVo) throws BusinessException {
+        //1.校验数据
+        BeanValidator.check(articleVo);
+        //2.校验文章属性
+        this.checkArticleInfo(articleVo.getId(), articleVo.getAuthorId());
+        //3.修改文章基本信息
+        Article article = new Article();
+        BeanUtils.copyProperties(articleVo, article);
+        String voContent = articleVo.getContent();
+        article.setSummary(PreviewTextUtil.getText(voContent, ConfigConst.CUT_OUT_ARTICLE_SUMMARY_INDEX));
+        article.setUpdateTime(new Date());
+        int res = articleMapper.updateByPrimaryKeySelective(article);
+        if(res > 0){
+            //4.保存文章内容信息
+            Document doc = Jsoup.parse(voContent);
+            ArticleContent content = new ArticleContent();
+            content.setContent(doc.html());
+            content.setId(article.getId());
+            res = articleContentMapper.updateByPrimaryKeySelective(content);
+            if(res > 0){
+                //6.物理删除修改前的文章图片
+                articleAccessoryMapper.deleteOldAccessorysByArticleId(article.getId());
+                //5.获取文章附件信息
+                List<ArticleAccessory> articleAccessories = this.extractImages(doc, article.getId());
+                if(articleAccessories.size() > 0){
+                    //7.新增当前图片
+                    res = articleAccessoryMapper.insertList(articleAccessories);
+                }
+            }
+        }
+        return res;
+    }
+
+    /**
+    * @Name checkArticleInfo
+    * @Description 1.校验文章是否存在 2.判断是否是自己的文章
+    * @Author wen
+    * @Date 2019/5/7
+    * @param id
+    * @param userId
+    * @return void
+    */
+    private void checkArticleInfo(int id, int userId) throws BusinessException {
+        //1.判断文章是否存在
+        Article dbArticle = articleMapper.selectByPrimaryKey(id);
+        if(dbArticle == null){
+            throw new BusinessException(EmError.ARTICLE_IS_NOT_EXIST);
+        }
+        //2.判断是否是自己的文章
+        if(!dbArticle.getAuthorId().equals(userId)){
+            throw new BusinessException(EmError.CANT_HANDLE_OTHER);
+        }
+    }
+
 
     /**
     * @Name extractImages
@@ -156,11 +241,14 @@ public class ArticleServiceImpl implements IArticleService {
             accessory.setOriginal(imageUrl);
             accessory.setPreview(imageUrl);
             accessory.setToId(aricleId);
-            if (imageUrl.startsWith(CommonConst.THE_HTTP_PREFIX)) {
-                accessory.setStore(CommonConst.ARTICLE_STORE_NETWORK);
-            }else {
-                accessory.setStore(CommonConst.ARTICLE_STORE_LOCAL);
-            }
+            //TODO 暂时写
+            accessory.setStore(CommonConst.ARTICLE_STORE_NETWORK);
+            //判断是否网络图片
+//            if (imageUrl.startsWith(CommonConst.THE_HTTP_PREFIX)) {
+//                accessory.setStore(CommonConst.ARTICLE_STORE_NETWORK);
+//            }else {
+//                accessory.setStore(CommonConst.ARTICLE_STORE_LOCAL);
+//            }
             rets.add(accessory);
         }
         return rets;

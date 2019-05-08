@@ -3,6 +3,7 @@ package com.xh.blogs.domain.vo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 import java.util.Date;
 

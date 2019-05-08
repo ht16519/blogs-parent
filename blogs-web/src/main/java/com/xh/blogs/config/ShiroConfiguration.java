@@ -2,6 +2,7 @@ package com.xh.blogs.config;
 
 import com.xh.blogs.auth.AuthRealm;
 import com.xh.blogs.auth.CredentialMatcher;
+import com.xh.blogs.consts.ConfigConst;
 import com.xh.blogs.consts.RequestUrl;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
@@ -55,6 +56,7 @@ public class ShiroConfiguration {
 		filterChainDefinitionMap.put(RequestUrl.BLOGGER_DETAILS, ANON);
 		filterChainDefinitionMap.put(RequestUrl.ARTICLE_DETAILS, ANON);
 		filterChainDefinitionMap.put(STATIC_RESOURCES, ANON);
+		filterChainDefinitionMap.put(ConfigConst.CONFIG_ACCESSORY_PATH, ANON);
 		filterChainDefinitionMap.put(ALL_RESOURCES, USER);
 		bean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 		return bean;

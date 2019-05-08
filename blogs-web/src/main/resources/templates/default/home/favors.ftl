@@ -44,10 +44,9 @@
 							<#list row.albums as alb>
 								<#if (alb_index <= 3)>
 									<div class="media col-xs-4 col-sm-4 col-md-4">
-										<#--<a title="${row.article.title}" href="<@resource src=alb.original/>">-->
-										<a title="${row.title}" href="${"/static" + alb.original}">
-											<@albShow2 row alb/>
-										</a>
+										<#--<a title="${row.title}" href="${"/static" + alb.original}">-->
+										<@albShow2 row alb/>
+										<#--</a>-->
 									</div>
 								</#if>
 							</#list>

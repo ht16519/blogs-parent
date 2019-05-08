@@ -35,7 +35,6 @@
         <pageHelper.starter.version>1.2.3</pageHelper.starter.version>
         <thumbnailator.version>0.4.8</thumbnailator.version>
         <jsoup.version>1.9.2</jsoup.version>
-        <jackson.databind.version>2.9.7</jackson.databind.version>
         <persistence.api.version>1.0</persistence.api.version>
         <commons.collections.version>3.2.1</commons.collections.version>
         <hibernate.validator.version>5.2.4.Final</hibernate.validator.version>
@@ -75,12 +74,6 @@
                 <groupId>net.coobird</groupId>
                 <artifactId>thumbnailator</artifactId>
                 <version>${thumbnailator.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>${jackson.databind.version}</version>
             </dependency>
 
             <dependency>

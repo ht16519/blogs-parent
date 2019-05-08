@@ -75,7 +75,7 @@
                         <li class="">
                             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown"
                                aria-expanded="false">
-                                <img src="${"/static/" + profile.avatar}" alt="">${profile.userName}
+                                <img src="${profile.avatar}" alt="">${profile.userName}
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">

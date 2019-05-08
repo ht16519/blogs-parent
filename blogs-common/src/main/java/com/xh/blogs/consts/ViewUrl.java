@@ -20,6 +20,10 @@ public interface ViewUrl {
 
     //==============
 
+    String DEFAULT_ERROR = "error.ftl";
+
+    String ROUTE_POST_UPDATE = "default/blog/update";
+
     String HOME_COMMENTS = "default/home/comments";
 
     String ACCOUNT_PASSWORD = "default/account/password";
