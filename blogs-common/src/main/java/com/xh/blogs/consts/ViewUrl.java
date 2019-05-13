@@ -20,7 +20,9 @@ public interface ViewUrl {
 
     //==============
 
-    String DEFAULT_ERROR = "error.ftl";
+    String DECLARE_INFO = "default/declarel";
+
+    String DEFAULT_ERROR = "error";
 
     String ROUTE_POST_UPDATE = "default/blog/update";
 
@@ -57,4 +59,8 @@ public interface ViewUrl {
     String ARTICLE_PUBLISH = "default/blog/post";
 
     String ARTICLE_VIEW = "default/blog/view";
+
+    String ACCOUNT_EMAIL = "default/account/email";
+
+    String ACCOUNT_ACTIVATE_EMAIL = "default/account/activate.ftl";
 }

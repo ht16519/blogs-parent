@@ -56,7 +56,7 @@
 										</div>
 									</div>
 									<div class="summary">
-										<h2 class="title"><a href="${base}/article/${row.id}">${row.title}</a></h2>
+										<h2 class="title"><a href="${base}/article/details/${row.id}">${row.title}</a></h2>
 
 										<div class="excerpt wordbreak hidden-xs">${row.summary} &nbsp;</div>
 

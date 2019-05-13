@@ -8,20 +8,10 @@ package com.xh.blogs.consts;
  */
 public interface ConfigConst {
 
-    /** 附件映射路径*/
-    String CONFIG_ACCESSORY_PATH = "/accessory/**";
+    String SYSTEM_EMAIL_TITLE = "兔子博客邮箱验证码";
 
-    /** 子评论条数*/
-    int COMMENTS_SUBLIST_SIZE = 3;
-
-    /** 加载统计数据条数*/
-    int STATISTICAL_COUNT = 9;
-
-    /** 加载文章图片张数*/
-    int ARTICLE_COUNT = 3;
-
-    /** 截取文章简介的字符数*/
-    int CUT_OUT_ARTICLE_SUMMARY_INDEX = 126;
+    /** 加载文章图片张数+1*/
+    int ARTICLE_ACCESSORY_COUNT = 3;
 
     /** 后台角色菜单缓存key*/
     String ADMIN_ROLE_MENU_CACHE_KEY = "redis:roleMenuCache";
@@ -39,8 +29,5 @@ public interface ConfigConst {
 
     /** 文章图片前缀*/
     String ARTICLE_IMAGE_PREFIX = "/article_";
-
-    /** 单个文件上传最大size*/
-    int MAX_FILE_SIZE = 1024 * 1024;
 
 }

@@ -1,15 +1,21 @@
 package com.xh.blogs.service.impl;
 
 import com.xh.blogs.api.IUserService;
+import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.ConfigConst;
+import com.xh.blogs.consts.NotifyConst;
+import com.xh.blogs.consts.SystemConst;
+import com.xh.blogs.dao.mapper.NotifyMapper;
 import com.xh.blogs.dao.mapper.UserMapper;
+import com.xh.blogs.domain.po.Notify;
 import com.xh.blogs.domain.po.User;
-import com.xh.blogs.domain.vo.UserBasicVo;
-import com.xh.blogs.domain.vo.UserPasswordVo;
-import com.xh.blogs.domain.vo.UserVo;
+import com.xh.blogs.domain.vo.*;
 import com.xh.blogs.enums.EmError;
 import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.utils.BeanValidator;
+import com.xh.blogs.utils.CommonUtil;
+import com.xh.blogs.utils.MD5Util;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,8 +31,11 @@ import java.util.List;
  * @Date 2019-04-22
  */
 @Service
+@Slf4j
 public class UserServiceImpl implements IUserService {
 
+    @Autowired
+    private NotifyMapper notifyMapper;
     @Autowired
     private UserMapper userMapper;
 
@@ -54,9 +63,19 @@ public class UserServiceImpl implements IUserService {
         BeanValidator.check(userVo);
         //2.校验用户信息
         this.checkInputUserInfo(userVo);
-        //3.设置基本属性
-        //TODO 密码加密
-        return userMapper.insertSelective(this.getUser(userVo));
+        //3.新增用户
+        User user = this.getUser(userVo);
+        int res = userMapper.insertSelective(user);
+        if(res > 0){
+            //4.发送注册成功站内信
+            Notify notify = new Notify();
+            notify.setCreateTime(new Date());
+            notify.setEvent(NotifyConst.EVENT_REGISTERED_SUCCESSFULLY);
+            notify.setFromId(SystemConst.SYSTEM_ID);
+            notify.setToId(user.getId());
+            res = notifyMapper.insertSelective(notify);
+        }
+        return res;
     }
 
     @Override
@@ -79,19 +98,27 @@ public class UserServiceImpl implements IUserService {
         if(!passwordVo.getPassword().equals(passwordVo.getRePassword())){
             throw new BusinessException(EmError.PASSWORD_MISMATCH);
         }
-        //校验用户输入是否正确
+        //2.校验用户是否存在
         User user = new User();
         user.setUserName(passwordVo.getUserName());
-        //TODO 密码加密
-        user.setPassword(passwordVo.getOldPassword());
         User dbUser = userMapper.selectOne(user);
         if(dbUser == null){
+            throw new BusinessException(EmError.USER_IS_NOT_EXIST);
+        }
+        //用户被冻结
+        if(dbUser.getStatus().equals(CommonConst.INVALID_STATUS)){
+            throw new BusinessException(EmError.USER_IS_UNAVAILABLE);
+        }
+        //校验用户输入是否正确
+        user.setPassword(MD5Util.inputPass2DBPass(passwordVo.getOldPassword(), dbUser.getSalt()));
+        User dbUser2 = userMapper.selectOne(user);
+        if(dbUser2 == null){
             throw new BusinessException(EmError.USER_PASSWORD_ERROR);
         }
         //修改密码
         user.setUserName(null);
         user.setId(passwordVo.getId());
-        user.setPassword(passwordVo.getPassword());
+        user.setPassword(MD5Util.inputPass2DBPass(passwordVo.getPassword(), dbUser2.getSalt()));
         user.setUpdateTime(new Date());
         return userMapper.updateByPrimaryKeySelective(user);
     }
@@ -108,6 +135,63 @@ public class UserServiceImpl implements IUserService {
         return userMapper.selectByPrimaryKey(id);
     }
 
+    @Override
+    public void initSystemAccount() {
+        log.info("============ START初始化博客header分类 ===========");
+        if(null == userMapper.selectByPrimaryKey(SystemConst.SYSTEM_ID)){
+            log.info("============ END系统账户不存在，新建账户，初始化成功！============");
+            User user = new User();
+            user.setId(SystemConst.SYSTEM_ID);
+            user.setUserName(SystemConst.SYSTEM_NAME);
+            user.setNickName(SystemConst.SYSTEM_NAME);
+            user.setCreateTime(new Date());
+            user.setPassword(CommonUtil.getRAS(32));
+            user.setAvatar(SystemConst.SYSTEM_AVATAR_PATH);
+            userMapper.insertSelective(user);
+        }else {
+            log.info("============ END系统账户已存在，初始化成功！============");
+        }
+    }
+
+    @Override
+    public User activeEmailById(EmailVo emailVo, int id) {
+        //1.修改邮箱状态
+        User user = new User();
+        user.setId(id);
+        user.setActiveEmail(CommonConst.EFFECTIVE_STATUS);
+        user.setEmail(emailVo.getEmail());
+        userMapper.updateByPrimaryKeySelective(user);
+        //2.发送邮箱认证成功通知
+        Notify notify = new Notify();
+        notify.setCreateTime(new Date());
+        notify.setEvent(NotifyConst.EVENT_EMAIL_ACTIVATION);
+        notify.setFromId(SystemConst.SYSTEM_ID);
+        notify.setToId(user.getId());
+        notifyMapper.insertSelective(notify);
+        return userMapper.selectByPrimaryKey(user.getId());
+    }
+
+    @Override
+    public void validationEmail(String email, AccountProfile profile) throws BusinessException {
+        if (!CommonUtil.isEmail(email)) {
+            throw new BusinessException(EmError.EMAIL_INCORRECT_FORMAT);
+        }
+        User user = new User();
+        user.setEmail(email);
+        User dbUser = userMapper.selectOne(user);
+        if(dbUser != null){
+            //邮箱不是自己的（被注册）
+            if(!dbUser.getId().equals(profile.getId())){
+                throw new BusinessException(EmError.USER_EMAIL_IS_EXIST);
+            }else{
+                //自己的邮箱，判断邮箱是否已激活
+                if(dbUser.getActiveEmail().equals(CommonConst.EFFECTIVE_STATUS)){
+                    throw new BusinessException(EmError.USER_EMAIL_IS_ACTIVE);
+                }
+            }
+        }
+    }
+
     /**
     * @Name setUser
     * @Description 设置基本属性
@@ -121,6 +205,9 @@ public class UserServiceImpl implements IUserService {
         BeanUtils.copyProperties(userVo, user);
         user.setAvatar(ConfigConst.AVATAR_PATH);
         user.setCreateTime(new Date());
+        String salt = CommonUtil.getSalt();
+        user.setSalt(salt);
+        user.setPassword(MD5Util.inputPass2DBPass(userVo.getPassword(), salt));
         return user;
     }
 

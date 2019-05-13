@@ -11,7 +11,7 @@
 
     <groupId>com.xh.blogs</groupId>
     <artifactId>blogs-web</artifactId>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>blogs-web</name>
 
     <dependencies>
@@ -25,11 +25,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-freemarker</artifactId>
         </dependency>
 
         <!-- shiro支持 -->
@@ -51,8 +46,18 @@
 
     </dependencies>
 
+    <!--<build>-->
+        <!--<finalName>blogs-web</finalName>-->
+    <!--</build>-->
+
     <build>
         <finalName>blogs-web</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
 
 </project>

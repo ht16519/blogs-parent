@@ -92,6 +92,9 @@ public class Article implements Serializable{
      */
     private Integer views;
 
+    /** 文章类型（1，0：是，否）*/
+    private Integer type;
+
     @Column(name = "create_time")
     private Date createTime;
 

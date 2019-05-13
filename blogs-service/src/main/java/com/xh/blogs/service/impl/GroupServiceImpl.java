@@ -2,11 +2,17 @@ package com.xh.blogs.service.impl;
 
 import com.xh.blogs.api.IGroupService;
 import com.xh.blogs.consts.CommonConst;
+import com.xh.blogs.consts.KeyConst;
 import com.xh.blogs.dao.mapper.GroupMapper;
 import com.xh.blogs.domain.po.Group;
+import com.xh.blogs.utils.JsonUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.ServletContext;
 import java.util.List;
 
 /**
@@ -16,17 +22,46 @@ import java.util.List;
  * @Date 2019-04-24
  */
 @Service
+@Slf4j
 public class GroupServiceImpl implements IGroupService {
 
     @Autowired
     private GroupMapper groupMapper;
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+    @Autowired
+    private ServletContext servletContext;
 
     @Override
     public List<Group> getByShow() {
-        //TODO 全局缓存优化
+        ValueOperations<String, String> ops = redisTemplate.opsForValue();
+        if(redisTemplate.hasKey(KeyConst.BLOGS_GROUP_CACHE_KEY)){
+            return JsonUtil.parseList(ops.get(KeyConst.BLOGS_GROUP_CACHE_KEY), Group.class);
+        }else {
+            List<Group> byShow4Db = this.getByShow4Db();
+            ops.set(KeyConst.BLOGS_GROUP_CACHE_KEY, JsonUtil.serialize(byShow4Db));
+            return byShow4Db;
+        }
+    }
+
+    @Override
+    public List<Group> getByShow4Db() {
         Group group = new Group();
         group.setStatus(CommonConst.EFFECTIVE_STATUS);
         return groupMapper.select(group);
+    }
+
+
+    @Override
+    public void createShowCache(){
+        log.info("============ START初始化博客header分类 ===========");
+        servletContext.setAttribute(KeyConst.BLOGS_GROUP_KEY, this.getByShow4Db());
+        log.info("============ END博客header分类初始化成功 ===========");
+    }
+
+    @Override
+    public void updateShowCache(){
+        servletContext.setAttribute(KeyConst.BLOGS_GROUP_KEY, this.getByShow4Db());
     }
 
     @Override

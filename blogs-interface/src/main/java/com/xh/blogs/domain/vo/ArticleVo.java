@@ -3,6 +3,7 @@ package com.xh.blogs.domain.vo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -35,6 +36,10 @@ public class ArticleVo {
 
     @NotEmpty(message = "标签不能为空")
     private String tags;
+
+    @NotNull(message = "文章类型")
+    @Range(min = 0, max = 1, message = "文章类型只能为1或0")
+    private Integer type;
 
     @NotEmpty(message = "文章内容不能为空")
     @Size(min = 10, message = "内容长度不能少于10个字符")

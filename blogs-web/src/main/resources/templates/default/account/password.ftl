@@ -6,9 +6,9 @@
 <div class="panel panel-default stacked">
 	<div class="panel-heading">
 		<ul class="nav nav-pills account-tab">
-			<li><a href="basic">基本信息</a></li>
-			<li><a href="avatar">修改头像</a></li>
-			<li class="active"><a href="password">修改密码</a></li>
+			<li><a href="${base}/home/account/basic">基本信息</a></li>
+			<li><a href="${base}/home/account/avatar">修改头像</a></li>
+			<li class="active"><a href="${base}/home/account/password">修改密码</a></li>
 		</ul>
 	</div>
 	<div class="panel-body">

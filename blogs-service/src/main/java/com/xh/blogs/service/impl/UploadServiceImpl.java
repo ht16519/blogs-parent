@@ -28,12 +28,14 @@ import java.io.IOException;
  */
 @Service
 @Slf4j
-public class UploadServiceImpl implements IUploadService {
+public class UploadServiceImpl extends BaseServiceImpl implements IUploadService {
 
 	@Value("${fileUpload.rootSavePath}")
 	private String rootSavePath;
 	@Value("${fileUpload.rootHttpPath}")
 	private String rootHttpPath;
+	@Value("${fileUpload.maxFileSize}")
+	private int maxFileSize;
 
 	@Override
 	public String uploadThum4Image(MultipartFile file, AvatarVo avatarVo, String userName) throws BusinessException {
@@ -62,7 +64,7 @@ public class UploadServiceImpl implements IUploadService {
 		UMEditorResult data = new UMEditorResult();
 		if(!(file == null || file.isEmpty())){
             long size = file.getSize();
-            if(size <= ConfigConst.MAX_FILE_SIZE){
+            if(size <= maxFileSize){
                 try {
                     //1.图片处理
                     DArticleAccessory accessory = ImageUtil.handle(file);

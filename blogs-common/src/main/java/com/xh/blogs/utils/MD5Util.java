@@ -3,6 +3,8 @@ package com.xh.blogs.utils;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
+import java.util.Date;
+
 /**
  * @Name MD5Util
  * @Description md5加密工具类
@@ -70,4 +72,10 @@ public class MD5Util {
         return formPass2DBPass(inputPass2FormPass(inputPass), salt);
     }
 
+    public static void main(String[] args) {
+        String salt = CommonUtil.getSalt();
+        System.out.println(salt);
+        System.out.println(inputPass2DBPass("111", salt));
+
+    }
 }

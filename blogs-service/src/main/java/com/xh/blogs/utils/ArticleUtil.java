@@ -36,7 +36,7 @@ public class ArticleUtil {
                     article.setAlbums(albums);
                     String[] accessory = accessorys.split(CommonConst.ARTICLE_ACCESSORY_SEPARATOR);
                     for (String s : accessory) {
-                        if(albums.size() > ConfigConst.ARTICLE_COUNT){
+                        if(albums.size() > ConfigConst.ARTICLE_ACCESSORY_COUNT){
                             break;
                         }
                         try {

@@ -2,10 +2,12 @@
 <@ui_simple "写文章">
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<i class="fa fa-pencil-square"></i> 写文章
+		<i class="fa fa-pencil-square"></i> 写文章&nbsp;&nbsp;&nbsp;&nbsp;发帖规范，利于seo，必看&nbsp;&nbsp;<a href="#"><span style="color: red;">发帖规范</span></a>
 	</div>
 	<div class="panel-body">
-		<div id="message"></div>
+		<div id="message">
+            <#include "/default/inc/action_message.ftl"/>
+		</div>
 		<form class="form-horizontal" action="${base}/home/article/push" method="post" enctype="multipart/form-data">
 			<div class="form-group">
 				<label class="col-sm-2 control-label no-padding-right">标题</label>
@@ -13,11 +15,27 @@
 					<input type="text" class="form-control" name="title" maxlength="32" data-required >
 				</div>
 			</div>
+            <#--<div class="form-group">-->
+                <#--<label class="col-sm-2 control-label no-padding-right">是否原创</label>-->
+                <#--<div class="col-sm-8">-->
+                    <#--&nbsp;&nbsp;<input type="radio" name="isSource" value="1" ${(profile.sex == 1) ? string('checked','')}> 是&nbsp;&nbsp;-->
+                    <#--<input type="radio" name="isSource" value="0" ${(profile.sex == 0) ? string('checked','')}> 否-->
+                <#--</div>-->
+            <#--</div>-->
+            <div class="form-group">
+                <label class="col-sm-2 control-label no-padding-right">类型</label>
+                <div class="col-sm-3">
+                    <select class="form-control" name="type">
+                        <option value="1">原创</option>
+                        <option value="0">转载</option>
+                    </select>
+                </div>
+            </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label no-padding-right">发布到</label>
                 <div class="col-sm-3">
                     <select class="form-control" name="belongGroup">
-						<#list groups as row>
+						<#list groupsCache as row>
                         <option value="${row.id}">${row.groupValue}</option>
 						</#list>
                     </select>

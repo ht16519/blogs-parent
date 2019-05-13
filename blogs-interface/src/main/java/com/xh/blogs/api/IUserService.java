@@ -2,9 +2,7 @@ package com.xh.blogs.api;
 
 
 import com.xh.blogs.domain.po.User;
-import com.xh.blogs.domain.vo.UserBasicVo;
-import com.xh.blogs.domain.vo.UserPasswordVo;
-import com.xh.blogs.domain.vo.UserVo;
+import com.xh.blogs.domain.vo.*;
 import com.xh.blogs.exception.BusinessException;
 
 /**
@@ -85,4 +83,36 @@ public interface IUserService {
     * @return com.xh.blogs.domain.po.User
     */
     User updateAvatarById(int id, String path) throws BusinessException;
+
+    /**
+    * @Name initSystemAccount
+    * @Description 初始化系统账户
+    * @Author wen
+    * @Date 2019/5/12
+    * @param 
+    * @return void 
+    */
+    void initSystemAccount();
+
+    /**
+    * @Name activeEmailById
+    * @Description 修改邮箱活跃
+    * @Author wen
+    * @Date 2019/5/13
+    * @param emailVo
+     * @param id
+     * @return User
+    */
+    User activeEmailById(EmailVo emailVo, int id);
+
+    /**
+    * @Name validationEmail
+    * @Description 验证邮箱信息
+    * @Author wen
+    * @Date 2019/5/13
+    * @param email
+    * @param profile
+    * @return void
+    */
+    void validationEmail(String email, AccountProfile profile) throws BusinessException;
 }

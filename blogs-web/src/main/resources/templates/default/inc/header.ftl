@@ -57,17 +57,16 @@
                     <li data="index_">
                         <a href="${base}/index" nav="index_">首页</a>
                     </li>
+					<#list groupsCache as row>
+					<li>
+                        <a href="${base}/g/${row.groupKey}" nav="${row.groupValue}">${row.groupValue}</a>
+                    </li>
+					</#list>
 					<#if profile??>
     				<li data="home">
     					<a href="${base}/home/feeds/1" nav="home">我的主页</a>
     				</li>
 					</#if>
-					<#list groups as row>
-					<li>
-    					<a href="${base}/g/${row.groupKey}" nav="${row.groupValue}">${row.name}</a>
-    				</li>
-					</#list>
-					
     			</ul>
     			<div id="_search_box" class="search-box navbar-left hidden-xs hidden-sm">
     				<form class="navbar-form" method="get" action="${base}/search">
@@ -93,7 +92,7 @@
     		                	</a>
     		               	</li>
     		                <li class="divider"></li>
-                            <li><a href="${base}/account/profile/basic">基本信息</a></li>
+                            <li><a href="${base}/home/account/basic">基本信息</a></li>
                             <li class="divider"></li>
 							<#--<@shiro.hasPermission name="admin">-->
 								<li><a href="${base}/admin">后台管理</a></li>

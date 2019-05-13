@@ -36,8 +36,6 @@ public interface CommonConst {
 
     String PAGE_NUMBER_KEY = "pn";
 
-    int PAGE_SIZE = 3;
-
     String USER_ID_KEY = "userId";
 
     String STATUS_KEY = "status";

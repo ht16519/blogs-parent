@@ -25,6 +25,7 @@
     <result column="follows" property="follows" jdbcType="INTEGER" />
     <result column="posts" property="posts" jdbcType="INTEGER" />
     <result column="signature" property="signature" jdbcType="VARCHAR" />
+    <result column="salt" property="salt" jdbcType="VARCHAR" />
   </resultMap>
 
     <resultMap id="selectUserInfoByNameMap" type="com.xh.blogs.domain.po.User" extends="BaseResultMap">
@@ -39,6 +40,18 @@
             </collection>
         </collection>
     </resultMap>
+
+    <update id="addCommentsById">
+        UPDATE t_user
+        SET comments = comments + 1
+        WHERE id = #{authorId}
+    </update>
+
+    <update id="updatePostsById">
+        UPDATE t_user
+        SET posts = posts + 1
+        WHERE id = #{authorId}
+    </update>
 
     <update id="minusFansByUserId">
         UPDATE t_user

@@ -47,12 +47,12 @@
 
             // callback
             onLoadHot: function (i, data) {
-                var url = '${base}/article/' + data.id;
+                var url = '${base}/article/details/' + data.id;
                 var item = jQuery.format(hot_li_template, i + 1, url, data.title, numberScale(data.views));
                 return item;
             },
             onLoadLatest: function (i, data) {
-                var url = '${base}/article/' + data.id;
+                var url = '${base}/article/details/' + data.id;
                 var item = jQuery.format(latest_li_template, i + 1, url, data.title, numberScale(data.views));
                 return item;
             },

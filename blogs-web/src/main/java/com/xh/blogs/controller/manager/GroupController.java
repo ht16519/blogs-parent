@@ -41,7 +41,10 @@ public class GroupController {
 
     @PostMapping("/update")
     public String update(Group group){
+        //修改操作
         groupService.save(group);
+        //更新缓存
+        groupService.updateShowCache();
         return RequestUrl.REDIRECT_ADMIN_GROUP_LIST;
     }
 

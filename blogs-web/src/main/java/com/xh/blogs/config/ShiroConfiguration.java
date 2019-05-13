@@ -11,6 +11,7 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,6 +19,9 @@ import java.util.LinkedHashMap;
 
 @Configuration
 public class ShiroConfiguration {
+
+	@Value("${blogs.accessory.path}")
+	private String accessoryPath;
 
 	private static final String ANON = "anon";
 
@@ -49,6 +53,7 @@ public class ShiroConfiguration {
 		bean.setUnauthorizedUrl(RequestUrl.INDEX_URL);
 		//定义请求拦截规则
 		LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
+		filterChainDefinitionMap.put(RequestUrl.SYSTEM_ROOT, ANON);
 		filterChainDefinitionMap.put(RequestUrl.INDEX_URLS, ANON);
 		filterChainDefinitionMap.put(RequestUrl.LOGIN_URL, ANON);
 		filterChainDefinitionMap.put(RequestUrl.REG_URL, ANON);
@@ -56,7 +61,7 @@ public class ShiroConfiguration {
 		filterChainDefinitionMap.put(RequestUrl.BLOGGER_DETAILS, ANON);
 		filterChainDefinitionMap.put(RequestUrl.ARTICLE_DETAILS, ANON);
 		filterChainDefinitionMap.put(STATIC_RESOURCES, ANON);
-		filterChainDefinitionMap.put(ConfigConst.CONFIG_ACCESSORY_PATH, ANON);
+		filterChainDefinitionMap.put(accessoryPath, ANON);
 		filterChainDefinitionMap.put(ALL_RESOURCES, USER);
 		bean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 		return bean;

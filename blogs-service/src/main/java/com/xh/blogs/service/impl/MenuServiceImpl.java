@@ -8,6 +8,7 @@ import com.xh.blogs.domain.entity.ERoleMenu;
 import com.xh.blogs.domain.po.Role;
 import com.xh.blogs.domain.po.User;
 import com.xh.blogs.utils.JsonUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -23,6 +24,7 @@ import java.util.*;
  * @Date 2019-05-04
  */
 @Service
+@Slf4j
 public class MenuServiceImpl implements IMenuService {
 
     @Autowired
@@ -37,6 +39,7 @@ public class MenuServiceImpl implements IMenuService {
 
     @Override
     public Map<Integer, Set<ERoleMenu>> createRoleMenuCache() {
+        log.info("============ START初始化角色菜单 ===========");
         Map<Integer, Set<ERoleMenu>> menuListMap = new HashMap<>();
         Set<ERoleMenu> menus = menuMapper.selectAllMenu();
         Set<ERoleMenu> menuList;
@@ -50,6 +53,7 @@ public class MenuServiceImpl implements IMenuService {
         }
         ValueOperations<String, String> ops = redisTemplate.opsForValue();
         ops.set(ConfigConst.ADMIN_ROLE_MENU_CACHE_KEY, JsonUtil.serialize(menuListMap));
+        log.info("============ END角色菜单初始化成功 ===========");
         return menuListMap;
     }
 

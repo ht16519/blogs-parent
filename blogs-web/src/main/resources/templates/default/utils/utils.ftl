@@ -1,24 +1,19 @@
 <#-- 用户头像显示 -->
 <#macro showAva avatar clazz>
     <img class="${clazz}" src="${avatar}"/>
-    <#--<#if avatar?starts_with("http:")>-->
-    <#--<img class="${clazz}" src="${avatar}"/>-->
-    <#--<#else>-->
-    <#--<img class="${clazz}" src="${avatar}"/>-->
-    <#--</#if>-->
 </#macro>
 
 <#macro showGroup row>
-    <#if (row.featured > 0 )>
-    <span class="label label-danger">推荐</span>
-    </#if>
-</#macro>
-
-<#macro albShow att>
-    <#if att.store == 1>
-        <img src="/static/assets/images/spinner-overlay.png" data-original="${att.preview}"/>
+    <#if (row.type == 1 )>
+    <span class="label label-source">原创</span>
     <#else>
-        <img src="/static/assets/images/spinner-overlay.png" data-original="${att.preview}"/>
+    <span class="label label-not-source">转载</span>
+    </#if>
+    <#if (row.featured > 0 )>
+    <span class="label label-hot">热门</span>
+    </#if>
+    <#if (row.featured > 0 )>
+    <span class="label label-cream">精帖</span>
     </#if>
 </#macro>
 
@@ -26,22 +21,13 @@
 <a title="${row.title}" href="${att.original}">
     <img src="/static/assets/images/spinner-overlay.png" data-original="${att.preview}"/>
 </a>
-    <#--<#if att.store == 1>-->
-        <#--<a title="${row.title}" href="${att.original}">-->
-            <#--<img src="/static/assets/images/spinner-overlay.png" data-original="${att.preview}"/>-->
-        <#--</a>-->
-    <#--<#else>-->
-        <#--<a title="${row.title}" href="${att.original}">-->
-            <#--<img src="/static/assets/images/spinner-overlay.png" data-original="${att.preview}"/>-->
-        <#--</a>-->
-    <#--</#if>-->
 </#macro>
 
 <#-- 博文列表显示 -->
-<#macro showBlog row>
+<#macro showBlog2 row>
 <div class="stream-item" id="loop-${row.id}">
     <div class="summary">
-        <a href="${base}/article/${row.id}">
+        <a href="${base}/article/details/${row.id}">
             <div class="title"><@showGroup row/><h2>${row.title}</h2></div>
             <div class="excerpt wordbreak hidden-xs">${row.summary} </div>
         </a>
@@ -52,10 +38,6 @@
             <#list row.albums as alb>
                 <#if (alb_index < 4) >
                 <div class="media col-xs-3 col-sm-3 col-md-3">
-                    <#--<a title="${row.title}" href="<@resource src=alb.original/>">-->
-                    <#--<a title="${row.title}" href="${"/static" + alb.original}">-->
-                        <#--<@albShow alb/>-->
-                    <#--</a>-->
                     <@albShow2 row alb/>
                 </div>
                 </#if>
@@ -97,6 +79,62 @@
         </div>
 
     </div>
+</div>
+</#macro>
+
+<#-- 博文列表显示2 -->
+<#macro showBlog row>
+<div class="stream-item" id="loop-${row.id}">
+    <#if row??>
+        <div class="p-rank clearfix">
+            <div class="users">
+                <a href="${base}/ta/${row.user.id}/1">
+                    <div class="ava">
+                        <@showAva row.user.avatar "img-circle"/>
+                    </div>
+                    <div class="info">
+                        <strong>${row.user.nickName}</strong><br/>
+                        <time> ${row.createTime?string('yyyy-MM-dd')}</time>
+                    <#--<time>${timeAgo(row.createTime)}</time>-->
+                    </div>
+                </a>
+            </div>
+            <div class="counts">
+                <span class="act"><i class="praise_icon"></i>${row.favors}</span>
+                <span class="act"><i class="comment_icon"></i>${row.comments}</span>
+            </div>
+        </div>
+        <div class="summary">
+            <a href="${base}/article/details/${row.id}">
+                <div class="title"><@showGroup row/><h2><strong>${row.title}</strong></h2></div>
+                <div class="excerpt wordbreak hidden-xs">${row.summary}</div>
+            </a>
+            <!--前端图片显示样式-->
+            <#if row.albums??>
+                <!--Start-->
+                <div class="thumbs clearfix">
+                    <#list row.albums as alb>
+                        <#if (alb_index <= 3)>
+                            <div class="media col-xs-4 col-sm-4 col-md-4">
+                                <@albShow2 row alb/>
+                            </div>
+                        </#if>
+                    </#list>
+                </div>
+                <!--End-->
+            </#if>
+
+            <div class="foot-block clearfix">
+                <ul class="tags">
+                    <#list row.tagsArray as tag>
+                        <li>
+                            <a class="tag tag-sm" href="${base}/tag/${tag}/">${tag}</a>
+                        </li>
+                    </#list>
+                </ul>
+            </div>
+        </div>
+    </#if>
 </div>
 </#macro>
 

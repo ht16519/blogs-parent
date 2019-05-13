@@ -116,6 +116,9 @@ public class User implements Serializable{
      */
     private String signature;
 
+    /** 随机字符串*/
+    private String salt;
+
     /** 用户角色*/
     private Set<Role> roles;
 

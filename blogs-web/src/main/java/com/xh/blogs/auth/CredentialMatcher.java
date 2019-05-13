@@ -1,9 +1,16 @@
 package com.xh.blogs.auth;
 
+import com.xh.blogs.api.IUserService;
+import com.xh.blogs.domain.po.User;
+import com.xh.blogs.exception.BusinessException;
+import com.xh.blogs.utils.DateUtil;
+import com.xh.blogs.utils.MD5Util;
+import com.xh.blogs.utils.ShiroUtil;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authc.credential.SimpleCredentialsMatcher;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @Name CredentialMatcher
@@ -12,6 +19,9 @@ import org.apache.shiro.authc.credential.SimpleCredentialsMatcher;
  * @Author deng.wenqin
  */
 public class CredentialMatcher extends SimpleCredentialsMatcher{
+
+	@Autowired
+	private IUserService userService;
 
 	/**
 	 * 校验用户密码的方法
@@ -22,8 +32,8 @@ public class CredentialMatcher extends SimpleCredentialsMatcher{
 		String password = new String(usernamePasswordToken.getPassword());
 		//获取AuthRealm中存入的密码
 		String dbPassword = (String) info.getCredentials();
-		// TODO 自定义密码校验规则
-		return this.equals(password, dbPassword);
+		User user = userService.getByUserName(usernamePasswordToken.getUsername());
+		return this.equals(MD5Util.inputPass2DBPass(password, user.getSalt()), dbPassword);
 	}
 
 }

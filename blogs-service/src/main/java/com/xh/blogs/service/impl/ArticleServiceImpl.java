@@ -4,10 +4,10 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.xh.blogs.api.IArticleService;
 import com.xh.blogs.consts.CommonConst;
-import com.xh.blogs.consts.ConfigConst;
 import com.xh.blogs.dao.mapper.ArticleAccessoryMapper;
 import com.xh.blogs.dao.mapper.ArticleContentMapper;
 import com.xh.blogs.dao.mapper.ArticleMapper;
+import com.xh.blogs.dao.mapper.UserMapper;
 import com.xh.blogs.domain.po.Article;
 import com.xh.blogs.domain.po.ArticleAccessory;
 import com.xh.blogs.domain.po.ArticleContent;
@@ -26,6 +26,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -43,14 +44,18 @@ import java.util.*;
  */
 @Service
 @Slf4j
-public class ArticleServiceImpl implements IArticleService {
+public class ArticleServiceImpl extends BaseServiceImpl implements IArticleService {
 
     @Autowired
     private ArticleMapper articleMapper;
     @Autowired
     private ArticleContentMapper articleContentMapper;
     @Autowired
+    private UserMapper userMapper;
+    @Autowired
     private ArticleAccessoryMapper articleAccessoryMapper;
+    @Value("${blogs.cutOutArticleSummaryIndex}")
+    private int cutOutArticleSummaryIndex;
 
     @Override
     public PageResult<Article> getInfoWithPage(int sort, int number) {
@@ -78,7 +83,7 @@ public class ArticleServiceImpl implements IArticleService {
     private PageResult<Article> getCommonWithPage(int sort, int number, Map<String, Object> parameters) {
         parameters.put(CommonConst.STATUS_KEY, CommonConst.EFFECTIVE_STATUS);
         parameters.put(CommonConst.ORDER_BY_KEY, sort);
-        Page<Article> page = PageHelper.startPage(number, CommonConst.PAGE_SIZE);
+        Page<Article> page = PageHelper.startPage(number, pageSize);
         articleMapper.selectInfoWithPage(parameters);
         return PageUtil.create(page, ArticleUtil.getArticles(page.getResult()));
     }
@@ -92,7 +97,7 @@ public class ArticleServiceImpl implements IArticleService {
         Article article = new Article();
         BeanUtils.copyProperties(articleVo, article);
         String voContent = articleVo.getContent();
-        article.setSummary(PreviewTextUtil.getText(voContent, ConfigConst.CUT_OUT_ARTICLE_SUMMARY_INDEX));
+        article.setSummary(PreviewTextUtil.getText(voContent, cutOutArticleSummaryIndex));
         article.setCreateTime(new Date());
         int res = articleMapper.insertSelective(article);
         //3.保存文章内容信息
@@ -103,7 +108,9 @@ public class ArticleServiceImpl implements IArticleService {
         if(res > 0){
             res = articleContentMapper.insertSelective(content);
             if(res > 0){
-                //4.保存文章附件信息
+                //4.用户发布文章数 +1
+                userMapper.updatePostsById(article.getAuthorId());
+                //5.保存文章附件信息
                 List<ArticleAccessory> articleAccessories = this.extractImages(doc, article.getId());
                 if(articleAccessories.size() > 0){
                     res = articleAccessoryMapper.insertList(articleAccessories);
@@ -141,7 +148,7 @@ public class ArticleServiceImpl implements IArticleService {
         parameters.put(CommonConst.ARTICLE_TITLE_KEY, title);
         parameters.put(CommonConst.STATUS_KEY, CommonConst.EFFECTIVE_STATUS);
         parameters.put(CommonConst.ORDER_BY_KEY, CommonConst.ARTICLE_ORDER_NEWSET);
-        Page<Article> page = PageHelper.startPage(number, CommonConst.PAGE_SIZE);
+        Page<Article> page = PageHelper.startPage(number, pageSize);
         articleMapper.selectInfoWithPage(parameters);
         return PageUtil.create(page);
     }
@@ -173,7 +180,7 @@ public class ArticleServiceImpl implements IArticleService {
         Article article = new Article();
         BeanUtils.copyProperties(articleVo, article);
         String voContent = articleVo.getContent();
-        article.setSummary(PreviewTextUtil.getText(voContent, ConfigConst.CUT_OUT_ARTICLE_SUMMARY_INDEX));
+        article.setSummary(PreviewTextUtil.getText(voContent, cutOutArticleSummaryIndex));
         article.setUpdateTime(new Date());
         int res = articleMapper.updateByPrimaryKeySelective(article);
         if(res > 0){

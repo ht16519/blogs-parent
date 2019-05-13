@@ -3,7 +3,6 @@ package com.xh.blogs.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.xh.blogs.api.IFollowsService;
-import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.NotifyConst;
 import com.xh.blogs.dao.mapper.FollowsMapper;
 import com.xh.blogs.dao.mapper.NotifyMapper;
@@ -11,15 +10,12 @@ import com.xh.blogs.dao.mapper.UserMapper;
 import com.xh.blogs.domain.po.Follows;
 import com.xh.blogs.domain.po.Notify;
 import com.xh.blogs.domain.vo.PageResult;
-import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.utils.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * @Name FollowsServiceImpl
@@ -28,7 +24,7 @@ import java.util.List;
  * @Date 2019-04-25
  */
 @Service
-public class FollowsServiceImpl implements IFollowsService{
+public class FollowsServiceImpl extends BaseServiceImpl implements IFollowsService{
 
     @Autowired
     private FollowsMapper followsMapper;
@@ -70,14 +66,14 @@ public class FollowsServiceImpl implements IFollowsService{
 
     @Override
     public PageResult<Follows> getFansByUserIdWithPage(int userId, int number) {
-        Page<Follows> page = PageHelper.startPage(number, CommonConst.PAGE_SIZE);
+        Page<Follows> page = PageHelper.startPage(number, pageSize);
         followsMapper.selectFansByUserId(userId);
         return PageUtil.create(page);
     }
 
     @Override
     public PageResult<Follows> getFollowsByUserIdWithPage(int userId, int number) {
-        Page<Follows> page = PageHelper.startPage(number, CommonConst.PAGE_SIZE);
+        Page<Follows> page = PageHelper.startPage(number, pageSize);
         followsMapper.selectFollowsByUserId(userId);
         return PageUtil.create(page);
     }

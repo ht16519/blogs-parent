@@ -12,6 +12,7 @@ import com.xh.blogs.domain.vo.WebApiResult;
 import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,10 +42,10 @@ public class AjaxController extends BaseController {
     @Autowired
     private IUploadService uploadService;
     @Autowired
-    private IArticleService articleService;
-    @Autowired
     private ICommentsService commentsService;
-
+    @Value("${blogs.statisticalCount}")
+    private int statisticalCount;
+    
     /**
     * @Name ueditorIpload
     * @Description 富文本图片上传
@@ -200,7 +201,7 @@ public class AjaxController extends BaseController {
     */
     @GetMapping("/free/latests.json")
     public WebApiResult<List<EHotArticle>> latestArticles(){
-        return WebApiResult.success(statisticalService.getLatestsArticles(ConfigConst.STATISTICAL_COUNT));
+        return WebApiResult.success(statisticalService.getLatestsArticles(statisticalCount));
     }
 
     /**
@@ -213,7 +214,7 @@ public class AjaxController extends BaseController {
     */
     @GetMapping("/free/hottests.json")
     public WebApiResult<List<EHotArticle>> hottestArticles(){
-        return WebApiResult.success(statisticalService.getHottestArticles(ConfigConst.STATISTICAL_COUNT));
+        return WebApiResult.success(statisticalService.getHottestArticles(statisticalCount));
     }
 
     /**
@@ -226,7 +227,7 @@ public class AjaxController extends BaseController {
     */
     @GetMapping("/free/hotusers.json")
     public WebApiResult<EHotUser> hottestUsers(){
-        return WebApiResult.success(statisticalService.getHottestUsers(ConfigConst.STATISTICAL_COUNT));
+        return WebApiResult.success(statisticalService.getHottestUsers(statisticalCount));
     }
 
 

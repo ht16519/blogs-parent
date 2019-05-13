@@ -68,6 +68,16 @@
                                 <i class="fa fa-edit"></i>撤销
                             </a>
 							</#if>
+
+                            <#if (row.featured == -10)>
+                            <a href="javascript:void(0);" class="btn btn-xs btn-danger" data-id="${row.id}" rel="featured">
+                                <i class="fa fa-edit"></i>加精
+                            </a>
+                            <#elseif (row.featured > 0)>
+                            <a href="javascript:void(0);" class="btn btn-xs btn-primary" data-id="${row.id}" rel="unfeatured">
+                                <i class="fa fa-edit"></i>撤销
+                            </a>
+                            </#if>
                             <a href="javascript:void(0);" class="btn btn-xs btn-default" data-id="${row.id}" rel="delete">
                                 <i class="fa fa-bitbucket"></i> 删除
                             </a>

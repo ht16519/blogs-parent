@@ -46,6 +46,4 @@ pagehelper:
 logging:
   level:
     com.xh.blogs.dao.mapper: debug
-fileUpload:
-  rootSavePath: C:/accessory/
-  rootHttpPath: /accessory/
+

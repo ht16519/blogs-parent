@@ -21,12 +21,12 @@
                 <!-- left -->
                 <div class="col-xs-12 col-md-9 side-left">
                     <div class="shadow-box">
-                        <h1 class="post-title">${ret.title}</h1>
+                        <h2 class="post-title"><@showGroup ret/><strong>${ret.title}</strong></h2>
                         <div class="clearfix post-other">
-            <span class="pull-left author">
-                <a class="author-name" href="${base}/ta/${ret.user.id}/1" target="_blank">${ret.user.nickName}</a>
-            </span>
-                            <time class="pull-left time">${ret.createTime?string('yyyy-MM-dd')}</time>
+                            <time class="pull-left time">${ret.createTime?string('yyyy-MM-dd HH:mm:ss')}</time>
+                            <span class="pull-left author">
+                                <a class="author-name" href="${base}/ta/${ret.user.id}/1" target="_blank"><span style="color: #78a5f1;">${ret.user.nickName}</span></a>
+                            </span>
                             <span class="pull-left time">浏览: ${ret.views}</span>
                             <ul class="tags">
                             <#list ret.tagsArray as tag>

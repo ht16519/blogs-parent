@@ -28,4 +28,6 @@ public interface RequestUrl {
 
     String REDIRECT_HOME = "redirect:/home/feeds/1";
 
+    String SYSTEM_ROOT = "/";
+
 }

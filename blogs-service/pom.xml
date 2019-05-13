@@ -38,6 +38,16 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-freemarker</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.xh.blogs</groupId>
             <artifactId>blogs-interface</artifactId>
             <version>1.0-SNAPSHOT</version>
@@ -45,8 +55,19 @@
     </dependencies>
 
 
+    <!--<build>-->
+        <!--<finalName>blogs-service</finalName>-->
+    <!--</build>-->
     <build>
         <finalName>blogs-service</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <classifier>exec</classifier>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
-
 </project>

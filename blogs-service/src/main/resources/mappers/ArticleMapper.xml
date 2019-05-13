@@ -19,6 +19,7 @@
     <result column="tags" property="tags" jdbcType="VARCHAR" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="views" property="views" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
@@ -122,6 +123,7 @@
             a.favors,
             a.belong_group,
             a.images,
+            a.type,
             a.last_image_id,
             a.summary,
             a.tags,

@@ -36,6 +36,19 @@ public class BlogsController extends BaseController {
     private IGroupService groupService;
 
     /**
+    * @Name declare
+    * @Description 免责申明
+    * @Author wen
+    * @Date 2019/5/12
+    * @param
+    * @return java.lang.String
+    */
+    @GetMapping("/index/declare/info")
+    public String declare(){
+        return ViewUrl.DECLARE_INFO;
+    }
+
+    /**
      * @Name removeArticle
      * @Description 移除文章
      * @Author wen
@@ -102,7 +115,7 @@ public class BlogsController extends BaseController {
     * @param
     * @return java.lang.String
     */
-    @GetMapping("/index")
+    @GetMapping({"", "/index"})
     public String index(ModelMap model) {
         model.put(CommonConst.RESULT_PAGE_INFO_KEY, articleService.getInfoWithPage(CommonConst.ARTICLE_ORDER_NEWSET, CommonConst.PAGE_NUMBER));
         model.put("ord", CommonConst.ARTICLE_ORDER_NEWSET);
@@ -131,12 +144,10 @@ public class BlogsController extends BaseController {
     * @Description 写文章
     * @Author wen
     * @Date 2019/4/26
-    * @param model
     * @return java.lang.String
     */
     @GetMapping("/home/article/new")
-    public String newArticle(ModelMap model) {
-        model.put(CommonConst.ARTICLE_GROUP, groupService.getByShow());
+    public String newArticle() {
         return ViewUrl.ARTICLE_PUBLISH;
     }
 
@@ -155,6 +166,7 @@ public class BlogsController extends BaseController {
             articleService.addArticle(article);
         } catch (BusinessException e) {
             super.getModel(e, model);
+            return ViewUrl.ARTICLE_PUBLISH;
         }
         return RequestUrl.REDIRECT_HOME;
     }
@@ -168,7 +180,7 @@ public class BlogsController extends BaseController {
     * @param model
     * @return java.lang.String
     */
-    @GetMapping("/article/{id}")
+    @GetMapping("/article/details/{id}")
     public String viewArticle(@PathVariable("id") int id, ModelMap model) {
         Article article = articleService.getById(id);
         if(article == null){

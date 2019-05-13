@@ -1,10 +1,14 @@
 package com.xh.blogs.content;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.xh.blogs.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 /**
  * @Name HttpInterceptor
@@ -13,6 +17,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
  * @Author wen
  */
 @Slf4j
+@Component
 public class HttpInterceptor extends HandlerInterceptorAdapter{
 
 	/**
@@ -21,9 +26,7 @@ public class HttpInterceptor extends HandlerInterceptorAdapter{
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		String url = request.getRequestURI();
-//		Map<String, String[]> parameterMap = request.getParameterMap();
-		System.err.println("===============请求地址：" + url);
+//		log.info("---请求路径:{}，---请求参数:{}", request.getRequestURI(), JsonUtil.serialize(request.getParameterMap()));
 		return true;
 	}
 

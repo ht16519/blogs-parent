@@ -35,7 +35,6 @@
 			<#list page.items as row>
     			<@showBlog row/>
 			</#list>
-
     		<#if  page.items?size == 0>
     		<div class="stream-item">
     			该目录下还没有内容!

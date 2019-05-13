@@ -27,7 +27,7 @@
 			<#if row.articleId??>
 				<div class="stream-item" id="loop-${row.articleId}">
 					<div class="summary">
-						<a href="${base}/article/${row.articleId}">
+						<a href="${base}/article/details/${row.articleId}">
 							<div class="title"><#if (row.featured > 0 )>
 								<span class="label label-danger">推荐</span>
 							</#if><h2>${row.title}</h2></div>

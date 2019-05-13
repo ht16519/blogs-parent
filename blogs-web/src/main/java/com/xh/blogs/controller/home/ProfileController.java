@@ -1,0 +1,235 @@
+package com.xh.blogs.controller.home;
+
+import com.xh.blogs.api.IMailService;
+import com.xh.blogs.api.IUploadService;
+import com.xh.blogs.api.IUserService;
+import com.xh.blogs.consts.*;
+import com.xh.blogs.controller.base.BaseController;
+import com.xh.blogs.domain.po.User;
+import com.xh.blogs.domain.vo.*;
+import com.xh.blogs.enums.EmError;
+import com.xh.blogs.exception.BusinessException;
+import com.xh.blogs.utils.CommonUtil;
+import com.xh.blogs.utils.ShiroUtil;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * @Name ProfileController
+ * @Description
+ * @Author wen
+ * @Date 2019-04-22
+ */
+@Slf4j
+@Controller
+@RequestMapping("/home/account")
+public class ProfileController extends BaseController {
+
+    @Autowired
+    private IUserService userService;
+    @Autowired
+    private IMailService mailService;
+    @Autowired
+    private IUploadService uploadService;
+
+    /**
+     * @param
+     * @return java.lang.String
+     * @Name accountPasswordDo
+     * @Description 修改密码操作
+     * @Author wen
+     * @Date 2019/5/4
+     */
+    @PostMapping("/password")
+    public String accountPasswordDo(UserPasswordVo passwordVo, ModelMap model) {
+        try {
+            passwordVo.setId(super.getProfile().getId());
+            passwordVo.setUserName(super.getProfile().getUserName());
+            userService.updatePasswordById(passwordVo);
+            super.getModelMap(model);
+        } catch (BusinessException e) {
+            super.getModel(e, model);
+        }
+        return ViewUrl.ACCOUNT_PASSWORD;
+    }
+
+    /**
+     * @param
+     * @return java.lang.String
+     * @Name accountPassword
+     * @Description 修改密码跳转
+     * @Author wen
+     * @Date 2019/5/4
+     */
+    @GetMapping("/password")
+    public String accountPassword() {
+        return ViewUrl.ACCOUNT_PASSWORD;
+    }
+
+    /**
+     * @param
+     * @return java.lang.String
+     * @Name accountAvatarDo
+     * @Description 修改头像操作
+     * @Author wen
+     * @Date 2019/5/4
+     */
+    @PostMapping("/avatar")
+    public String accountAvatarDo(MultipartFile file, AvatarVo avatarVo, ModelMap model) {
+        try {
+            //1.上传图片
+            String path = uploadService.uploadThum4Image(file, avatarVo, super.getProfile().getUserName());
+            //2.修改用户头像路径
+            User user = userService.updateAvatarById(super.getProfile().getId(), path);
+            //3.更新用户缓存
+            super.putProfile(user);
+            super.getModelMap(model);
+        } catch (BusinessException ex) {
+            if (ex.getErrCode() == ErrorConst.PARAMETER_VERIFICATION_ERROR_CODE) {
+                ex.setErrMsg(StringConst.AVATAR_PARAMETERS_ERROR);
+            }
+            super.getModel(ex, model);
+        }
+        return ViewUrl.ACCOUNT_AVATAR;
+    }
+
+    /**
+     * @param
+     * @return java.lang.String
+     * @Name accountAvatar
+     * @Description 修改头像跳转
+     * @Author wen
+     * @Date 2019/5/4
+     */
+    @GetMapping("/avatar")
+    public String accountAvatar() {
+        return ViewUrl.ACCOUNT_AVATAR;
+    }
+
+    /**
+     * @param
+     * @return java.lang.String
+     * @Name profile
+     * @Description 修改基本信息操作
+     * @Author wen
+     * @Date 2019/5/3
+     */
+    @PostMapping("/basic")
+    public String accountBasicDo(UserBasicVo userBasicVo, ModelMap model) {
+        try {
+            //1.修改用户信息
+            AccountProfile profile = super.getProfile();
+            userBasicVo.setId(profile.getId());
+            User user = userService.updateBasicById(userBasicVo);
+            //2.更新session中用户基本信息
+            super.putProfile(user);
+            super.getModelMap(model);
+        } catch (BusinessException e) {
+            super.getModel(e, model);
+        }
+        return ViewUrl.ACCOUNT_PROFILE;
+    }
+
+    /**
+     * @param
+     * @return java.lang.String
+     * @Name profile
+     * @Description 修改基本信息跳转
+     * @Author wen
+     * @Date 2019/5/3
+     */
+    @GetMapping("/basic")
+    public String accountBasic(ModelMap model) {
+        try {
+            model.put(CommonConst.DATA_RESULT_KEY, super.getProfile());
+        } catch (BusinessException e) {
+            super.getModel(e, model);
+        }
+        return ViewUrl.ACCOUNT_PROFILE;
+    }
+
+    /**
+    * @Name email
+    * @Description 邮箱认证页面
+    * @Author wen
+    * @Date 2019/5/13
+    * @param
+    * @return java.lang.String
+    */
+    @GetMapping("/email/{verifyCode}")
+    public String email() {
+        return ViewUrl.ACCOUNT_EMAIL;
+    }
+
+    @GetMapping("/email")
+    public String emailView() {
+        return ViewUrl.ACCOUNT_EMAIL;
+    }
+
+    /**
+    * @Name emailPost
+    * @Description 邮箱认证
+    * @Author wen
+    * @Date 2019/5/13
+    * @param
+    * @return java.lang.String
+    */
+    @PostMapping("/email")
+    public String emailPost(EmailVo emailVo, ModelMap model) {
+        String userName = null;
+        try {
+            AccountProfile profile = super.getProfile();
+            userName = profile.getUserName();
+            //获取verifyCode缓存
+            Object emailCode = ShiroUtil.sessionGetValue(KeyConst.EMAIL_CODE_KEY);
+            mailService.mailAuthentication(emailVo, emailCode);
+            //移除verifyCode缓存
+            ShiroUtil.getSession().removeAttribute(KeyConst.EMAIL_CODE_KEY);
+            //更新session中用户基本信息
+            User user = userService.activeEmailById(emailVo, profile.getId());
+            super.putProfile(user);
+            super.getModelMap(model);
+        } catch (BusinessException e) {
+            super.getModelMap(e, model);
+            log.error("邮箱验证异常，用户名:{}", userName);
+        }
+        return ViewUrl.ACCOUNT_EMAIL;
+    }
+
+    /**
+    * @Name sendEmail
+    * @Description 发邮件
+    * @Author wen
+    * @Date 2019/5/13
+    * @param email
+    * @return com.xh.blogs.domain.vo.WebApiResult
+    */
+    @GetMapping("/email/send.json/{email}")
+    @ResponseBody
+    public WebApiResult sendEmail(@PathVariable("email") String email) throws BusinessException {
+        AccountProfile profile = super.getProfile();
+        //1.验证邮箱信息
+        userService.validationEmail(email, profile);
+        //2.组建模板数据
+        int verifyCode = CommonUtil.getRandom();
+        Map<String, Object> data = new HashMap();
+        data.put(KeyConst.USER_NICK_NAME_KEY, profile.getNickName());
+        data.put(KeyConst.RESTUL_EMAIL_CODE_KEY, verifyCode);
+        //3.发送模板邮件
+        mailService.sendHtmlMail(email, ConfigConst.SYSTEM_EMAIL_TITLE, data, ViewUrl.ACCOUNT_ACTIVATE_EMAIL);
+        //4.存储验证码
+        ShiroUtil.sessionSetValue(KeyConst.EMAIL_CODE_KEY, email + CommonConst.SEPARATOR + verifyCode);
+        return WebApiResult.success();
+    }
+
+}

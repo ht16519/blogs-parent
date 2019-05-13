@@ -3,7 +3,6 @@ package com.xh.blogs.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.xh.blogs.api.IFavorsService;
-import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.NotifyConst;
 import com.xh.blogs.dao.mapper.ArticleMapper;
 import com.xh.blogs.dao.mapper.FavorsMapper;
@@ -20,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * @Name FavorsServiceImpl
@@ -29,7 +27,7 @@ import java.util.List;
  * @Date 2019-04-25
  */
 @Service
-public class FavorsServiceImpl implements IFavorsService {
+public class FavorsServiceImpl extends BaseServiceImpl implements IFavorsService {
 
     @Autowired
     private ArticleMapper articleMapper;
@@ -66,7 +64,7 @@ public class FavorsServiceImpl implements IFavorsService {
 
     @Override
     public PageResult<Article> getByUserIdWithPage(int userId, int number) {
-        Page<Article> page = PageHelper.startPage(number, CommonConst.PAGE_SIZE);
+        Page<Article> page = PageHelper.startPage(number, pageSize);
         favorsMapper.selectByUserIdWithPage(userId);
         return PageUtil.create(page, ArticleUtil.getArticles(page.getResult()));
     }

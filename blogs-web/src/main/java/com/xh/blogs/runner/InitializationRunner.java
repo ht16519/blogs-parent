@@ -1,16 +1,14 @@
 package com.xh.blogs.runner;
 
+import com.xh.blogs.api.IGroupService;
 import com.xh.blogs.api.IMenuService;
-import com.xh.blogs.domain.entity.ERoleMenu;
+import com.xh.blogs.api.IUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * @Name ApplicationRunner
@@ -24,16 +22,20 @@ import java.util.Map;
 public class InitializationRunner implements ApplicationRunner {
 
     @Autowired
+    private IGroupService groupService;
+    @Autowired
     private IMenuService menuService;
+    @Autowired
+    private IUserService userService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        log.info("============ START初始化角色菜单 ===========");
-        if(null == menuService.createRoleMenuCache()){
-            log.info("============ END角色菜单初始化失败 ===========");
-        } else {
-            log.info("============ END角色菜单初始化成功 ===========");
-        }
+        //1.初始化用户角色菜单
+        menuService.createRoleMenuCache();
+        //2.初始化header分类
+        groupService.createShowCache();
+        //3.初始化系统账户
+        userService.initSystemAccount();
     }
 
 }
