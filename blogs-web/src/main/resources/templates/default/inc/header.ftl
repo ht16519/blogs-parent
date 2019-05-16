@@ -94,10 +94,10 @@
     		                <li class="divider"></li>
                             <li><a href="${base}/home/account/basic">基本信息</a></li>
                             <li class="divider"></li>
-							<#--<@shiro.hasPermission name="admin">-->
+							<@shiro.hasPermission name="sys:home">
 								<li><a href="${base}/admin">后台管理</a></li>
-							<#--</@shiro.hasPermission>-->
-
+							</@shiro.hasPermission>
+                            <li class="divider"></li>
     		                <li><a href="${base}/logout">退出</a></li>
     		              </ul>
     				</li>

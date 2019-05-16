@@ -44,8 +44,6 @@ public interface CommonConst {
 
     int INVALID_STATUS = -10;
 
-    String COMMON_REDIS_KEY_PREFIX = "redisKey:";
-
     String SYSTEM_PROFILE = "profile";
 
     String ORDER_BY_KEY = "sort";

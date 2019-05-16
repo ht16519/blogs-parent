@@ -3,6 +3,7 @@ package com.xh.blogs.controller.manager;
 import com.xh.blogs.api.IArticleService;
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.ViewUrl;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -23,6 +24,7 @@ public class ArticleController {
     private IArticleService articleService;
 
     @GetMapping("/list")
+    @RequiresRoles("admin")
     public String listArticle(String title, Integer pn, ModelMap model){
         model.put(CommonConst.RESULT_PAGE_INFO_KEY, articleService.getByConditionWithPage(title, pn));
         model.put(CommonConst.ARTICLE_TITLE_KEY, title);

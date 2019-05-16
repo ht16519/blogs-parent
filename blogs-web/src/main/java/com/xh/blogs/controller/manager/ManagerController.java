@@ -3,10 +3,13 @@ package com.xh.blogs.controller.manager;
 import com.xh.blogs.api.ICommentsService;
 import com.xh.blogs.api.IGroupService;
 import com.xh.blogs.domain.vo.WebApiResult;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -25,6 +28,7 @@ public class ManagerController {
     private ICommentsService commentsService;
 
     @GetMapping("/group/delete/{id}")
+    @RequiresPermissions("sys:comments:delete")
     public WebApiResult commentDelete(@PathVariable("id") int id){
         return WebApiResult.getResult(groupService.deleteById(id));
     }
@@ -38,6 +42,7 @@ public class ManagerController {
     * @return com.xh.blogs.domain.vo.WebApiResult
     */
     @GetMapping("/comments/delete/{ids}")
+    @RequiresPermissions("sys:comments:deletes")
     public WebApiResult commentDelete(@PathVariable("ids") Set<Integer> ids){
         int res = commentsService.batchRemoveByIds(ids);
         return WebApiResult.getResult(res, "操作成功，共删除了" + res + "条数据！");

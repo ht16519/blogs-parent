@@ -1,7 +1,6 @@
 package com.xh.blogs.controller.home;
 
 import com.xh.blogs.api.IArticleService;
-import com.xh.blogs.api.IUploadService;
 import com.xh.blogs.api.IUserService;
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.RequestUrl;
@@ -28,6 +27,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @Name UserController
  * @Description
@@ -41,10 +42,9 @@ public class UserController extends BaseController {
     @Autowired
     private IUserService userService;
     @Autowired
-    private IUploadService uploadService;
-    @Autowired
     private IArticleService articleService;
-
+    @Autowired
+    private HttpServletRequest request;
     /**
     * @Name bloggerInfo
     * @Description 博主详情
@@ -154,14 +154,14 @@ public class UserController extends BaseController {
             super.putProfile(model);
             //TODO 登录记录生成
             return RequestUrl.REDIRECT_HOME;
+        } catch (UnknownAccountException e) {
+            super.getModelMap(EmError.USER_NAME_OR_PASSWORD_ERROR, model);
+            log.error("username:{}, message:{}, ip:{}", e.getMessage(), EmError.USER_NAME_OR_PASSWORD_ERROR.getErrMsg(), super.getIpAddr(request));
+        } catch (LockedAccountException e) {
+            super.getModelMap(EmError.USER_IS_DISABLE, model);
+            log.error("username:{}, message:{}, ip:{}", e.getMessage() ,EmError.USER_IS_DISABLE.getErrMsg(), super.getIpAddr(request));
         } catch (AuthenticationException e) {
-            if (e instanceof UnknownAccountException) {
-                super.getModelMap(EmError.USER_DATA_ERROR, model);
-            } else if (e instanceof LockedAccountException) {
-                super.getModelMap(EmError.USER_IS_DISABLE, model);
-            } else {
-                super.getModelMap(EmError.USER_NAME_OR_PASSWORD_ERROR, model);
-            }
+            super.getModelMap(EmError.USER_NAME_OR_PASSWORD_ERROR, model);
             log.error("login exception:{}", e);
         }
         return ViewUrl.LOGIN;

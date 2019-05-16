@@ -4,6 +4,7 @@ import com.xh.blogs.api.ICommentsService;
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.KeyConst;
 import com.xh.blogs.consts.ViewUrl;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -24,6 +25,7 @@ public class CommentsController {
     private ICommentsService commentsService;
 
     @GetMapping("/list")
+    @RequiresRoles("admin")
     public String list(String cont, Integer pn,  ModelMap model) {
         model.put(CommonConst.RESULT_PAGE_INFO_KEY, commentsService.getWithPage(cont ,pn));
         model.put(KeyConst.COMMENTS_CONTENT_KEY, cont);

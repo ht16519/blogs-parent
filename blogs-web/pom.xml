@@ -37,6 +37,11 @@
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-spring</artifactId>
         </dependency>
+        <dependency>
+            <groupId>net.mingsoft</groupId>
+            <artifactId>shiro-freemarker-tags</artifactId>
+        </dependency>
+
 
         <dependency>
             <groupId>com.xh.blogs</groupId>

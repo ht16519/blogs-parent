@@ -34,6 +34,7 @@ public enum EmError implements CommomError {
     USER_PASSWORD_ERROR(20012, "当前密码输入错误"),
     USER_IS_NOT_EXIST(20013, "该用户不存在"),
     USER_IS_UNAVAILABLE(20014, "该账户已被冻结，暂时无法操作"),
+    USER_UNAUTHORIZED(20014, "权限不够，请联系管理员"),
 
     //300开头为文件相关错误
     FILE_WRITE_ERROR(30001, "文件上传失败"),
