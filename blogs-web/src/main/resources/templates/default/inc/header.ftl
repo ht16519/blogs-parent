@@ -70,8 +70,8 @@
     			</ul>
     			<div id="_search_box" class="search-box navbar-left hidden-xs hidden-sm">
     				<form class="navbar-form" method="get" action="${base}/search">
-    					<input type="text" class="form-control" name="q" placeholder="搜索...">
-						<button class="search-btn" type="submit"><i class="fa fa-search"></i></button>
+    					<input id="searchText" type="text" class="form-control" name="q" placeholder="搜索...">
+						<button class="search-btn" type="button" onclick="searchBtn();"><i class="fa fa-search"></i></button>
     				</form>
     			</div>
     			
@@ -94,10 +94,10 @@
     		                <li class="divider"></li>
                             <li><a href="${base}/home/account/basic">基本信息</a></li>
                             <li class="divider"></li>
-							<@shiro.hasPermission name="sys:admin">
+							<#--<@shiro.hasPermission name="admin">-->
 								<li><a href="${base}/admin">后台管理</a></li>
-							<li class="divider"></li>
-							</@shiro.hasPermission>
+							<#--</@shiro.hasPermission>-->
+
     		                <li><a href="${base}/logout">退出</a></li>
     		              </ul>
     				</li>
@@ -112,6 +112,7 @@
     </nav>
 </div>
 <script type="text/javascript">
+
 $(function () {
 	$('a[nav]').each(function(){  
         $this = $(this);

@@ -34,9 +34,7 @@ public class InitializationRunner implements ApplicationRunner {
         menuService.createRoleMenuCache();
         //2.初始化header分类
         groupService.createShowCache();
-        //3.初始化系统账户
-        userService.initSystemAccount();
-        //4.初始化用户角色菜单关系树
+        //3.初始化用户角色菜单关系树
         menuService.createRoleMenuTreeCache();
     }
 

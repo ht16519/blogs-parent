@@ -216,11 +216,6 @@
                         }
                     }
                 }
-                <#--if (data.pid > 0 && !(data.parent === null)) {-->
-                    <#--var pat = data.parent;-->
-                    <#--var pcontent = ContentRender.wrapItem(pat.content);-->
-                    <#--quoto = '<div class="quote"><a href="${base}/ta/' + pat.userId + '">@' + pat.nickName + '</a>: ' + pcontent + '</div>';-->
-                <#--}-->
                 var item = jQuery.format(template,
                         data.userId,
                         data.avatar,

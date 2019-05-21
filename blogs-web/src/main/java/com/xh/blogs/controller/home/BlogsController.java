@@ -8,6 +8,7 @@ import com.xh.blogs.consts.ViewUrl;
 import com.xh.blogs.controller.base.BaseController;
 import com.xh.blogs.domain.po.Article;
 import com.xh.blogs.domain.vo.ArticleVo;
+import com.xh.blogs.domain.vo.PageResult;
 import com.xh.blogs.domain.vo.WebApiResult;
 import com.xh.blogs.enums.EmError;
 import com.xh.blogs.exception.BusinessException;
@@ -115,8 +116,15 @@ public class BlogsController extends BaseController {
     * @param
     * @return java.lang.String
     */
+    @PostMapping("/api/free/index")
+    @ResponseBody
+    public WebApiResult index() {
+        PageResult<Article> page = articleService.getInfoWithPage(CommonConst.ARTICLE_ORDER_NEWSET, CommonConst.PAGE_NUMBER);
+        return WebApiResult.success(page);
+    }
+
     @GetMapping({"", "/index"})
-    public String index(ModelMap model) {
+    public String articleIndex(ModelMap model) {
         model.put(CommonConst.RESULT_PAGE_INFO_KEY, articleService.getInfoWithPage(CommonConst.ARTICLE_ORDER_NEWSET, CommonConst.PAGE_NUMBER));
         model.put("ord", CommonConst.ARTICLE_ORDER_NEWSET);
         return ViewUrl.INDEX;

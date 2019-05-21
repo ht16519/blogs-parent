@@ -11,13 +11,10 @@ import com.xh.blogs.enums.EmError;
 import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.utils.CommonUtil;
 import com.xh.blogs.utils.ShiroUtil;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -172,7 +169,17 @@ public class ProfileController extends BaseController {
     }
 
     @GetMapping("/email")
-    public String emailView() {
+    public String emailView(ModelMap model) throws BusinessException {
+        return ViewUrl.ACCOUNT_EMAIL;
+    }
+
+    @GetMapping("/active/email")
+    public String activeMailView(ModelMap model) throws BusinessException {
+        User user = userService.getById(super.getProfile().getId());
+        if(user.getActiveEmail().equals(CommonConst.EFFECTIVE_STATUS)){
+            super.getModelMap(EmError.USER_EMAIL_IS_ACTIVE.getErrMsg(), model);
+            return ViewUrl.ACCOUNT_PROFILE;
+        }
         return ViewUrl.ACCOUNT_EMAIL;
     }
 

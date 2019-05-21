@@ -5,7 +5,7 @@
         <!-- tab -->
         <div class="filter">
             <div class="alert" style="margin-bottom:0">
-                <li><span>搜索 <strong>${q}</strong>, 共 ${page.totalElements} 个结果.</span></li>
+                <li><span>搜索 <strong><span style="color: red;">${q}</span></strong>, 共 <span style="color: red;">${page.totalElements}</span> 个结果.</span></li>
             </div>
         </div>
         <!-- tab end -->
