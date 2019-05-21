@@ -24,7 +24,7 @@
         </div>
     </div>
     <div class="text-center clr">
-		<#assign url = "/search?q=" +q />
+		<#assign url = "/index?q=" +q />
 		<@pager url page 3 />
     </div>
 

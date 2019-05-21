@@ -70,5 +70,8 @@ public interface ViewUrl {
 
     String ACCOUNT_EMAIL = "default/account/email";
 
+    String ARTICLE_SEARCH = "default/search";
+
     String ACCOUNT_ACTIVATE_EMAIL = "default/account/activate.ftl";
+
 }

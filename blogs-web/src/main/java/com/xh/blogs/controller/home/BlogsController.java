@@ -116,18 +116,17 @@ public class BlogsController extends BaseController {
     * @param
     * @return java.lang.String
     */
-    @PostMapping("/api/free/index")
-    @ResponseBody
-    public WebApiResult index() {
-        PageResult<Article> page = articleService.getInfoWithPage(CommonConst.ARTICLE_ORDER_NEWSET, CommonConst.PAGE_NUMBER);
-        return WebApiResult.success(page);
-    }
-
     @GetMapping({"", "/index"})
-    public String articleIndex(ModelMap model) {
+    public String index(ModelMap model) {
         model.put(CommonConst.RESULT_PAGE_INFO_KEY, articleService.getInfoWithPage(CommonConst.ARTICLE_ORDER_NEWSET, CommonConst.PAGE_NUMBER));
         model.put("ord", CommonConst.ARTICLE_ORDER_NEWSET);
         return ViewUrl.INDEX;
+    }
+
+    @GetMapping("/index/{q}")
+    public String articleSearch(@PathVariable("q") String q, ModelMap model) {
+
+       return ViewUrl.ARTICLE_SEARCH;
     }
 
     /**
