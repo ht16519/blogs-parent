@@ -54,7 +54,9 @@
                         <ul class="nav side-menu">
                             <li><a href="${base}/admin"><i class="fa fa-home"></i> Home</a></li>
                             <#list userMenus as menu>
-                                <li><a href="${base}/${menu.url}" nav="${menu.seq}"><i class="${menu.icon}"></i>${menu.name}</a></li>
+                                <#if (menu.parentId == 2)>
+                                <li><a href="${base}/${menu.url}" nav="${menu.sort}"><i class="${menu.icon}"></i>${menu.name}</a></li>
+                                </#if>
                             </#list>
                         </ul>
                     </div>

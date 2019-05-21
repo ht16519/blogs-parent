@@ -14,9 +14,17 @@ public interface ViewUrl {
 
     String ADMIN_COMMENTS_LIST = "admin/comments/list";
 
-    String ADMIN_ARTICLE_LIST ="admin/posts/list";
+    String ADMIN_ARTICLE_LIST = "admin/posts/list";
 
-    String ADMIN_INDEX ="admin/index";
+    String ADMIN_INDEX = "admin/index";
+
+    String ADMIN_MENU_LIST = "admin/authMenus/list";
+
+    String ADMIN_MENU_VIEW = "admin/authMenus/view";
+
+    String ADMIN_ROLE_LIST = "admin/roles/list";
+
+    String ADMIN_ROLE_VIEW = "admin/roles/view";
 
     //==============
 

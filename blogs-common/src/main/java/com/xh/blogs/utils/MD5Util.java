@@ -14,7 +14,7 @@ import java.util.Date;
 public class MD5Util {
 
     /**
-     *
+     * 前端盐值
      */
     private static final String SALT = "1a2b3c4d";
 

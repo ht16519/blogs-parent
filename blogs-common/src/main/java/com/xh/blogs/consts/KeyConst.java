@@ -19,4 +19,7 @@ public interface KeyConst {
     String RESTUL_EMAIL_CODE_KEY = "verifyCode";
 
     String USER_NICK_NAME_KEY = "nickName";
+
+    /** 后台角色菜单关系树缓存key*/
+    String ADMIN_ROLE_MENU_TREE_CACHE_KEY = "redis:roleMenuCacheTree";
 }

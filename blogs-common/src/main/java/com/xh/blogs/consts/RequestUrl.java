@@ -30,4 +30,8 @@ public interface RequestUrl {
 
     String SYSTEM_ROOT = "/";
 
+    String REDIRECT_ADMIN_ROLE_VIEW = "redirect:/admin/role/view/";
+
+    String REDIRECT_ADMIN_ROLE_LIST = "redirect:/admin/role/list";
+
 }

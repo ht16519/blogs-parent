@@ -2,7 +2,6 @@ package com.xh.blogs.config;
 
 import com.xh.blogs.auth.AuthRealm;
 import com.xh.blogs.auth.CredentialMatcher;
-import com.xh.blogs.consts.ConfigConst;
 import com.xh.blogs.consts.RequestUrl;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.mgt.SecurityManager;

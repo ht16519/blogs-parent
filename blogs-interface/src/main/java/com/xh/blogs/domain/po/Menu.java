@@ -19,63 +19,62 @@ public class Menu implements Serializable{
     */
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 菜单id
-     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     /**
-     * 菜单名称
+     * 名称
      */
     private String name;
 
     /**
-     * 菜单状态（-1：弃用，1：启用）
+     * 权限
      */
-    private Integer status;
-
-    @Column(name = "update_time")
-    private Date updateTime;
+    private String permission;
 
     /**
-     * 创建人id
+     * 排序
      */
-    @Column(name = "create_by")
-    private Integer createBy;
-
-    @Column(name = "create_time")
-    private Date createTime;
+    private Integer sort;
 
     /**
-     * 对应请求地址
+     * 请求路径
      */
     private String url;
 
     /**
-     * 父级菜单id
+     * 级别
+     */
+    private Integer level;
+
+    /**
+     * 父级id
      */
     @Column(name = "parent_id")
     private Integer parentId;
 
-    /**
-     * 所有上级id，格式：(1)(2)(3)
-     */
     @Column(name = "parent_ids")
     private String parentIds;
-
-    /**
-     * 菜单等级(1，2，3）
-     */
-    private Integer level;
 
     /**
      * 图标
      */
     private String icon;
 
-    /** 排序*/
-    private Integer seq;
+    @Column(name = "create_time")
+    private Date createTime;
+
+    @Column(name = "update_time")
+    private Date updateTime;
+
+    @Column(name = "create_by")
+    private Integer createBy;
+
+    @Column(name = "update_by")
+    private Integer updateBy;
+
+    private Integer status;
+
 
 }

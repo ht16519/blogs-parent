@@ -54,6 +54,12 @@ public enum EmError implements CommomError {
     CODE_IS_ERROR(50004, "验证码不正确"),
     USER_EMAIL_IS_EXIST(50005, "邮箱已被注册"),
     USER_EMAIL_IS_ACTIVE(50006, "您的邮箱已是激活状态"),
+
+    //600开头位角色相关错误
+    ROLE_INFO_IS_NOT_EXIST(60001, "角色不存在"),
+    ROLE_INFO_IS_EXIST(60002, "角色名称已经存在，不可重复"),
+
+
     ;
 
     private int code;

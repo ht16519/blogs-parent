@@ -32,12 +32,7 @@
         <collection property="roles" ofType="com.xh.blogs.domain.po.Role" javaType="java.util.Set">
             <id column="role_id" property="id" jdbcType="INTEGER" />
             <result column="role_name" property="name" jdbcType="VARCHAR" />
-            <collection property="permissions" ofType="com.xh.blogs.domain.po.Permission" javaType="java.util.Set">
-                <id column="permission_id" property="id" jdbcType="INTEGER" />
-                <result column="permission_name" property="name" jdbcType="VARCHAR" />
-                <result column="permission_url" property="url" jdbcType="VARCHAR" />
-                <result column="permission_status" property="status" jdbcType="INTEGER" />
-            </collection>
+            <result column="role_remark" property="remark" jdbcType="VARCHAR" />
         </collection>
     </resultMap>
 
@@ -77,23 +72,17 @@
       LIMIT #{count}
   </select>
 
-  <select id="selectUserInfoByName" parameterType="java.lang.String" resultMap="selectUserInfoByNameMap">
-      SELECT
-          r.id AS role_id,
-          r.`name` AS role_name,
-          p.`name` AS permission_name,
-          p.id AS permission_id,
-          p.url AS permission_url,
-          p.`status` AS permission_status,
-          u.*
-      FROM
-          t_user u
-      LEFT JOIN t_user_role ur ON u.id = ur.user_id
-      LEFT JOIN t_role r ON r.id = ur.role_id
-      LEFT JOIN t_role_permission pr ON r.id = pr.permission_id
-      LEFT JOIN t_permission p ON p.id = pr.role_id
-      WHERE
-          u.user_name = #{userName}
-      AND u.`status` = 10
-  </select>
+    <select id="selectUserInfoByName" parameterType="java.lang.String" resultMap="selectUserInfoByNameMap">
+        SELECT
+            u.*, r.id AS role_id,
+            r.`name` AS role_name,
+            r.remark AS role_remark
+        FROM
+            t_user AS u
+        LEFT JOIN t_user_role AS ur ON ur.user_id = u.id
+        LEFT JOIN t_role AS r ON r.id = ur.role_id
+        WHERE
+            u.user_name = #{userName}
+        AND u.`status` = 10
+    </select>
 </mapper>
