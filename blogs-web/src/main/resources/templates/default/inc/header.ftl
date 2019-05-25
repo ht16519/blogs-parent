@@ -69,8 +69,9 @@
 					</#if>
     			</ul>
     			<div id="_search_box" class="search-box navbar-left hidden-xs hidden-sm">
-    				<form class="navbar-form" method="get" action="${base}/index">
-    					<input type="text" class="form-control" name="q" placeholder="搜索...">
+    				<form class="navbar-form" method="get" action="${base}/article/search">
+    					<input type="text" class="form-control" name="q" placeholder="搜索..." value="${q}">
+    					<input type="hidden" name="pn" value="1" />
 						<button class="search-btn" type="submit"><i class="fa fa-search"></i></button>
     				</form>
     			</div>

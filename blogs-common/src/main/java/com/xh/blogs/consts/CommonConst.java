@@ -8,6 +8,8 @@ package com.xh.blogs.consts;
  */
 public interface CommonConst {
 
+    String EMPTY_STRING = "";
+
     String ARTICLE_TITLE_KEY = "title";
 
     String DATA_RESULT_KEY = "data";
@@ -66,5 +68,6 @@ public interface CommonConst {
     String SEPARATOR_SEMICOLON = ";";
 
     String SEPARATOR_POINT = ".";
+
 
 }

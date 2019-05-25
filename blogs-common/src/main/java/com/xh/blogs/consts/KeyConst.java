@@ -8,6 +8,14 @@ package com.xh.blogs.consts;
  */
 public interface KeyConst {
 
+    String ARTICLE_SEARCH_PARAMETER_KEY = "q";
+
+    String DB_CREATE_TIME_KEY = "createTime";
+
+    String ARTICLE_COMMTENTS_KEY = "comments";
+
+    String ARTICLE_FAVORS_KEY = "favors";
+
     String COMMENTS_CONTENT_KEY = "cont";
 
     String BLOGS_GROUP_CACHE_KEY = "redis:blogsGroupKey";

@@ -42,7 +42,6 @@
             <artifactId>shiro-freemarker-tags</artifactId>
         </dependency>
 
-
         <dependency>
             <groupId>com.xh.blogs</groupId>
             <artifactId>blogs-service</artifactId>

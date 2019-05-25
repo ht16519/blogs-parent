@@ -5,26 +5,25 @@
         <!-- tab -->
         <div class="filter">
             <div class="alert" style="margin-bottom:0">
-                <li><span>搜索 <strong><span style="color: red;">${q}</span></strong>, 共 <span style="color: red;">${page.totalElements}</span> 个结果.</span></li>
+                <li><span>搜索关键字 "<strong><span style="color: red;"><span style="color: red;">${q}</span></span></strong>", 共找到 <span style="color: red;">${page.total}</span> 个结果.</span></li>
             </div>
         </div>
         <!-- tab end -->
         <!-- tab panes -->
         <div class="stream-list p-stream">
 			<#list page.items as row>
-				<@showBlog row/>
+				<@showBlog2 row/>
 			</#list>
 
-			<#if  page.items?size == 0>
+			<#if page.items?size == 0>
                 <div class="stream-item">
                     该目录下还没有内容!
                 </div>
 			</#if>
-
         </div>
     </div>
     <div class="text-center clr">
-		<#assign url = "/index?q=" +q />
+		<#assign url = "/article/search?q=" + q />
 		<@pager url page 3 />
     </div>
 

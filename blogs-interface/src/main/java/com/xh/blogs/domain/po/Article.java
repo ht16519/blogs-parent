@@ -47,7 +47,7 @@ public class Article implements Serializable{
     private String editor;
 
     /**
-     * 粉丝数量
+     * 收藏数量
      */
     private Integer favors;
 

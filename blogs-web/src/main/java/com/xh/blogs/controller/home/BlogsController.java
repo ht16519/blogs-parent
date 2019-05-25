@@ -1,18 +1,23 @@
 package com.xh.blogs.controller.home;
 
 import com.xh.blogs.api.IArticleService;
+import com.xh.blogs.api.IEsArticleService;
 import com.xh.blogs.api.IGroupService;
 import com.xh.blogs.consts.CommonConst;
+import com.xh.blogs.consts.KeyConst;
 import com.xh.blogs.consts.RequestUrl;
 import com.xh.blogs.consts.ViewUrl;
 import com.xh.blogs.controller.base.BaseController;
+import com.xh.blogs.domain.es.EsArticle;
 import com.xh.blogs.domain.po.Article;
 import com.xh.blogs.domain.vo.ArticleVo;
 import com.xh.blogs.domain.vo.PageResult;
 import com.xh.blogs.domain.vo.WebApiResult;
 import com.xh.blogs.enums.EmError;
 import com.xh.blogs.exception.BusinessException;
+import com.xh.blogs.utils.CommonUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,6 +25,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @Name BlogsController
@@ -33,6 +41,8 @@ public class BlogsController extends BaseController {
 
     @Autowired
     private IArticleService articleService;
+    @Autowired
+    private IEsArticleService esArticleService;
     @Autowired
     private IGroupService groupService;
 
@@ -123,10 +133,21 @@ public class BlogsController extends BaseController {
         return ViewUrl.INDEX;
     }
 
-    @GetMapping("/index/{q}")
-    public String articleSearch(@PathVariable("q") String q, ModelMap model) {
-
-       return ViewUrl.ARTICLE_SEARCH;
+    /**
+    * @Name articleSearch
+    * @Description 文章搜索
+    * @Author wen
+    * @Date 2019/5/25
+    * @param q
+    * @param model
+    * @return java.lang.String
+    */
+    @GetMapping("/article/search")
+    public String articleSearch(String q, int pn, ModelMap model) {
+        String keyword = CommonUtil.handleSpecial(q);
+        model.put(CommonConst.RESULT_PAGE_INFO_KEY, StringUtils.isEmpty(keyword) ? PageResult.createNull() : esArticleService.search(keyword, pn));
+        model.put(KeyConst.ARTICLE_SEARCH_PARAMETER_KEY, q);
+        return ViewUrl.ARTICLE_SEARCH;
     }
 
     /**

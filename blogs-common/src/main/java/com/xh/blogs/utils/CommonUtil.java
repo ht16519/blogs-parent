@@ -1,5 +1,6 @@
 package com.xh.blogs.utils;
 
+import com.xh.blogs.consts.CommonConst;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -71,13 +72,36 @@ public class CommonUtil {
         return (int) ((Math.random() * 9 + 1) * 100000);
     }
 
+    /**
+    * @Name handleSpecial
+    * @Description 处理字符串中的特殊字符替换为""
+    * @Author wen
+    * @Date 2019/5/25
+    * @param source
+    * @return java.lang.String
+    */
+    public static String handleSpecial(String source){
+        if(StringUtils.isEmpty(source)){
+            return CommonConst.EMPTY_STRING;
+        }
+        String regEx = "[`~!@#$%^&*()\\-+={}':;,\\[\\].<>/?￥%…（）_+|【】‘；：”“’。，、？\\s]";
+        return Pattern.compile(regEx).matcher(source).replaceAll(CommonConst.EMPTY_STRING);
+    }
+
+    /**
+    * @Name isEmail
+    * @Description 验证是否是邮箱格式字符串
+    * @Author wen
+    * @Date 2019/5/25
+    * @param email
+    * @return boolean
+    */
     public static boolean isEmail(String email) {
         if (StringUtils.isEmpty(email)) {
             return false;
         }
         String regEx1 = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
-        Pattern pattern = Pattern.compile(regEx1);
-        return pattern.matcher(email).matches();
+        return Pattern.compile(regEx1).matcher(email).matches();
     }
 
     /**
@@ -92,8 +116,7 @@ public class CommonUtil {
         if (StringUtils.isEmpty(str)) {
             return false;
         }
-        Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
-        return pattern.matcher(str).matches();
+        return Pattern.compile("^[-\\+]?[\\d]*$").matcher(str).matches();
     }
 
 }

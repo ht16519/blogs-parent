@@ -48,6 +48,7 @@
     </div>
 
     <div class="p-rank clearfix">
+        <#if row.user??>
         <div class="users">
             <a href="${base}/ta/${row.user.id}/1">
                 <div class="ava">
@@ -61,8 +62,8 @@
                 <time> ${row.createTime?string('MM月dd日')}</time>
                 <#--TODO加上时间 <time> ${timeAgo(row.createTime)}</time>-->
             </div>
-
         </div>
+        </#if>
         <div class="counts">
             <span class="act"><i class="praise_icon"></i>${row.favors}</span>
             <span class="act"><i class="comment_icon"></i>${row.comments}</span>
@@ -87,6 +88,7 @@
 <div class="stream-item" id="loop-${row.id}">
     <#if row??>
         <div class="p-rank clearfix">
+            <#if row.user??>
             <div class="users">
                 <a href="${base}/ta/${row.user.id}/1">
                     <div class="ava">
@@ -99,6 +101,7 @@
                     </div>
                 </a>
             </div>
+            </#if>
             <div class="counts">
                 <span class="act"><i class="praise_icon"></i>${row.favors}</span>
                 <span class="act"><i class="comment_icon"></i>${row.comments}</span>
@@ -142,7 +145,12 @@
 <#if (p.total > 0)>
     <#local pageNum = p.number/>
     <#local pageSize = p.pages/>
-    <#local cURL = (url + "/") />
+    <#if (url?index_of("?") == -1)>
+        <#local cURL = (url + "/") />
+    <#else>
+        <#local cURL = (url + "&pn=") />
+    </#if>
+
 
 <ul class="pagination">
     <#if (pageNum > 1)>

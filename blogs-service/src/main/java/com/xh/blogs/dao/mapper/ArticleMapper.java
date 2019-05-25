@@ -2,6 +2,7 @@ package com.xh.blogs.dao.mapper;
 
 import com.xh.blogs.dao.base.IBaseMapper;
 import com.xh.blogs.domain.entity.EHotArticle;
+import com.xh.blogs.domain.es.EsArticle;
 import com.xh.blogs.domain.po.Article;
 import org.apache.ibatis.annotations.Param;
 
@@ -90,4 +91,14 @@ public interface ArticleMapper extends IBaseMapper<Article> {
     * @return com.xh.blogs.domain.po.Article
     */
     Article selectByUserId(@Param("id") int id, @Param("userId") int userId);
+
+    /**
+    * @Name selectAll2EsArticle
+    * @Description 查询所有的文章信息放入es实体
+    * @Author wen
+    * @Date 2019/5/24
+    * @param
+    * @return java.util.List<com.xh.blogs.domain.es.EsArticle>
+    */
+    List<EsArticle> selectAll2EsArticle();
 }

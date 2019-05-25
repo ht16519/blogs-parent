@@ -1,8 +1,8 @@
 package com.xh.blogs.runner;
 
+import com.xh.blogs.api.IEsArticleService;
 import com.xh.blogs.api.IGroupService;
 import com.xh.blogs.api.IMenuService;
-import com.xh.blogs.api.IUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -22,11 +22,11 @@ import org.springframework.stereotype.Component;
 public class InitializationRunner implements ApplicationRunner {
 
     @Autowired
+    private IEsArticleService esArticleService;
+    @Autowired
     private IGroupService groupService;
     @Autowired
     private IMenuService menuService;
-    @Autowired
-    private IUserService userService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -36,6 +36,10 @@ public class InitializationRunner implements ApplicationRunner {
         groupService.createShowCache();
         //3.初始化用户角色菜单关系树
         menuService.createRoleMenuTreeCache();
+        //4.初始化文章的全文检索信息
+        esArticleService.createEsLibrary();
     }
+
+
 
 }

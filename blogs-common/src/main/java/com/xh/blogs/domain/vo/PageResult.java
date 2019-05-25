@@ -2,6 +2,7 @@ package com.xh.blogs.domain.vo;
 
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,6 +42,10 @@ public class PageResult<T> {
     public PageResult(long total, int number, int pages, List<T> items) {
         this(total, number, items);
         this.pages = pages;
+    }
+
+    public static PageResult createNull(){
+        return new PageResult(0, 1, 0, new ArrayList<>());
     }
 
 }
