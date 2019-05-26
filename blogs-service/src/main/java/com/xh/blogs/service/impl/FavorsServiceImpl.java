@@ -54,6 +54,7 @@ public class FavorsServiceImpl extends BaseServiceImpl implements IFavorsService
                 notify.setEvent(NotifyConst.EVENT_FAVORS);
                 notify.setFromId(ownId);
                 notify.setToId(userId);
+                notify.setArticleId(articleId);
                 res = notifyMapper.insertSelective(notify);
             }
             return res;
