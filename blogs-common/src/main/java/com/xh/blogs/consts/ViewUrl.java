@@ -8,6 +8,10 @@ package com.xh.blogs.consts;
  */
 public interface ViewUrl {
 
+    String ADMIN_TAGS_LIST = "/admin/tags/list";
+
+    String ADMIN_TAGS_VIEW = "/admin/tags/view";
+
     String ADMIN_GROUP_VIEW = "/admin/group/view";
 
     String ADMIN_GROUP_LIST = "/admin/group/list";

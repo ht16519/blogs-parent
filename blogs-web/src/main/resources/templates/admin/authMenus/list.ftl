@@ -7,7 +7,7 @@
                 <h2>菜单管理</h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <#--<@shiro.hasPermission name="sys:menus:edit">-->
-                        <li><a href="${base}/admin/menu/view">添加菜单</a>
+                        <li><a href="${base}/admin/menu/view/-1">添加菜单</a>
                         </li>
                     <#--</@shiro.hasPermission>-->
                 </ul>
@@ -37,7 +37,7 @@
                         <#--<@shiro.hasPermission name="sys:menus:edit">-->
                             <td class="text-center">
                                 <#if (row.id > 1)>
-                                <a href="${base}/admin/menu/edit/${row.id}" class="btn btn-xs btn-primary">
+                                <a href="${base}/admin/menu/view/${row.id}" class="btn btn-xs btn-primary">
                                     <i class="fa fa-check-square-o"></i> 修改
                                 </a>
                                 </#if>

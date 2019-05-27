@@ -46,6 +46,10 @@ public enum EmError implements CommomError {
     ARTICLE_IS_NOT_EXIST(40001, "文章不存在或已被删除"),
     COMMENT_IS_NOT_EXIST(40002, "只能删除自己的存在的评论"),
     CANT_HANDLE_OTHER(40003, "只能操作自己发布的文章"),
+    ARTICLE_TAGS_NAME_IS_EXIST(40004, "标签名称已存在"),
+    ARTICLE_TAGS_SORT_IS_EXIST(40005, "标签排序已存在"),
+    ARTICLE_TAGS_SORT_IS_START(40005, "标签排序已是第一位"),
+    ARTICLE_TAGS_SORT_IS_END(40005, "标签排序已是最后一位"),
 
     //500开头为邮件相关信息
     SEND_EMAIL_FAIL(50001, "邮件发送失败"),

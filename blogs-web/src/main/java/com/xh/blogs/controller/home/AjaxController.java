@@ -1,11 +1,11 @@
 package com.xh.blogs.controller.home;
 
 import com.xh.blogs.api.*;
-import com.xh.blogs.consts.ConfigConst;
 import com.xh.blogs.consts.StringConst;
 import com.xh.blogs.controller.base.BaseController;
 import com.xh.blogs.domain.entity.EHotArticle;
 import com.xh.blogs.domain.entity.EHotUser;
+import com.xh.blogs.domain.po.Tags;
 import com.xh.blogs.domain.vo.CommentsVo;
 import com.xh.blogs.domain.vo.UMEditorResult;
 import com.xh.blogs.domain.vo.WebApiResult;
@@ -13,7 +13,6 @@ import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,6 +42,8 @@ public class AjaxController extends BaseController {
     private IUploadService uploadService;
     @Autowired
     private ICommentsService commentsService;
+    @Autowired
+    private ITagsService tagsService;
     @Value("${blogs.statisticalCount}")
     private int statisticalCount;
     
@@ -191,6 +192,19 @@ public class AjaxController extends BaseController {
         return WebApiResult.success();
     }
 
+    /**
+    * @Name tagsArticles
+    * @Description 获取博客标签推荐
+    * @Author wen
+    * @Date 2019/5/27
+    * @param 
+    * @return com.xh.blogs.domain.vo.WebApiResult<java.util.List<com.xh.blogs.domain.po.Tags>> 
+    */
+    @GetMapping("/free/hottags.json")
+    public WebApiResult<List<Tags>> tagsArticles(){
+        return WebApiResult.success(tagsService.getBlogsTagsCache());
+    }
+    
     /**
     * @Name latestArticles
     * @Description 获取最新文章

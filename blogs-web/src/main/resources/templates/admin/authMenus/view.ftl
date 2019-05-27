@@ -4,7 +4,7 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>菜单<#if data.id!=0>修改<#else>添加</#if></h2>
+                <h2>菜单<#if data.id != 0>修改<#else>添加</#if></h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -14,7 +14,9 @@
                     <#if data?? && (data.id > 0)>
                         <input type="hidden" name="id" value="${data.id}" />
                     </#if>
-
+                    <#if pid?? && (pid > 0)>
+                        <input type="hidden" name="parentId" value="${pid}" />
+                    </#if>
                     <#-- TODO 上级菜单选择<div class="form-group">-->
                         <#--<label for="parentId" class="col-lg-2 control-label">上级菜单：</label>-->
                         <#--<div class="col-lg-6">-->
@@ -31,13 +33,13 @@
                     <div class="form-group">
                         <label for="url" class="col-lg-2 control-label">URL：</label>
                         <div class="col-lg-6">
-                            <input type="text" class="form-control" placeholder="以网站根目录'/'开始" name="url" value="${data.url}">
+                            <input type="text" class="form-control" placeholder="后台菜单均以'admin/'开头" name="url" value="${data.url}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="permission" class="col-lg-2 control-label">权限点：</label>
                         <div class="col-lg-6">
-                            <input type="text" class="form-control" placeholder="如sys:user:位前缀，view,list,edit,delete等为后缀" name="permission" value="${data.permission}">
+                            <input type="text" class="form-control" placeholder="如sys:user:为前缀，view,list,edit,delete等为后缀" name="permission" value="${data.permission}">
                         </div>
                     </div>
                     <div class="form-group">

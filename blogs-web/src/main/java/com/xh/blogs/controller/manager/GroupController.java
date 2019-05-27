@@ -28,7 +28,7 @@ public class GroupController {
     private IGroupService groupService;
 
     @GetMapping("/list")
-    @RequiresRoles("admin")
+    @RequiresPermissions("sys:group:view")
     public String list(ModelMap model) {
         model.put(CommonConst.DATA_RESULT_KEY, groupService.getAll());
         return ViewUrl.ADMIN_GROUP_LIST;

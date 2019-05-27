@@ -8,7 +8,10 @@ package com.xh.blogs.consts;
  */
 public interface KeyConst {
 
+
     String ARTICLE_SEARCH_PARAMETER_KEY = "q";
+
+    String SYSTEM_PARENT_ID_KEY = "pid";
 
     String DB_CREATE_TIME_KEY = "createTime";
 
@@ -30,4 +33,6 @@ public interface KeyConst {
 
     /** 后台角色菜单关系树缓存key*/
     String ADMIN_ROLE_MENU_TREE_CACHE_KEY = "redis:roleMenuCacheTree";
+
+    String BLOGS_TAGS_CACHE_KEY = "redis:blogsTagsKey";
 }

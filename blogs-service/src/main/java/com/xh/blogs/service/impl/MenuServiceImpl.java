@@ -10,13 +10,19 @@ import com.xh.blogs.domain.entity.ERoleMenu;
 import com.xh.blogs.domain.po.Menu;
 import com.xh.blogs.domain.po.Role;
 import com.xh.blogs.domain.po.User;
+import com.xh.blogs.domain.vo.MenuVo;
+import com.xh.blogs.enums.EmError;
+import com.xh.blogs.exception.BusinessException;
+import com.xh.blogs.utils.BeanValidator;
 import com.xh.blogs.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -95,7 +101,29 @@ public class MenuServiceImpl implements IMenuService {
 
     @Override
     public Map<Integer, Set<ERoleMenu>> createRoleMenuCache() {
-        log.info("============ START初始化角色菜单 ===========");
+        log.info("============ START初始化角色菜单缓存 ===========");
+        Map<Integer, Set<ERoleMenu>> menuListMap = this.getRoleMenuRoleSetMap();
+        log.info("============ END角色菜单缓存初始化成功 ===========");
+        return menuListMap;
+    }
+
+    @Override
+    public Map<Integer, Set<ERoleMenu>> updateRoleMenuCache() {
+        log.info("============ START更新角色菜单缓存 ===========");
+        Map<Integer, Set<ERoleMenu>> menuListMap = this.getRoleMenuRoleSetMap();
+        log.info("============ END更新角色菜单缓存成功 ===========");
+        return menuListMap;
+    }
+
+    /**
+    * @Name getRoleMenuRoleSetMap
+    * @Description 获取并设置角色菜单缓存
+    * @Author wen
+    * @Date 2019/5/26
+    * @param
+    * @return java.util.Map<java.lang.Integer,java.util.Set<com.xh.blogs.domain.entity.ERoleMenu>>
+    */
+    private Map<Integer, Set<ERoleMenu>> getRoleMenuRoleSetMap() {
         Map<Integer, Set<ERoleMenu>> menuListMap = new HashMap<>();
         Set<ERoleMenu> menus = this.getAllMenu();
         Set<ERoleMenu> menuList;
@@ -110,7 +138,6 @@ public class MenuServiceImpl implements IMenuService {
         ValueOperations<String, String> ops = redisTemplate.opsForValue();
         //角色菜单
         ops.set(ConfigConst.ADMIN_ROLE_MENU_CACHE_KEY, JsonUtil.serialize(menuListMap));
-        log.info("============ END角色菜单初始化成功 ===========");
         return menuListMap;
     }
 
@@ -158,6 +185,41 @@ public class MenuServiceImpl implements IMenuService {
     @Override
     public List<EMenuNode> getNode() {
         return menuMapper.selectNode();
+    }
+
+    @Override
+    @Transactional
+    public int save(MenuVo menuVo, int userId) throws BusinessException {
+        //1.参数校验
+        BeanValidator.check(menuVo);
+        int res;
+        Menu menu = new Menu();
+        BeanUtils.copyProperties(menuVo, menu);
+        if(menuVo.getId() == null){
+            //新增操作
+            //判断菜单等级
+            if(menu.getParentId() == null){
+                menu.setLevel(2);
+            } else {
+                Menu dbMenu = menuMapper.selectByPrimaryKey(menu.getParentId());
+                if(dbMenu == null){
+                    throw new BusinessException(EmError.FAIL);
+                }
+                menu.setLevel(dbMenu.getLevel() + 1);
+            }
+            menu.setCreateBy(userId);
+            menu.setCreateTime(new Date());
+            res = menuMapper.insertSelective(menu);
+        } else {
+            //修改操作
+            menu.setUpdateBy(userId);
+            menu.setUpdateTime(new Date());
+            res = menuMapper.updateByPrimaryKeySelective(menu);
+        }
+        if(res <= 0){
+            throw new BusinessException(EmError.FAIL);
+        }
+        return res;
     }
 
 }

@@ -8,8 +8,6 @@ package com.xh.blogs.consts;
  */
 public interface RequestUrl {
 
-    String REDIRECT_ADMIN_GROUP_LIST = "redirect:/admin/group/list";
-
     String ANON_API = "/api/free/**";
 
     String ARTICLE_DETAILS = "/article/**";
@@ -33,5 +31,9 @@ public interface RequestUrl {
     String REDIRECT_ADMIN_ROLE_VIEW = "redirect:/admin/role/view/";
 
     String REDIRECT_ADMIN_ROLE_LIST = "redirect:/admin/role/list";
+
+    String REDIRECT_ADMIN_GROUP_LIST = "redirect:/admin/group/list";
+
+    String REDIRECT_ADMIN_TAGS_LIST = "redirect:/admin/tags/list";
 
 }

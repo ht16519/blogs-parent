@@ -54,9 +54,9 @@ public class GroupServiceImpl implements IGroupService {
 
     @Override
     public void createShowCache(){
-        log.info("============ START初始化博客header分类 ===========");
+        log.info("============ START初始化博客header分类缓存 ===========");
         servletContext.setAttribute(KeyConst.BLOGS_GROUP_KEY, this.getByShow4Db());
-        log.info("============ END博客header分类初始化成功 ===========");
+        log.info("============ END博客header分类缓存初始化成功 ===========");
     }
 
     @Override

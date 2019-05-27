@@ -4,6 +4,8 @@ import com.xh.blogs.domain.entity.EMenuNode;
 import com.xh.blogs.domain.entity.ERoleMenu;
 import com.xh.blogs.domain.po.Menu;
 import com.xh.blogs.domain.po.User;
+import com.xh.blogs.domain.vo.MenuVo;
+import com.xh.blogs.exception.BusinessException;
 
 import java.util.List;
 import java.util.Map;
@@ -77,6 +79,16 @@ public interface IMenuService {
     Map<Integer, Set<ERoleMenu>> createRoleMenuCache();
 
     /**
+    * @Name updateRoleMenuCache
+    * @Description 更新菜单缓存
+    * @Author wen
+    * @Date 2019/5/26
+    * @param
+    * @return java.util.Map<java.lang.Integer,java.util.Set<com.xh.blogs.domain.entity.ERoleMenu>>
+    */
+    Map<Integer, Set<ERoleMenu>> updateRoleMenuCache();
+
+    /**
     * @Name getRoleMenu
     * @Description 获取角色菜单
     * @Author wen
@@ -135,4 +147,15 @@ public interface IMenuService {
     * @return java.util.List<com.xh.blogs.domain.entity.EMenuNode> 
     */
     List<EMenuNode> getNode();
+
+    /**
+    * @Name save
+    * @Description 保存菜单
+    * @Author wen
+    * @Date 2019/5/26
+    * @param menuVo
+    * @param userId
+    * @return int
+    */
+    int save(MenuVo menuVo, int userId) throws BusinessException;
 }
