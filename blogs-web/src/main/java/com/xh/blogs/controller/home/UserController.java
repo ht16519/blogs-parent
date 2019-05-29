@@ -7,11 +7,14 @@ import com.xh.blogs.consts.RequestUrl;
 import com.xh.blogs.consts.StringConst;
 import com.xh.blogs.consts.ViewUrl;
 import com.xh.blogs.controller.base.BaseController;
+import com.xh.blogs.domain.vo.AccountVo;
 import com.xh.blogs.domain.vo.RegisterSuccess;
 import com.xh.blogs.domain.vo.UserVo;
 import com.xh.blogs.enums.EmError;
 import com.xh.blogs.exception.BusinessException;
+import com.xh.blogs.utils.BeanValidator;
 import com.xh.blogs.utils.ShiroUtil;
+import com.xh.blogs.utils.VerificationCodeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -25,7 +28,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -137,17 +139,19 @@ public class UserController extends BaseController {
     * @Description 登录操作
     * @Author wen
     * @Date 2019/4/27
-    * @param userName
-    * @param password
-    * @param rememberMe
     * @param model
     * @return java.lang.String
     */
     @PostMapping("/login")
-    public String doLogin(String userName, String password, @RequestParam(value = "rememberMe",defaultValue = "0") int rememberMe, ModelMap model) {
+    public String doLogin(AccountVo accountVo, ModelMap model) {
         try {
-            UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
-            if (rememberMe == 1) {
+            //1.参数校验
+            BeanValidator.check(accountVo);
+            //2.校验验证码
+            VerificationCodeUtil.check(accountVo.getSecurityCode());
+            //3.登陆验证
+            UsernamePasswordToken token = new UsernamePasswordToken(accountVo.getUserName(), accountVo.getPassword());
+            if (accountVo.getRememberMe() == 1) {
                 token.setRememberMe(true);
             }
             ShiroUtil.getSubject().login(token);
@@ -156,13 +160,15 @@ public class UserController extends BaseController {
             return RequestUrl.REDIRECT_HOME;
         } catch (UnknownAccountException e) {
             super.getModelMap(EmError.USER_NAME_OR_PASSWORD_ERROR, model);
-            log.error("username:{}, message:{}, ip:{}", e.getMessage(), EmError.USER_NAME_OR_PASSWORD_ERROR.getErrMsg(), super.getIpAddr(request));
+            log.error("login exception, username:{}, message:{}, ip:{}", e.getMessage(), EmError.USER_NAME_OR_PASSWORD_ERROR.getErrMsg(), super.getIpAddr(request));
         } catch (LockedAccountException e) {
             super.getModelMap(EmError.USER_IS_DISABLE, model);
-            log.error("username:{}, message:{}, ip:{}", e.getMessage() ,EmError.USER_IS_DISABLE.getErrMsg(), super.getIpAddr(request));
+            log.error("login exception, username:{}, message:{}, ip:{}", e.getMessage() ,EmError.USER_IS_DISABLE.getErrMsg(), super.getIpAddr(request));
         } catch (AuthenticationException e) {
             super.getModelMap(EmError.USER_NAME_OR_PASSWORD_ERROR, model);
-            log.error("login exception:{}", e);
+            log.error("login exception, username:{}, message:{}, ip:{}", e.getMessage() ,EmError.USER_NAME_OR_PASSWORD_ERROR.getErrMsg(), super.getIpAddr(request));
+        } catch (BusinessException e) {
+            super.getModelMap(e, model);
         }
         return ViewUrl.LOGIN;
     }

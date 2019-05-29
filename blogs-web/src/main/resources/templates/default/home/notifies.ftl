@@ -47,7 +47,7 @@
                     <#elseif (row.event == 4)>
                         回复了你的评论 - <a href="${base}/article/details/${row.article.id}"><b>点击查看详情</b></a>
                     <#elseif (row.event == 5)>
-                        恭喜您注册成功，您的邮箱尚未激活，如需更改密码需通过邮箱发送邮件 - <a href="${base}/home/account/active/email"><b>去激活</b></a>
+                        恭喜您注册成功，您的邮箱尚未激活，若忘记密码需通过邮箱找回密码 - <a href="${base}/home/account/active/email"><b>去激活</b></a>
                     <#elseif (row.event == 6)>
                         您的邮箱已经认证成功!
                     </#if>

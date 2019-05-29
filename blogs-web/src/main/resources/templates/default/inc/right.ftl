@@ -86,7 +86,7 @@
                 return item;
             },
             onLoadHotTags: function (i, data) {
-                var url = '${base}/article/type/' + data.id + '/1';
+                var url = '${base}/article/' + data.name + '/1';
                 var item = jQuery.format(hotTags_li_template, data.name, url);
                 return item;
             }

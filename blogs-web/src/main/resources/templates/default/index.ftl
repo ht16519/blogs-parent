@@ -3,9 +3,9 @@
 
 <@ui_ltr site_name>
 <!--推荐展示-->
-<div class="content">
-    <div class="recommend hidden-xs hidden-sm"">
-        <ul>
+<#--<div class="content">-->
+    <#--<div class="recommend hidden-xs hidden-sm"">-->
+        <#--<ul>-->
 			<#--<@banner>-->
 				<#--<#list page as row>-->
                     <#--<li <#if row_index == 0> class="large" </#if>>-->
@@ -16,16 +16,16 @@
                     <#--</li>-->
 				<#--</#list>-->
 			<#--</@banner>-->
-        </ul>
-    </div>
-</div>
+        <#--</ul>-->
+    <#--</div>-->
+<#--</div>-->
 
     <div class="shadow-box">
     	<!-- tab -->
     	<div class="filter">
     		<ul class="">
-    			<li><a <#if ord == '40'> class="active" </#if> href="${base}/index/40/1">最新的</a></li>
-    			<li><a <#if ord == '20'> class="active" </#if> href="${base}/index/20/1">热门的</a></li>
+    			<li><a <#if ord == '40'> class="active" </#if> href="${base}/index/40/1"><i class="fa fa-bars"></i>最新的</a></li>
+    			<li><a <#if ord == '20'> class="active" </#if> href="${base}/index/20/1"><i class="fa fa-area-chart"></i>热门的</a></li>
     		</ul>
     	</div>
     	<!-- tab end -->

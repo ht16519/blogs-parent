@@ -40,11 +40,21 @@
         <commons.collections.version>3.2.1</commons.collections.version>
         <hibernate.validator.version>5.2.4.Final</hibernate.validator.version>
         <shiro.correlation.version>1.2.3</shiro.correlation.version>
+        <kaptcha.version>2.3.2</kaptcha.version>
     </properties>
 
     <dependencyManagement>
 
         <dependencies>
+
+            <!-- https://mvnrepository.com/artifact/com.github.penggle/kaptcha -->
+            <dependency>
+                <groupId>com.github.penggle</groupId>
+                <artifactId>kaptcha</artifactId>
+                <version>${kaptcha.version}</version>
+            </dependency>
+
+
 
             <!-- shiro支持 -->
             <dependency>

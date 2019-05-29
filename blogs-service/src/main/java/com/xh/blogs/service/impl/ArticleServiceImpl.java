@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.xh.blogs.api.IArticleService;
 import com.xh.blogs.consts.CommonConst;
+import com.xh.blogs.consts.KeyConst;
 import com.xh.blogs.dao.mapper.ArticleAccessoryMapper;
 import com.xh.blogs.dao.mapper.ArticleContentMapper;
 import com.xh.blogs.dao.mapper.ArticleMapper;
@@ -202,6 +203,13 @@ public class ArticleServiceImpl extends BaseServiceImpl implements IArticleServi
             }
         }
         return res;
+    }
+
+    @Override
+    public PageResult<Article> getInfoByTagWithPage(String tagName, int number) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put(KeyConst.ARTICLE_TAG_KEY, tagName);
+        return this.getCommonWithPage(CommonConst.ARTICLE_ORDER_NEWSET, number, parameters);
     }
 
     /**

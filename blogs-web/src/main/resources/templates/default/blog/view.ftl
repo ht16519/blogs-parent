@@ -31,7 +31,7 @@
                             <ul class="tags">
                             <#list ret.tagsArray as tag>
                                 <li>
-                                    <a class="tag tag-sm" href="${base}/tag/${tag}/">${tag}</a>
+                                    <a class="tag tag-sm" href="${base}/article/${tag}/1">${tag}</a>
                                 </li>
                             </#list>
                             </ul>
@@ -51,18 +51,20 @@
                                         <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
                                         <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
                                     </div>
-                                    <script>window._bd_share_config = {
-                                        "common": {
-                                            "bdSnsKey": {"tsina": "3554307689"},
-                                            "bdText": "",
-                                            "bdMini": "2",
-                                            "bdMiniList": false,
-                                            "bdPic": "",
-                                            "bdStyle": "1",
-                                            "bdSize": "24"
-                                        }, "share": {}
-                                    };
-                                    with (document)0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+                                    <script>
+                                        window._bd_share_config = {
+                                            "common": {
+                                                "bdSnsKey": {"tsina": "3554307689"},
+                                                "bdText": "",
+                                                "bdMini": "2",
+                                                "bdMiniList": false,
+                                                "bdPic": "",
+                                                "bdStyle": "1",
+                                                "bdSize": "24"
+                                            }, "share": {}
+                                        };
+                                        with (document)0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];
+                                    </script>
                                     <style>
                                         .bdshare-button-24 a, .bdshare-button-24 .bds_more {
                                             background-image: url("/static/assets/images/btn/icons_0_24.png");

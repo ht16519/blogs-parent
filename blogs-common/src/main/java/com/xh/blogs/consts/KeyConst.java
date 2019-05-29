@@ -9,6 +9,10 @@ package com.xh.blogs.consts;
 public interface KeyConst {
 
 
+    String ARTICLE_TAG_PARAMETER_KEY = "tag";
+
+    String ARTICLE_TAG_KEY = "tagName";
+
     String ARTICLE_SEARCH_PARAMETER_KEY = "q";
 
     String SYSTEM_PARENT_ID_KEY = "pid";

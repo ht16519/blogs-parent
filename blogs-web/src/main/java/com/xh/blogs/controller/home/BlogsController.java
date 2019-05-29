@@ -134,6 +134,23 @@ public class BlogsController extends BaseController {
     }
 
     /**
+    * @Name article
+    * @Description 通过标签获取文章
+    * @Author wen
+    * @Date 2019/5/29
+    * @param name
+    * @param number
+    * @param model
+    * @return java.lang.String 
+    */
+    @GetMapping("/article/{name}/{number}")
+    public String article(@PathVariable("name") String name, @PathVariable("number") int number, ModelMap model) {
+        model.put(CommonConst.RESULT_PAGE_INFO_KEY, articleService.getInfoByTagWithPage(name, number));
+        model.put(KeyConst.ARTICLE_TAG_PARAMETER_KEY, name);
+        return ViewUrl.ARTICLE;
+    }
+
+    /**
     * @Name articleSearch
     * @Description 文章搜索
     * @Author wen

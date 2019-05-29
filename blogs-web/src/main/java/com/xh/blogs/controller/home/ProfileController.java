@@ -11,6 +11,7 @@ import com.xh.blogs.enums.EmError;
 import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.utils.CommonUtil;
 import com.xh.blogs.utils.ShiroUtil;
+import com.xh.blogs.utils.VerificationCodeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -221,11 +222,13 @@ public class ProfileController extends BaseController {
     * @param email
     * @return com.xh.blogs.domain.vo.WebApiResult
     */
-    @GetMapping("/email/send.json/{email}")
+    @GetMapping("/email/send.json/{email}/{code}")
     @ResponseBody
-    public WebApiResult sendEmail(@PathVariable("email") String email) throws BusinessException {
-        AccountProfile profile = super.getProfile();
+    public WebApiResult sendEmail(@PathVariable("email") String email, @PathVariable("code") String code) throws BusinessException {
+        //校验验证码
+        VerificationCodeUtil.check(code);
         //1.验证邮箱信息
+        AccountProfile profile = super.getProfile();
         userService.validationEmail(email, profile);
         //2.组建模板数据
         int verifyCode = CommonUtil.getRandom();

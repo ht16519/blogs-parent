@@ -73,7 +73,7 @@
             <ul class="tags">
                 <#list row.tagsArray as tag>
                 <li>
-                    <a class="tag tag-sm" href="${base}/tag/${tag}/">${tag}</a>
+                    <a class="tag tag-sm" href="${base}/article/${tag}/1/">${tag}</a>
                 </li>
                 </#list>
             </ul>
@@ -131,7 +131,7 @@
                 <ul class="tags">
                     <#list row.tagsArray as tag>
                         <li>
-                            <a class="tag tag-sm" href="${base}/tag/${tag}/">${tag}</a>
+                            <a class="tag tag-sm" href="${base}/article/${tag}/1">${tag}</a>
                         </li>
                     </#list>
                 </ul>

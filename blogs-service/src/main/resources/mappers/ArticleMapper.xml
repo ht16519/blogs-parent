@@ -98,6 +98,7 @@
           <if test="userId != null and userId != ''"> AND u.id = #{userId} </if>
           <if test="sort == 10"> AND a.featured = 10 </if>
           <if test="title != null and title != ''"> AND a.title LIKE CONCAT('%', #{title}, '%') </if>
+          <if test="tagName != null and tagName != ''"> AND a.tags LIKE CONCAT('%', #{tagName}, '%') </if>
       </where>
       GROUP BY a.id
       <if test="sort == 20"> ORDER BY (a.favors + FLOOR(a.views / 3)) DESC </if>

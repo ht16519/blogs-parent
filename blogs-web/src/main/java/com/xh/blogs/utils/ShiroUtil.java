@@ -35,6 +35,10 @@ public class ShiroUtil {
 
     public static void sessionSetValue(String k, Object v){
         getSession().setAttribute(k, v);
+
+    }
+    public static void sessionRemoveValue(String k){
+        getSession().removeAttribute(k);
     }
 
     public static Object sessionGetValue(String key){

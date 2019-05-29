@@ -12,7 +12,7 @@ public interface StringConst {
 
     String TO_LOG_IN = "去登陆";
 
-    String REGISTERED_SUCCESSFULLY_MSG = "恭喜您! 注册成功, 已经给您的邮箱发了验证码, 赶紧去完成邮箱绑定吧。";
+    String REGISTERED_SUCCESSFULLY_MSG = "恭喜您! 注册成功, 赶快去登录吧。";
 
     String FOCUS_ON_YOURSELF_MSG = "您不能关注自己！";
 

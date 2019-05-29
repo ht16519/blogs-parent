@@ -20,6 +20,8 @@ public enum EmError implements CommomError {
     CONTENT_TYPE_NOT_SUPPORTED(10002, "不支持内容类型"),
     REQUEST_METHOD_NOT_SUPPORTED(10003, "不支持的请求类型"),
     PARAMETER_VERIFICATION_ERROR(10020, "参数不合法"),
+    SYSTEM_SECURITY_CODE_ERROR(10021, "验证码已过期，请刷新再试"),
+    INPUT_SECURITY_CODE_ERROR(10022, "验证码不正确"),
 
     //200开头为用户信息相关错误
     USER_DATA_ERROR(20002, "用户不存在"),

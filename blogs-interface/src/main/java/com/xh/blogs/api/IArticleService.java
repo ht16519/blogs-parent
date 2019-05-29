@@ -6,6 +6,8 @@ import com.xh.blogs.domain.vo.ArticleVo;
 import com.xh.blogs.domain.vo.PageResult;
 import com.xh.blogs.exception.BusinessException;
 
+import java.util.List;
+
 
 /**
  * @Name IUserService
@@ -106,5 +108,16 @@ public interface IArticleService {
     * @return int
     */
     int updateArticleById(ArticleVo articleVo) throws BusinessException;
+
+    /**
+    * @Name getInfoByTagWithPage
+    * @Description 通过标签获取文章
+    * @Author wen
+    * @Date 2019/5/29
+    * @param tagName
+    * @param pageNumber
+    * @return PageResult<Article>
+    */
+    PageResult<Article> getInfoByTagWithPage(String tagName, int pageNumber);
 
 }
