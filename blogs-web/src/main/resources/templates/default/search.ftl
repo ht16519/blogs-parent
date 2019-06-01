@@ -1,11 +1,11 @@
 <#include "/default/utils/layout.ftl"/>
-<@ui_ltr group.name>
+<@ui_ltr>
 
     <div class="shadow-box">
         <!-- tab -->
         <div class="filter">
             <div class="alert" style="margin-bottom:0">
-                <li><span>搜索关键字 "<strong><span style="color: red;"><span style="color: red;">${q}</span></span></strong>", 共找到 <span style="color: red;">${page.total}</span> 个结果.</span></li>
+                <li><span><i class="fa fa-search"></i> 搜索关键字 "<strong><span style="color: red;"><span style="color: red;">${q}</span></span></strong>", 共找到 <span style="color: red;">${page.total}</span> 个结果.</span></li>
             </div>
         </div>
         <!-- tab end -->

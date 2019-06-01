@@ -101,4 +101,14 @@ public interface ArticleMapper extends IBaseMapper<Article> {
     * @return java.util.List<com.xh.blogs.domain.es.EsArticle>
     */
     List<EsArticle> selectAll2EsArticle();
+
+    /**
+    * @Name addViews
+    * @Description 浏览量 +1
+    * @Author wen
+    * @Date 2019/5/29
+    * @param
+    * @return int
+    */
+    int addViews(@Param("id") int id);
 }

@@ -6,7 +6,6 @@ import com.xh.blogs.consts.RequestUrl;
 import com.xh.blogs.consts.ViewUrl;
 import com.xh.blogs.domain.po.Group;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -44,12 +43,12 @@ public class GroupController {
     }
 
     @PostMapping("/update")
-    @RequiresPermissions("sys:group:update")
+    @RequiresPermissions("sys:group:edit")
     public String update(Group group){
         //修改操作
         groupService.save(group);
         //更新缓存
-        groupService.updateShowCache();
+        groupService.createShowCache();
         return RequestUrl.REDIRECT_ADMIN_GROUP_LIST;
     }
 

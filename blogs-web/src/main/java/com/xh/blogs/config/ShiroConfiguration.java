@@ -4,10 +4,17 @@ import com.xh.blogs.auth.AuthRealm;
 import com.xh.blogs.auth.CredentialMatcher;
 import com.xh.blogs.consts.RequestUrl;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
+import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.servlet.Cookie;
+import org.apache.shiro.web.servlet.ShiroHttpSession;
+import org.apache.shiro.web.servlet.SimpleCookie;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,8 +36,6 @@ public class ShiroConfiguration {
 	private static final String STATIC_RESOURCES = "/static/**";
 
 	private static final String ALL_RESOURCES = "/**";
-
-
 
 	/**
 	 * @Name shiroFilterFactoryBean
@@ -65,7 +70,7 @@ public class ShiroConfiguration {
 		bean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 		return bean;
 	}
-	
+
 	/**
 	 * @Name securityManager 
 	 * @Description 定义安全管理
@@ -75,12 +80,53 @@ public class ShiroConfiguration {
 	 * @return
 	 */
 	@Bean("securityManager")
-	public SecurityManager securityManager(@Qualifier("authRealm") AuthRealm authRealm) {
+	public SecurityManager securityManager(@Qualifier("authRealm") AuthRealm authRealm, CookieRememberMeManager rememberMeManager, SessionManager sessionManager) {
 		DefaultWebSecurityManager manager = new DefaultWebSecurityManager();
 		manager.setRealm(authRealm);
+		manager.setRememberMeManager(rememberMeManager);
+		manager.setSessionManager(sessionManager);
 		return manager;
 	}
-	
+
+	/**
+	 * session管理器(单机环境)
+	 */
+	@Bean
+	public DefaultWebSessionManager defaultWebSessionManager() {
+		DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+		sessionManager.setSessionValidationInterval(60 * 30 * 1000);	//30分钟
+		sessionManager.setGlobalSessionTimeout(900 * 1000);				//15分钟
+		sessionManager.setDeleteInvalidSessions(true);
+		sessionManager.setSessionValidationSchedulerEnabled(true);
+		Cookie cookie = new SimpleCookie(ShiroHttpSession.DEFAULT_SESSION_ID_NAME);
+		cookie.setName("shiroCookie");
+		cookie.setHttpOnly(true);
+		sessionManager.setSessionIdCookie(cookie);
+		return sessionManager;
+	}
+
+	/**
+	 * rememberMe管理器, cipherKey生成见{@code Base64Test.java}
+	 */
+	@Bean
+	public CookieRememberMeManager rememberMeManager(SimpleCookie rememberMeCookie) {
+		CookieRememberMeManager manager = new CookieRememberMeManager();
+		manager.setCipherKey(Base64.decode("Z3VucwAAAAAAAAAAAAAAAA=="));
+		manager.setCookie(rememberMeCookie);
+		return manager;
+	}
+
+	/**
+	 * 记住密码Cookie
+	 */
+	@Bean
+	public SimpleCookie rememberMeCookie() {
+		SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
+		simpleCookie.setHttpOnly(true);
+		simpleCookie.setMaxAge(1 * 24 * 60 * 60); //7天
+		return simpleCookie;
+	}
+
 	/**
 	 * @Name authRealm
 	 * @Description 通过@Qualifier获取上下文中的 credentialMatcher实例

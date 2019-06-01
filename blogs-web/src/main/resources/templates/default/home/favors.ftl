@@ -23,7 +23,7 @@
 							<div class="info">
 								<strong>${row.user.nickName}</strong><br/>
                                 <time> ${row.createTime?string('yyyy-MM-dd')}</time>
-								<#--<time>${timeAgo(row.createTime)}</time>-->
+								<time><@timeline_dt row.createTime/></time>
 							</div>
 						</a>
 					</div>
@@ -54,6 +54,7 @@
 
 					<div class="foot-block clearfix">
 						<ul class="tags">
+                            <span class="act">浏览 (<i>${row.views}</i>)</span>
 							<#list row.tagsArray as tag>
 								<li>
 									<a class="tag tag-sm" href="${base}/article/${tag}/1">${tag}</a>

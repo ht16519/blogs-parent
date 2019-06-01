@@ -34,8 +34,6 @@ public class UploadServiceImpl extends BaseServiceImpl implements IUploadService
 	private String rootSavePath;
 	@Value("${fileUpload.rootHttpPath}")
 	private String rootHttpPath;
-	@Value("${fileUpload.maxFileSize}")
-	private int maxFileSize;
 
 	@Override
 	public String uploadThum4Image(MultipartFile file, AvatarVo avatarVo, String userName) throws BusinessException {
@@ -64,7 +62,7 @@ public class UploadServiceImpl extends BaseServiceImpl implements IUploadService
 		UMEditorResult data = new UMEditorResult();
 		if(!(file == null || file.isEmpty())){
             long size = file.getSize();
-            if(size <= maxFileSize){
+//            if(size <= maxFileSize){
                 try {
                     //1.图片处理
                     DArticleAccessory accessory = ImageUtil.handle(file);
@@ -94,9 +92,9 @@ public class UploadServiceImpl extends BaseServiceImpl implements IUploadService
                 } catch (BusinessException e) {
                     data.setState(UMEditorResult.errorInfo.get("TYPE"));
                 }
-            } else {
-                data.setState(UMEditorResult.errorInfo.get("SIZE"));
-            }
+//            } else {
+//                data.setState(UMEditorResult.errorInfo.get("SIZE"));
+//            }
 		} else {
 			data.setState(UMEditorResult.errorInfo.get("NOFILE"));
         }
@@ -144,24 +142,5 @@ public class UploadServiceImpl extends BaseServiceImpl implements IUploadService
         return path;
     }
 
-    //	@Override
-//	public String uploadThum4Image(MultipartFile file, String userName) throws BusinessException {
-//		if(file == null || file.isEmpty()){
-//			throw new BusinessException(EmError.FILE_IS_NOT_EXIST);
-//		}
-//		try {
-//			//1.图片处理
-//			DArticleAccessory accessory = ImageUtil.handle(file);
-//			//2.获取路径
-//			DPath path = this.getPath(file, userName, ConfigConst.ARTICLE_IMAGE_PREFIX);
-//			//3.文件保存操作
-//			Thumbnails.of(file.getInputStream()) // 文件流
-//					.size(accessory.getWidth(), accessory.getHeight()) //宽高
-//					.toFile(path.getSavePath());
-//			return path.getDbPath();
-//		} catch (IOException e) {
-//			throw new BusinessException(EmError.FILE_WRITE_ERROR);
-//		}
-//	}
 
 }

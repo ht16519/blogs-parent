@@ -16,7 +16,7 @@
 				<h2 class="title" style="color:#F36C52">我说：${row.content}</h2>
 				<div class="foot-block clearfix">
 					<div class="author">
-						<#--<time>${timeAgo(row.createTime)}</time>-->
+						<time><@timeline_dt row.createTime/></time>
 					</div>
 					<div class="pull-right hidden-xs">
 						<a class="act" href="javascript:void(0);" data-evt="trash" data-id="${row.id}">删除</a>
@@ -46,8 +46,8 @@
                                 <a href="${base}/ta/${row.userId}/1">
                                     <strong> ${row.nickName}</strong>
                                 </a>
-                                <time> ${row.articleTime?string('MM月dd日')}</time>
-							<#--TODO加上时间 <time> ${timeAgo(row.createTime)}</time>-->
+                                <#--<time> ${row.articleTime?string('MM月dd日')}</time>-->
+                                <time><@timeline_dt row.createTime/></time>
                             </div>
 
                         </div>

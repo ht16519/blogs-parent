@@ -10,11 +10,11 @@
     <span class="label label-not-source">转载</span>
     </#if>
     <#if (row.featured > 0 )>
-    <span class="label label-hot">热门</span>
+    <span class="label label-hot">推荐</span>
     </#if>
-    <#if (row.featured > 0 )>
-    <span class="label label-cream">精帖</span>
-    </#if>
+    <#list groupsCache as group>
+       <span class="label label-cream"><#if (row.belongGroup == group.id)>${group.groupValue}</#if></span>
+    </#list>
 </#macro>
 
 <#macro albShow2 row att>
@@ -46,31 +46,32 @@
         <!--End-->
         </#if>
     </div>
-
     <div class="p-rank clearfix">
-        <#if row.user??>
-        <div class="users">
-            <a href="${base}/ta/${row.user.id}/1">
-                <div class="ava">
-                    <@showAva row.user.avatar "img-circle"/>
-                </div>
-            </a>
-            <div class="info">
-                <a href="${base}/ta/${row.user.id}/1">
-                    <strong> ${row.user.nickName}</strong>
-                </a>
-                <time> ${row.createTime?string('MM月dd日')}</time>
-                <#--TODO加上时间 <time> ${timeAgo(row.createTime)}</time>-->
-            </div>
-        </div>
-        </#if>
+        <#--<#if row.user??>-->
+        <#--<div class="users">-->
+            <#--<a href="${base}/ta/${row.user.id}/1">-->
+                <#--<div class="ava">-->
+                    <#--<@showAva row.user.avatar "img-circle"/>-->
+                <#--</div>-->
+            <#--</a>-->
+            <#--<div class="info">-->
+                <#--<a href="${base}/ta/${row.user.id}/1">-->
+                    <#--<strong> ${row.user.nickName}</strong>-->
+                <#--</a>-->
+                <#--<time> ${row.createTime?string('MM月dd日')}</time>-->
+            <#--<time><@timeline_dt row.createTime/></time>-->
+            <#--</div>-->
+        <#--</div>-->
+        <#--</#if>-->
         <div class="counts">
-            <span class="act"><i class="praise_icon"></i>${row.favors}</span>
-            <span class="act"><i class="comment_icon"></i>${row.comments}</span>
+            <time>${row.createTime?string('yyyy-MM-dd HH:mm:ss')}</time>
+            <#--<span class="act"><i class="praise_icon"></i>${row.favors}</span>-->
+            <#--<span class="act"><i class="comment_icon"></i>${row.comments}</span>-->
         </div>
-
         <div class="foot-block clearfix">
             <ul class="tags">
+                <#--<span class="act">浏览 (<i>${row.views}</i>)</span>-->
+                <time><@timeline_dt row.createTime/></time>
                 <#list row.tagsArray as tag>
                 <li>
                     <a class="tag tag-sm" href="${base}/article/${tag}/1/">${tag}</a>
@@ -78,7 +79,6 @@
                 </#list>
             </ul>
         </div>
-
     </div>
 </div>
 </#macro>
@@ -97,7 +97,7 @@
                     <div class="info">
                         <strong>${row.user.nickName}</strong><br/>
                         <time> ${row.createTime?string('yyyy-MM-dd')}</time>
-                    <#--<time>${timeAgo(row.createTime)}</time>-->
+                        <time><@timeline_dt row.createTime/></time>
                     </div>
                 </a>
             </div>
@@ -129,6 +129,7 @@
 
             <div class="foot-block clearfix">
                 <ul class="tags">
+                    <span class="act">浏览 (<i>${row.views}</i>)</span>
                     <#list row.tagsArray as tag>
                         <li>
                             <a class="tag tag-sm" href="${base}/article/${tag}/1">${tag}</a>
@@ -140,6 +141,20 @@
     </#if>
 </div>
 </#macro>
+
+<#macro timeline_dt datetime>
+    <#assign ct = (.now?long-datetime?long)/1000>
+    <#if ct gte 31104000>${(ct/31104000)?int}年前
+        <#t><#elseif ct gte 2592000>${(ct/2592000)?int}个月前
+        <#t><#elseif ct gte 86400*2>${(ct/86400)?int}天前
+        <#t><#elseif ct gte 86400>昨天
+        <#t><#elseif ct gte 3600>${(ct/3600)?int}小时前
+        <#t><#elseif ct gte 60>${(ct/60)?int}分钟前
+        <#t><#elseif ct gt 0>${ct?int}秒前
+        <#t><#else>刚刚
+    </#if>
+</#macro>
+
 
 <#macro pager url p spans>
 <#if (p.total > 0)>

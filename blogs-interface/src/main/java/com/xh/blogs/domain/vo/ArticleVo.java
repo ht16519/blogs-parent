@@ -37,7 +37,7 @@ public class ArticleVo {
     @NotEmpty(message = "标签不能为空")
     private String tags;
 
-    @NotNull(message = "文章类型")
+    @NotNull(message = "文章类型不能为空")
     @Range(min = 0, max = 1, message = "文章类型只能为1或0")
     private Integer type;
 

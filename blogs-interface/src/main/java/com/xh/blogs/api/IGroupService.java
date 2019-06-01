@@ -33,6 +33,16 @@ public interface IGroupService {
     List<Group> getByShow4Db();
 
     /**
+    * @Name getShowCache
+    * @Description 获取缓存中的分类header
+    * @Author wen
+    * @Date 2019/5/30
+    * @param 
+    * @return java.util.List<com.xh.blogs.domain.po.Group> 
+    */
+    List<Group> getShowCache();
+
+    /**
     * @Name 创建博客类型分组缓存
     * @Description
     * @Author wen
@@ -41,16 +51,6 @@ public interface IGroupService {
     * @return void
     */
     void createShowCache();
-
-    /**
-    * @Name updateShowCache
-    * @Description 修改博客类型分组缓存
-    * @Author wen
-    * @Date 2019/5/12
-    * @param
-    * @return void
-    */
-    void updateShowCache();
 
     /**
     * @Name getAll

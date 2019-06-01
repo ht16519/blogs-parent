@@ -6,7 +6,9 @@
 		<i class="fa fa-pencil-square"></i> 编辑文章
 	</div>
 	<div class="panel-body">
-		<div id="message"></div>
+        <div id="message">
+            <#include "/default/inc/action_message.ftl"/>
+        </div>
 		<form class="form-horizontal" action="${base}/home/article/edit" method="post" enctype="multipart/form-data">
             <input type="hidden" name="id" value="${data.id}"/>
             <#--<input type="hidden" name="authorId" value="${data.user.id}"/>-->
@@ -17,10 +19,19 @@
 				</div>
 			</div>
             <div class="form-group">
+                <label class="col-sm-2 control-label no-padding-right">类型</label>
+                <div class="col-sm-3">
+                    <select class="form-control" name="type">
+                        <option <#if (data.type == 1)> selected </#if> value="1">原创</option>
+                        <option <#if (data.type == 0)> selected </#if> value="0">转载</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-sm-2 control-label no-padding-right">发布到</label>
                 <div class="col-sm-3">
                     <select class="form-control" name="belongGroup">
-						<#list groups as row>
+						<#list groupsCache as row>
                             <option value="${row.id}" <#if (data.belongGroup == row.id)> selected </#if>>${row.groupValue}</option>
 						</#list>
                     </select>

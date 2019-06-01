@@ -55,7 +55,7 @@
                     </h2>
                     <div class="foot-block clearfix">
                         <div class="author">
-                        <#--<time>${timeAgo(row.created)}</time>-->
+                            <time><@timeline_dt row.createTime/></time>
                         </div>
                     </div>
                 </div>

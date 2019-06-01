@@ -37,7 +37,7 @@
     <#--</div>-->
 
 	<div class="container copy-right">
-		<span class="pull-right">Powered By <a href="https://github.com/ht16519" target="_blank">烛火流风</a></span>
+		<span class="pull-right">Powered By <a href="https://github.com/ht16519" target="_blank">烛火流风</a> V1.0</span>
         <span class="pull-right"><a href="${base}/index/declare/info">免责申明</a>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
 	</div>
 

@@ -13,6 +13,7 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.ServletContext;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,6 +32,7 @@ public class GroupServiceImpl implements IGroupService {
     private StringRedisTemplate redisTemplate;
     @Autowired
     private ServletContext servletContext;
+
 
     @Override
     public List<Group> getByShow() {
@@ -51,17 +53,22 @@ public class GroupServiceImpl implements IGroupService {
         return groupMapper.select(group);
     }
 
-
     @Override
-    public void createShowCache(){
-        log.info("============ START初始化博客header分类缓存 ===========");
-        servletContext.setAttribute(KeyConst.BLOGS_GROUP_KEY, this.getByShow4Db());
-        log.info("============ END博客header分类缓存初始化成功 ===========");
+    public List<Group> getShowCache(){
+        try {
+            return (List<Group>)servletContext.getAttribute(KeyConst.BLOGS_GROUP_KEY);
+        } catch (Exception e) {
+            log.error("==================== 未创建header分类 ====================");
+            return new ArrayList<>();
+        }
+
     }
 
     @Override
-    public void updateShowCache(){
+    public void createShowCache(){
+        log.info("============ START创建博客header分类缓存 ===========");
         servletContext.setAttribute(KeyConst.BLOGS_GROUP_KEY, this.getByShow4Db());
+        log.info("============ END创建博客header分类缓存初始化成功 ===========");
     }
 
     @Override

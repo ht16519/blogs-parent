@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -115,5 +115,6 @@ public class Article implements Serializable{
         }
         return null;
     }
+
 
 }

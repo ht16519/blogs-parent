@@ -1,15 +1,11 @@
 package com.xh.blogs.domain.po;
 
-import com.xh.blogs.domain.entity.ERoleMenu;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Table(name = "t_user")
@@ -17,6 +13,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User implements Serializable{
+
 
     /**
     *

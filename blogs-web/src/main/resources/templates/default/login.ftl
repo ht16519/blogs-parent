@@ -1,6 +1,6 @@
 <#include "/default/utils/layout_login.ftl"/>
 
-<@layout "登录">
+<@layout>
 <div class="login">
     <!--
     <div class="vegas-overlay" style="opacity: 0.2; margin: 0px; padding: 0px; position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; background-image: url(/static/assets/images/overlay.png); z-index: -1;"></div>
@@ -26,9 +26,13 @@
             <input name="password" class="form-control border" placeholder="密码" type="password" data-required>
         </div>
         <label for="id_code">验证码:</label>
-        <div id="securityCode" class="securityCode">
-            <img id="codeImage" alt="验证码" title="点击刷新" onclick="refreshCode()" src="${base}/article/codeImage.jpg" />
-            <input name="securityCode" class="form-control border" placeholder="请输入验证码" type="text" data-required>
+        <div class="form-group" id="security-code-div">
+            <div class="col-lg-5 append">
+                <img id="codeImage" alt="验证码" title="点击刷新" onclick="refreshCode()" src="${base}/article/codeImage.jpg" />
+            </div>
+            <div class="col-lg-7 append2" id="securityCode" class="securityCode">
+                <input name="securityCode" class="form-control border" placeholder="请输入验证码" type="text" data-required>
+            </div>
         </div>
         <div class="checkbox">
             <label>

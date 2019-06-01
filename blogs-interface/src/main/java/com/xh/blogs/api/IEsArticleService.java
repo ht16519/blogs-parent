@@ -1,8 +1,8 @@
 package com.xh.blogs.api;
 
 import com.xh.blogs.domain.es.EsArticle;
+import com.xh.blogs.domain.po.Article;
 import com.xh.blogs.domain.vo.PageResult;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -43,6 +43,16 @@ public interface IEsArticleService {
     * @return EsArticle
     */
     EsArticle update(EsArticle esArticle);
+
+    /**
+    * @Name update
+    * @Description 修改by id
+    * @Author wen
+    * @Date 2019/5/30
+    * @param article
+    * @return com.xh.blogs.domain.es.EsArticle 
+    */
+    EsArticle update(Article article);
 
     /**
     * @Name getById
@@ -93,4 +103,14 @@ public interface IEsArticleService {
     * @return PageResult<com.xh.blogs.domain.es.EsArticle>
     */
     PageResult<EsArticle> search(String keyword, int number);
+
+    /**
+    * @Name save
+    * @Description 写新增文章
+    * @Author wen
+    * @Date 2019/5/30
+    * @param article
+    * @return void 
+    */
+    void save(Article article);
 }

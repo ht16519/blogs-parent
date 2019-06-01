@@ -17,18 +17,9 @@
     </div>
     <ul id="cloud" class="cloud">
         <div class="conent" id="cloud-content">
-            <a href="/">陌上花开</a>
-            <a href="/">校园生活</a>
-            <a href="/">html5</a>
-            <a href="/">SumSung</a>
-            <a href="/">青春</a>
-            <a href="/">温暖</a>
-            <a href="/">阳光</a>
-            <a href="/">三星</a>
-            <a href="/">索尼</a>
-            <a href="/">华维荣耀</a>
-            <a href="/">三星</a>
-            <a href="/">索尼</a>
+            <a href="/">Java</a>
+            <a href="/">Html</a>
+            <a href="/">Jquery</a>
         </div>
     </ul>
 </div>
@@ -38,9 +29,7 @@
         <h3><i class="fa fa-users "></i> 热门用户</h3>
     </div>
     <ul id="hotuser" class="hotusers">
-
         <img src="/static/assets/images/spinner.gif">
-
     </ul>
 </div>
 
@@ -56,8 +45,8 @@
 
 
 <script type="text/javascript">
-    var hot_li_template = '<li><div class="li-out"><span class="last"><i>{0}</i></span><span class="name"><a  href="{1}">{2}</a></span><span class="nums">{3}</span></div></li>'
-    var latest_li_template = '<li><div class="li-out"><span class="name"><a  href="{1}">{2}</a></span><span class="nums">{3}</span></div></li>'
+    var hot_li_template = '<li><div class="li-out"><span class="last"><i>{0}</i></span><span class="name"><a title="{2}" href="{1}">{2}</a></span><span class="nums">{3}</span></div></li>'
+    var latest_li_template = '<li><div class="li-out"><span class="name"><a title="{2}" href="{1}">{2}</a></span><span class="nums">{3}</span></div></li>'
     var hotUser_li_template = '<li class=""><a  href="{1}"><img src="{0}" class="img-circle" title="{2}"/></a></li>'
     var hotTags_li_template = '<a href="{1}">{0}</a>'
 

@@ -41,7 +41,7 @@ public enum EmError implements CommomError {
     //300开头为文件相关错误
     FILE_WRITE_ERROR(30001, "文件上传失败"),
     FILE_IS_NOT_PICTURE(30002, "不支持的文件类型"),
-    MAX_UPLOAD_SIZE_EXCEEDED(30003, "文件不能超过1MB"),
+    MAX_UPLOAD_SIZE_EXCEEDED(30003, "单个文件大小不能超过1MB"),
     FILE_IS_NOT_EXIST(30004, "图片文件不能为空"),
 
     //400开头为文章相关错误

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>${title} - ${site_name}</title>
+    <title>${title}</title>
     <meta name="keywords" content="mtons,$!{site_keywords}">
     <meta name="description" content="$!{site_description}">
     <!-- v3 -->

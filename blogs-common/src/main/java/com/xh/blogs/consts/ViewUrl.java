@@ -64,6 +64,8 @@ public interface ViewUrl {
 
     String ARTICLE = "default/article";
 
+    String ARTICLE_GROUP = "default/article_group";
+
     String REGISTER_RESULT = "default/reg_result";
 
     String HOME_FEEDS = "default/home/feeds";

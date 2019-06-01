@@ -24,6 +24,13 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
 
+
+  <update id="addViews" parameterType="java.lang.Integer" >
+        UPDATE t_article
+        SET views = views + 1
+        WHERE id = #{id}
+  </update>
+
   <update id="addComments" parameterType="java.lang.Integer" >
         UPDATE t_article
         SET comments = comments + 1
@@ -53,11 +60,10 @@
   <select id="selectAll2EsArticle" resultType="com.xh.blogs.domain.es.EsArticle">
         SELECT
             a.id,
-            a.comments,
-            a.favors,
             a.featured,
             a.summary,
             a.tags,
+            a.belong_group,
             a.type,
             a.title,
             a.create_time
@@ -96,6 +102,7 @@
       <where>
           <if test="status != null and status != ''"> a.`status` = #{status} </if>
           <if test="userId != null and userId != ''"> AND u.id = #{userId} </if>
+          <if test="groupId != null and groupId != ''"> AND a.belong_group = #{groupId} </if>
           <if test="sort == 10"> AND a.featured = 10 </if>
           <if test="title != null and title != ''"> AND a.title LIKE CONCAT('%', #{title}, '%') </if>
           <if test="tagName != null and tagName != ''"> AND a.tags LIKE CONCAT('%', #{tagName}, '%') </if>

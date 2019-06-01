@@ -1,5 +1,6 @@
 package com.xh.blogs.runner;
 
+import com.xh.blogs.api.IConfigService;
 import com.xh.blogs.api.IEsArticleService;
 import com.xh.blogs.api.IGroupService;
 import com.xh.blogs.api.IMenuService;
@@ -27,9 +28,13 @@ public class InitializationRunner implements ApplicationRunner {
     private IGroupService groupService;
     @Autowired
     private IMenuService menuService;
+    @Autowired
+    private IConfigService configService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
+        //初始化系统常量配置
+        configService.createSystemConfig();
         //1.初始化用户角色菜单
         menuService.createRoleMenuCache();
         //2.初始化header分类

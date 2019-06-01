@@ -43,4 +43,7 @@ public class Config implements Serializable{
      */
     private String value;
 
+    /** 状态*/
+    private Integer status;
+
 }

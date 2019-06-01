@@ -45,7 +45,7 @@
 
 				<div class="foot-block clearfix">
 					<div class="author">
-						<#--TODO 加上时间<time>${timeAgo(row.createTime)}</time>-->
+                        <time><@timeline_dt row.createTime/></time>
 					</div>
 					<ul class="tags">
 						<#list row.tagsArray as tag>

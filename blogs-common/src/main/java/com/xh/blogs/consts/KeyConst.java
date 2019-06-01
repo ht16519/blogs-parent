@@ -11,6 +11,10 @@ public interface KeyConst {
 
     String ARTICLE_TAG_PARAMETER_KEY = "tag";
 
+    String EMAIL_TEMPLATE_TITLE_KEY = "email_template_title";
+
+    String ARTICLE_GROUP_PARAMETER_KEY = "groupId";
+
     String ARTICLE_TAG_KEY = "tagName";
 
     String ARTICLE_SEARCH_PARAMETER_KEY = "q";
@@ -25,8 +29,6 @@ public interface KeyConst {
 
     String COMMENTS_CONTENT_KEY = "cont";
 
-    String BLOGS_GROUP_CACHE_KEY = "redis:blogsGroupKey";
-
     String BLOGS_GROUP_KEY = "groupsCache";
 
     String EMAIL_CODE_KEY = "emailCodeKey";
@@ -35,8 +37,13 @@ public interface KeyConst {
 
     String USER_NICK_NAME_KEY = "nickName";
 
+    String ARTICLE_VIEWS_REDIS_KEY_PREFIX = "artcileViewsRedis:";
+
+    String BLOGS_GROUP_CACHE_KEY = "redis:blogsGroupKey";
+
     /** 后台角色菜单关系树缓存key*/
     String ADMIN_ROLE_MENU_TREE_CACHE_KEY = "redis:roleMenuCacheTree";
 
     String BLOGS_TAGS_CACHE_KEY = "redis:blogsTagsKey";
+
 }

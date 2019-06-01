@@ -6,7 +6,7 @@
 <div class="panel panel-default stacked">
 	<div class="panel-heading">
 		<ul class="nav nav-pills account-tab">
-			<li>免责申明</li>
+			<li><i class="fa fa-star"></i> 免责申明</li>
 		</ul>
 	</div>
 	<div class="panel-body">

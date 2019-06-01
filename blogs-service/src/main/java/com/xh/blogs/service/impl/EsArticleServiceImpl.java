@@ -5,8 +5,11 @@ import com.xh.blogs.consts.KeyConst;
 import com.xh.blogs.dao.mapper.ArticleMapper;
 import com.xh.blogs.dao.repository.EsArticleRepository;
 import com.xh.blogs.domain.es.EsArticle;
+import com.xh.blogs.domain.po.Article;
+import com.xh.blogs.domain.vo.ArticleVo;
 import com.xh.blogs.domain.vo.PageResult;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -44,6 +47,16 @@ public class EsArticleServiceImpl extends BaseServiceImpl implements IEsArticleS
     @Override
     public EsArticle update(EsArticle esArticle) {
         return esArticleRepository.save(esArticle);
+    }
+
+   @Override
+    public EsArticle update(Article article) {
+        return esArticleRepository.save(new EsArticle(article));
+    }
+
+    @Override
+    public void save(Article article) {
+        esArticleRepository.save(new EsArticle(article));
     }
 
     @Override

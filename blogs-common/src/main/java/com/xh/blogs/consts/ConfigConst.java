@@ -8,7 +8,7 @@ package com.xh.blogs.consts;
  */
 public interface ConfigConst {
 
-    String SYSTEM_EMAIL_TITLE = "兔子博客邮箱验证码";
+    String DEFAULT_SYSTEM_EMAIL_TITLE = "IT云博客邮箱验证";
 
     /** 加载文章图片张数+1*/
     int ARTICLE_ACCESSORY_COUNT = 3;

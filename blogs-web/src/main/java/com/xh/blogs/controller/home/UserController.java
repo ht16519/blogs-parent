@@ -45,8 +45,7 @@ public class UserController extends BaseController {
     private IUserService userService;
     @Autowired
     private IArticleService articleService;
-    @Autowired
-    private HttpServletRequest request;
+
     /**
     * @Name bloggerInfo
     * @Description 博主详情
@@ -143,7 +142,7 @@ public class UserController extends BaseController {
     * @return java.lang.String
     */
     @PostMapping("/login")
-    public String doLogin(AccountVo accountVo, ModelMap model) {
+    public String doLogin(AccountVo accountVo, HttpServletRequest request, ModelMap model) {
         try {
             //1.参数校验
             BeanValidator.check(accountVo);

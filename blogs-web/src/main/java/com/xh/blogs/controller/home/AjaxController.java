@@ -1,6 +1,7 @@
 package com.xh.blogs.controller.home;
 
 import com.xh.blogs.api.*;
+import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.StringConst;
 import com.xh.blogs.controller.base.BaseController;
 import com.xh.blogs.domain.entity.EHotArticle;
@@ -11,6 +12,7 @@ import com.xh.blogs.domain.vo.UMEditorResult;
 import com.xh.blogs.domain.vo.WebApiResult;
 import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.utils.JsonUtil;
+import com.xh.blogs.utils.ShiroUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -149,6 +151,9 @@ public class AjaxController extends BaseController {
     */
     @GetMapping("/free/follow/check.json/{uid}")
     public WebApiResult checkFollowIsExist(@PathVariable("uid") int uid) throws BusinessException {
+        if(ShiroUtil.sessionGetValue(CommonConst.SYSTEM_PROFILE) == null){
+            return WebApiResult.fail();
+        }
         return WebApiResult.getResult(followsService.checkIsExistByUserId(uid, super.getProfile().getId()));
     }
 

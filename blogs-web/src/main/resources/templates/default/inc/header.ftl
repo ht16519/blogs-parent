@@ -59,7 +59,7 @@
                     </li>
 					<#list groupsCache as row>
 					<li>
-                        <a href="${base}/g/${row.groupKey}" nav="${row.groupValue}">${row.groupValue}</a>
+                        <a href="${base}/article/g/${row.id}/1" nav="${row.groupValue}">${row.groupValue}</a>
                     </li>
 					</#list>
 					<#if profile??>

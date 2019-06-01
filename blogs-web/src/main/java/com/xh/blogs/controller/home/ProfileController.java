@@ -19,6 +19,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletContext;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,6 +40,8 @@ public class ProfileController extends BaseController {
     private IMailService mailService;
     @Autowired
     private IUploadService uploadService;
+    @Autowired
+    private ServletContext servletContext;
 
     /**
      * @param
@@ -170,7 +173,7 @@ public class ProfileController extends BaseController {
     }
 
     @GetMapping("/email")
-    public String emailView(ModelMap model) throws BusinessException {
+    public String emailView() {
         return ViewUrl.ACCOUNT_EMAIL;
     }
 
@@ -222,9 +225,9 @@ public class ProfileController extends BaseController {
     * @param email
     * @return com.xh.blogs.domain.vo.WebApiResult
     */
-    @GetMapping("/email/send.json/{email}/{code}")
+    @PostMapping("/email/send.json")
     @ResponseBody
-    public WebApiResult sendEmail(@PathVariable("email") String email, @PathVariable("code") String code) throws BusinessException {
+    public WebApiResult sendEmail(@RequestParam("email") String email, @RequestParam("code") String code) throws BusinessException {
         //校验验证码
         VerificationCodeUtil.check(code);
         //1.验证邮箱信息
@@ -236,10 +239,26 @@ public class ProfileController extends BaseController {
         data.put(KeyConst.USER_NICK_NAME_KEY, profile.getNickName());
         data.put(KeyConst.RESTUL_EMAIL_CODE_KEY, verifyCode);
         //3.发送模板邮件
-        mailService.sendHtmlMail(email, ConfigConst.SYSTEM_EMAIL_TITLE, data, ViewUrl.ACCOUNT_ACTIVATE_EMAIL);
+        mailService.sendHtmlMail(email, this.getTemplateTitle(), data, ViewUrl.ACCOUNT_ACTIVATE_EMAIL);
         //4.存储验证码
         ShiroUtil.sessionSetValue(KeyConst.EMAIL_CODE_KEY, email + CommonConst.SEPARATOR + verifyCode);
         return WebApiResult.success();
+    }
+
+    /**
+    * @Name getTemplateTitle
+    * @Description 获取邮件模板title
+    * @Author wen
+    * @Date 2019/6/1
+    * @param 
+    * @return java.lang.String 
+    */
+    private String getTemplateTitle() {
+        Object obj = servletContext.getAttribute(KeyConst.EMAIL_TEMPLATE_TITLE_KEY);
+        if(obj == null){
+            return ConfigConst.DEFAULT_SYSTEM_EMAIL_TITLE;
+        }
+        return obj.toString();
     }
 
 }

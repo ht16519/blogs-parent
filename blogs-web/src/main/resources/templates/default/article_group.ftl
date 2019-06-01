@@ -6,7 +6,11 @@
     	<!-- tab -->
     	<div class="filter">
     		<ul class="">
-                <li><a class="active" href="#"><i class="fa fa-tags icon-xlarge"></i>${tag}</a></li>
+                <li><a class="active" href="#"><i class="fa fa-th-large"></i>
+					<#list groupsCache as row>
+					    <#if (row.id == groupId)>${row.groupValue}</#if>
+					</#list>
+				</a></li>
     		</ul>
     	</div>
     	<!-- tab end -->
@@ -24,7 +28,7 @@
 
     </div>
     <div class="text-center clr">
-    	<#assign url = "/article/"+ tag>
+    	<#assign url = "/article/g/"+ groupId>
     	<@pager url page 3 />
     </div>
 </@ui_ltr>

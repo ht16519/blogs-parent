@@ -85,7 +85,7 @@ public class MailServiceImpl implements IMailService {
             Template template = configuration.getTemplate(ViewUrl.ACCOUNT_ACTIVATE_EMAIL);
             String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, data);
             //3.发送模板邮件
-            this.sendHtmlMail(to, ConfigConst.SYSTEM_EMAIL_TITLE, html);
+            this.sendHtmlMail(to, title, html);
         } catch (Exception e) {
             throw new BusinessException(EmError.SEND_EMAIL_FAIL);
         }

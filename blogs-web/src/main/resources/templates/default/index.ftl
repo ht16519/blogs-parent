@@ -1,7 +1,7 @@
 <#include "/default/utils/layout.ftl"/>
 <#include "/default/utils/utils.ftl"/>
 
-<@ui_ltr site_name>
+<@ui_ltr>
 <!--推荐展示-->
 <#--<div class="content">-->
     <#--<div class="recommend hidden-xs hidden-sm"">-->
@@ -30,7 +30,7 @@
     	</div>
     	<!-- tab end -->
     	<!-- tab panes -->
-    	<div class="stream-list p-stream" id="article-page">
+    	<div class="stream-list p-stream">
 			<#list page.items as row>
     			<@showBlog row/>
 			</#list>

@@ -16,10 +16,7 @@ import com.xh.blogs.domain.vo.ArticleVo;
 import com.xh.blogs.domain.vo.PageResult;
 import com.xh.blogs.enums.EmError;
 import com.xh.blogs.exception.BusinessException;
-import com.xh.blogs.utils.ArticleUtil;
-import com.xh.blogs.utils.BeanValidator;
-import com.xh.blogs.utils.PageUtil;
-import com.xh.blogs.utils.PreviewTextUtil;
+import com.xh.blogs.utils.*;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -28,6 +25,8 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -48,13 +47,15 @@ import java.util.*;
 public class ArticleServiceImpl extends BaseServiceImpl implements IArticleService {
 
     @Autowired
+    private UserMapper userMapper;
+    @Autowired
     private ArticleMapper articleMapper;
     @Autowired
     private ArticleContentMapper articleContentMapper;
     @Autowired
-    private UserMapper userMapper;
-    @Autowired
     private ArticleAccessoryMapper articleAccessoryMapper;
+    @Autowired
+    private StringRedisTemplate redisTemplate;
     @Value("${blogs.cutOutArticleSummaryIndex}")
     private int cutOutArticleSummaryIndex;
 
@@ -71,27 +72,9 @@ public class ArticleServiceImpl extends BaseServiceImpl implements IArticleServi
         return this.getCommonWithPage(CommonConst.ARTICLE_ORDER_NEWSET, number, parameters);
     }
 
-    /**
-    * @Name getCommonWithPage
-    * @Description 获取公共的
-    * @Author wen
-    * @Date 2019/4/27
-    * @param sort
-    * @param number
-    * @param parameters
-    * @return com.xh.blogs.domain.vo.PageResult<com.xh.blogs.domain.po.Article>
-    */
-    private PageResult<Article> getCommonWithPage(int sort, int number, Map<String, Object> parameters) {
-        parameters.put(CommonConst.STATUS_KEY, CommonConst.EFFECTIVE_STATUS);
-        parameters.put(CommonConst.ORDER_BY_KEY, sort);
-        Page<Article> page = PageHelper.startPage(number, pageSize);
-        articleMapper.selectInfoWithPage(parameters);
-        return PageUtil.create(page, ArticleUtil.getArticles(page.getResult()));
-    }
-
     @Override
     @Transactional
-    public int addArticle(ArticleVo articleVo) throws BusinessException {
+    public Article addArticle(ArticleVo articleVo) throws BusinessException {
         //1.参数校验
         BeanValidator.check(articleVo);
         //2.保存文章基本信息
@@ -119,7 +102,7 @@ public class ArticleServiceImpl extends BaseServiceImpl implements IArticleServi
             }
         }
         //TODO 文章信息加入图片数和最后一张图片id
-        return res;
+        return article;
     }
 
     @Override
@@ -172,7 +155,7 @@ public class ArticleServiceImpl extends BaseServiceImpl implements IArticleServi
 
     @Override
     @Transactional
-    public int updateArticleById(ArticleVo articleVo) throws BusinessException {
+    public Article updateArticleById(ArticleVo articleVo) throws BusinessException {
         //1.校验数据
         BeanValidator.check(articleVo);
         //2.校验文章属性
@@ -202,7 +185,7 @@ public class ArticleServiceImpl extends BaseServiceImpl implements IArticleServi
                 }
             }
         }
-        return res;
+        return article;
     }
 
     @Override
@@ -210,6 +193,56 @@ public class ArticleServiceImpl extends BaseServiceImpl implements IArticleServi
         Map<String, Object> parameters = new HashMap<>();
         parameters.put(KeyConst.ARTICLE_TAG_KEY, tagName);
         return this.getCommonWithPage(CommonConst.ARTICLE_ORDER_NEWSET, number, parameters);
+    }
+
+    @Override
+    public PageResult<Article> getInfoByGroupWithPage(int groupId, int number) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put(KeyConst.ARTICLE_GROUP_PARAMETER_KEY, groupId);
+        return this.getCommonWithPage(CommonConst.ARTICLE_ORDER_NEWSET, number, parameters);
+    }
+
+    @Override
+    public void addViews(int id, String ip) {
+        ValueOperations<String, String> ops = redisTemplate.opsForValue();
+        //文章缓存id
+        String key = KeyConst.ARTICLE_VIEWS_REDIS_KEY_PREFIX + id;
+        Map<String, Integer> cacheMap;
+        String cache = ops.get(key);
+        if(cache == null){
+            cacheMap = new HashMap<>();
+            //浏览量 +1
+            cacheMap.put(ip, 1);
+            ops.set(key, JsonUtil.serialize(cacheMap));
+            articleMapper.addViews(id);
+        } else {
+            //判断用户是否浏览过文章
+            cacheMap = JsonUtil.parseMap(cache, String.class, Integer.class);
+            if(cacheMap.get(ip) == null){
+                //浏览量 +1
+                cacheMap.put(ip, 1);
+                ops.set(key, JsonUtil.serialize(cacheMap));
+                articleMapper.addViews(id);
+            }
+        }
+    }
+
+    /**
+     * @Name getCommonWithPage
+     * @Description 获取公共的
+     * @Author wen
+     * @Date 2019/4/27
+     * @param sort
+     * @param number
+     * @param parameters
+     * @return com.xh.blogs.domain.vo.PageResult<com.xh.blogs.domain.po.Article>
+     */
+    private PageResult<Article> getCommonWithPage(int sort, int number, Map<String, Object> parameters) {
+        parameters.put(CommonConst.STATUS_KEY, CommonConst.EFFECTIVE_STATUS);
+        parameters.put(CommonConst.ORDER_BY_KEY, sort);
+        Page<Article> page = PageHelper.startPage(number, pageSize);
+        articleMapper.selectInfoWithPage(parameters);
+        return PageUtil.create(page, ArticleUtil.getArticles(page.getResult()));
     }
 
     /**

@@ -1,6 +1,6 @@
 <#include "/default/utils/layout_login.ftl"/>
 
-<@layout "注册">
+<@layout>
 <div class="login">
     <a href="${base}/index">
         <img src="/static/assets/images/logo/m90.png" height="72" width="72">

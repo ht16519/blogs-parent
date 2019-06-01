@@ -39,6 +39,14 @@ img { height: auto; max-width: 100%;}
     background-color: #ea6f5a;
 }
 
+#emailCodeModalDialog{
+	width: 330px;
+}
+
+#emailCodeTable{
+	margin-bottom: 1px;
+}
+
 /* common */
 a { color: #000; text-decoration: none; }
 a:hover, a:focus, a:active { text-decoration: none; }
