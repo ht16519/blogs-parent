@@ -56,10 +56,11 @@ public enum EmError implements CommomError {
     //500开头为邮件相关信息
     SEND_EMAIL_FAIL(50001, "邮件发送失败"),
     EMAIL_INCORRECT_FORMAT(50002, "邮箱格式不正确"),
-    EMAIL_IS_ERROR(50003, "邮箱不正确"),
-    CODE_IS_ERROR(50004, "验证码不正确"),
+    EMAIL_IS_ERROR(50003, "邮箱不正确，请填写收到激活码的邮箱地址"),
+    CODE_IS_ERROR(50004, "验证码不正确或已失效"),
     USER_EMAIL_IS_EXIST(50005, "邮箱已被注册"),
     USER_EMAIL_IS_ACTIVE(50006, "您的邮箱已是激活状态"),
+    EMAIL_OR_CODE_IS_ERROR(50007, "邮箱或验证码不正确或已失效"),
 
     //600开头位角色相关错误
     ROLE_INFO_IS_NOT_EXIST(60001, "角色不存在"),

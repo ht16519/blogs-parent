@@ -13,6 +13,10 @@ public interface KeyConst {
 
     String EMAIL_TEMPLATE_TITLE_KEY = "email_template_title";
 
+    String SITE_DOMAIN = "site_domain";
+
+    String SITE_NAME = "site_name";
+
     String ARTICLE_GROUP_PARAMETER_KEY = "groupId";
 
     String ARTICLE_TAG_KEY = "tagName";
@@ -34,6 +38,8 @@ public interface KeyConst {
     String EMAIL_CODE_KEY = "emailCodeKey";
 
     String RESTUL_EMAIL_CODE_KEY = "verifyCode";
+
+    String USER_INPUT_EMAIL_KEY = "inputEmail";
 
     String USER_NICK_NAME_KEY = "nickName";
 

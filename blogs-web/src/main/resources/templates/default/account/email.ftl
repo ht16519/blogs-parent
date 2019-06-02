@@ -20,7 +20,9 @@
 				<div class="form-group">
 					<label class="control-label col-lg-3" for="email">邮箱地址</label>
 					<div class="col-lg-4">
-						<input type="text" class="form-control" id="email" name="email" value="${profile.email}" maxlength="20" data-required data-conditional="email" data-description="email" data-describedby="message">
+						<input type="text" class="form-control" id="email" name="email"
+                               value="<#if (inputEmail?default("")?trim?length gt 1)>${inputEmail}<#else>${profile.email}</#if>"
+                               maxlength="20" data-required data-conditional="email" data-description="email" data-describedby="message">
 					</div>
                     <div class="col-lg-2">
                         <button type="button" class="btn btn-primary" onclick="getCodeDialog();">获取激活码</button>
@@ -71,6 +73,12 @@
 <script type="text/javascript">
 
     function getCodeDialog() {
+        var email = $('#email').val();
+        if(email == ''){
+            layer.msg('请输入邮箱地址！', {icon: 5});
+            return;
+        }
+        $('#emailSecurityCode').val('');
         refreshCode();
         $('#myModal').modal();
     }
@@ -79,20 +87,32 @@
         $('#emailCodeImage').attr('src', '${base}/article/codeImage.jpg');
     }
 
+    //加载层
+    function loading(msg){
+        layer.msg(msg, {
+            icon:16,
+            shade:[0.1, '#333'],
+            time: false  //取消自动关闭
+        })
+    }
+
     function getEmailCode() {
         var email = $('#email').val();
         var code = $('#emailSecurityCode').val();
+        loading("邮件发送中，请稍等...");
         jQuery.ajax({
             url: '${base}/home/account/email/send.json',
             data: {'email': email, 'code': code},
             type :  "POST",
             cache : false,
-            async: false,
+            async: true,
             dataType:'json',
             error : function() {
+                layer.closeAll();
                 layer.msg('发送邮件失败，请检查邮箱是否正确！', {icon: 2});
             },
             success: function(ret){
+                layer.closeAll();
                 if(ret){
                     if (ret.code == 0) {
                         layer.msg(ret.msg, {icon: 1});

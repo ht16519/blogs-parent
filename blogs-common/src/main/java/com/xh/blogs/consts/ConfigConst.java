@@ -10,6 +10,8 @@ public interface ConfigConst {
 
     String DEFAULT_SYSTEM_EMAIL_TITLE = "IT云博客邮箱验证";
 
+    String DEFAULT_SYSTEM_EMAIL_NAME = "IT云博客";
+
     /** 加载文章图片张数+1*/
     int ARTICLE_ACCESSORY_COUNT = 3;
 

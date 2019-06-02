@@ -167,8 +167,23 @@ public class ProfileController extends BaseController {
     * @param
     * @return java.lang.String
     */
-    @GetMapping("/email/{verifyCode}")
-    public String email() {
+    @GetMapping("/email/back")
+    public String email(ModelMap model) {
+        Object emailAndCode = ShiroUtil.sessionGetValue(KeyConst.EMAIL_CODE_KEY);
+        if(emailAndCode == null){
+            super.getModelMap(EmError.EMAIL_OR_CODE_IS_ERROR, model);
+            return ViewUrl.ACCOUNT_EMAIL;
+        }
+        String s = emailAndCode.toString();
+        String[] split = s.split(CommonConst.SEPARATOR);
+        if(split.length != 2){
+            super.getModelMap(EmError.EMAIL_OR_CODE_IS_ERROR, model);
+            return ViewUrl.ACCOUNT_EMAIL;
+        }
+        String email = split[0];
+        String code = split[1];
+        model.put(KeyConst.RESTUL_EMAIL_CODE_KEY, code);
+        model.put(KeyConst.USER_INPUT_EMAIL_KEY, email);
         return ViewUrl.ACCOUNT_EMAIL;
     }
 
@@ -203,9 +218,10 @@ public class ProfileController extends BaseController {
             userName = profile.getUserName();
             //获取verifyCode缓存
             Object emailCode = ShiroUtil.sessionGetValue(KeyConst.EMAIL_CODE_KEY);
-            mailService.mailAuthentication(emailVo, emailCode);
             //移除verifyCode缓存
             ShiroUtil.getSession().removeAttribute(KeyConst.EMAIL_CODE_KEY);
+            //验证有邮箱和验证码是否正确
+            mailService.mailAuthentication(emailVo, emailCode);
             //更新session中用户基本信息
             User user = userService.activeEmailById(emailVo, profile.getId());
             super.putProfile(user);
@@ -234,15 +250,33 @@ public class ProfileController extends BaseController {
         AccountProfile profile = super.getProfile();
         userService.validationEmail(email, profile);
         //2.组建模板数据
-        int verifyCode = CommonUtil.getRandom();
+        String verifyCode = CommonUtil.getRAS(6);
         Map<String, Object> data = new HashMap();
         data.put(KeyConst.USER_NICK_NAME_KEY, profile.getNickName());
         data.put(KeyConst.RESTUL_EMAIL_CODE_KEY, verifyCode);
+        data.put(KeyConst.SITE_DOMAIN, this.getSiteDomin());
+        data.put(KeyConst.SITE_NAME, this.getSiteName());
         //3.发送模板邮件
         mailService.sendHtmlMail(email, this.getTemplateTitle(), data, ViewUrl.ACCOUNT_ACTIVATE_EMAIL);
-        //4.存储验证码
+        //4.存储邮箱和验证码
         ShiroUtil.sessionSetValue(KeyConst.EMAIL_CODE_KEY, email + CommonConst.SEPARATOR + verifyCode);
         return WebApiResult.success();
+    }
+
+    private String getSiteDomin() {
+        Object obj = servletContext.getAttribute(KeyConst.SITE_DOMAIN);
+        if(obj == null){
+            return CommonConst.EMPTY_STRING;
+        }
+        return obj.toString();
+    }
+
+    private String getSiteName() {
+        Object obj = servletContext.getAttribute(KeyConst.SITE_NAME);
+        if(obj == null){
+            return ConfigConst.DEFAULT_SYSTEM_EMAIL_NAME;
+        }
+        return obj.toString();
     }
 
     /**

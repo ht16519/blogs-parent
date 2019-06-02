@@ -36,7 +36,7 @@ public class ConfigServiceImpl implements IConfigService {
         log.info("================ START创建系统配置信息 ==================");
         for (Config config : this.getAll()) {
             servletContext.setAttribute(config.getKey(), config.getValue());
-            log.info("--------- 加载key{},value:{}", config.getKey(), config.getValue());
+            log.info("--------- 加载key:{} <>  value:{}", config.getKey(), config.getValue());
         }
         log.info("================ END创建系统配置信息成功 ==================");
     }
