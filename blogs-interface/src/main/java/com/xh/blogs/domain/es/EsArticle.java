@@ -53,10 +53,6 @@ public class EsArticle implements Serializable{
     @Field(type = FieldType.Integer, index = false)
     private Integer featured;
 
-//    /** 浏览量*/
-//    @Field(type = FieldType.Integer, index = false)
-//    private Integer views;
-
     /** 文章类型是否原创（1，0：是，否）*/
     @Field(type = FieldType.Integer, index = false)
     private Integer type;
@@ -65,13 +61,13 @@ public class EsArticle implements Serializable{
     @Field(type = FieldType.Integer, index = false)
     private Integer belongGroup;
 
-//    /** 评论量*/
-//    @Field(type = FieldType.Integer, index = false)
-//    private Integer comments;
-//
-//    /** 收藏量*/
-//    @Field(type = FieldType.Integer, index = false)
-//    private Integer favors;
+    /** 评论量*/
+    @Field(type = FieldType.Integer, index = false)
+    private Integer comments;
+
+    /** 收藏量*/
+    @Field(type = FieldType.Integer, index = false)
+    private Integer favors;
 
     /** 创建时间*/
     @Field(type = FieldType.Date, index = false)
@@ -88,8 +84,8 @@ public class EsArticle implements Serializable{
         this.featured = article.getFeatured();
         this.type = article.getType();
         this.belongGroup = article.getBelongGroup();
-//        this.comments = article.getComments();
-//        this.favors = article.getFavors();
+        this.comments = article.getComments();
+        this.favors = article.getFavors();
     }
 
     public String[] getTagsArray() {

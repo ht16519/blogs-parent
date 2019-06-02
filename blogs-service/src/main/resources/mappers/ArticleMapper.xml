@@ -64,6 +64,8 @@
             a.summary,
             a.tags,
             a.belong_group,
+            a.comments,
+            a.favors,
             a.type,
             a.title,
             a.create_time
