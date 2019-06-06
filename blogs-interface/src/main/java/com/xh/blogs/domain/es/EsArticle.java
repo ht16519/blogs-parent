@@ -88,6 +88,8 @@ public class EsArticle implements Serializable{
         this.favors = article.getFavors();
     }
 
+
+
     public String[] getTagsArray() {
         if(StringUtils.isNotBlank(this.tags)){
             return this.tags.split(CommonConst.SEPARATOR);

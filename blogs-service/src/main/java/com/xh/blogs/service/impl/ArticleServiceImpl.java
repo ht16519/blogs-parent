@@ -102,7 +102,7 @@ public class ArticleServiceImpl extends BaseServiceImpl implements IArticleServi
             }
         }
         //TODO 文章信息加入图片数和最后一张图片id
-        return article;
+        return articleMapper.selectByPrimaryKey(article.getId());
     }
 
     @Override
@@ -150,6 +150,8 @@ public class ArticleServiceImpl extends BaseServiceImpl implements IArticleServi
             //3.逻辑删除文章所属图片
             res = articleAccessoryMapper.removeByArticleId(id);
         }
+        //用户文章发布数 -1
+        userMapper.reducePosts(userId);
         return res;
     }
 
@@ -185,7 +187,7 @@ public class ArticleServiceImpl extends BaseServiceImpl implements IArticleServi
                 }
             }
         }
-        return article;
+        return articleMapper.selectByPrimaryKey(article.getId());
     }
 
     @Override

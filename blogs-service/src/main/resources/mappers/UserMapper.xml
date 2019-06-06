@@ -36,6 +36,12 @@
         </collection>
     </resultMap>
 
+    <update id="reducePosts">
+        UPDATE t_user
+        SET posts = posts + 1
+        WHERE id = #{userId}
+    </update>
+
     <update id="addCommentsById">
         UPDATE t_user
         SET comments = comments + 1

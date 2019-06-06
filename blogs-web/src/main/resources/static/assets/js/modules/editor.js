@@ -23,7 +23,7 @@ define(function(require, exports, module) {
                 imageAllowFiles: [".png", ".jpg", ".jpeg", ".gif", ".bmp"], /* 上传图片格式显示 */
 
                 wordCount: true,
-                maximumWords: 2000,
+                maximumWords: 100000,
                 initialFrameWidth: '100%',
                 initialFrameHeight: 300
             });

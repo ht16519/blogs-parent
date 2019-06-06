@@ -121,6 +121,7 @@ public class JsonUtil {
         }
     }
 
+    //============================测试使用========
 
     @Data
     @AllArgsConstructor
@@ -139,41 +140,41 @@ public class JsonUtil {
         private List<Object> lives;
     }
 
-//    public static void main(String[] args) {
-//        User user = new User(1, "jack", 16.5);
-//        //序列化对象（转json）
-//        String json = serialize(user);
-//        System.out.println(json);
-//
-//        //反序列化（json转为Bean）
-//        User u = parse(json, User.class);
-//        System.out.println(u);
-//
-//        //反序列化（json转List）
-//        json = "[20, 15, -1, 22]";
-//        System.out.println(parseList(json, String.class));
-//        System.out.println(parseList(json, Integer.class));
-//
-//        //反序列化（json转Map）
-//        json = "{\"name\" : \"历史\", \"id\":123, \"age\":12.2}";
-//        Map<Object, Object> map = parseMap(json, Object.class, Object.class);
-//        System.out.println(map);
-//
-//
-//
-//        String j = "{\"status\": \"1\",\"count\": \"1\",\"info\": \"OK\",\"infocode\": \"10000\",\"lives\": [{\"province\": \"河北\",\"city\": \"张家口市\",\"adcode\": \"130700\",\"weather\": \"晴\",\"temperature\": \"15\",\"winddirection\": \"西南\",\"windpower\": \"≤3\",\"humidity\": \"11\",\"reporttime\": \"2019-04-14 11:20:08\"}]}";
-//        Map<String, Object> stringObjectMap = parseMap(j, String.class, Object.class);
-//        System.out.println(stringObjectMap);
-//
-//        System.out.println(parse(j, W.class));
-//
-//
-//        //json转复杂对象
-//        json = "[{\"name\":\"李四\", \"age\":12.3}, {\"name\":\"王文\", \"age\":16.3}]";
-//        List<Map<String, String>> maps = nativeRead(json, new TypeReference<List<Map<String, String>>>() {
-//        });
-//        System.out.println(maps);
-//
-//        System.err.println(serialize(null));
-//    }
+    public static void main(String[] args) {
+        User user = new User(1, "jack", 16.5);
+        //序列化对象（转json）
+        String json = serialize(user);
+        System.out.println(json);
+
+        //反序列化（json转为Bean）
+        User u = parse(json, User.class);
+        System.out.println(u);
+
+        //反序列化（json转List）
+        json = "[20, 15, -1, 22]";
+        System.out.println(parseList(json, String.class));
+        System.out.println(parseList(json, Integer.class));
+
+        //反序列化（json转Map）
+        json = "{\"name\" : \"历史\", \"id\":123, \"age\":12.2}";
+        Map<Object, Object> map = parseMap(json, Object.class, Object.class);
+        System.out.println(map);
+
+
+
+        String j = "{\"status\": \"1\",\"count\": \"1\",\"info\": \"OK\",\"infocode\": \"10000\",\"lives\": [{\"province\": \"河北\",\"city\": \"张家口市\",\"adcode\": \"130700\",\"weather\": \"晴\",\"temperature\": \"15\",\"winddirection\": \"西南\",\"windpower\": \"≤3\",\"humidity\": \"11\",\"reporttime\": \"2019-04-14 11:20:08\"}]}";
+        Map<String, Object> stringObjectMap = parseMap(j, String.class, Object.class);
+        System.out.println(stringObjectMap);
+
+        System.out.println(parse(j, W.class));
+
+
+        //json转复杂对象
+        json = "[{\"name\":\"李四\", \"age\":12.3}, {\"name\":\"王文\", \"age\":16.3}]";
+        List<Map<String, String>> maps = nativeRead(json, new TypeReference<List<Map<String, String>>>() {
+        });
+        System.out.println(maps);
+
+        System.err.println(serialize(null));
+    }
 }

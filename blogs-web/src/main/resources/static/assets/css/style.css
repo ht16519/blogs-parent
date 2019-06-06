@@ -25,7 +25,7 @@ img { height: auto; max-width: 100%;}
 
 /*热门用户样式 */
 .hotusers { overflow: hidden; float: left; padding: 2px;}
-.hotusers > li { float: left; border-radius: 2px; display: inline-block; width: 53px; margin: 2.4px;}
+.hotusers > li { border-radius: 2px; display: inline-block; width: 53px; margin: 2.4px;}
 
 .write-btn {
     float: right;

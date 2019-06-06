@@ -68,4 +68,14 @@ public interface UserMapper extends IBaseMapper<User> {
     * @return int
     */
     int addCommentsById(@Param("authorId") int authorId);
+
+    /**
+    * @Name reducePosts
+    * @Description 用户文章发布数量 -1
+    * @Author wen
+    * @Date 2019/6/5
+    * @param userId
+    * @return int
+    */
+    int reducePosts(@Param("userId") int userId);
 }

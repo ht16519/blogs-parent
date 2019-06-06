@@ -54,8 +54,6 @@
                 <version>${kaptcha.version}</version>
             </dependency>
 
-
-
             <!-- shiro支持 -->
             <dependency>
                 <groupId>org.apache.shiro</groupId>

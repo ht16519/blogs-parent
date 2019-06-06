@@ -240,7 +240,6 @@ public class BlogsController extends BaseController {
     */
     @GetMapping("/article/details/{id}")
     public String viewArticle(@PathVariable("id") int id, HttpServletRequest request, ModelMap model) {
-        //TODO 文章浏览量 +1
         articleService.addViews(id, super.getIpAddr(request));
         Article article = articleService.getById(id);
         if(article == null){
