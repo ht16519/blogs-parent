@@ -8,6 +8,9 @@ package com.xh.blogs.consts;
  */
 public interface KeyConst {
 
+    String SITE_FOOTER_TOPS_KEY = "footerTops";
+
+    String SITE_ATTACHS_DETAILS_KEY = "attachsDetails";
 
     String ARTICLE_TAG_PARAMETER_KEY = "tag";
 
@@ -51,5 +54,7 @@ public interface KeyConst {
     String ADMIN_ROLE_MENU_TREE_CACHE_KEY = "redis:roleMenuCacheTree";
 
     String BLOGS_TAGS_CACHE_KEY = "redis:blogsTagsKey";
+
+    String SITE_ATTACHS_COLLECTION_KEY = "redis:attachsCollection";
 
 }

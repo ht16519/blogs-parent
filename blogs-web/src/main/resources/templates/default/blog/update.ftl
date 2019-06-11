@@ -3,7 +3,7 @@
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-        <i class="fa fa-pencil-square"></i> 写文章&nbsp;&nbsp;&nbsp;&nbsp;发帖规范，利于seo，必看&nbsp;&nbsp;<a href="#{base}/article/faqs"><span style="color: red;">发帖规范</span></a>
+        <i class="fa fa-pencil-square"></i> 写文章&nbsp;&nbsp;&nbsp;&nbsp;发帖规范，利于seo，必看&nbsp;&nbsp;<a href="#{base}/affiche/2"><span style="color: red;">发帖规范</span></a>
 		<i class="fa fa-pencil-square"></i> 编辑文章
 	</div>
 	<div class="panel-body">

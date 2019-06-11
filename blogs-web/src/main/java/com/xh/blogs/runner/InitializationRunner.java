@@ -1,9 +1,6 @@
 package com.xh.blogs.runner;
 
-import com.xh.blogs.api.IConfigService;
-import com.xh.blogs.api.IEsArticleService;
-import com.xh.blogs.api.IGroupService;
-import com.xh.blogs.api.IMenuService;
+import com.xh.blogs.api.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -29,6 +26,8 @@ public class InitializationRunner implements ApplicationRunner {
     @Autowired
     private IMenuService menuService;
     @Autowired
+    private IAttachsService attachsService;
+    @Autowired
     private IConfigService configService;
 
     @Override
@@ -43,6 +42,8 @@ public class InitializationRunner implements ApplicationRunner {
         menuService.createRoleMenuTreeCache();
         //4.初始化文章的全文检索信息
         esArticleService.createEsLibrary();
+        //5.初始化底部顶链接
+        attachsService.createAttachsCache();
     }
 
 

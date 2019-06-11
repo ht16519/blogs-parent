@@ -32,7 +32,7 @@ public interface ViewUrl {
 
     //==============
 
-    String DECLARE_INFO = "default/declarel";
+    String BLOG_AFFICHES = "default/about/attachs";
 
     String DEFAULT_ERROR = "error";
 

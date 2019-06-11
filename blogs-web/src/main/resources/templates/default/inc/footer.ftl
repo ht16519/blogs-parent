@@ -2,20 +2,9 @@
 	<div class="footer-nav">
 		<div class="container">
 			<ul class="about-ul list-inline clearfix">
-				<li><a href="${base}/about">关于我们</a></li>
-				<li><a href="${base}/joinus">联系我们</a></li>
-				<li><a href="${base}/faqs">常见问题</a></li>
-                <#--<li>-->
-                    <#--<script>-->
-                        <#--var _hmt = _hmt || [];-->
-                        <#--(function() {-->
-                            <#--var hm = document.createElement("script");-->
-                            <#--hm.src = "//hm.baidu.com/hm.js?a029e6c6dddf427f4cbfb2b00d7d5311";-->
-                            <#--var s = document.getElementsByTagName("script")[0];-->
-                            <#--s.parentNode.insertBefore(hm, s);-->
-                        <#--})();-->
-                    <#--</script>-->
-				<#--</li>-->
+                <#list footerTops as top>
+                    <li><a href="${base}/affiche/${top.id}">${top.name}</a></li>
+                </#list>
 			</ul>
 		</div>
 	</div>
@@ -32,13 +21,9 @@
         </ul>
     </div>
 
-    <#--<div class="container copy-right">-->
-        <#--<span class="pull-right">Powered By <a href="${base}/declare/info" target="_blank">免责申明</a></span>-->
-    <#--</div>-->
-
 	<div class="container copy-right">
 		<span class="pull-right">Powered By <a href="https://github.com/ht16519" target="_blank">烛火流风</a> V1.0</span>
-        <span class="pull-right"><a href="${base}/index/declare/info">免责申明</a>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+        <span class="pull-right"><a href="${base}/affiche/3">免责申明</a>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
 	</div>
 
 </footer>

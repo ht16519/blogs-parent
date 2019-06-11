@@ -20,6 +20,8 @@ public interface RequestUrl {
 
     String BLOGGER_DETAILS = "/ta/**";
 
+    String BLOG_AFFICHES = "/affiche/**";
+
     String INDEX_URLS = "/index/**";
 
     String REDIRECT_INDEX = "redirect:/index";
