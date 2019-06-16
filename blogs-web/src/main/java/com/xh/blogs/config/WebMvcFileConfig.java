@@ -29,8 +29,6 @@ public class WebMvcFileConfig extends WebMvcConfigurerAdapter{
     private String accessoryPath;
     @Value("${blogs.accessoryPrefix}")
     private String accessoryMappingPrefix;
-    @Autowired
-    private HttpInterceptor httpInterceptor;
 
     @Bean
     public MultipartConfigElement multipartConfigElement(){
@@ -48,7 +46,7 @@ public class WebMvcFileConfig extends WebMvcConfigurerAdapter{
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(httpInterceptor);
+        registry.addInterceptor(new HttpInterceptor());
         super.addInterceptors(registry);
     }
 }

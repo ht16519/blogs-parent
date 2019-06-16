@@ -96,7 +96,7 @@ public class BlogsController extends BaseController {
             articleVo.setAuthorId(super.getProfile().getId());
             Article article = articleService.updateArticleById(articleVo);
             //2.修改es文章信息
-            esArticleService.update(article);
+            esArticleService.save(article);
         } catch (BusinessException e) {
             super.getModel(e, model);
             model.put(CommonConst.DATA_RESULT_KEY, articleVo);

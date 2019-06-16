@@ -49,14 +49,11 @@ public class EsArticleServiceImpl extends BaseServiceImpl implements IEsArticleS
         return esArticleRepository.save(esArticle);
     }
 
-   @Override
-    public EsArticle update(Article article) {
-        return esArticleRepository.save(new EsArticle(article));
-    }
-
     @Override
     public void save(Article article) {
-        esArticleRepository.save(new EsArticle(article));
+        EsArticle esArticle = new EsArticle();
+        BeanUtils.copyProperties(article, esArticle);
+        esArticleRepository.save(esArticle);
     }
 
     @Override

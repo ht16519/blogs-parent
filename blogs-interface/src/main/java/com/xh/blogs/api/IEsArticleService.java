@@ -45,16 +45,6 @@ public interface IEsArticleService {
     EsArticle update(EsArticle esArticle);
 
     /**
-    * @Name update
-    * @Description 修改by id
-    * @Author wen
-    * @Date 2019/5/30
-    * @param article
-    * @return com.xh.blogs.domain.es.EsArticle 
-    */
-    EsArticle update(Article article);
-
-    /**
     * @Name getById
     * @Description 获取by id
     * @Author wen

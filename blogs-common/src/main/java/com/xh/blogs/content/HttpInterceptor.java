@@ -1,6 +1,5 @@
 package com.xh.blogs.content;
 
-import com.xh.blogs.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
@@ -8,11 +7,10 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 
 /**
  * @Name HttpInterceptor
- * @Description 请求处理
+ * @Description 请求处理（可用于日志操作）
  * @Date 2019年1月24日
  * @Author wen
  */
@@ -45,6 +43,7 @@ public class HttpInterceptor extends HandlerInterceptorAdapter{
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
+
 		super.afterCompletion(request, response, handler, ex);
 	}
 

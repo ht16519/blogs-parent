@@ -8,6 +8,14 @@ package com.xh.blogs.consts;
  */
 public interface KeyConst {
 
+    String DURID_FILTER_EXCLUSIONS_KEY = "exclusions";
+
+    String DURID_LOGIN_USERNAME_KEY = "loginUsername";
+
+    String DURID_REQUEST_ALLOW_IP_KEY = "allow";
+
+    String DURID_LOGIN_PASSWORD_KEY = "loginPassword";
+
     String SITE_FOOTER_TOPS_KEY = "footerTops";
 
     String SITE_ATTACHS_DETAILS_KEY = "attachsDetails";

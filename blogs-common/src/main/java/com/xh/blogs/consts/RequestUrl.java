@@ -10,6 +10,8 @@ public interface RequestUrl {
 
     String ANON_API = "/api/free/**";
 
+    String DRUID_MONITORING_CENTER = "/druid/**";
+
     String ARTICLE_DETAILS = "/article/**";
 
     String LOGIN_URL = "/login";

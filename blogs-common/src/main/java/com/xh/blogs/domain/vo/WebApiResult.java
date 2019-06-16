@@ -1,5 +1,6 @@
 package com.xh.blogs.domain.vo;
 
+import com.xh.blogs.enums.EmError;
 import lombok.Data;
 
 /**
@@ -22,16 +23,6 @@ public class WebApiResult<T> {
     private static transient final int FAIL = -1;
 
     /**
-     * 默认成功信息
-     */
-    private static transient final String SUCCESS_MSG = "操作成功！";
-
-    /**
-     * 默认失败信息
-     */
-    private static transient final String FAIL_MSG = "操作失败！";
-
-    /**
      * 状态，对应请求的返回结果（success | fail）
      */
     private int code;
@@ -48,11 +39,11 @@ public class WebApiResult<T> {
     private T data;
 
     public static <T> WebApiResult success(T data) {
-        return success(data, SUCCESS_MSG);
+        return success(data, EmError.SUCCESS.getErrMsg());
     }
 
     public static WebApiResult success() {
-        return new WebApiResult(SUCCESS, SUCCESS_MSG);
+        return new WebApiResult(SUCCESS, EmError.SUCCESS.getErrMsg());
     }
 
     public static WebApiResult success(String msg) {
@@ -72,7 +63,7 @@ public class WebApiResult<T> {
     }
 
     public static WebApiResult fail() {
-        return fail(FAIL_MSG);
+        return fail(EmError.FAIL.getErrMsg());
     }
 
     public static WebApiResult fail(int code, String msg) {

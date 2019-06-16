@@ -23,4 +23,5 @@ public class ExceptionResult {
         this.msg = commomError.getErrMsg();
         this.timestamp = System.currentTimeMillis();
     }
+
 }

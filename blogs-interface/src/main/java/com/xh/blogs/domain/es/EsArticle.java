@@ -2,7 +2,9 @@ package com.xh.blogs.domain.es;
 
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.domain.po.Article;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -19,6 +21,8 @@ import java.util.Date;
  * @Date 2019-05-22
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Document(indexName = "article", type = "article", shards = 1)
 public class EsArticle implements Serializable{
 
@@ -72,23 +76,6 @@ public class EsArticle implements Serializable{
     /** 创建时间*/
     @Field(type = FieldType.Date, index = false)
     private Date createTime;
-
-    public EsArticle() {
-    }
-
-    public EsArticle(Article article) {
-        this.id = article.getId();
-        this.summary = article.getSummary();
-        this.title = article.getTitle();
-        this.tags = article.getTags();
-        this.featured = article.getFeatured();
-        this.type = article.getType();
-        this.belongGroup = article.getBelongGroup();
-        this.comments = article.getComments();
-        this.favors = article.getFavors();
-    }
-
-
 
     public String[] getTagsArray() {
         if(StringUtils.isNotBlank(this.tags)){
