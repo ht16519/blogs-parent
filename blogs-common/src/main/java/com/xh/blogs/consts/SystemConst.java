@@ -17,5 +17,5 @@ public interface SystemConst {
     /**
      * 默认头像路径
      */
-    String SYSTEM_AVATAR_PATH = "/static/assets/images/logo/m.png";
+    String SYSTEM_AVATAR_PATH = "/static/assets/images/logo/logo90.jpg";
 }

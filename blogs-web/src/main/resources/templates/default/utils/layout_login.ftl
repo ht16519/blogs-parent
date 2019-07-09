@@ -20,15 +20,15 @@
 
     <!-- Favicons -->
     <link rel="apple-touch-icon-precomposed" href="/static/assets/images/logo/m99.png"/>
-    <link rel="shortcut icon" href="/static/assets/images/logo/m.png"/>
+    <link rel="shortcut icon" href="/static/assets/images/logo/logo90.jpg"/>
 
 </head>
 <body class="sign">
     <#nested>
 
-    <p class="small">
-    ${site_copyright} <a href="http://www.miitbeian.gov.cn/" target="_blank">${site_icp}
-    </p>
+    <#--<p class="small">-->
+    <#--${site_copyright} <a href="http://www.miitbeian.gov.cn/" target="_blank">${site_icp}-->
+    <#--</p>-->
 
     <script type="text/javascript">
         //<!CDATA[

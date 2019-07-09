@@ -2,8 +2,8 @@
 	<div class="footer-nav">
 		<div class="container">
 			<ul class="about-ul list-inline clearfix">
-                <#list footerTops as top>
-                    <li><a href="${base}/affiche/${top.id}">${top.name}</a></li>
+                <#list footerTops as tag>
+                    <li><a href="${base}/affiche/${tag.id}" target="_blank" >${tag.name}</a></li>
                 </#list>
 			</ul>
 		</div>
@@ -21,10 +21,16 @@
         </ul>
     </div>
 
-	<div class="container copy-right">
-		<span class="pull-right">Powered By <a href="https://github.com/ht16519" target="_blank">烛火流风</a> V1.0</span>
-        <span class="pull-right"><a href="${base}/affiche/3">免责申明</a>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-	</div>
+	<#--<div class="container copy-right">-->
+        <#--<span class="pull-right">Powered By <a href="https://github.com/ht16519" target="_blank">烛火流风</a> V1.0</span>-->
+        <#--<span class="pull-right"><a href="${base}/affiche/3">免责申明</a>&nbsp;&nbsp;|&nbsp;&nbsp;</span>-->
+	<#--</div>-->
+
+    <div class="container copy-right text-center">
+        <span class="center-block">${site_powered_by}&nbsp;&nbsp;|&nbsp;&nbsp;<a href="${base}/affiche/3">免责申明</a></span>
+        <span class="center-block">${site_copyright}</span>
+        <span class="center-block">${site_icp}</span>
+    </div>
 
 </footer>
 

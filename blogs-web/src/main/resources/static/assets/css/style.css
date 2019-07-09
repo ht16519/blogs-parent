@@ -24,8 +24,8 @@ img { height: auto; max-width: 100%;}
 }
 
 /*热门用户样式 */
-.hotusers { overflow: hidden; float: left; padding: 2px;}
-.hotusers > li { border-radius: 2px; display: inline-block; width: 53px; margin: 2.4px;}
+.hotusers { overflow: hidden; float: left; padding: 5px;}
+.hotusers > li { border-radius: 2px; display: inline-block; width: 57px; margin: 3px;}
 
 .write-btn {
     float: right;
@@ -361,11 +361,11 @@ background-color: #ea6f5a;}
 .widget-box .box-list li span { display: inline-block; margin-right: 5px; font-size: 14px; color: #999; line-height: 30px; }
 .widget-box .box-list li span.last { float: left; width: 24px; margin-right: 6px; }
 .widget-box .box-list li span.last i { background-color: #7f8c8d; border-radius: 50%; font-style: normal; height: 20px; padding: 2px 6px; line-height: 20px; margin: 5px auto; color: #fff; }
-.widget-box .box-list li span.name {width: 135px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+.widget-box .box-list li span.name {width: 180px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
 .widget-box .box-list li span.nums { float: right; text-align: right; max-width: 33px; height:30px; margin-right: 0; color: #333; display:block; overflow: hidden;}
 
 /*tags*/
-.cloud div { clear: both; overflow: hidden; background: #fff; margin-bottom: 10px; width: 90%; margin-left:10px; margin-top: 5px; }
+.cloud div { clear: both; overflow: hidden; background: #fff; margin-bottom: 10px; width: 90%; margin-left:15px; margin-top: 5px; }
 .cloud div { overflow: hidden; font-size: 12px }
 .cloud div a { line-height: 24px; display: block; background: #999; float: left; padding: 0px 11px; margin: 10px 5px 0 0; transition: all 0.5s; color: #FFF }
 .cloud div a:nth-child(8n-15) { background: #8A9B0F }
@@ -410,8 +410,8 @@ background-color: #ea6f5a;}
 .about-user .nk { font-size:16px;}
 
 .about-user .user-datas ul{ height: 50px; overflow: hidden; margin: 0; }
-.about-user .user-datas ul li { float: left; width: 102px; height: 50px; text-align: center; border-right: 1px solid #e8e8e8; }
-.about-user .user-datas ul li strong { height: 26px; line-height: 26px; font-size: 26px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: normal; display: block; margin-bottom: 5px; }
+.about-user .user-datas ul li { float: left; width: 61px; height: 50px; text-align: center; border-right: 1px solid #e8e8e8; }
+.about-user .user-datas ul li strong { height: 26px; line-height: 26px; font-size: 20px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: normal; display: block; margin-bottom: 5px; }
 .about-user .user-datas ul li span { font-size: 12px; color: #999; }
 
 .user-nav { margin-bottom: 15px;}

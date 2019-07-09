@@ -7,7 +7,7 @@
     -->
 
     <a href="${base}/index">
-        <img src="/static/assets/images/logo/m90.png" height="72" width="72">
+        <img src="/static/assets/images/logo/logo90.jpg" height="72" width="72">
     </a>
     <h1>${site_welcomes}</h1>
     <hr>
@@ -51,7 +51,7 @@
     <div class="buttons">
         <a href="#" title="微博帐号登录" rel="nofollow" class="weibo"></a>
         <a href="#" title="QQ帐号登录" rel="nofollow" class="qzone"></a>
-        <a href="#" title="豆瓣帐号登录" rel="nofollow" class="douban"></a>
+        <a href="#" title="微信帐号登录" rel="nofollow" class="wechar"></a>
     </div>
 </div>
 

@@ -83,6 +83,7 @@
           <sql id="selectByIdCommon">
               <include refid="commonField"/>
               u.comments "user.comments",
+              u.favors "user.favors",
               u.posts "user.posts",
               u.fans "user.fans",
               act.content "editor"

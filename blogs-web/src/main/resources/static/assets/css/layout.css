@@ -8,11 +8,11 @@
 +---------------------------------------------------------------------------
 */
 /*.container */
-@media (min-width: 1200px) {
-	.container {
-		width: 1010px;
-	}
-}
+/*@media (min-width: 1200px) {*/
+	/*.container {*/
+		/*width: 1010px;*/
+	/*}*/
+/*}*/
 
 /* header */
 .top-wrap {position: relative; width: 100%; top: 0; left: 0;}

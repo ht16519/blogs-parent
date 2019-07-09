@@ -3,7 +3,7 @@
 <@layout>
 <div class="login">
     <a href="${base}/index">
-        <img src="/static/assets/images/logo/m90.png" height="72" width="72">
+        <img src="/static/assets/images/logo/logo90.jpg" height="72" width="72">
     </a>
     <h1>离成功只差一步</h1>
     <hr>

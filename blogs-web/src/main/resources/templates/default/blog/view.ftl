@@ -144,7 +144,9 @@
                         <li class="list-group-item">
                             <div class="user-datas">
                                 <ul>
-                                    <li><strong>${ret.user.posts}</strong><span>发布</span></li>
+                                    <li><strong>${ret.user.posts}</strong><span>文章</span></li>
+                                    <li><strong>${ret.user.fans}</strong><span>粉丝</span></li>
+                                    <li><strong>${ret.user.favors}</strong><span>喜欢</span></li>
                                     <li class="noborder"><strong>${ret.user.comments}</strong><span>评论</span></li>
                                 </ul>
                             </div>

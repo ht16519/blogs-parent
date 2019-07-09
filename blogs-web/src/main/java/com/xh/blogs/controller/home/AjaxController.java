@@ -246,7 +246,7 @@ public class AjaxController extends BaseController {
     */
     @GetMapping("/free/hotusers.json")
     public WebApiResult<EHotUser> hottestUsers(){
-        return WebApiResult.success(statisticalService.getHottestUsers(statisticalCount));
+        return WebApiResult.success(statisticalService.getHottestUsers(8));
     }
 
 
