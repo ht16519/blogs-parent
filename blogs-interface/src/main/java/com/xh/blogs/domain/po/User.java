@@ -14,7 +14,6 @@ import java.util.Set;
 @AllArgsConstructor
 public class User implements Serializable{
 
-
     /**
     *
     */
@@ -115,6 +114,8 @@ public class User implements Serializable{
 
     /** 随机字符串*/
     private String salt;
+
+    private String qqOpenId;
 
     /** 用户角色*/
     private Set<Role> roles;

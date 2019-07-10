@@ -32,6 +32,8 @@ public interface ViewUrl {
 
     //==============
 
+    String BLOG_OAUTH_REG = "default/oauth_reg";
+
     String BLOG_AFFICHES = "default/about/attachs";
 
     String DEFAULT_ERROR = "error";

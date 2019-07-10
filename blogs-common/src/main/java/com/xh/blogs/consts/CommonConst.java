@@ -10,6 +10,8 @@ public interface CommonConst {
 
     String EMPTY_STRING = "";
 
+    String BLOGS_SEX_MAN = "男";
+
     String ARTICLE_TITLE_KEY = "title";
 
     String DATA_RESULT_KEY = "data";
@@ -69,5 +71,6 @@ public interface CommonConst {
 
     String SEPARATOR_POINT = ".";
 
+    long DEFAULT_REDIS_KEY_DURATION = 30 * 60;
 
 }

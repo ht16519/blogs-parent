@@ -167,7 +167,11 @@ public class UserController extends BaseController {
             super.getModelMap(EmError.USER_NAME_OR_PASSWORD_ERROR, model);
             log.error("login exception, username:{}, message:{}, ip:{}", e.getMessage() ,EmError.USER_NAME_OR_PASSWORD_ERROR.getErrMsg(), super.getIpAddr(request));
         } catch (BusinessException e) {
+            log.error("login exception, message:{}, ip:{}", e.getErrMsg(), super.getIpAddr(request));
             super.getModelMap(e, model);
+        }catch (Exception e) {
+            log.error("register exception:{}", e);
+            super.getModelMap(EmError.UNKNOWN_ERROR, model);
         }
         return ViewUrl.LOGIN;
     }

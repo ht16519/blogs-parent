@@ -148,7 +148,7 @@ public class ArticleServiceImpl extends BaseServiceImpl implements IArticleServi
         int res = articleMapper.updateByPrimaryKeySelective(article);
         if(res > 0){
             //3.逻辑删除文章所属图片
-            res = articleAccessoryMapper.removeByArticleId(id);
+            articleAccessoryMapper.removeByArticleId(id);
         }
         //用户文章发布数 -1
         userMapper.reducePosts(userId);

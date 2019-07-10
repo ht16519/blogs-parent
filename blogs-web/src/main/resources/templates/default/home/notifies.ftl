@@ -50,6 +50,8 @@
                         恭喜您注册成功，您的邮箱尚未激活，若忘记密码需通过邮箱找回密码 - <a href="${base}/home/account/active/email"><b>去激活</b></a>
                     <#elseif (row.event == 6)>
                         您的邮箱已经认证成功!
+                    <#elseif (row.event == 7)>
+                        恭喜您注册成功，您的邮箱尚未绑定，若忘记密码需通过邮箱找回密码 - <a href="${base}/home/account/active/email"><b>绑定邮箱</b></a>
                     </#if>
                     </div>
                     </h2>

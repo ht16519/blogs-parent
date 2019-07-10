@@ -115,4 +115,14 @@ public interface IUserService {
     * @return void
     */
     void validationEmail(String email, AccountProfile profile) throws BusinessException;
+
+    /**
+    * @Name oauthBind
+    * @Description 绑定第三方登录账号
+    * @Author wen
+    * @Date 2019/7/10
+    * @param authUserVo
+    * @return int 
+    */
+    int oauthBind(OAuthUserVo authUserVo) throws BusinessException;
 }

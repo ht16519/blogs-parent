@@ -20,11 +20,14 @@ public interface NotifyConst {
     /** 回复*/
     int EVENT_REPLY = 4;
 
-    /** 注册成功提示*/
+    /** 注册成功并设置邮箱提示*/
     int EVENT_REGISTERED_SUCCESSFULLY = 5;
 
     /** 邮箱激活提示*/
     int EVENT_EMAIL_ACTIVATION = 6;
+
+    /** 注册成功但未绑定邮箱提示*/
+    int EVENT_REGISTERED_SUCCESSFULLY2 = 7;
 
 
 

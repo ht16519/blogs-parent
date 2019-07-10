@@ -13,4 +13,5 @@ public interface ErrorConst {
 
     /** 参数校验不合法异常码*/
     int PARAMETER_VERIFICATION_ERROR_CODE = 10020;
+
 }

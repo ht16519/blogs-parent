@@ -40,7 +40,7 @@
 			<div class="form-group">
 				<label for="desc" class="col-sm-2 control-label no-padding-right">内容</label>
 				<#--<input type="hidden" name="editor" value="${data.editor}"/>-->
-				<div class="col-sm-8">
+                <div class="col-sm-10" style="width: 77%;">
 					<#include "/default/blog/editor/ueditor.ftl"/>
 				</div>
 			</div>

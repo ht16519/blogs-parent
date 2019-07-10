@@ -14,7 +14,7 @@
     <form action="login" method="post">
         <div id="message">
             <#if msg??>
-            <div class="alert alert-danger">${msg}</div>
+                <div class="alert alert-danger">${msg}</div>
             </#if>
         </div>
         <label for="id_email">登录名:</label>
@@ -49,9 +49,9 @@
     </form>
     <div class="with-line">使用第三方帐号登录</div>
     <div class="buttons">
-        <a href="#" title="微博帐号登录" rel="nofollow" class="weibo"></a>
-        <a href="#" title="QQ帐号登录" rel="nofollow" class="qzone"></a>
-        <a href="#" title="微信帐号登录" rel="nofollow" class="wechar"></a>
+        <#--<a href="${base}/qq/authorize" title="微博帐号登录" rel="nofollow" class="weibo"></a>-->
+        <a href="${base}/login/qq/authorize" title="QQ帐号登录" rel="nofollow" class="qzone"></a>
+        <#--<a href="#" title="微信帐号登录" rel="nofollow" class="wechar"></a>-->
     </div>
 </div>
 

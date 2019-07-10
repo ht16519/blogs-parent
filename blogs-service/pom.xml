@@ -17,6 +17,11 @@
     <dependencies>
 
         <dependency>
+            <groupId>com.sdk4j</groupId>
+            <artifactId>sdk4j</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>

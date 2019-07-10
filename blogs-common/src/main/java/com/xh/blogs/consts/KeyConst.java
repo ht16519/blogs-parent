@@ -8,6 +8,14 @@ package com.xh.blogs.consts;
  */
 public interface KeyConst {
 
+    String QQ_OPEN_ID_KEY = "qqOpenId";
+
+    String OAUTH_TOKEN_KEY = "authToken";
+
+    String REDIRECT_PREFIX_KEY1 = "redirect:";
+
+    String REDIRECT_PREFIX_KEY2 = "redirect:/";
+
     String DURID_FILTER_EXCLUSIONS_KEY = "exclusions";
 
     String DURID_LOGIN_USERNAME_KEY = "loginUsername";

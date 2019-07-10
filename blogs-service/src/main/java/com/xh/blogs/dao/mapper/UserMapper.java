@@ -6,6 +6,7 @@ import com.xh.blogs.domain.po.User;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserMapper extends IBaseMapper<User> {
 
@@ -78,4 +79,14 @@ public interface UserMapper extends IBaseMapper<User> {
     * @return int
     */
     int reducePosts(@Param("userId") int userId);
+
+    /**
+    * @Name selectUserInfoByOpenId
+    * @Description 条件查询用户登录信息
+    * @Author wen
+    * @Date 2019/7/10
+    * @param condition
+    * @return com.xh.blogs.domain.po.User
+    */
+    User selectUserInfoByOpenId(Map<String, String> condition);
 }

@@ -60,6 +60,10 @@ public class CommonUtil {
         return getRAS(7);
     }
 
+    public static String getRAS32() {
+        return getRAS(32);
+    }
+
     /**
      * @param
      * @return int

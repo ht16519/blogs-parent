@@ -31,7 +31,7 @@ public class ImageUtil {
     public static final int DEFAULT_IMAGE_SIDE = 300;
 
     /** 文章图片最大宽度*/
-    public static final int MAX_ARTICLE_IMAGE_WIDTH = 700;
+    public static final int MAX_ARTICLE_IMAGE_WIDTH = 830;
 
     /**
     * @Name handle
