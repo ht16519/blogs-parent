@@ -23,6 +23,10 @@ public class RedisCacheUtil {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
+    public String get(String k){
+        return valueOperations.get(k);
+    }
+
     public <T> T get(String k, Class<T> clazz){
         return JsonUtil.parse(valueOperations.get(k), clazz);
     }

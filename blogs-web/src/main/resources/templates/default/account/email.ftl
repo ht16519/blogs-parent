@@ -99,7 +99,7 @@
     function getEmailCode() {
         var email = $('#email').val();
         var code = $('#emailSecurityCode').val();
-        loading("邮件发送中，请稍等...");
+        // loading("邮件发送中，请稍等...");
         jQuery.ajax({
             url: '${base}/home/account/email/send.json',
             data: {'email': email, 'code': code},
@@ -115,7 +115,7 @@
                 layer.closeAll();
                 if(ret){
                     if (ret.code == 0) {
-                        layer.msg(ret.msg, {icon: 1});
+                        alert("邮件已发送至您的邮箱，如长时间未收到邮件，请联系管理员！");
                     } else {
                         layer.msg(ret.msg, {icon: 5});
                     }

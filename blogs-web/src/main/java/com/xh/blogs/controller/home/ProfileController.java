@@ -1,10 +1,12 @@
 package com.xh.blogs.controller.home;
 
 import com.xh.blogs.api.IMailService;
+import com.xh.blogs.api.ISmsService;
 import com.xh.blogs.api.IUploadService;
 import com.xh.blogs.api.IUserService;
 import com.xh.blogs.consts.*;
 import com.xh.blogs.controller.base.BaseController;
+import com.xh.blogs.dao.cache.RedisCacheUtil;
 import com.xh.blogs.domain.po.User;
 import com.xh.blogs.domain.vo.*;
 import com.xh.blogs.enums.EmError;
@@ -35,13 +37,18 @@ import java.util.Map;
 public class ProfileController extends BaseController {
 
     @Autowired
-    private IUserService userService;
-    @Autowired
     private IMailService mailService;
+    @Autowired
+    private IUserService userService;
     @Autowired
     private IUploadService uploadService;
     @Autowired
+    private RedisCacheUtil redisCacheUtil;
+    @Autowired
     private ServletContext servletContext;
+    @Autowired
+    private ISmsService smsService;
+
 
     /**
      * @param
@@ -216,13 +223,13 @@ public class ProfileController extends BaseController {
         try {
             AccountProfile profile = super.getProfile();
             userName = profile.getUserName();
-            //获取verifyCode缓存
-            Object emailCode = ShiroUtil.sessionGetValue(KeyConst.EMAIL_CODE_KEY);
-            //移除verifyCode缓存
-            ShiroUtil.getSession().removeAttribute(KeyConst.EMAIL_CODE_KEY);
-            //验证有邮箱和验证码是否正确
+            //1-1.获取verifyCode缓存
+            String emailCode = redisCacheUtil.get(profile.getNickName());
+            //1-2.移除verifyCode缓存
+            redisCacheUtil.delete(profile.getNickName());
+            //2.验证邮箱和验证码是否正确
             mailService.mailAuthentication(emailVo, emailCode);
-            //更新session中用户基本信息
+            //3.更新session中用户基本信息
             User user = userService.activeEmailById(emailVo, profile.getId());
             super.putProfile(user);
             super.getModelMap(model);
@@ -244,23 +251,36 @@ public class ProfileController extends BaseController {
     @PostMapping("/email/send.json")
     @ResponseBody
     public WebApiResult sendEmail(@RequestParam("email") String email, @RequestParam("code") String code) throws BusinessException {
-        //校验验证码
+        //1-1.校验验证码
         VerificationCodeUtil.check(code);
-        //1.验证邮箱信息
+        //1-2.验证邮箱信息
         AccountProfile profile = super.getProfile();
         userService.validationEmail(email, profile);
-        //2.组建模板数据
-        String verifyCode = CommonUtil.getRAS(6);
+        //2.创建并发送消息到邮件MQ
+        this.createAndSendEmailMsg(email, profile);
+        return WebApiResult.success();
+    }
+
+    /**
+    * @Name createAndSendEmailMsg
+    * @Description 创建并发送消息到邮件MQ
+    * @Author wen
+    * @Date 2019/7/11
+    * @param email
+    * @param profile
+    * @return void
+    */
+    private void createAndSendEmailMsg(String email, AccountProfile profile) {
+        //2-1.组建模板数据
         Map<String, Object> data = new HashMap();
         data.put(KeyConst.USER_NICK_NAME_KEY, profile.getNickName());
-        data.put(KeyConst.RESTUL_EMAIL_CODE_KEY, verifyCode);
+        data.put(KeyConst.RESTUL_EMAIL_CODE_KEY, CommonUtil.getRAS(6));
         data.put(KeyConst.SITE_DOMAIN, this.getSiteDomin());
         data.put(KeyConst.SITE_NAME, this.getSiteName());
-        //3.发送模板邮件
-        mailService.sendHtmlMail(email, this.getTemplateTitle(), data, ViewUrl.ACCOUNT_ACTIVATE_EMAIL);
-        //4.存储邮箱和验证码
-        ShiroUtil.sessionSetValue(KeyConst.EMAIL_CODE_KEY, email + CommonConst.SEPARATOR + verifyCode);
-        return WebApiResult.success();
+        data.put(KeyConst.SEND_TO_EMAIL_KEY, email);
+        data.put(KeyConst.SEND_EMAIL_TITLE_KEY, this.getTemplateTitle());
+        //2-2.发送邮件MQ消息
+        smsService.sendEmailMsg(data);
     }
 
     private String getSiteDomin() {

@@ -67,5 +67,14 @@ public interface IMailService {
      */
     void sendInlinResourceMail(String to, String title, String content, String rscPath, String rscId) throws BusinessException;
 
+    /**
+    * @Name mailAuthentication
+    * @Description 验证邮箱和验证码是否正确
+    * @Author wen
+    * @Date 2019/7/11
+    * @param emailVo
+    * @param emailCode
+    * @return void
+    */
     void mailAuthentication(EmailVo emailVo, Object emailCode) throws BusinessException;
 }

@@ -2,7 +2,6 @@ package com.xh.blogs.service.impl;
 
 import com.xh.blogs.api.IMailService;
 import com.xh.blogs.consts.CommonConst;
-import com.xh.blogs.consts.ConfigConst;
 import com.xh.blogs.consts.ViewUrl;
 import com.xh.blogs.domain.vo.EmailVo;
 import com.xh.blogs.enums.EmError;
@@ -22,6 +21,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;

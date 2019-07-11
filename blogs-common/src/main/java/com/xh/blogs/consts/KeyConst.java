@@ -10,6 +10,10 @@ public interface KeyConst {
 
     String QQ_OPEN_ID_KEY = "qqOpenId";
 
+    String SEND_TO_EMAIL_KEY = "toEmail";
+
+    String SEND_EMAIL_TITLE_KEY = "emailTitle";
+
     String OAUTH_TOKEN_KEY = "authToken";
 
     String REDIRECT_PREFIX_KEY1 = "redirect:";

@@ -73,9 +73,12 @@ public class UserController extends BaseController {
     */
     @GetMapping("/logout")
     public String doLogout() {
-        Subject subject = SecurityUtils.getSubject();
-        if(subject != null) {
-            subject.logout();
+        try{
+            Subject subject = SecurityUtils.getSubject();
+            if(subject != null) {
+                subject.logout();
+            }
+        }catch (Exception e){
         }
         return RequestUrl.REDIRECT_INDEX;
     }

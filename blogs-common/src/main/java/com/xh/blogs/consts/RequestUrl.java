@@ -24,6 +24,8 @@ public interface RequestUrl {
 
     String BLOG_AFFICHES = "/affiche/**";
 
+    String BLOG_TEST = "/test/**";
+
     String INDEX_URLS = "/index/**";
 
     String REDIRECT_INDEX = "redirect:/index";

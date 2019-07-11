@@ -1,4 +1,20 @@
-<footer>
+<#--<style type="text/css">-->
+    <#--html {-->
+        <#--position: relative;-->
+        <#--min-height: 100%;-->
+    <#--}-->
+    <#--body {-->
+        <#--margin-bottom: 60px;-->
+    <#--}-->
+    <#--.footer1 {-->
+        <#--position: absolute;-->
+        <#--bottom: 0;  width: 100%;-->
+        <#--/* Set the fixed height of the footer here */-->
+        <#--height: 60px;-->
+        <#--background-color: red;-->
+    <#--}-->
+<#--</style>-->
+<footer class="footer1">
 	<div class="footer-nav">
 		<div class="container">
 			<ul class="about-ul list-inline clearfix">
@@ -8,7 +24,7 @@
 			</ul>
 		</div>
 	</div>
-	<div class="container mode-link">
+	<div class="container mode-link bg-color">
         <h3 class="t-h3">友情链接</h3>
         <ul class="list-inline">
             <li><a href="http://mtons.com/?copyright" target="_blank" title="Mtons社区">参考Mtons社区</a></li>
