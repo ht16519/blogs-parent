@@ -1,5 +1,6 @@
 package com.xh.blogs.controller.home;
 
+import com.xh.blogs.annotation.AccessLimit;
 import com.xh.blogs.api.IMailService;
 import com.xh.blogs.api.ISmsService;
 import com.xh.blogs.api.IUploadService;
@@ -66,7 +67,7 @@ public class ProfileController extends BaseController {
             userService.updatePasswordById(passwordVo);
             super.getModelMap(model);
         } catch (BusinessException e) {
-            super.getModel(e, model);
+            super.getModelMap(e, model);
         }
         return ViewUrl.ACCOUNT_PASSWORD;
     }
@@ -106,7 +107,7 @@ public class ProfileController extends BaseController {
             if (ex.getErrCode() == ErrorConst.PARAMETER_VERIFICATION_ERROR_CODE) {
                 ex.setErrMsg(StringConst.AVATAR_PARAMETERS_ERROR);
             }
-            super.getModel(ex, model);
+            super.getModelMap(ex, model);
         }
         return ViewUrl.ACCOUNT_AVATAR;
     }
@@ -143,7 +144,7 @@ public class ProfileController extends BaseController {
             super.putProfile(user);
             super.getModelMap(model);
         } catch (BusinessException e) {
-            super.getModel(e, model);
+            super.getModelMap(e, model);
         }
         return ViewUrl.ACCOUNT_PROFILE;
     }
@@ -161,7 +162,7 @@ public class ProfileController extends BaseController {
         try {
             model.put(CommonConst.DATA_RESULT_KEY, super.getProfile());
         } catch (BusinessException e) {
-            super.getModel(e, model);
+            super.getModelMap(e, model);
         }
         return ViewUrl.ACCOUNT_PROFILE;
     }
@@ -248,6 +249,7 @@ public class ProfileController extends BaseController {
     * @param email
     * @return com.xh.blogs.domain.vo.WebApiResult
     */
+    @AccessLimit(seconds = CommonConst.DEFAULT_REDIS_KEY_DURATION, maxCount = 5)
     @PostMapping("/email/send.json")
     @ResponseBody
     public WebApiResult sendEmail(@RequestParam("email") String email, @RequestParam("code") String code) throws BusinessException {

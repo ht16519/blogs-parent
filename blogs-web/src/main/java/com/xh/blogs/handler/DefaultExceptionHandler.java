@@ -1,6 +1,7 @@
 package com.xh.blogs.handler;
 
 import com.xh.blogs.consts.ErrorConst;
+import com.xh.blogs.consts.ViewUrl;
 import com.xh.blogs.enums.EmError;
 import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.utils.JsonUtil;
@@ -35,7 +36,7 @@ public class DefaultExceptionHandler implements HandlerExceptionResolver {
             this.writerExceptionInfo(response, ex, request, requestURI);
             mv = new ModelAndView();
         } else {
-            mv = new ModelAndView("/error", this.getExceptionResultMap(ex, request, requestURI));
+            mv = new ModelAndView(ViewUrl.DEFAULT_ERROR, this.getExceptionResultMap(ex, request, requestURI));
         }
         return mv;
     }
@@ -60,7 +61,6 @@ public class DefaultExceptionHandler implements HandlerExceptionResolver {
             map.put(CODE_KEY, businessException.getErrCode());
             map.put(MSG_KEY, businessException.getErrMsg());
             return map;
-//        } else if(ex instanceof MaxUploadSizeExceededException) {
         } else if(ex instanceof UnauthorizedException) {
             log.error("请求异常： params:{}, url:{}, errorMsg:{}", JsonUtil.serialize(request.getParameterMap()), requestURI, EmError.USER_UNAUTHORIZED.getErrMsg());
             map.put(CODE_KEY, EmError.USER_UNAUTHORIZED.getErrCode());
@@ -92,5 +92,6 @@ public class DefaultExceptionHandler implements HandlerExceptionResolver {
             log.error("IOException:{}", e);
         }
     }
+
 
 }

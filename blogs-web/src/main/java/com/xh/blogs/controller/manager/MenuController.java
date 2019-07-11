@@ -69,7 +69,7 @@ public class MenuController extends BaseController {
             menuService.updateRoleMenuCache();
             super.getModelMap(model);
         } catch (BusinessException e) {
-            super.getModel(e, model);
+            super.getModelMap(e, model);
         }
         return ViewUrl.ADMIN_MENU_VIEW;
     }

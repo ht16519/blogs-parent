@@ -10,6 +10,7 @@ import com.xh.blogs.domain.po.User;
 import com.xh.blogs.domain.vo.OAuthUser;
 import com.xh.blogs.enums.EmError;
 import com.xh.blogs.exception.BusinessException;
+import com.xh.blogs.utils.RequestUtil;
 import com.xh.blogs.utils.ShiroUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
@@ -78,15 +79,15 @@ public class LoginController extends BaseController{
             }
         } catch (UnknownAccountException e) {
             super.getModelMap(EmError.USER_NAME_OR_PASSWORD_ERROR, model);
-            log.error("login exception, username:{}, message:{}, ip:{}", e.getMessage(), EmError.USER_NAME_OR_PASSWORD_ERROR.getErrMsg(), super.getIpAddr(request));
+            log.error("login exception, username:{}, message:{}, ip:{}", e.getMessage(), EmError.USER_NAME_OR_PASSWORD_ERROR.getErrMsg(), RequestUtil.getIpAddress(request));
         } catch (LockedAccountException e) {
             super.getModelMap(EmError.USER_IS_DISABLE, model);
-            log.error("login exception, username:{}, message:{}, ip:{}", e.getMessage() ,EmError.USER_IS_DISABLE.getErrMsg(), super.getIpAddr(request));
+            log.error("login exception, username:{}, message:{}, ip:{}", e.getMessage() ,EmError.USER_IS_DISABLE.getErrMsg(), RequestUtil.getIpAddress(request));
         } catch (AuthenticationException e) {
             super.getModelMap(EmError.USER_NAME_OR_PASSWORD_ERROR, model);
-            log.error("login exception, username:{}, message:{}, ip:{}", e.getMessage() ,EmError.USER_NAME_OR_PASSWORD_ERROR.getErrMsg(), super.getIpAddr(request));
+            log.error("login exception, username:{}, message:{}, ip:{}", e.getMessage() ,EmError.USER_NAME_OR_PASSWORD_ERROR.getErrMsg(), RequestUtil.getIpAddress(request));
         } catch (BusinessException e) {
-            log.error("login exception, message:{}, ip:{}", e.getErrMsg(), super.getIpAddr(request));
+            log.error("login exception, message:{}, ip:{}", e.getErrMsg(), RequestUtil.getIpAddress(request));
             super.getModelMap(e, model);
         }catch (Exception e) {
             log.error("register exception:{}", e);

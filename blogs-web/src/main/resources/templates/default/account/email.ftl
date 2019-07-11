@@ -112,10 +112,9 @@
                 layer.msg('发送邮件失败，请检查邮箱是否正确！', {icon: 2});
             },
             success: function(ret){
-                layer.closeAll();
                 if(ret){
                     if (ret.code == 0) {
-                        alert("邮件已发送至您的邮箱，如长时间未收到邮件，请联系管理员！");
+                        alert("邮件已发送至您的邮箱，请注意查收，如长时间未收到邮件，请联系管理员！");
                     } else {
                         layer.msg(ret.msg, {icon: 5});
                     }

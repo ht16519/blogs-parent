@@ -73,4 +73,12 @@ public interface CommonConst {
 
     long DEFAULT_REDIS_KEY_DURATION = 30 * 60;
 
+    String REQUEST_LIMIT_PREFIX = "request_limit:";
+
+    char UNDERLINE = '_';
+
+    String HORIZONTAL_LINE = "-";
+
+    char THE_COLON = ':';
+
 }

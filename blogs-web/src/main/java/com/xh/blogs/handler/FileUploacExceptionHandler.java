@@ -1,5 +1,6 @@
 package com.xh.blogs.handler;
 
+import com.xh.blogs.consts.ViewUrl;
 import com.xh.blogs.enums.EmError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -31,6 +32,6 @@ public class FileUploacExceptionHandler {
         Map<String, Object> map = new HashMap<>();
         map.put("code", EmError.MAX_UPLOAD_SIZE_EXCEEDED.getErrCode());
         map.put("msg", EmError.MAX_UPLOAD_SIZE_EXCEEDED.getErrMsg());
-        return new ModelAndView("/error", map);
+        return new ModelAndView(ViewUrl.DEFAULT_ERROR, map);
     }
 }

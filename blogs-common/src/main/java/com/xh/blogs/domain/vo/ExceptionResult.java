@@ -1,5 +1,6 @@
 package com.xh.blogs.domain.vo;
 
+
 import com.xh.blogs.error.CommomError;
 import lombok.Data;
 
@@ -18,10 +19,18 @@ public class ExceptionResult {
 
     private long timestamp;
 
-    public ExceptionResult(CommomError commomError) {
-        this.code = commomError.getErrCode();
-        this.msg = commomError.getErrMsg();
+    public ExceptionResult(int code, String msg) {
+        this.code = code;
+        this.msg = msg;
         this.timestamp = System.currentTimeMillis();
+    }
+
+    public static ExceptionResult build(CommomError commomError){
+        return build(commomError.getErrCode(), commomError.getErrMsg());
+    }
+
+    public static ExceptionResult build(int code, String msg){
+        return new ExceptionResult(code, msg);
     }
 
 }

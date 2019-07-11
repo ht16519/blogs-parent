@@ -1,7 +1,6 @@
 package com.xh.blogs.config;
 
-import com.xh.blogs.content.HttpInterceptor;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.xh.blogs.Interceptor.HttpInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
@@ -44,9 +43,9 @@ public class WebMvcFileConfig extends WebMvcConfigurerAdapter{
         super.addResourceHandlers(registry);
     }
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new HttpInterceptor());
-        super.addInterceptors(registry);
-    }
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(new HttpInterceptor());
+//        super.addInterceptors(registry);
+//    }
 }

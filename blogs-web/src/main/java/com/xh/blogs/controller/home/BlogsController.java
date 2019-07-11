@@ -9,13 +9,13 @@ import com.xh.blogs.consts.RequestUrl;
 import com.xh.blogs.consts.ViewUrl;
 import com.xh.blogs.controller.base.BaseController;
 import com.xh.blogs.domain.po.Article;
-import com.xh.blogs.domain.po.Attachs;
 import com.xh.blogs.domain.vo.ArticleVo;
 import com.xh.blogs.domain.vo.PageResult;
 import com.xh.blogs.domain.vo.WebApiResult;
 import com.xh.blogs.enums.EmError;
 import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.utils.CommonUtil;
+import com.xh.blogs.utils.RequestUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,7 +98,7 @@ public class BlogsController extends BaseController {
             //2.修改es文章信息
             esArticleService.save(article);
         } catch (BusinessException e) {
-            super.getModel(e, model);
+            super.getModelMap(e, model);
             model.put(CommonConst.DATA_RESULT_KEY, articleVo);
             return ViewUrl.ROUTE_POST_UPDATE;
         }
@@ -121,7 +121,7 @@ public class BlogsController extends BaseController {
             Article article = articleService.getByUserId(id, super.getProfile().getId());
             model.put(CommonConst.DATA_RESULT_KEY, article);
         } catch (BusinessException e) {
-            super.getModel(e, model);
+            super.getModelMap(e, model);
             return ViewUrl.DEFAULT_ERROR;
         }
         return ViewUrl.ROUTE_POST_UPDATE;
@@ -229,7 +229,7 @@ public class BlogsController extends BaseController {
             //2.同步es文章信息
             esArticleService.save(article);
         } catch (BusinessException e) {
-            super.getModel(e, model);
+            super.getModelMap(e, model);
             return ViewUrl.ARTICLE_PUBLISH;
         }
         return RequestUrl.REDIRECT_HOME;
@@ -246,7 +246,7 @@ public class BlogsController extends BaseController {
     */
     @GetMapping("/article/details/{id}")
     public String viewArticle(@PathVariable("id") int id, HttpServletRequest request, ModelMap model) {
-        articleService.addViews(id, super.getIpAddr(request));
+        articleService.addViews(id, RequestUtil.getIpAddress(request));
         Article article = articleService.getById(id);
         if(article == null){
             super.getModelMap(EmError.ARTICLE_IS_NOT_EXIST, model);

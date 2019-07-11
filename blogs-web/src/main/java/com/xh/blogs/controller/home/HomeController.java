@@ -104,7 +104,7 @@ public class HomeController extends BaseController {
             //2.设置消息为已读
             notifyService.setStatusByUserId(userId);
         } catch (BusinessException e) {
-            super.getModel(e, model);
+            super.getModelMap(e, model);
         }
         return ViewUrl.HOME_NOTIFIES;
     }
@@ -114,7 +114,7 @@ public class HomeController extends BaseController {
         try {
             model.put(CommonConst.RESULT_PAGE_INFO_KEY, articleService.getByIdWithPage(super.getProfile().getId(), number));
         } catch (BusinessException e) {
-            super.getModel(e, model);
+            super.getModelMap(e, model);
         }
         return ViewUrl.HOME_FEEDS;
     }
@@ -132,7 +132,7 @@ public class HomeController extends BaseController {
         try {
             model.put(CommonConst.RESULT_PAGE_INFO_KEY, articleService.getByIdWithPage(super.getProfile().getId(), number));
         } catch (BusinessException e) {
-            super.getModel(e, model);
+            super.getModelMap(e, model);
         }
         return ViewUrl.HOME_ARTICLES;
     }

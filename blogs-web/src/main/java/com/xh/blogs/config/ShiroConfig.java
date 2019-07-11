@@ -24,7 +24,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.LinkedHashMap;
 
 @Configuration
-public class ShiroConfiguration {
+public class ShiroConfig {
 
 	@Value("${blogs.accessory.path}")
 	private String accessoryPath;
@@ -97,8 +97,8 @@ public class ShiroConfiguration {
 	@Bean
 	public DefaultWebSessionManager defaultWebSessionManager() {
 		DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
-		sessionManager.setSessionValidationInterval(60 * 30 * 1000);	//30分钟
-		sessionManager.setGlobalSessionTimeout(900 * 1000);				//15分钟
+		sessionManager.setSessionValidationInterval(60 * 15 * 1000);		//15分钟
+		sessionManager.setGlobalSessionTimeout(60 * 30 * 1000);				//30分钟
 		sessionManager.setDeleteInvalidSessions(true);
 		sessionManager.setSessionValidationSchedulerEnabled(true);
 		Cookie cookie = new SimpleCookie(ShiroHttpSession.DEFAULT_SESSION_ID_NAME);

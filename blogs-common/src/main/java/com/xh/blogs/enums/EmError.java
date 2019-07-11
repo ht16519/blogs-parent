@@ -22,6 +22,7 @@ public enum EmError implements CommomError {
     PARAMETER_VERIFICATION_ERROR(10020, "参数不合法"),
     SYSTEM_SECURITY_CODE_ERROR(10021, "验证码已过期，请刷新再试"),
     INPUT_SECURITY_CODE_ERROR(10022, "验证码不正确"),
+    REQUEST_LIMITED(10023, "系统繁忙，请稍后再试"),
 
     //200开头为用户信息相关错误
     USER_DATA_ERROR(20002, "用户不存在"),

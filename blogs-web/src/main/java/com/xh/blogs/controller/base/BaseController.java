@@ -8,6 +8,7 @@ import com.xh.blogs.error.CommomError;
 import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.utils.ShiroUtil;
 import com.xh.blogs.utils.StringEscapeEditor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ import java.util.Date;
 * @Author wen
 * @Date 2019/4/23
 */
+@Slf4j
 public class BaseController {
 
 	protected static final String MESSAGE_KEY = "msg";
@@ -94,24 +96,29 @@ public class BaseController {
 		}
 	}
 
-	public String getIpAddr(HttpServletRequest request){
-		String ip = request.getHeader("X-Real-IP");
-		if (!StringUtils.isBlank(ip) && !"unknown".equalsIgnoreCase(ip)) {
-			return ip;
-		}
-		ip = request.getHeader("X-Forwarded-For");
-		if (!StringUtils.isBlank(ip) && !"unknown".equalsIgnoreCase(ip)) {
-			// 多次反向代理后会有多个IP值，第一个为真实IP。
-			int index = ip.indexOf(',');
-			if (index != -1) {
-				return ip.substring(0, index);
-			} else {
-				return ip;
-			}
-		} else {
-			return request.getRemoteAddr();
-		}
-	}
+	/**
+	 * 获取用户真实IP地址，不使用request.getRemoteAddr()的原因是有可能用户使用了代理软件方式避免真实IP地址,
+	 * 可是，如果通过了多级反向代理的话，X-Forwarded-For的值并不止一个，而是一串IP值
+	 * @return ip
+	 */
+//	public String getIpAddr(HttpServletRequest request){
+//		String ip = request.getHeader("X-Real-IP");
+//		if (!StringUtils.isBlank(ip) && !"unknown".equalsIgnoreCase(ip)) {
+//			return ip;
+//		}
+//		ip = request.getHeader("X-Forwarded-For");
+//		if (!StringUtils.isBlank(ip) && !"unknown".equalsIgnoreCase(ip)) {
+//			// 多次反向代理后会有多个IP值，第一个为真实IP。
+//			int index = ip.indexOf(',');
+//			if (index != -1) {
+//				return ip.substring(0, index);
+//			} else {
+//				return ip;
+//			}
+//		} else {
+//			return request.getRemoteAddr();
+//		}
+//	}
 
 	protected ModelMap getModelMap(CommomError commomError, ModelMap model){
 		model.put(CODE_KEY, commomError.getErrCode());
@@ -119,34 +126,32 @@ public class BaseController {
 		return model;
 	}
 
-	protected ModelMap getModelMap(BusinessException ex, ModelMap model){
-		model.put(CODE_KEY, ex.getErrCode());
-		model.put(MESSAGE_KEY, ex.getErrMsg());
-		return model;
-	}
+//	protected ModelMap getModel(BusinessException ex, ModelMap model){
+//		model.addAttribute(CODE_KEY, ex.getErrCode());
+//		model.addAttribute(MESSAGE_KEY, ex.getErrMsg());
+//		return model;
+//	}
+//
+//	protected ModelMap getModelMap(BusinessException ex, ModelMap model){
+//		model.put(CODE_KEY, ex.getErrCode());
+//		model.put(MESSAGE_KEY, ex.getErrMsg());
+//		return model;
+//	}
 
 	protected ModelMap getModelMap(ModelMap model){
-		model.put(CODE_KEY, 0);
-		model.put(MESSAGE_KEY, SUCCESSED_MESSAGE);
-		return model;
+		return this.getModelMap(SUCCESSED_MESSAGE, model);
 	}
 
 	protected ModelMap getModelMap(String msg, ModelMap model){
-		model.put(CODE_KEY, 0);
-		model.put(MESSAGE_KEY, msg);
-		return model;
+		return this.getModelMap(null, msg, model);
 	}
 
 	protected ModelMap getModelMap(Object data, String msg, ModelMap model){
 		model.put(CODE_KEY, 0);
 		model.put(MESSAGE_KEY, msg);
-		model.put(DATA_KEY, data);
-		return model;
-	}
-
-	protected ModelMap getModel(BusinessException ex, ModelMap model){
-		model.addAttribute(CODE_KEY, ex.getErrCode());
-		model.addAttribute(MESSAGE_KEY, ex.getErrMsg());
+		if(data != null){
+			model.put(DATA_KEY, data);
+		}
 		return model;
 	}
 

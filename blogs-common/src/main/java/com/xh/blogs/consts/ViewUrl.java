@@ -36,7 +36,7 @@ public interface ViewUrl {
 
     String BLOG_AFFICHES = "default/about/attachs";
 
-    String DEFAULT_ERROR = "error";
+    String DEFAULT_ERROR = "/error";
 
     String ROUTE_POST_UPDATE = "default/blog/update";
 
@@ -83,5 +83,6 @@ public interface ViewUrl {
     String ARTICLE_SEARCH = "default/search";
 
     String ACCOUNT_ACTIVATE_EMAIL = "default/account/activate.ftl";
+
 
 }

@@ -76,6 +76,5 @@ public class MD5Util {
         String salt = CommonUtil.getSalt();
         System.out.println(salt);
         System.out.println(inputPass2DBPass("111", salt));
-
     }
 }

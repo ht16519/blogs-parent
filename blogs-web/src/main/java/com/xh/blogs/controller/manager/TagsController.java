@@ -55,7 +55,7 @@ public class TagsController extends BaseController{
             tagsService.createBlogsTagsCache();
             super.getModelMap(model);
         } catch (BusinessException e) {
-            super.getModel(e, model);
+            super.getModelMap(e, model);
         }
         model.put(CommonConst.DATA_RESULT_KEY, tagsVo);
         return ViewUrl.ADMIN_TAGS_VIEW;
