@@ -16,6 +16,7 @@ import com.xh.blogs.utils.CommonUtil;
 import com.xh.blogs.utils.ShiroUtil;
 import com.xh.blogs.utils.VerificationCodeUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -177,13 +178,12 @@ public class ProfileController extends BaseController {
     */
     @GetMapping("/email/back")
     public String email(ModelMap model) {
-        Object emailAndCode = ShiroUtil.sessionGetValue(KeyConst.EMAIL_CODE_KEY);
-        if(emailAndCode == null){
+        String emailAndCode = redisCacheUtil.get(super.getProfile().getNickName());
+        if(StringUtils.isEmpty(emailAndCode)){
             super.getModelMap(EmError.EMAIL_OR_CODE_IS_ERROR, model);
             return ViewUrl.ACCOUNT_EMAIL;
         }
-        String s = emailAndCode.toString();
-        String[] split = s.split(CommonConst.SEPARATOR);
+        String[] split = emailAndCode.split(CommonConst.SEPARATOR);
         if(split.length != 2){
             super.getModelMap(EmError.EMAIL_OR_CODE_IS_ERROR, model);
             return ViewUrl.ACCOUNT_EMAIL;
@@ -225,7 +225,7 @@ public class ProfileController extends BaseController {
             AccountProfile profile = super.getProfile();
             userName = profile.getUserName();
             //1-1.获取verifyCode缓存
-            String emailCode = redisCacheUtil.get(profile.getNickName());
+            String emailCode = redisCacheUtil.get(super.getProfile().getNickName());
             //1-2.移除verifyCode缓存
             redisCacheUtil.delete(profile.getNickName());
             //2.验证邮箱和验证码是否正确

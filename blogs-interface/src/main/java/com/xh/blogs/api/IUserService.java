@@ -92,6 +92,7 @@ public interface IUserService {
     * @param 
     * @return void 
     */
+    @Deprecated
     void initSystemAccount();
 
     /**

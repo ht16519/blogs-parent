@@ -141,6 +141,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    @Deprecated
     public void initSystemAccount() {
         log.info("============ START初始化博客header分类 ===========");
         if(null == userMapper.selectByPrimaryKey(SystemConst.SYSTEM_ID)){

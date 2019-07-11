@@ -74,21 +74,21 @@ public class SmsServiceImpl implements ISmsService {
     @Override
     @RabbitListener(queues = {MQ_EMAIL_QUEUE})
     public void receiveAndSendEmailValidation(Map<String, Object> data) {
-        System.out.println(JsonUtil.serialize(data));
-//        try {
-//            //1-1.组装参数
-//            String email = (String) data.get(KeyConst.SEND_TO_EMAIL_KEY);
-//            String templateTitle = (String) data.get(KeyConst.SEND_EMAIL_TITLE_KEY);
-//            String verifyCode = (String) data.get(KeyConst.RESTUL_EMAIL_CODE_KEY);
-//            String nickName = (String) data.get(KeyConst.USER_NICK_NAME_KEY);
-//            //1-2.发送模板邮件
-//            mailService.sendHtmlMail(email, templateTitle, data, ViewUrl.ACCOUNT_ACTIVATE_EMAIL);
-//            //2.存储邮箱和验证码
-//            redisCacheUtil.set(nickName, (email + CommonConst.SEPARATOR + verifyCode));
-//            log.info("======================== 异步发送邮件成功！ ========================");
-//        } catch (BusinessException e) {
-//            log.error("Send Email Validation Exception:{}", e);
-//        }
+//        System.out.println(JsonUtil.serialize(data));
+        try {
+            //1-1.组装参数
+            String email = (String) data.get(KeyConst.SEND_TO_EMAIL_KEY);
+            String templateTitle = (String) data.get(KeyConst.SEND_EMAIL_TITLE_KEY);
+            String verifyCode = (String) data.get(KeyConst.RESTUL_EMAIL_CODE_KEY);
+            String nickName = (String) data.get(KeyConst.USER_NICK_NAME_KEY);
+            //1-2.发送模板邮件
+            mailService.sendHtmlMail(email, templateTitle, data, ViewUrl.ACCOUNT_ACTIVATE_EMAIL);
+            //2.存储邮箱和验证码
+            redisCacheUtil.set(nickName, (email + CommonConst.SEPARATOR + verifyCode));
+            log.info("======================== 异步发送邮件成功！ ========================");
+        } catch (BusinessException e) {
+            log.error("Send Email Validation Exception:{}", e);
+        }
     }
 
 
