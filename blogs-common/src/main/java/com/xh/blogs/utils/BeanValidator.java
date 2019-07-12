@@ -2,11 +2,16 @@ package com.xh.blogs.utils;
 
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.enums.EmError;
+import com.xh.blogs.error.CommomError;
 import com.xh.blogs.exception.BusinessException;
+import com.xh.blogs.exception.LoginException;
 import org.apache.commons.collections.CollectionUtils;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 
 /**
@@ -18,9 +23,20 @@ import java.util.Set;
 public class BeanValidator {
 
     /**
+     * 验证登陆中的Bean参数
+     */
+    public static <T> void checkLogin(T object) throws LoginException {
+        commoncheck(object, false);
+    }
+
+    public static <T> void check(T object) throws LoginException {
+        commoncheck(object, true);
+    }
+
+    /**
      * 验证某个bean的参数
      */
-    public static <T> void check(T object) throws BusinessException {
+    private static <T> void commoncheck(T object, boolean flag) throws BusinessException {
         //获得验证器
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
         //执行验证
@@ -29,7 +45,11 @@ public class BeanValidator {
         if (CollectionUtils.isEmpty(constraintViolations)) {
             return;
         }
-        throw new BusinessException(EmError.PARAMETER_VERIFICATION_ERROR, convertErrorMsg(constraintViolations));
+        if (flag) {
+            throw new BusinessException(EmError.PARAMETER_VERIFICATION_ERROR, convertErrorMsg(constraintViolations));
+        } else {
+            throw new LoginException(EmError.PARAMETER_VERIFICATION_ERROR, convertErrorMsg(constraintViolations));
+        }
     }
 
     /**

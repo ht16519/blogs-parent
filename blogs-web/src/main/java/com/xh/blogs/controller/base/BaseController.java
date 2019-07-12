@@ -1,6 +1,7 @@
 package com.xh.blogs.controller.base;
 
 import com.xh.blogs.consts.CommonConst;
+import com.xh.blogs.consts.HttpConst;
 import com.xh.blogs.domain.po.User;
 import com.xh.blogs.domain.vo.AccountProfile;
 import com.xh.blogs.enums.EmError;
@@ -30,10 +31,6 @@ import java.util.Date;
 */
 @Slf4j
 public class BaseController {
-
-	protected static final String MESSAGE_KEY = "msg";
-
-	protected static final String CODE_KEY = "code";
 
 	protected static final String DATA_KEY = "data";
 
@@ -96,47 +93,11 @@ public class BaseController {
 		}
 	}
 
-	/**
-	 * 获取用户真实IP地址，不使用request.getRemoteAddr()的原因是有可能用户使用了代理软件方式避免真实IP地址,
-	 * 可是，如果通过了多级反向代理的话，X-Forwarded-For的值并不止一个，而是一串IP值
-	 * @return ip
-	 */
-//	public String getIpAddr(HttpServletRequest request){
-//		String ip = request.getHeader("X-Real-IP");
-//		if (!StringUtils.isBlank(ip) && !"unknown".equalsIgnoreCase(ip)) {
-//			return ip;
-//		}
-//		ip = request.getHeader("X-Forwarded-For");
-//		if (!StringUtils.isBlank(ip) && !"unknown".equalsIgnoreCase(ip)) {
-//			// 多次反向代理后会有多个IP值，第一个为真实IP。
-//			int index = ip.indexOf(',');
-//			if (index != -1) {
-//				return ip.substring(0, index);
-//			} else {
-//				return ip;
-//			}
-//		} else {
-//			return request.getRemoteAddr();
-//		}
-//	}
-
 	protected ModelMap getModelMap(CommomError commomError, ModelMap model){
-		model.put(CODE_KEY, commomError.getErrCode());
-		model.put(MESSAGE_KEY, commomError.getErrMsg());
+		model.put(HttpConst.HTTP_RESPONSE_CODE_KEY, commomError.getErrCode());
+		model.put(HttpConst.HTTP_RESPONSE_MSG_KEY, commomError.getErrMsg());
 		return model;
 	}
-
-//	protected ModelMap getModel(BusinessException ex, ModelMap model){
-//		model.addAttribute(CODE_KEY, ex.getErrCode());
-//		model.addAttribute(MESSAGE_KEY, ex.getErrMsg());
-//		return model;
-//	}
-//
-//	protected ModelMap getModelMap(BusinessException ex, ModelMap model){
-//		model.put(CODE_KEY, ex.getErrCode());
-//		model.put(MESSAGE_KEY, ex.getErrMsg());
-//		return model;
-//	}
 
 	protected ModelMap getModelMap(ModelMap model){
 		return this.getModelMap(SUCCESSED_MESSAGE, model);
@@ -147,8 +108,8 @@ public class BaseController {
 	}
 
 	protected ModelMap getModelMap(Object data, String msg, ModelMap model){
-		model.put(CODE_KEY, 0);
-		model.put(MESSAGE_KEY, msg);
+		model.put(HttpConst.HTTP_RESPONSE_CODE_KEY, 0);
+		model.put(HttpConst.HTTP_RESPONSE_MSG_KEY, msg);
 		if(data != null){
 			model.put(DATA_KEY, data);
 		}

@@ -2,6 +2,7 @@ package com.xh.blogs.api;
 
 import com.xh.blogs.domain.vo.OAuthUser;
 import com.xh.blogs.exception.BusinessException;
+import com.xh.blogs.exception.LoginException;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 
 /**
@@ -20,15 +21,15 @@ public interface ILoginService {
     * @param request
     * @return java.lang.String 
     */
-    String getQQAuthorizeUrl(HttpServletRequest request) throws BusinessException;
+    String getQQAuthorizeUrl(HttpServletRequest request) throws LoginException;
 
     /**
-    * @Name qqLoginCallBack
-    * @Description
+    * @Name getOAuthUserByQQAPI
+    * @Description 通过QQ API调用获取用户信息
     * @Author wen
     * @Date 2019/7/10
     * @param request
     * @return OAuthUser
     */
-    OAuthUser qqLoginCallBack(HttpServletRequest request) throws BusinessException;
+    OAuthUser getOAuthUserByQQAPI(HttpServletRequest request) throws BusinessException;
 }

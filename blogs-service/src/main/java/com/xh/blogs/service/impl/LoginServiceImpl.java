@@ -17,6 +17,7 @@ import com.xh.blogs.domain.vo.OAuthUserVo;
 import com.xh.blogs.enums.EmError;
 import com.xh.blogs.enums.OAuthEnum;
 import com.xh.blogs.exception.BusinessException;
+import com.xh.blogs.exception.LoginException;
 import com.xh.blogs.utils.CommonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
@@ -45,16 +46,16 @@ public class LoginServiceImpl implements ILoginService {
     private UserMapper userMapper;
 
     @Override
-    public String getQQAuthorizeUrl(HttpServletRequest request) throws BusinessException {
+    public String getQQAuthorizeUrl(HttpServletRequest request) throws LoginException {
         try {
             return oauth.getAuthorizeURL(request);
         } catch (QQConnectException e) {
-            throw new BusinessException(EmError.GET_QQ_CONNECT_ERROR);
+            throw new LoginException(EmError.GET_QQ_CONNECT_ERROR);
         }
     }
 
     @Override
-    public OAuthUser qqLoginCallBack(HttpServletRequest request) throws BusinessException {
+    public OAuthUser getOAuthUserByQQAPI(HttpServletRequest request) throws BusinessException {
         try {
             //1.获取accessTkoen
             AccessToken accessToken = oauth.getAccessTokenByRequest(request);

@@ -7,7 +7,6 @@ import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.UnauthorizedException;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -17,8 +16,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
+//@Component
 @Slf4j
+@Deprecated
 public class DefaultExceptionHandler implements HandlerExceptionResolver {
 
     private static final String CODE_KEY = "code";

@@ -10,17 +10,12 @@ import com.xh.blogs.controller.base.BaseController;
 import com.xh.blogs.domain.vo.AccountVo;
 import com.xh.blogs.domain.vo.RegisterSuccess;
 import com.xh.blogs.domain.vo.UserVo;
-import com.xh.blogs.enums.EmError;
 import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.utils.BeanValidator;
-import com.xh.blogs.utils.RequestUtil;
 import com.xh.blogs.utils.ShiroUtil;
 import com.xh.blogs.utils.VerificationCodeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.LockedAccountException;
-import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +24,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @Name UserController
@@ -146,38 +139,17 @@ public class UserController extends BaseController {
     * @return java.lang.String
     */
     @PostMapping("/login")
-    public String doLogin(AccountVo accountVo, HttpServletRequest request, ModelMap model) {
-        try {
-            //1.参数校验
-            BeanValidator.check(accountVo);
-            //2.校验验证码
-            VerificationCodeUtil.check(accountVo.getSecurityCode());
-            //3.登陆验证
-            UsernamePasswordToken token = new UsernamePasswordToken(accountVo.getUserName(), accountVo.getPassword());
-            if (accountVo.getRememberMe() == 1) {
-                token.setRememberMe(true);
-            }
-            ShiroUtil.getSubject().login(token);
-            super.putProfile(model);
-            //TODO 登录记录生成
-            return RequestUrl.REDIRECT_HOME;
-        } catch (UnknownAccountException e) {
-            super.getModelMap(EmError.USER_NAME_OR_PASSWORD_ERROR, model);
-            log.error("login exception, username:{}, message:{}, ip:{}", e.getMessage(), EmError.USER_NAME_OR_PASSWORD_ERROR.getErrMsg(), RequestUtil.getIpAddress(request));
-        } catch (LockedAccountException e) {
-            super.getModelMap(EmError.USER_IS_DISABLE, model);
-            log.error("login exception, username:{}, message:{}, ip:{}", e.getMessage() ,EmError.USER_IS_DISABLE.getErrMsg(), RequestUtil.getIpAddress(request));
-        } catch (AuthenticationException e) {
-            super.getModelMap(EmError.USER_NAME_OR_PASSWORD_ERROR, model);
-            log.error("login exception, username:{}, message:{}, ip:{}", e.getMessage() ,EmError.USER_NAME_OR_PASSWORD_ERROR.getErrMsg(), RequestUtil.getIpAddress(request));
-        } catch (BusinessException e) {
-            log.error("login exception, message:{}, ip:{}", e.getErrMsg(), RequestUtil.getIpAddress(request));
-            super.getModelMap(e, model);
-        }catch (Exception e) {
-            log.error("register exception:{}", e);
-            super.getModelMap(EmError.UNKNOWN_ERROR, model);
-        }
-        return ViewUrl.LOGIN;
+    public String doLogin(AccountVo accountVo, ModelMap model) {
+        //1.参数校验
+        BeanValidator.checkLogin(accountVo);
+        //2.校验验证码
+        VerificationCodeUtil.check(accountVo.getSecurityCode());
+        //3.登陆验证
+        ShiroUtil.checkLogin(accountVo.getUserName(), accountVo.getPassword(), accountVo.getRememberMe());
+        //4.登陆成功，设置用户信息缓存
+        super.putProfile(model);
+        //TODO 5.登录记录生成
+        return RequestUrl.REDIRECT_HOME;
     }
 
 
