@@ -26,7 +26,7 @@ public interface ConfigConst {
     /**
      * 默认头像路径
      */
-    String AVATAR_PATH = "/static/assets/images/ava/default.png";
+    String AVATAR_PATH = "/static/assets/images/ava/default.jpg";
 
     /** 头像图片前缀*/
     String AVATAR_PREFIX = "/avatar_";

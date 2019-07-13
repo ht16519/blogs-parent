@@ -1,26 +1,32 @@
 package com.xh.blogs.handler;
 
+import com.xh.blogs.consts.ViewUrl;
 import com.xh.blogs.enums.EmError;
 import com.xh.blogs.exception.LoginException;
 import com.xh.blogs.utils.RequestUtil;
+import com.xh.blogs.utils.WebMvcUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authz.UnauthorizedException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 
 /**
  * @Name FileUploacExceptionHandler
- * @Description 系统登陆异常处理器
+ * @Description 系统权限相关异常处理器
  * @Author wen
  * @Date 2019-05-30
  */
 @Slf4j
 @ControllerAdvice
-public class LoginExceptionHandler extends CommonExceptionHandler{
+public class SystemPermissionsExceptionHandler extends CommonExceptionHandler{
 
     /**
     * @Name handleLoginException
@@ -34,7 +40,7 @@ public class LoginExceptionHandler extends CommonExceptionHandler{
         //TODO 日志需要记载请求参数
         log.error("Login Exception: [requestIP:{}, requestUrl:{}, errorCode:{}, errorMsg:{}]",
                 RequestUtil.getIpAddress(request), request.getRequestURI(), ex.getErrCode(), ex.getErrMsg());
-        return super.backLoginResult(request, ex);
+        return super.buildLoginResult(request, ex);
     }
 
     /**
@@ -49,7 +55,22 @@ public class LoginExceptionHandler extends CommonExceptionHandler{
         //TODO 日志需要记载请求参数
         log.error("Login Exception: [requestIP:{}, requestUrl:{}, inputUserName:{}, errorMsg:用户不存在]",
                 RequestUtil.getIpAddress(request), request.getRequestURI(), ex.getMessage());
-        return super.backLoginResult(request, EmError.USER_NAME_OR_PASSWORD_ERROR);
+        return super.buildLoginResult(request, EmError.USER_NAME_OR_PASSWORD_ERROR);
+    }
+
+    /**
+    * @Name handleUnauthorizedException
+    * @Description 没有访问权限异常处理
+    * @Author wen
+    * @Date 2019/7/13
+    * @return java.lang.Object
+    */
+    @ExceptionHandler(UnauthorizedException.class)
+    public Object handleUnauthorizedException(HttpServletRequest request){
+        //TODO 日志需要记载请求参数
+        log.error("UnauthorizedException Exception: [requestIP:{}, requestUrl:{}, errorMsg:没有访问权限！]",
+                RequestUtil.getIpAddress(request), request.getRequestURI());
+        return WebMvcUtil.cerateMAV(EmError.USER_UNAUTHORIZED, ViewUrl.DEFAULT_ERROR);
     }
 
     /**
@@ -64,7 +85,7 @@ public class LoginExceptionHandler extends CommonExceptionHandler{
         //TODO 日志需要记载请求参数
         log.error("Login Exception: [requestIP:{}, requestUrl:{}, inputUserName:{}, errorMsg:用户被禁用]",
                 RequestUtil.getIpAddress(request), request.getRequestURI(), ex.getMessage());
-        return super.backLoginResult(request, EmError.USER_IS_DISABLE);
+        return super.buildLoginResult(request, EmError.USER_IS_DISABLE);
     }
 
     /**
@@ -79,7 +100,7 @@ public class LoginExceptionHandler extends CommonExceptionHandler{
         //TODO 日志需要记载请求参数
         log.error("Login Exception: [requestIP:{}, requestUrl:{}, errorMsg:用户认证失败]",
                 RequestUtil.getIpAddress(request), request.getRequestURI());
-        return super.backLoginResult(request, EmError.USER_NAME_OR_PASSWORD_ERROR);
+        return super.buildLoginResult(request, EmError.USER_NAME_OR_PASSWORD_ERROR);
     }
 
 }

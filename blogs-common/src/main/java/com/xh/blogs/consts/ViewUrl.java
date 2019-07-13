@@ -36,7 +36,7 @@ public interface ViewUrl {
 
     String BLOG_AFFICHES = "default/about/attachs";
 
-    String DEFAULT_ERROR = "/error";
+    String DEFAULT_ERROR = "/error1";
 
     String ROUTE_POST_UPDATE = "default/blog/update";
 

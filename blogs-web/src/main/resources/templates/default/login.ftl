@@ -1,6 +1,6 @@
 <#include "/default/utils/layout_login.ftl"/>
 
-<@layout>
+<@layout "登录">
 <div class="login">
     <!--
     <div class="vegas-overlay" style="opacity: 0.2; margin: 0px; padding: 0px; position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; background-image: url(/static/assets/images/overlay.png); z-index: -1;"></div>

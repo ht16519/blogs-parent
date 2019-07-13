@@ -11,9 +11,6 @@ import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSource
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
-import org.apache.shiro.web.servlet.Cookie;
-import org.apache.shiro.web.servlet.ShiroHttpSession;
-import org.apache.shiro.web.servlet.SimpleCookie;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -59,7 +56,7 @@ public class ShiroConfig {
 		LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
 		filterChainDefinitionMap.put(RequestUrl.SYSTEM_ROOT, ANON);
 		filterChainDefinitionMap.put(RequestUrl.INDEX_URLS, ANON);
-		filterChainDefinitionMap.put(RequestUrl.LOGIN_URL, ANON);
+		filterChainDefinitionMap.put(RequestUrl.LOGIN_URLS, ANON);
 		filterChainDefinitionMap.put(RequestUrl.REG_URL, ANON);
 		filterChainDefinitionMap.put(RequestUrl.ANON_API, ANON);
 		filterChainDefinitionMap.put(RequestUrl.DRUID_MONITORING_CENTER, ANON);
@@ -79,55 +76,15 @@ public class ShiroConfig {
 	 * @Description 定义安全管理
 	 * @Date 2019年1月11日
 	 * @Author deng.wenqin
-	 * @param authRealm
 	 * @return
 	 */
-	@Bean("securityManager")
-	public SecurityManager securityManager(@Qualifier("authRealm") AuthRealm authRealm, CookieRememberMeManager rememberMeManager, SessionManager sessionManager) {
+	@Bean
+	public SecurityManager securityManager(AuthRealm authRealm, CookieRememberMeManager rememberMeManager, SessionManager sessionManager) {
 		DefaultWebSecurityManager manager = new DefaultWebSecurityManager();
 		manager.setRealm(authRealm);
 		manager.setRememberMeManager(rememberMeManager);
 		manager.setSessionManager(sessionManager);
 		return manager;
-	}
-
-	/**
-	 * session管理器(单机环境)
-	 */
-	@Bean
-	public DefaultWebSessionManager defaultWebSessionManager() {
-		DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
-		sessionManager.setSessionValidationInterval(60 * 15 * 1000);		//15分钟
-		sessionManager.setGlobalSessionTimeout(60 * 30 * 1000);				//30分钟
-		sessionManager.setDeleteInvalidSessions(true);
-		sessionManager.setSessionValidationSchedulerEnabled(true);
-		Cookie cookie = new SimpleCookie(ShiroHttpSession.DEFAULT_SESSION_ID_NAME);
-		cookie.setName("shiroCookie");
-		cookie.setHttpOnly(true);
-		sessionManager.setSessionIdCookie(cookie);
-		return sessionManager;
-	}
-
-	/**
-	 * rememberMe管理器, cipherKey生成见{@code Base64Test.java}
-	 */
-	@Bean
-	public CookieRememberMeManager rememberMeManager(SimpleCookie rememberMeCookie) {
-		CookieRememberMeManager manager = new CookieRememberMeManager();
-		manager.setCipherKey(Base64.decode("Z3VucwAAAAAAAAAAAAAAAA=="));
-		manager.setCookie(rememberMeCookie);
-		return manager;
-	}
-
-	/**
-	 * 记住密码Cookie
-	 */
-	@Bean
-	public SimpleCookie rememberMeCookie() {
-		SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
-		simpleCookie.setHttpOnly(true);
-		simpleCookie.setMaxAge(1 * 24 * 60 * 60); //7天
-		return simpleCookie;
 	}
 
 	/**
@@ -137,7 +94,7 @@ public class ShiroConfig {
 	 * @Author deng.wenqin
 	 * @return
 	 */
-	@Bean("authRealm")
+	@Bean
 	public AuthRealm authRealm(@Qualifier("credentialMatcher") CredentialMatcher matcher) {
 		AuthRealm authRealm = new AuthRealm();
 		//开启相关认证缓存
@@ -145,7 +102,29 @@ public class ShiroConfig {
 		authRealm.setCredentialsMatcher(matcher);
 		return authRealm;
 	}
-	
+
+	/**
+	 * session管理器(单机环境)
+	 */
+	@Bean
+	public DefaultWebSessionManager defaultWebSessionManager() {
+		DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+		sessionManager.setSessionIdUrlRewritingEnabled(false);
+		sessionManager.setSessionValidationInterval(5 * 60 * 1000);		//5分钟
+		return sessionManager;
+	}
+
+	/**
+	 * rememberMe管理器, cipherKey生成见{@code Base64Test.java}
+	 */
+	@Bean
+	public CookieRememberMeManager rememberMeManager() {
+		CookieRememberMeManager manager = new CookieRememberMeManager();
+		manager.setCipherKey(Base64.decode("Z3VucwAAAAAAAAAAAAAAAA=="));
+		manager.getCookie().setMaxAge(7 * 24 * 60 * 60); //记住密码Cookie期限（7天）
+		return manager;
+	}
+
 	/**
 	 * @Name credentialMatcher
 	 * @Description 将credentialMatcher存入context上下文
@@ -153,7 +132,7 @@ public class ShiroConfig {
 	 * @Author deng.wenqin
 	 * @return
 	 */
-	@Bean("credentialMatcher")
+	@Bean
 	public CredentialMatcher credentialMatcher() {
 		return new CredentialMatcher();
 	}

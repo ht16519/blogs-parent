@@ -14,7 +14,9 @@ public interface RequestUrl {
 
     String ARTICLE_DETAILS = "/article/**";
 
-    String LOGIN_URL = "/login/**";
+    String LOGIN_URLS = "/login/**";
+
+    String LOGIN_URL = "/login";
 
     String INDEX_URL = "/index";
 

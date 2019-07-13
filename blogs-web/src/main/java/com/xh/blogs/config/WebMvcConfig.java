@@ -1,13 +1,11 @@
 package com.xh.blogs.config;
 
-import com.xh.blogs.Interceptor.HttpInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.MultipartConfigElement;
 
@@ -18,7 +16,7 @@ import javax.servlet.MultipartConfigElement;
  * @Date 2019-05-06
  */
 @Configuration
-public class WebMvcFileConfig extends WebMvcConfigurerAdapter{
+public class WebMvcConfig implements WebMvcConfigurer {
 
     @Value("${fileUpload.rootSavePath}")
     private String rootSavePath;
@@ -40,12 +38,19 @@ public class WebMvcFileConfig extends WebMvcConfigurerAdapter{
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler(accessoryPath).addResourceLocations(accessoryMappingPrefix + rootSavePath);
-        super.addResourceHandlers(registry);
     }
+
+
+//    @Bean
+//    public ServletContextInitializer servletContextInitializer() {
+//        return servletContext -> {
+//            servletContext.setSessionTrackingModes(Collections.singleton(SessionTrackingMode.COOKIE));
+//            servletContext.getSessionCookieConfig().setHttpOnly(true);
+//        };
+//    }
 
 //    @Override
 //    public void addInterceptors(InterceptorRegistry registry) {
 //        registry.addInterceptor(new HttpInterceptor());
-//        super.addInterceptors(registry);
 //    }
 }

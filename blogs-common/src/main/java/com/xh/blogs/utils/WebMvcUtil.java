@@ -1,9 +1,9 @@
 package com.xh.blogs.utils;
 
 import com.xh.blogs.consts.HttpConst;
-import com.xh.blogs.consts.KeyConst;
 import com.xh.blogs.error.CommomError;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -70,6 +70,17 @@ public class WebMvcUtil {
     */
     public static Map<String, Object> createMap(CommomError ce) {
         return createMap(ce.getErrCode(), ce.getErrMsg());
+    }
+
+    /**
+    * @Name cerateMAV
+    * @Description 创建一个试图模型对象
+    * @Author wen
+    * @Date 2019/7/13
+    * @return org.springframework.web.servlet.ModelAndView
+    */
+    public static ModelAndView cerateMAV(CommomError ce, String url){
+        return new ModelAndView(url, WebMvcUtil.createModel(ce));
     }
 
 }

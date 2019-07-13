@@ -32,7 +32,7 @@ public class GlobalExceptionHandler extends CommonExceptionHandler{
         //TODO 日志需要记载请求参数
         log.error("BusinessException Exception: [requestIP:{}, requestUrl:{}, errorCode:{}, errorMsg:{}]",
                 RequestUtil.getIpAddress(request), request.getRequestURI(), ex.getErrCode(), ex.getErrMsg());
-        return super.backErrorResult(request, ex);
+        return super.buildErrorResult(request, ex);
     }
 
     /**
@@ -44,7 +44,7 @@ public class GlobalExceptionHandler extends CommonExceptionHandler{
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public Object handleMaxUploadSizeExceededException(HttpServletRequest request){
         log.error("MaxUploadSizeExceededException: [requestUrl:{}, errorMsg:文件上传失败（文件大小超出系统设置）]", request.getRequestURI());
-        return super.backErrorResult(request, EmError.MAX_UPLOAD_SIZE_EXCEEDED);
+        return super.buildErrorResult(request, EmError.MAX_UPLOAD_SIZE_EXCEEDED);
     }
 
     /**
@@ -57,7 +57,7 @@ public class GlobalExceptionHandler extends CommonExceptionHandler{
     public Object handleRuntimeException(HttpServletRequest request, RuntimeException ex){
         //TODO 日志需要记载请求参数
         log.error("System Exception: [requestUrl:{}, errorInfo:{}]", request.getRequestURI(), ex);
-        return super.backErrorResult(request, EmError.UNKNOWN_ERROR);
+        return super.buildErrorResult(request, EmError.UNKNOWN_ERROR);
     }
 
 

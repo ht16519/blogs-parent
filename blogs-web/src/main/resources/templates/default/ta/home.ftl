@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>${user.nickName} 的Mtons</title>
+    <title>个人空间</title>
 	<#include "/default/inc/include.ftl"/>
 </head>
 <body>

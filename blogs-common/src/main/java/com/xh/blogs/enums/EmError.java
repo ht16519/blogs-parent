@@ -15,6 +15,10 @@ public enum EmError implements CommomError {
     SUCCESS(0, "操作成功"),
     FAIL(-1, "操作失败"),
 
+    //基本错误
+    USER_UNAUTHORIZED(403, "权限不够，请联系管理员！"),
+    SYSTEM_PAGE_IS_NOT_EXIST(404, "抱歉, 您访问的页面不存在!"),
+
     //100开头定义请求异常类型
     UNKNOWN_ERROR(10001, "未知错误"),
     CONTENT_TYPE_NOT_SUPPORTED(10002, "不支持内容类型"),
@@ -37,7 +41,6 @@ public enum EmError implements CommomError {
     USER_PASSWORD_ERROR(20012, "当前密码输入错误"),
     USER_IS_NOT_EXIST(20013, "该用户不存在"),
     USER_IS_UNAVAILABLE(20014, "该账户已被冻结，暂时无法操作"),
-    USER_UNAUTHORIZED(20015, "权限不够，请联系管理员"),
     GET_QQ_CONNECT_ERROR(20016, "获取QQ连接异常"),
     GET_QQ_ACCESS_TOKEN_FAIL(20017, "QQ授权失败"),
     USER_DOES_NOT_ASSOCIATE(20018, "用户未关联系统"),

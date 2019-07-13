@@ -57,10 +57,10 @@ mybatis:
     callSettersOnNulls: true
 mapper:
   mappers: com.xh.blogs.dao.base.IBaseMapper
-  not-empty: false
+  notEmpty: false
   identity: MYSQL
 pagehelper:
-    helper-dialect: mysql
+    helperDialect: mysql
     reasonable: true
     supportMethodsArguments: true
     params: count=countSql

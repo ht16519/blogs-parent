@@ -7,7 +7,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>${ret.title?default(site_name)}</title>
-    <meta name="keywords" content="mtons, ${ret.tags?default(site_keywords)}">
+    <meta name="keywords" content="${ret.tags?default(site_keywords)}">
     <meta name="description" content="${ret.summary?default(site_description)}">
 <#include "/default/inc/include.ftl"/>
 </head>
