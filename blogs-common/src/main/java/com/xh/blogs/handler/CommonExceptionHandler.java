@@ -29,7 +29,7 @@ public class CommonExceptionHandler {
      */
     public Object build(HttpServletRequest request, HttpStatus httpStatus, CommomError ce, String url){
         if(RequestUtil.isAjaxRequest(request)){
-            return ResponseEntity.status(403).body(ExceptionResult.build(ce));
+            return ResponseEntity.status(httpStatus).body(ExceptionResult.build(ce));
         }
         return new ModelAndView(url, WebMvcUtil.createModel(ce));
     }
