@@ -6,6 +6,7 @@ import com.xh.blogs.utils.RequestUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -40,9 +41,9 @@ public class GlobalExceptionHandler extends CommonExceptionHandler{
     * @Author wen
     * @Date 2019/5/30
     */
-//    @ExceptionHandler(MaxUploadSizeExceededException.class)
-    public Object handleMaxUploadSizeExceededException(HttpServletRequest request){
-        log.error("MaxUploadSizeExceededException: [requestUrl:{}, errorMsg:文件上传失败（文件大小超出系统设置）]", request.getRequestURI());
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public Object handleMaxUploadSizeExceededException(HttpServletRequest request, MaxUploadSizeExceededException ex){
+        log.error("MaxUploadSizeExceededException: [requestUrl:{}, errorMsg:文件上传失败{}]", request.getRequestURI(), ex.getMessage());
         return super.buildErrorResult(request, EmError.MAX_UPLOAD_SIZE_EXCEEDED);
     }
 
