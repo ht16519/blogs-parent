@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 public class GlobalExceptionHandler extends CommonExceptionHandler{
 
     /**
-    * @Name handleBusinessException
+    * @Name handleBusinessExceptionssss
     * @Description 处理业务异常
     * @Author wen
     * @Date 2019/7/12
