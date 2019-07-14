@@ -30,7 +30,7 @@
 			</div>
             <div class="form-group">
                 <div class="text-center">
-                    <span style="color: red;">提示：截取图片宽高需大于100px</span>
+                    <span style="color: red;">提示：图片需小于1M，截取图片宽高需大于100px,</span>
                 </div>
             </div>
 			<div class="form-group">

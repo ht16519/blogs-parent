@@ -38,6 +38,8 @@ public interface ViewUrl {
 
     String DEFAULT_ERROR = "/error1";
 
+    String DEFAULT_ERROR_SUB = "/error";
+
     String ROUTE_POST_UPDATE = "default/blog/update";
 
     String HOME_COMMENTS = "default/home/comments";

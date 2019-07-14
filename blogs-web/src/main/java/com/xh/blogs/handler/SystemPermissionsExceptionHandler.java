@@ -70,7 +70,7 @@ public class SystemPermissionsExceptionHandler extends CommonExceptionHandler{
         //TODO 日志需要记载请求参数
         log.error("UnauthorizedException Exception: [requestIP:{}, requestUrl:{}, errorMsg:没有访问权限！]",
                 RequestUtil.getIpAddress(request), request.getRequestURI());
-        return WebMvcUtil.cerateMAV(EmError.USER_UNAUTHORIZED, ViewUrl.DEFAULT_ERROR);
+        return WebMvcUtil.cerateMAV(EmError.USER_UNAUTHORIZED, ViewUrl.DEFAULT_ERROR_SUB);
     }
 
     /**

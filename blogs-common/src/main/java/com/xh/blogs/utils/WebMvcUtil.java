@@ -80,7 +80,7 @@ public class WebMvcUtil {
     * @return org.springframework.web.servlet.ModelAndView
     */
     public static ModelAndView cerateMAV(CommomError ce, String url){
-        return new ModelAndView(url, WebMvcUtil.createModel(ce));
+        return new ModelAndView(url, createModel(ce));
     }
 
 }
