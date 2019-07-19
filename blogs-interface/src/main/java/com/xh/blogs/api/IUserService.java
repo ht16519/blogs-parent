@@ -125,7 +125,7 @@ public interface IUserService {
     * @param userVo
     * @return user
     */
-    User doOauthBind(UserVo userVo, String openId);
+    User doOauthBind(UserVo userVo, String openId, String nickName);
 
     /**
     * @Name checkIsAccess

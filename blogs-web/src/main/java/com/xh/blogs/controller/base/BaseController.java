@@ -60,28 +60,15 @@ public class BaseController {
 	*/
 	protected void putProfile(ModelMap model) {
 		try {
-			this.putProfile(ShiroUtil.getUser(), 0);
+			this.putProfile(ShiroUtil.getUser());
 		} catch (Exception e) {
 			this.getModelMap(EmError.USER_AUTHENTICATION_FAILED, model);
 		}
 	}
 
-	protected void putProfile(ModelMap model, int i) {
-		try {
-			this.putProfile(ShiroUtil.getUser(), i);
-		} catch (Exception e) {
-			this.getModelMap(EmError.USER_AUTHENTICATION_FAILED, model);
-		}
-	}
-
-	protected void putProfile(User user) {
-		this.putProfile(user, 0);
-	}
-
-	private AccountProfile putProfile(User user, int i) {
+	protected AccountProfile putProfile(User user) {
 		AccountProfile profile = new AccountProfile();
 		BeanUtils.copyProperties(user, profile);
-		profile.setBingType(i);
 		ShiroUtil.sessionSetValue(CommonConst.SYSTEM_PROFILE, profile);
 		return profile;
 	}

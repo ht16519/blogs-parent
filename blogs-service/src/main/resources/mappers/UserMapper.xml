@@ -99,7 +99,8 @@
         SET email = #{email},
          `password` = #{password},
          user_name = #{userName},
-         nick_name = #{nickName}
+         nick_name = #{nickName},
+         salt = #{salt}
         WHERE
             qq_open_id = #{qqOpenId}
     </update>

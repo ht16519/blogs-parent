@@ -61,7 +61,7 @@ public class UserServiceImpl implements IUserService {
     @Transactional
     public int register(UserVo userVo) throws BusinessException{
         //1.检查并获取user实体对象
-        User user = this.checkAndGetUser(userVo);
+        User user = this.checkAndGetUser(userVo, null);
         user.setAvatar(ConfigConst.AVATAR_PATH);
         int res = userMapper.insertSelective(user);
         if(res > 0){
@@ -79,11 +79,11 @@ public class UserServiceImpl implements IUserService {
     * @param userVo
     * @return com.xh.blogs.domain.po.User
     */
-    private User checkAndGetUser(UserVo userVo) {
+    private User checkAndGetUser(UserVo userVo, String nickName) {
         //1.参数校验
         BeanValidator.check(userVo);
         //2.校验用户信息
-        this.checkInputUserInfo(userVo);
+        this.checkInputUserInfo(userVo, nickName);
         //3.新增用户
         return this.getUser(userVo);
     }
@@ -200,16 +200,17 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     @Transactional
-    public User doOauthBind(UserVo userVo, String openId) {
+    public User doOauthBind(UserVo userVo, String openId, String nickName) {
         //1.检查并获取user实体对象
-        User user = this.checkAndGetUser(userVo);
+        User user = this.checkAndGetUser(userVo, nickName);
         user.setQqOpenId(openId);
         //2.修改用户信息
         int res = userMapper.updateByQQOpenId(user);
         if(res > 0){
+            User userInfo = userMapper.selectByUserName(user.getUserName());
             //4.发送注册成功站内信
-            NotifyUtil.sendNotify(notifyMapper, NotifyConst.EVENT_REGISTERED_SUCCESSFULLY, SystemConst.SYSTEM_ID, user.getId());
-            return userMapper.selectByUserName(user.getUserName());
+            NotifyUtil.sendNotify(notifyMapper, NotifyConst.EVENT_REGISTERED_SUCCESSFULLY, SystemConst.SYSTEM_ID, userInfo.getId());
+            return userInfo;
         }
         return null;
     }
@@ -217,7 +218,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public void checkIsAccess(String userName) throws BusinessException{
         String password = userMapper.selectPasswordByUsername(userName);
-        if(StringUtils.isEmpty(password)){
+        if(StringUtils.isNotEmpty(password)){
             throw new BusinessException(EmError.USER_UNAUTHORIZED);
         }
     }
@@ -247,7 +248,7 @@ public class UserServiceImpl implements IUserService {
     * @Date 2019/4/23
     * @return void
     */
-    private void checkInputUserInfo(UserVo userVo) throws BusinessException {
+    private void checkInputUserInfo(UserVo userVo, String nickName) throws BusinessException {
         User user = new User();
         //用户名查重
         user.setUserName(userVo.getUserName());
@@ -256,11 +257,13 @@ public class UserServiceImpl implements IUserService {
             throw new BusinessException(EmError.USER_NAME_IS_EXIST);
         }
         //用户昵称查重
-        user = new User();
-        user.setNickName(userVo.getNickName());
-        userList = userMapper.select(user);
-        if(userList.size() > 0){
-            throw new BusinessException(EmError.USER_NICK_NAME_IS_EXIST);
+        if(!StringUtils.equals(userVo.getNickName(), nickName)){
+            user = new User();
+            user.setNickName(userVo.getNickName());
+            userList = userMapper.select(user);
+            if(userList.size() > 0){
+                throw new BusinessException(EmError.USER_NICK_NAME_IS_EXIST);
+            }
         }
         //用户邮箱查重
         user = new User();

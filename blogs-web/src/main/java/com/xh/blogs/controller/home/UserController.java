@@ -146,8 +146,6 @@ public class UserController extends BaseController {
         VerificationCodeUtil.check(accountVo.getSecurityCode());
         //3.登陆验证
         ShiroUtil.checkLogin(accountVo.getUserName(), accountVo.getPassword(), accountVo.getRememberMe());
-        //4.登陆成功，设置用户信息缓存
-        super.putProfile(model);
         //TODO 5.登录记录生成
         return RequestUrl.REDIRECT_HOME;
     }

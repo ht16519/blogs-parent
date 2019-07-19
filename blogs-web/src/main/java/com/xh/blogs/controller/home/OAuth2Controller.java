@@ -1,6 +1,7 @@
 package com.xh.blogs.controller.home;
 
 import com.xh.blogs.api.IOAuth2Service;
+import com.xh.blogs.api.IUserService;
 import com.xh.blogs.consts.*;
 import com.xh.blogs.controller.base.BaseController;
 import com.xh.blogs.domain.po.User;
@@ -9,6 +10,7 @@ import com.xh.blogs.enums.OAuthEnum;
 import com.xh.blogs.utils.ShiroUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -24,6 +26,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Slf4j
 public class OAuth2Controller extends BaseController{
 
+    @Autowired
+    private IUserService userService;
     @Autowired
     private IOAuth2Service oauth2Service;
 
@@ -59,8 +63,8 @@ public class OAuth2Controller extends BaseController{
         }
         //1.已关联，直接登录，检验登录信息
         ShiroUtil.checkLogin(user.getUserName(), ConfigConst.DEFAULT_DEFAULT_PASSWORD, CommonConst.DEFALUT_REMEMBER_VALUE);
-        //2.保存登录用户信息
-        super.putProfile(model, user.getPassword() == null ? OAuthEnum.QQ.getCode() : 0);
+        //2.设置用户是否可以绑定账号
+        ShiroUtil.sessionSetValue(KeyConst.BIND_ACCOUNT_KEY, StringUtils.isEmpty(user.getPassword()) ? OAuthEnum.QQ.getCode() : 0);
         //TODO 3.登录记录生成
         return RequestUrl.REDIRECT_HOME;
     }

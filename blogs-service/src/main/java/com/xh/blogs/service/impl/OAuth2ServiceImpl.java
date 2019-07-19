@@ -114,7 +114,7 @@ public class OAuth2ServiceImpl implements IOAuth2Service {
         user.setQqOpenId(qqOpenId);
         String uuid16 = StringUtil.getUUID16();
         user.setUserName(uuid16);      //生成16位的账号
-        user.setPassword(MD5Util.encrypt(uuid16));
+        user.setPassword(CommonConst.EMPTY_STRING);
         user.setCreateTime(new Date());
         if(userMapper.insertSelective(user) > 0 ){
             //3.发送认证成功站内信

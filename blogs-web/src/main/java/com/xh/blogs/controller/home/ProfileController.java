@@ -77,12 +77,15 @@ public class ProfileController extends BaseController {
     @PostMapping("/bind")
     public String doOauthBind(UserVo userVo, ModelMap model) {
         try {
+            User userInfo = ShiroUtil.getUser();
             //1.校验能否访问该页面
-            userService.checkIsAccess(ShiroUtil.getUser().getUserName());
+            userService.checkIsAccess(userInfo.getUserName());
             //2.绑定操作
-            User user = userService.doOauthBind(userVo, ShiroUtil.getUser().getQqOpenId());
+            User user = userService.doOauthBind(userVo, userInfo.getQqOpenId(), userInfo.getNickName());
             //3.刷新用户信息缓存
             super.putProfile(user);
+            //4.删除可以可以绑定账户的标识
+            ShiroUtil.sessionRemoveValue(KeyConst.BIND_ACCOUNT_KEY);
             super.getModelMap(EmError.SUCCESS, model);
             return ViewUrl.ACCOUNT_PROFILE;
         }catch (BusinessException ex){

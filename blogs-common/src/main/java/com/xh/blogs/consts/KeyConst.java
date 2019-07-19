@@ -8,6 +8,8 @@ package com.xh.blogs.consts;
  */
 public interface KeyConst {
 
+    String BIND_ACCOUNT_KEY = "bindAccount";
+
     String QQ_OPEN_ID_KEY = "qqOpenId";
 
     String SEND_TO_EMAIL_KEY = "toEmail";
