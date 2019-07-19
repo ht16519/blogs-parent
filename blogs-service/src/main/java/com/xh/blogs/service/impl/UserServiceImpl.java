@@ -62,6 +62,7 @@ public class UserServiceImpl implements IUserService {
     public int register(UserVo userVo) throws BusinessException{
         //1.检查并获取user实体对象
         User user = this.checkAndGetUser(userVo);
+        user.setAvatar(ConfigConst.AVATAR_PATH);
         int res = userMapper.insertSelective(user);
         if(res > 0){
             //4.发送注册成功站内信
@@ -232,7 +233,6 @@ public class UserServiceImpl implements IUserService {
     private User getUser(UserVo userVo) {
         User user = new User();
         BeanUtils.copyProperties(userVo, user);
-        user.setAvatar(ConfigConst.AVATAR_PATH);
         user.setCreateTime(new Date());
         String salt = CommonUtil.getSalt();
         user.setSalt(salt);
