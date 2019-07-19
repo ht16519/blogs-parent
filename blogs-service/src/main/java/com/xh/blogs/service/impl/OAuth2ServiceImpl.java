@@ -17,6 +17,7 @@ import com.xh.blogs.domain.po.User;
 import com.xh.blogs.enums.EmError;
 import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.exception.LoginException;
+import com.xh.blogs.utils.MD5Util;
 import com.xh.blogs.utils.NotifyUtil;
 import com.xh.blogs.utils.StringUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -108,10 +109,12 @@ public class OAuth2ServiceImpl implements IOAuth2Service {
         //2.存入本地数据库
         User user = new User();
         user.setNickName(userInfoBean.getNickname());
-        user.setUserName(StringUtil.getUUID16());      //生成16位的账号
         user.setAvatar(userInfoBean.getAvatar().getAvatarURL100());
         user.setSex(userInfoBean.getGender().equals(CommonConst.BLOGS_SEX_MAN) ? 1 : 0);
         user.setQqOpenId(qqOpenId);
+        String uuid16 = StringUtil.getUUID16();
+        user.setUserName(uuid16);      //生成16位的账号
+        user.setPassword(MD5Util.encrypt(uuid16));
         user.setCreateTime(new Date());
         if(userMapper.insertSelective(user) > 0 ){
             //3.发送认证成功站内信

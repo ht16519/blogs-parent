@@ -86,7 +86,7 @@
         AND u.`status` = 10
     </select>
 
-    <select id="selectByUserName" parameterType="java.lang.String">
+    <select id="selectByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
         SELECT * FROM t_user WHERE user_name = #{userName}
     </select>
 

@@ -208,9 +208,7 @@ public class UserServiceImpl implements IUserService {
         if(res > 0){
             //4.发送注册成功站内信
             NotifyUtil.sendNotify(notifyMapper, NotifyConst.EVENT_REGISTERED_SUCCESSFULLY, SystemConst.SYSTEM_ID, user.getId());
-            User userInfo = userMapper.selectByUserName(user.getUserName());
-            userInfo.setQqOpenId(openId);
-            return userInfo;
+            return userMapper.selectByUserName(user.getUserName());
         }
         return null;
     }
