@@ -41,7 +41,7 @@
                     <#if (row.event == 1)>
                         喜欢了你的文章 - <a href="${base}/article/details/${row.article.id}"><b>${row.article.title}</b></a>
                     <#elseif (row.event == 2)>
-                        关注了你, 你的粉丝+1
+                        关注了你, 你的粉丝 +1
                     <#elseif (row.event == 3)>
                         评论了你的文章 - <a href="${base}/article/details/${row.article.id}"><b>点击查看详情</b></a>
                     <#elseif (row.event == 4)>
@@ -51,7 +51,9 @@
                     <#elseif (row.event == 6)>
                         您的邮箱已经认证成功!
                     <#elseif (row.event == 7)>
-                        登录成功，您可以绑定账号信息，以后可以使用账号登录哦 - <a href="${base}/home/account/active/email"><b>绑定邮箱</b></a>
+                        登录成功！您可以绑定账号信息，以后可以使用账号登录哦 - <a href="${base}/home/account/bind"><b>绑定账号</b></a>
+                    <#elseif (row.event == 8)>
+                        账号绑定成功！
                     </#if>
                     </div>
                     </h2>

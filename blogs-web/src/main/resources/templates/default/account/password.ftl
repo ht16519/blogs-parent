@@ -6,7 +6,7 @@
 <div class="panel panel-default stacked">
 	<div class="panel-heading">
 		<ul class="nav nav-pills account-tab">
-			<#if (profile.needBind == 1)>
+			<#if (profile.bingType > 0)>
 			<li><a href="${base}/home/account/bind">绑定账号</a></li>
 			<#else>
 			<li><a href="${base}/home/account/basic">基本信息</a></li>

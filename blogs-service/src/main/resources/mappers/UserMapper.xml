@@ -86,6 +86,16 @@
         AND u.`status` = 10
     </select>
 
+    <update id="updateByQQOpenId" parameterType="com.xh.blogs.domain.po.User">
+        UPDATE t_user
+        SET email = #{email},
+         `password` = #{password},
+         user_name = #{userName},
+         nick_name = #{nickName}
+        WHERE
+            qq_open_id = #{qqOpenId}
+    </update>
+
     <sql id="commonUserInfo">
         SELECT
             u.*, r.id AS role_id,

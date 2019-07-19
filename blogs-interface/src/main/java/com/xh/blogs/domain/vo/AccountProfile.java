@@ -44,6 +44,6 @@ public class AccountProfile implements Serializable {
     private String signature;
 
     /** 是否需要绑定账号**/
-    private int needBind;
+    private int bingType;
 
 }

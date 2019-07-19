@@ -80,6 +80,8 @@ public interface ViewUrl {
 
     String ACCOUNT_EMAIL = "default/account/email";
 
+    String ACCOUNT_OAUTH_BIND = "default/account/oauth_bind";
+
     String ARTICLE_SEARCH = "default/search";
 
     String ACCOUNT_ACTIVATE_EMAIL = "default/account/activate.ftl";

@@ -117,4 +117,13 @@ public interface IUserService {
     */
     void validationEmail(String email, AccountProfile profile) throws BusinessException;
 
+    /**
+    * @Name doOauthBind
+    * @Description 绑定操作
+    * @Author wen
+    * @Date 2019/7/19
+    * @param userVo
+    * @return int
+    */
+    int doOauthBind(UserVo userVo, String openId);
 }

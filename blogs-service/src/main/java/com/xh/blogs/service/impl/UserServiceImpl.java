@@ -23,7 +23,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Name UserServiceImpl
@@ -60,23 +62,31 @@ public class UserServiceImpl implements IUserService {
     @Override
     @Transactional
     public int register(UserVo userVo) throws BusinessException{
+        //1.检查并获取user实体对象
+        User user = this.checkAndGetUser(userVo);
+        int res = userMapper.insertSelective(user);
+        if(res > 0){
+            //4.发送注册成功站内信
+            NotifyUtil.sendNotify(notifyMapper, NotifyConst.EVENT_REGISTERED_SUCCESSFULLY, SystemConst.SYSTEM_ID, user.getId());
+        }
+        return res;
+    }
+
+    /**
+    * @Name checkAndGetUser
+    * @Description 检查并获取user实体对象
+    * @Author wen
+    * @Date 2019/7/19
+    * @param userVo
+    * @return com.xh.blogs.domain.po.User
+    */
+    private User checkAndGetUser(UserVo userVo) {
         //1.参数校验
         BeanValidator.check(userVo);
         //2.校验用户信息
         this.checkInputUserInfo(userVo);
         //3.新增用户
-        User user = this.getUser(userVo);
-        int res = userMapper.insertSelective(user);
-        if(res > 0){
-            //4.发送注册成功站内信
-            Notify notify = new Notify();
-            notify.setCreateTime(new Date());
-            notify.setEvent(NotifyConst.EVENT_REGISTERED_SUCCESSFULLY);
-            notify.setFromId(SystemConst.SYSTEM_ID);
-            notify.setToId(user.getId());
-            res = notifyMapper.insertSelective(notify);
-        }
-        return res;
+        return this.getUser(userVo);
     }
 
     @Override
@@ -187,6 +197,21 @@ public class UserServiceImpl implements IUserService {
                 }
             }
         }
+    }
+
+    @Override
+    @Transactional
+    public int doOauthBind(UserVo userVo, String openId) {
+        //1.检查并获取user实体对象
+        User user = this.checkAndGetUser(userVo);
+        user.setQqOpenId(openId);
+        //2.修改用户信息
+        int res = userMapper.updateByQQOpenId(user);
+        if(res > 0){
+            //4.发送注册成功站内信
+            NotifyUtil.sendNotify(notifyMapper, NotifyConst.EVENT_REGISTERED_SUCCESSFULLY, SystemConst.SYSTEM_ID, user.getId());
+        }
+        return res;
     }
 
     /**

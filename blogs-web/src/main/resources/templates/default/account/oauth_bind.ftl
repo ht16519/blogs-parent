@@ -6,7 +6,7 @@
 <div class="panel panel-default stacked">
 	<div class="panel-heading">
 		<ul class="nav nav-pills account-tab">
-			<#if (profile.needBind == 1)>
+			<#if (profile.bingType > 0)>
 			<li class="active"><a href="${base}/home/account/bind">绑定账号</a></li>
 			<#else>
 			<li><a href="${base}/home/account/basic">基本信息</a></li>
@@ -20,30 +20,28 @@
 		<#include "/default/inc/action_message.ftl"/>
 		</div>
 		<div class="tab-pane active" id="passwd">
-			<form id="pw" action="password" method="post" class="form-horizontal">
-				<div class="form-group">
-					<label class="control-label col-lg-3" for="password">当前密码</label>
-					<div class="col-lg-4">
-						<input type="password" class="form-control" name="oldPassword" maxlength="16" placeholder="请输入当前密码" data-required>
-					</div>
+			<<form action="register" method="post">
+				<label for="id_email">用户名:</label>
+				<div id="id_email">
+					<input maxlength="16" class="form-control border" name="userName" value="${post.userName}" placeholder="用户名" type="text" data-required data-conditional="username" data-description="username" data-describedby="message">
 				</div>
-				<div class="form-group">
-					<label class="control-label col-lg-3" for="password">新密码</label>
-					<div class="col-lg-4">
-						<input type="password" class="form-control" id="password" name="password" placeholder="请输入新密码" maxlength="16" data-required>
-					</div>
+				<label for="id_name">昵称:</label>
+				<div id="id_name">
+					<input maxlength="9" class="form-control border" name="nickName" value="${post.nickName}" placeholder="昵称" type="text" data-required>
 				</div>
-				<div class="form-group">
-					<label class="control-label col-lg-3" for="password2">确认密码</label>
-					<div class="col-lg-4">
-						<input type="password" class="form-control" name="rePassword" data-required placeholder="请再输入一遍新密码" maxlength="16" data-conditional="confirm" data-describedby="message" data-description="passwd">
-					</div>
+				<label for="id_name">邮箱:</label>
+				<div id="id_name">
+					<input maxlength="20" class="form-control border" name="email" value="${post.email}" placeholder="邮箱地址" type="text" data-required data-conditional="email" data-description="email" data-describedby="message">
 				</div>
-				<div class="form-group">
-					<div class="text-center">
-					<button type="submit" class="btn btn-primary">提交</button>
-					</div>
-				</div><!-- /form-actions -->
+				<label for="id_password">密码:</label>
+				<div id="id_password">
+					<input id="password" class="form-control border" maxlength="18" name="password" placeholder="密码" type="password" data-required>
+				</div>
+				<label for="id_password2">确认密码:</label>
+				<div id="id_password2">
+					<input maxlength="18" class="form-control border" name="rePassword" placeholder="请再输入一次密码" type="password" data-required data-conditional="confirm" data-describedby="message" data-description="confirm">
+				</div>
+				<input type="submit" class="btn btn-success border" value="注 册">
 			</form>
 		</div>
 	</div><!-- /panel-content -->

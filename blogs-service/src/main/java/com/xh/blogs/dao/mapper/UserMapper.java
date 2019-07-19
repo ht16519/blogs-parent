@@ -89,4 +89,14 @@ public interface UserMapper extends IBaseMapper<User> {
     * @return com.xh.blogs.domain.po.User
     */
     User selectUserInfoByOpenId(Map<String, String> condition);
+
+    /**
+    * @Name updateByQQOpenId
+    * @Description 通过QQopenId修改
+    * @Author wen
+    * @Date 2019/7/19
+    * @param user
+    * @return int
+    */
+    int updateByQQOpenId(User user);
 }

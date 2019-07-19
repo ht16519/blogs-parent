@@ -5,6 +5,7 @@ import com.xh.blogs.consts.HttpConst;
 import com.xh.blogs.domain.po.User;
 import com.xh.blogs.domain.vo.AccountProfile;
 import com.xh.blogs.enums.EmError;
+import com.xh.blogs.enums.OAuthEnum;
 import com.xh.blogs.error.CommomError;
 import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.utils.ShiroUtil;
@@ -81,7 +82,7 @@ public class BaseController {
 	private AccountProfile putProfile(User user, int i) {
 		AccountProfile profile = new AccountProfile();
 		BeanUtils.copyProperties(user, profile);
-		profile.setNeedBind(i);
+		profile.setBingType(i);
 		ShiroUtil.sessionSetValue(CommonConst.SYSTEM_PROFILE, profile);
 		return profile;
 	}

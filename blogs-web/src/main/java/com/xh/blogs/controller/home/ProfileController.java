@@ -51,6 +51,39 @@ public class ProfileController extends BaseController {
     @Autowired
     private ISmsService smsService;
 
+    /**
+    * @Name emailView
+    * @Description 第三方登录去绑定账号页面
+    * @Author wen
+    * @Date 2019/7/19
+    * @param
+    * @return java.lang.String
+    */
+    @GetMapping("/bind")
+    public String oauthBindView() {
+        return ViewUrl.ACCOUNT_OAUTH_BIND;
+    }
+
+    /**
+    * @Name DoOauthBindView
+    * @Description 绑定操作
+    * @Author wen
+    * @Date 2019/7/19
+    * @param
+    * @return java.lang.String
+    */
+    @PostMapping("/bind")
+    public String doOauthBind(UserVo userVo, ModelMap model) {
+        try {
+            //1.绑定操作
+            userService.doOauthBind(userVo, ShiroUtil.getUser().getQqOpenId());
+        }catch (BusinessException ex){
+            super.getModelMap(ex, model);
+        }catch (Exception e) {
+            log.error("register exception:{}", e);
+        }
+        return ViewUrl.ACCOUNT_OAUTH_BIND;
+    }
 
     /**
      * @param
@@ -200,6 +233,14 @@ public class ProfileController extends BaseController {
         return ViewUrl.ACCOUNT_EMAIL;
     }
 
+    /**
+    * @Name activeMailView
+    * @Description 去绑定邮箱
+    * @Author wen
+    * @Date 2019/7/19
+    * @param model
+    * @return java.lang.String
+    */
     @GetMapping("/active/email")
     public String activeMailView(ModelMap model) throws BusinessException {
         User user = userService.getById(super.getProfile().getId());

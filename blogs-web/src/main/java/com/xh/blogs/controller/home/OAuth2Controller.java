@@ -5,6 +5,7 @@ import com.xh.blogs.consts.*;
 import com.xh.blogs.controller.base.BaseController;
 import com.xh.blogs.domain.po.User;
 import com.xh.blogs.enums.EmError;
+import com.xh.blogs.enums.OAuthEnum;
 import com.xh.blogs.utils.ShiroUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
@@ -59,7 +60,7 @@ public class OAuth2Controller extends BaseController{
         //1.已关联，直接登录，检验登录信息
         ShiroUtil.checkLogin(user.getUserName(), ConfigConst.DEFAULT_DEFAULT_PASSWORD, CommonConst.DEFALUT_REMEMBER_VALUE);
         //2.保存登录用户信息
-        super.putProfile(model, user.getPassword() == null ? 1 : 0);
+        super.putProfile(model, user.getPassword() == null ? OAuthEnum.QQ.getCode() : 0);
         //TODO 3.登录记录生成
         return RequestUrl.REDIRECT_HOME;
     }
