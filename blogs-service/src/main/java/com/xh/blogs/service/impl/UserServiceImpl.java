@@ -5,14 +5,12 @@ import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.ConfigConst;
 import com.xh.blogs.consts.NotifyConst;
 import com.xh.blogs.consts.SystemConst;
-import com.xh.blogs.dao.cache.RedisCacheUtil;
 import com.xh.blogs.dao.mapper.NotifyMapper;
 import com.xh.blogs.dao.mapper.UserMapper;
 import com.xh.blogs.domain.po.Notify;
 import com.xh.blogs.domain.po.User;
 import com.xh.blogs.domain.vo.*;
 import com.xh.blogs.enums.EmError;
-import com.xh.blogs.enums.OAuthEnum;
 import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.utils.BeanValidator;
 import com.xh.blogs.utils.CommonUtil;
@@ -39,8 +37,6 @@ public class UserServiceImpl implements IUserService {
 
     @Autowired
     private NotifyMapper notifyMapper;
-    @Autowired
-    private RedisCacheUtil redisCacheUtil;
     @Autowired
     private UserMapper userMapper;
 
@@ -191,44 +187,6 @@ public class UserServiceImpl implements IUserService {
                 }
             }
         }
-    }
-
-    @Override
-    @Transactional
-    public int oauthBind(OAuthUserVo authUserVo) throws BusinessException {
-        //1.参数检验
-        BeanValidator.check(authUserVo);
-        //1-2.检验用户名是否重复
-        User user = new User();
-        user.setUserName(authUserVo.getUserName());
-        List<User> userList = userMapper.select(user);
-        if(userList.size() > 0){
-            throw new BusinessException(EmError.USER_NAME_IS_EXIST);
-        }
-        OAuthUserVo oAuthUserVo = redisCacheUtil.get(authUserVo.getAuthToken(), OAuthUserVo.class);
-        if(oAuthUserVo == null){
-            throw new BusinessException(EmError.OAUTH_TOKEN_NOT_EXIST);
-        }
-        //2-1.组装用户对象
-        BeanUtils.copyProperties(oAuthUserVo, user);
-        if(oAuthUserVo.getType().equals(OAuthEnum.QQ.getCode())){
-            user.setQqOpenId(oAuthUserVo.getOpenId());
-        }
-        //2-2.设置用户名
-        user.setUserName(authUserVo.getUserName());
-        //2-3.生成盐和密码
-        String salt = CommonUtil.getSalt();
-        user.setSalt(salt);
-        user.setPassword(MD5Util.inputPass2DBPass(authUserVo.getPassword(), salt));
-        user.setCreateTime(new Date());
-        int res = userMapper.insertSelective(user);
-        if(res > 0){
-            //3.移除redis缓存
-            redisCacheUtil.delete(authUserVo.getAuthToken());
-            //4.发送认证成功站内信
-            NotifyUtil.sendNotify(notifyMapper, NotifyConst.EVENT_REGISTERED_SUCCESSFULLY2, SystemConst.SYSTEM_ID, user.getId());
-        }
-        return res;
     }
 
     /**

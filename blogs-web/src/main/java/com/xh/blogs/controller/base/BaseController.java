@@ -10,7 +10,6 @@ import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.utils.ShiroUtil;
 import com.xh.blogs.utils.StringEscapeEditor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -18,7 +17,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -62,16 +60,30 @@ public class BaseController {
 	*/
 	protected void putProfile(ModelMap model) {
 		try {
-			this.putProfile(ShiroUtil.getUser());
+			this.putProfile(ShiroUtil.getUser(), 0);
+		} catch (Exception e) {
+			this.getModelMap(EmError.USER_AUTHENTICATION_FAILED, model);
+		}
+	}
+
+	protected void putProfile(ModelMap model, int i) {
+		try {
+			this.putProfile(ShiroUtil.getUser(), i);
 		} catch (Exception e) {
 			this.getModelMap(EmError.USER_AUTHENTICATION_FAILED, model);
 		}
 	}
 
 	protected void putProfile(User user) {
+		this.putProfile(user, 0);
+	}
+
+	private AccountProfile putProfile(User user, int i) {
 		AccountProfile profile = new AccountProfile();
 		BeanUtils.copyProperties(user, profile);
+		profile.setNeedBind(i);
 		ShiroUtil.sessionSetValue(CommonConst.SYSTEM_PROFILE, profile);
+		return profile;
 	}
 
 	/**

@@ -45,6 +45,7 @@ public enum EmError implements CommomError {
     GET_QQ_ACCESS_TOKEN_FAIL(20017, "QQ授权失败"),
     USER_DOES_NOT_ASSOCIATE(20018, "用户未关联系统"),
     OAUTH_TOKEN_NOT_EXIST(20019, "授权TOKEN不存在或已失效"),
+    OAUTH_DO_AUTHENTICATIONINFO_IS_FAIL(20020, "用户认证失败"),
 
     //300开头为文件相关错误
     FILE_WRITE_ERROR(30001, "文件上传失败"),

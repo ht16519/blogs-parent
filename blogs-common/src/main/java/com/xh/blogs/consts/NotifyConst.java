@@ -26,7 +26,7 @@ public interface NotifyConst {
     /** 邮箱激活提示*/
     int EVENT_EMAIL_ACTIVATION = 6;
 
-    /** 注册成功但未绑定邮箱提示*/
+    /** QQ登录首次提示信息*/
     int EVENT_REGISTERED_SUCCESSFULLY2 = 7;
 
 

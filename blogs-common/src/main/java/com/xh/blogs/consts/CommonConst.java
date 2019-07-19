@@ -81,4 +81,7 @@ public interface CommonConst {
 
     char THE_COLON = ':';
 
+    /** 默认登录记住我的值**/
+    int DEFALUT_REMEMBER_VALUE = 0;
+
 }

@@ -1,6 +1,6 @@
 package com.xh.blogs.api;
 
-import com.xh.blogs.domain.vo.OAuthUser;
+import com.xh.blogs.domain.po.User;
 import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.exception.LoginException;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
@@ -11,7 +11,7 @@ import org.apache.catalina.servlet4preview.http.HttpServletRequest;
  * @Author wen
  * @Date 2019-07-10
  */
-public interface ILoginService {
+public interface IOAuth2Service {
 
     /**
     * @Name getQQAuthorizeUrl
@@ -29,7 +29,8 @@ public interface ILoginService {
     * @Author wen
     * @Date 2019/7/10
     * @param request
-    * @return OAuthUser
+    * @return User
     */
-    OAuthUser getOAuthUserByQQAPI(HttpServletRequest request) throws BusinessException;
+    User getOAuthUserByQQAPI(HttpServletRequest request) throws BusinessException;
+
 }

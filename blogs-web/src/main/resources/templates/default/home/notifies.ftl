@@ -51,7 +51,7 @@
                     <#elseif (row.event == 6)>
                         您的邮箱已经认证成功!
                     <#elseif (row.event == 7)>
-                        恭喜您注册成功，您的邮箱尚未绑定，若忘记密码需通过邮箱找回密码 - <a href="${base}/home/account/active/email"><b>绑定邮箱</b></a>
+                        登录成功，您可以绑定账号信息，以后可以使用账号登录哦 - <a href="${base}/home/account/active/email"><b>绑定邮箱</b></a>
                     </#if>
                     </div>
                     </h2>

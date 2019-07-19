@@ -6,25 +6,27 @@ import com.qq.connect.api.qzone.UserInfo;
 import com.qq.connect.javabeans.AccessToken;
 import com.qq.connect.javabeans.qzone.UserInfoBean;
 import com.qq.connect.oauth.Oauth;
-import com.xh.blogs.api.ILoginService;
+import com.xh.blogs.api.IOAuth2Service;
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.KeyConst;
-import com.xh.blogs.dao.cache.RedisCacheUtil;
+import com.xh.blogs.consts.NotifyConst;
+import com.xh.blogs.consts.SystemConst;
+import com.xh.blogs.dao.mapper.NotifyMapper;
 import com.xh.blogs.dao.mapper.UserMapper;
 import com.xh.blogs.domain.po.User;
-import com.xh.blogs.domain.vo.OAuthUser;
-import com.xh.blogs.domain.vo.OAuthUserVo;
 import com.xh.blogs.enums.EmError;
-import com.xh.blogs.enums.OAuthEnum;
 import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.exception.LoginException;
-import com.xh.blogs.utils.CommonUtil;
+import com.xh.blogs.utils.NotifyUtil;
+import com.xh.blogs.utils.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,14 +38,14 @@ import java.util.Map;
  */
 @Service
 @Slf4j
-public class LoginServiceImpl implements ILoginService {
+public class OAuth2ServiceImpl implements IOAuth2Service {
 
     @Autowired
     private Oauth oauth;
     @Autowired
-    private RedisCacheUtil redisCacheUtil;
-    @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private NotifyMapper notifyMapper;
 
     @Override
     public String getQQAuthorizeUrl(HttpServletRequest request) throws LoginException {
@@ -55,7 +57,8 @@ public class LoginServiceImpl implements ILoginService {
     }
 
     @Override
-    public OAuthUser getOAuthUserByQQAPI(HttpServletRequest request) throws BusinessException {
+    @Transactional
+    public User getOAuthUserByQQAPI(HttpServletRequest request) throws BusinessException {
         try {
             //1.获取accessTkoen
             AccessToken accessToken = oauth.getAccessTokenByRequest(request);
@@ -76,46 +79,47 @@ public class LoginServiceImpl implements ILoginService {
             Map<String, String> openIdMap = new HashMap<>();
             openIdMap.put(KeyConst.QQ_OPEN_ID_KEY, qqOpenId);
             User user = userMapper.selectUserInfoByOpenId(openIdMap);
-            OAuthUser authUser = new OAuthUser();
             //本地数据库没有该用户信息
             if (user == null) {
-                this.setQQUserBaseInfoToLocalUser(accessTokenStr, qqOpenId, authUser);
-            } else {
-                authUser.setUser(user);
+                return this.saveQQUserBaseInfoToLocalDB(accessTokenStr, qqOpenId);
             }
-            return authUser;
+            return user;
         } catch (QQConnectException e) {
             throw new BusinessException(EmError.GET_QQ_CONNECT_ERROR);
         }
-
     }
 
     /**
      * @param accessTokenStr
      * @param qqOpenId
-     * @param authUser
-     * @return com.xh.blogs.domain.po.User
-     * @Name setQQUserBaseInfoToLocalUser
+     * @return User
+     * @Name saveQQUserBaseInfoToLocalDB
      * @Description 设置QQ用户基本信息到本地User实体
      * @Author wen
      * @Date 2019/7/10
      */
-    private void setQQUserBaseInfoToLocalUser(String accessTokenStr, String qqOpenId, OAuthUser authUser) throws BusinessException, QQConnectException {
+    private User saveQQUserBaseInfoToLocalDB(String accessTokenStr, String qqOpenId) throws BusinessException, QQConnectException {
         //1.获取QQ用户基本信息
         UserInfo qzoneUserInfo = new UserInfo(accessTokenStr, qqOpenId);
         if (qzoneUserInfo == null) {
             throw new BusinessException(EmError.GET_QQ_ACCESS_TOKEN_FAIL);
         }
         UserInfoBean userInfoBean = qzoneUserInfo.getUserInfo();
-        OAuthUserVo authUserVo = new OAuthUserVo();
-        authUserVo.setNickName(userInfoBean.getNickname())
-                .setAvatar(userInfoBean.getAvatar().getAvatarURL100())
-                .setSex(userInfoBean.getGender().equals(CommonConst.BLOGS_SEX_MAN) ? 1 : 0)
-                .setType(OAuthEnum.QQ.getCode()).setOpenId(qqOpenId);
-        //2.生成32位随机key，将信息存入redis
-        String authToken = CommonUtil.getRAS32();
-        authUser.setToken(authToken);
-        redisCacheUtil.set(authToken, authUserVo);
+        //2.存入本地数据库
+        User user = new User();
+        user.setNickName(userInfoBean.getNickname());
+        user.setUserName(StringUtil.getUUID16());      //生成16位的账号
+        user.setAvatar(userInfoBean.getAvatar().getAvatarURL100());
+        user.setSex(userInfoBean.getGender().equals(CommonConst.BLOGS_SEX_MAN) ? 1 : 0);
+        user.setQqOpenId(qqOpenId);
+        user.setCreateTime(new Date());
+        if(userMapper.insertSelective(user) > 0 ){
+            //3.发送认证成功站内信
+            NotifyUtil.sendNotify(notifyMapper, NotifyConst.EVENT_REGISTERED_SUCCESSFULLY2, SystemConst.SYSTEM_ID, user.getId());
+            return user;
+        }
+        return null;
     }
+
 
 }
