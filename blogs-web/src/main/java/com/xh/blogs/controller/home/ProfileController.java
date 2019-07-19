@@ -61,6 +61,8 @@ public class ProfileController extends BaseController {
     */
     @GetMapping("/bind")
     public String oauthBindView() {
+        //校验能否访问该页面
+        userService.checkIsAccess(ShiroUtil.getUser().getUserName());
         return ViewUrl.ACCOUNT_OAUTH_BIND;
     }
 
@@ -75,8 +77,14 @@ public class ProfileController extends BaseController {
     @PostMapping("/bind")
     public String doOauthBind(UserVo userVo, ModelMap model) {
         try {
-            //1.绑定操作
-            userService.doOauthBind(userVo, ShiroUtil.getUser().getQqOpenId());
+            //1.校验能否访问该页面
+            userService.checkIsAccess(ShiroUtil.getUser().getUserName());
+            //2.绑定操作
+            User user = userService.doOauthBind(userVo, ShiroUtil.getUser().getQqOpenId());
+            //3.刷新用户信息缓存
+            super.putProfile(user);
+            super.getModelMap(EmError.SUCCESS, model);
+            return ViewUrl.ACCOUNT_PROFILE;
         }catch (BusinessException ex){
             super.getModelMap(ex, model);
         }catch (Exception e) {

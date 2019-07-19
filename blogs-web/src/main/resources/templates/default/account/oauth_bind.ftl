@@ -23,15 +23,15 @@
 			<<form action="register" method="post">
 				<label for="id_email">用户名:</label>
 				<div id="id_email">
-					<input maxlength="16" class="form-control border" name="userName" value="${post.userName}" placeholder="用户名" type="text" data-required data-conditional="username" data-description="username" data-describedby="message">
+					<input maxlength="16" class="form-control border" name="userName" value="${profile.userName}" placeholder="用户名" type="text" data-required data-conditional="username" data-description="username" data-describedby="message">
 				</div>
 				<label for="id_name">昵称:</label>
 				<div id="id_name">
-					<input maxlength="9" class="form-control border" name="nickName" value="${post.nickName}" placeholder="昵称" type="text" data-required>
+					<input maxlength="9" class="form-control border" name="nickName" value="${profile.nickName}" placeholder="昵称" type="text" data-required>
 				</div>
 				<label for="id_name">邮箱:</label>
 				<div id="id_name">
-					<input maxlength="20" class="form-control border" name="email" value="${post.email}" placeholder="邮箱地址" type="text" data-required data-conditional="email" data-description="email" data-describedby="message">
+					<input maxlength="20" class="form-control border" name="email" value="${profile.email}" placeholder="邮箱地址" type="text" data-required data-conditional="email" data-description="email" data-describedby="message">
 				</div>
 				<label for="id_password">密码:</label>
 				<div id="id_password">

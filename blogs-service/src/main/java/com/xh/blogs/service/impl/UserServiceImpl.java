@@ -7,7 +7,6 @@ import com.xh.blogs.consts.NotifyConst;
 import com.xh.blogs.consts.SystemConst;
 import com.xh.blogs.dao.mapper.NotifyMapper;
 import com.xh.blogs.dao.mapper.UserMapper;
-import com.xh.blogs.domain.po.Notify;
 import com.xh.blogs.domain.po.User;
 import com.xh.blogs.domain.vo.*;
 import com.xh.blogs.enums.EmError;
@@ -17,15 +16,14 @@ import com.xh.blogs.utils.CommonUtil;
 import com.xh.blogs.utils.MD5Util;
 import com.xh.blogs.utils.NotifyUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Name UserServiceImpl
@@ -201,7 +199,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     @Transactional
-    public int doOauthBind(UserVo userVo, String openId) {
+    public User doOauthBind(UserVo userVo, String openId) {
         //1.检查并获取user实体对象
         User user = this.checkAndGetUser(userVo);
         user.setQqOpenId(openId);
@@ -210,8 +208,19 @@ public class UserServiceImpl implements IUserService {
         if(res > 0){
             //4.发送注册成功站内信
             NotifyUtil.sendNotify(notifyMapper, NotifyConst.EVENT_REGISTERED_SUCCESSFULLY, SystemConst.SYSTEM_ID, user.getId());
+            User userInfo = userMapper.selectByUserName(user.getUserName());
+            userInfo.setQqOpenId(openId);
+            return userInfo;
         }
-        return res;
+        return null;
+    }
+
+    @Override
+    public void checkIsAccess(String userName) throws BusinessException{
+        String password = userMapper.selectPasswordByUsername(userName);
+        if(StringUtils.isEmpty(password)){
+            throw new BusinessException(EmError.USER_UNAUTHORIZED);
+        }
     }
 
     /**

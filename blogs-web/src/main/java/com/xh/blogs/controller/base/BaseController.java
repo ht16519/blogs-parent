@@ -5,7 +5,6 @@ import com.xh.blogs.consts.HttpConst;
 import com.xh.blogs.domain.po.User;
 import com.xh.blogs.domain.vo.AccountProfile;
 import com.xh.blogs.enums.EmError;
-import com.xh.blogs.enums.OAuthEnum;
 import com.xh.blogs.error.CommomError;
 import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.utils.ShiroUtil;

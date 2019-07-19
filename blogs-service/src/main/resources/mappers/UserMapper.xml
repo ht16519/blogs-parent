@@ -86,6 +86,14 @@
         AND u.`status` = 10
     </select>
 
+    <select id="selectByUserName" parameterType="java.lang.String">
+        SELECT * FROM t_user WHERE user_name = #{userName}
+    </select>
+
+    <select id="selectPasswordByUsername" parameterType="java.lang.String">
+        SELECT `password` FROM t_user WHERE user_name = #{userName}
+    </select>
+
     <update id="updateByQQOpenId" parameterType="com.xh.blogs.domain.po.User">
         UPDATE t_user
         SET email = #{email},

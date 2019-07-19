@@ -99,4 +99,24 @@ public interface UserMapper extends IBaseMapper<User> {
     * @return int
     */
     int updateByQQOpenId(User user);
+
+    /**
+    * @Name selectPasswordByUsername
+    * @Description 通过用户名查询密码
+    * @Author wen
+    * @Date 2019/7/19
+    * @param userName
+    * @return java.lang.String
+    */
+    String selectPasswordByUsername(@Param("userName") String userName);
+
+    /**
+    * @Name selectByUserName
+    * @Description 查询所有信息用户名
+    * @Author wen
+    * @Date 2019/7/19
+    * @param userName
+    * @return com.xh.blogs.domain.po.User
+    */
+    User selectByUserName(@Param("userName") String userName);
 }

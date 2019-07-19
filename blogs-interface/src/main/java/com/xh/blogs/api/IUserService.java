@@ -123,7 +123,17 @@ public interface IUserService {
     * @Author wen
     * @Date 2019/7/19
     * @param userVo
-    * @return int
+    * @return user
     */
-    int doOauthBind(UserVo userVo, String openId);
+    User doOauthBind(UserVo userVo, String openId);
+
+    /**
+    * @Name checkIsAccess
+    * @Description 校验用户是否可以访问
+    * @Author wen
+    * @Date 2019/7/19
+    * @param userName
+    * @return void
+    */
+    void checkIsAccess(String userName);
 }
