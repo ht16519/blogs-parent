@@ -4,6 +4,7 @@
 <html lang="en" class="app">
 <head>
     <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>${title?default(site_name)}</title>
     <meta name="keywords" content="${keywords?default(site_keywords)}">
@@ -74,6 +75,7 @@
 <html lang="en" class="app">
 <head>
     <meta charset="utf-8"/>
+    <meta name="referrer" content="no-referrer" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>${title?default(site_title)}</title>
     <meta name="keywords" content="${keywords?default(site_keywords)}">

@@ -1,7 +1,6 @@
 package com.xh.blogs.domain.es;
 
 import com.xh.blogs.consts.CommonConst;
-import com.xh.blogs.domain.po.Article;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

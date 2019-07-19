@@ -43,7 +43,7 @@ public class GlobalExceptionHandler extends CommonExceptionHandler{
     */
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public Object handleMaxUploadSizeExceededException(HttpServletRequest request){
-        log.error("MaxUploadSizeExceededException: [requestUrl:{}, errorMsg:文件上传失败（文件大小超出系统设置）]", request.getRequestURI());
+        log.error("MaxUploadSizeExceededException: [requestUrl:{}, errorMsg:文件上传失败{}]", request.getRequestURI(), EmError.MAX_UPLOAD_SIZE_EXCEEDED.getErrMsg());
         return super.buildErrorResult(request, EmError.MAX_UPLOAD_SIZE_EXCEEDED);
     }
 
