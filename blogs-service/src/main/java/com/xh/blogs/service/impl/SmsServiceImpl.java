@@ -75,7 +75,7 @@ public class SmsServiceImpl implements ISmsService {
     @Override
     @RabbitListener(queues = {MQ_EMAIL_QUEUE})
     public void receiveAndSendEmailValidation(Map<String, Object> data) {
-        System.out.println(JsonUtil.serialize(data));
+//        System.out.println(JsonUtil.serialize(data));
         try {
             //1-1.组装参数
             String email = (String) data.get(KeyConst.SEND_TO_EMAIL_KEY);
@@ -86,7 +86,7 @@ public class SmsServiceImpl implements ISmsService {
             mailService.sendHtmlMail(email, templateTitle, data, ViewUrl.ACCOUNT_ACTIVATE_EMAIL);
             //2.存储邮箱和验证码
             redisCacheUtil.set(nickName, (email + CommonConst.SEPARATOR + verifyCode));
-            log.info("======================== 异步发送邮件成功[time:{}, email:{}] ========================", System.currentTimeMillis(), nickName);
+            log.info("======================== 异步发送邮件成功[time:{}, nickName:{}, toEmail:{}] ========================", System.currentTimeMillis(), nickName, email);
         } catch (BusinessException e) {
             log.error("Send Email Validation Exception:{}", e);
         }

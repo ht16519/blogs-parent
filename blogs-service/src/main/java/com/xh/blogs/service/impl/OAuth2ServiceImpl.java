@@ -17,6 +17,7 @@ import com.xh.blogs.domain.po.User;
 import com.xh.blogs.enums.EmError;
 import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.exception.LoginException;
+import com.xh.blogs.utils.CommonUtil;
 import com.xh.blogs.utils.MD5Util;
 import com.xh.blogs.utils.NotifyUtil;
 import com.xh.blogs.utils.StringUtil;
@@ -29,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -106,9 +108,12 @@ public class OAuth2ServiceImpl implements IOAuth2Service {
             throw new BusinessException(EmError.GET_QQ_ACCESS_TOKEN_FAIL);
         }
         UserInfoBean userInfoBean = qzoneUserInfo.getUserInfo();
-        //2.存入本地数据库
+        //2-1.昵称查重并处理
+        String nickname = userInfoBean.getNickname();
+        this.checkAndHandleNickName(nickname);
+        //2-2.存入本地数据库
         User user = new User();
-        user.setNickName(userInfoBean.getNickname());
+        user.setNickName(nickname);
         user.setAvatar(userInfoBean.getAvatar().getAvatarURL100());
         user.setSex(userInfoBean.getGender().equals(CommonConst.BLOGS_SEX_MAN) ? 1 : 0);
         user.setQqOpenId(qqOpenId);
@@ -122,6 +127,25 @@ public class OAuth2ServiceImpl implements IOAuth2Service {
             return user;
         }
         return null;
+    }
+
+    /**
+    * @Name checkAndHandleNickName
+    * @Description 昵称查重并处理
+    * @Author wen
+    * @Date 2019/7/19
+    * @param nickname
+    * @return
+    */
+    private void checkAndHandleNickName(String nickname) {
+        User user = new User();
+        user.setNickName(nickname);
+        //昵称重复
+        List<User> list = userMapper.select(user);
+        if(list.size() > 0){
+            //TODO 可根据需求生成昵称
+            nickname += CommonUtil.getSalt();
+        }
     }
 
 
