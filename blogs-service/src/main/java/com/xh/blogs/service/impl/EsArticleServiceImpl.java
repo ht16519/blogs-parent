@@ -1,12 +1,10 @@
 package com.xh.blogs.service.impl;
 
 import com.xh.blogs.api.IEsArticleService;
-import com.xh.blogs.consts.KeyConst;
 import com.xh.blogs.dao.mapper.ArticleMapper;
 import com.xh.blogs.dao.repository.EsArticleRepository;
 import com.xh.blogs.domain.es.EsArticle;
 import com.xh.blogs.domain.po.Article;
-import com.xh.blogs.domain.vo.ArticleVo;
 import com.xh.blogs.domain.vo.PageResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -14,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,7 +42,7 @@ public class EsArticleServiceImpl extends BaseServiceImpl implements IEsArticleS
     }
 
     @Override
-    public EsArticle update(EsArticle esArticle) {
+    public EsArticle save(EsArticle esArticle) {
         return esArticleRepository.save(esArticle);
     }
 
@@ -53,7 +50,7 @@ public class EsArticleServiceImpl extends BaseServiceImpl implements IEsArticleS
     public void save(Article article) {
         EsArticle esArticle = new EsArticle();
         BeanUtils.copyProperties(article, esArticle);
-        esArticleRepository.save(esArticle);
+        this.save(esArticle);
     }
 
     @Override
@@ -81,13 +78,32 @@ public class EsArticleServiceImpl extends BaseServiceImpl implements IEsArticleS
         log.info("============ END删除es中所有文章缓存成功 ===========");
     }
 
+//    @Override
+//    public PageResult<EsArticle> search(String keyword, int number) {
+//        // 构建查询
+//        NativeSearchQueryBuilder searchQuery = new NativeSearchQueryBuilder();
+//        // 多索引查询
+//        searchQuery.withIndices("article").withTypes("article");
+//        QueryBuilder boolQuery = QueryBuilders.boolQuery()
+//                .must(QueryBuilders.multiMatchQuery(keyword, "title", "tags", "summary"));
+////                .must(QueryBuilders.moreLikeThisQuery(new String[]{"title", "tags", "summary"}));
+//        searchQuery.withQuery(boolQuery)
+//            .withHighlightFields(new HighlightBuilder.Field("title"), new HighlightBuilder.Field("summary"))
+//            .withPageable(PageRequest.of(number - 1, pageSize));
+//        Page<EsArticle> page = esArticleRepository.search(searchQuery.build());
+//        PageResult pageResult = new PageResult(page.getTotalElements(), page.getNumber() + 1, page.getTotalPages(), page.getContent());
+//        System.err.println(pageResult);
+//        return pageResult;
+//    }
+
     @Override
     public PageResult<EsArticle> search(String keyword, int number) {
-        Sort orders = new Sort(Sort.Direction.DESC, //逆序
-                KeyConst.ARTICLE_FAVORS_KEY,        //收藏量
-                KeyConst.ARTICLE_COMMTENTS_KEY,     //评论量
-                KeyConst.DB_CREATE_TIME_KEY);       //创建时间
-        Pageable pageable =  PageRequest.of(number - 1, pageSize, orders);
+//        Sort orders = new Sort(Sort.Direction.DESC, //逆序
+//                KeyConst.ARTICLE_FAVORS_KEY,        //收藏量
+//                KeyConst.ARTICLE_COMMTENTS_KEY,     //评论量
+//                KeyConst.DB_CREATE_TIME_KEY);       //创建时间
+//        Pageable pageable =  PageRequest.of(number - 1, pageSize, orders);
+        Pageable pageable =  PageRequest.of(number - 1, pageSize);
         Page<EsArticle> page = esArticleRepository.findDistinctEsArticleByTitleContainingOrSummaryContainingOrTagsContaining(keyword, keyword, keyword, pageable);
         return new PageResult(page.getTotalElements(), page.getNumber() + 1,page.getTotalPages() , page.getContent());
     }

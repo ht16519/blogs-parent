@@ -1,13 +1,11 @@
 package com.xh.blogs.controller;
 
-import com.xh.blogs.api.ISmsService;
-import com.xh.blogs.domain.po.User;
-import org.apache.shiro.authz.annotation.RequiresGuest;
+import com.xh.blogs.api.IAsyncEsAricleHandleService;
+import com.xh.blogs.api.IAsyncSmsService;
+import com.xh.blogs.domain.entity.EArticleHandleMessage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -24,7 +22,9 @@ import java.util.Map;
 public class TestController {
 
     @Autowired
-    private ISmsService smsService;
+    private IAsyncSmsService asyncSmsService;
+    @Autowired
+    private IAsyncEsAricleHandleService asyncEsAricleHandleService;
 
     @GetMapping("/index")
     public String test(){
@@ -39,10 +39,14 @@ public class TestController {
 
     @GetMapping("/mq")
     public Object testMQ(){
-        Map<String, Object> data = new HashMap<>();
-        data.put("wwww", "itcloud");
-        data.put("userNmae", "1111111");
-        smsService.send(ISmsService.MQ_EMAIL_EXCHANGE, ISmsService.MQ_EMAIL_ROUTINGKEY, data);
+        EArticleHandleMessage data = new EArticleHandleMessage();
+        data.setId(1);
+        asyncEsAricleHandleService.sendHandeESArticleMsg(data);
+
+//        Map<String, Object> data = new HashMap<>();
+//        data.put("wwww", "itcloud");
+//        data.put("userNmae", "1111111");
+//        asyncSmsService.send(IAsyncSmsService.MQ_EMAIL_EXCHANGE, IAsyncSmsService.MQ_EMAIL_ROUTINGKEY, data);
         return data;
     }
 

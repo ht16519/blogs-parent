@@ -8,6 +8,12 @@ package com.xh.blogs.consts;
  */
 public interface KeyConst {
 
+    String ES_QUERY_TITLE = "title";
+
+    String ES_QUERY_SUMMARY = "summary";
+
+    String ES_QUERY_TAGS = "tags";
+
     String BIND_ACCOUNT_KEY = "bindAccount";
 
     String QQ_OPEN_ID_KEY = "qqOpenId";

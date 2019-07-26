@@ -35,14 +35,24 @@ public interface IEsArticleService {
     void delete(EsArticle esArticle);
 
     /**
-    * @Name update
-    * @Description 修改by id
+    * @Name save
+    * @Description 保存操作
     * @Author wen
     * @Date 2019/5/24
     * @param esArticle
     * @return EsArticle
     */
-    EsArticle update(EsArticle esArticle);
+    EsArticle save(EsArticle esArticle);
+
+    /**
+     * @Name save
+     * @Description 保存操作
+     * @Author wen
+     * @Date 2019/5/30
+     * @param article
+     * @return void
+     */
+    void save(Article article);
 
     /**
     * @Name getById
@@ -94,13 +104,4 @@ public interface IEsArticleService {
     */
     PageResult<EsArticle> search(String keyword, int number);
 
-    /**
-    * @Name save
-    * @Description 写新增文章
-    * @Author wen
-    * @Date 2019/5/30
-    * @param article
-    * @return void 
-    */
-    void save(Article article);
 }

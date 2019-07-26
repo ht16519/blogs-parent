@@ -17,22 +17,21 @@ import org.springframework.data.redis.core.ValueOperations;
 @Configuration
 public class BeanConfig {
 
-    //QQ授权Oauth添加到IOC
+    /**QQ授权Oauth添加到IOC容器**/
     @Bean
     public Oauth oauth(){
         return new Oauth();
     }
 
-    //ValueOperations添加到IOC
+    /**ValueOperations添加到IOC容器**/
     @Bean
     public ValueOperations<String, String> valueOperations(StringRedisTemplate stringRedisTemplate){
         return stringRedisTemplate.opsForValue();
     }
 
-    //使用自定义序列化MQ（Jackson）
+    /**使用自定义序列化MQ（Jackson）**/
     @Bean
     public MessageConverter messageConverter(){
         return new Jackson2JsonMessageConverter();
     }
-
 }

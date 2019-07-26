@@ -89,7 +89,7 @@ public class AccessLimitAop {
             }
             //3-3.指定时间内，访问次数超出，抛出异常
             if (count > maxCount) {
-                log.info("Lequest Limited: [time:{}],[用户ip:{}],[规定的时间:{}s],[访问地址:{}超过了限定的次数:{}次]", System.currentTimeMillis(), ip, seconds, url, maxCount);
+                log.info("Lequest Limited: [用户ip:{}],[规定的时间:{}s],[访问地址:{}超过了限定的次数:{}次]", ip, seconds, url, maxCount);
                 throw new BusinessException(EmError.REQUEST_LIMITED);
             }
         }

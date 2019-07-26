@@ -1,4 +1,4 @@
-package com.xh.blogs.content;
+package com.xh.blogs.utils;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

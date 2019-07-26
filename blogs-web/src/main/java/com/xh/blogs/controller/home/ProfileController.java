@@ -1,8 +1,8 @@
 package com.xh.blogs.controller.home;
 
 import com.xh.blogs.annotation.AccessLimit;
+import com.xh.blogs.api.IAsyncSmsService;
 import com.xh.blogs.api.IMailService;
-import com.xh.blogs.api.ISmsService;
 import com.xh.blogs.api.IUploadService;
 import com.xh.blogs.api.IUserService;
 import com.xh.blogs.consts.*;
@@ -49,7 +49,7 @@ public class ProfileController extends BaseController {
     @Autowired
     private ServletContext servletContext;
     @Autowired
-    private ISmsService smsService;
+    private IAsyncSmsService asyncSmsService;
 
     /**
     * @Name emailView
@@ -334,7 +334,7 @@ public class ProfileController extends BaseController {
         data.put(KeyConst.SEND_TO_EMAIL_KEY, email);
         data.put(KeyConst.SEND_EMAIL_TITLE_KEY, this.getTemplateTitle());
         //2-2.发送邮件MQ消息
-        smsService.sendEmailMsg(data);
+        asyncSmsService.sendEmailMsg(data);
     }
 
     private String getSiteDomin() {

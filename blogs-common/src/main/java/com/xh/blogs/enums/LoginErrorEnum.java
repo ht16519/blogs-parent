@@ -10,8 +10,6 @@ import com.xh.blogs.error.CommomError;
  */
 public class LoginErrorEnum implements CommomError{
 
-
-
     @Override
     public int getErrCode() {
         return 0;

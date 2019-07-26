@@ -1,6 +1,7 @@
 package com.xh.blogs.controller.home;
 
 import com.xh.blogs.api.IArticleService;
+import com.xh.blogs.api.IAsyncEsAricleHandleService;
 import com.xh.blogs.api.IAttachsService;
 import com.xh.blogs.api.IEsArticleService;
 import com.xh.blogs.consts.CommonConst;
@@ -8,6 +9,7 @@ import com.xh.blogs.consts.KeyConst;
 import com.xh.blogs.consts.RequestUrl;
 import com.xh.blogs.consts.ViewUrl;
 import com.xh.blogs.controller.base.BaseController;
+import com.xh.blogs.domain.entity.EArticleHandleMessage;
 import com.xh.blogs.domain.po.Article;
 import com.xh.blogs.domain.vo.ArticleVo;
 import com.xh.blogs.domain.vo.PageResult;
@@ -44,6 +46,8 @@ public class BlogsController extends BaseController {
     private IAttachsService attachsService;
     @Autowired
     private IEsArticleService esArticleService;
+    @Autowired
+    private IAsyncEsAricleHandleService asyncEsAricleService;
 
     /**
     * @Name affiche
@@ -74,8 +78,8 @@ public class BlogsController extends BaseController {
         //1.移除文章
         int res = articleService.removeById(id, super.getProfile().getId());
         if(res > 0){
-            //2.删除es中的文章
-            esArticleService.deleteById(id);
+            //2.发送删除es中的文章异步请求
+            asyncEsAricleService.sendHandeESArticleMsg(EArticleHandleMessage.delete(id));
         }
         return WebApiResult.getResult(res);
     }
@@ -95,8 +99,8 @@ public class BlogsController extends BaseController {
             //1.修改数据库文章信息
             articleVo.setAuthorId(super.getProfile().getId());
             Article article = articleService.updateArticleById(articleVo);
-            //2.修改es文章信息
-            esArticleService.save(article);
+            //2.发送修改es文章信息的异步请求
+            asyncEsAricleService.sendHandeESArticleMsg(EArticleHandleMessage.save(article));
         } catch (BusinessException e) {
             super.getModelMap(e, model);
             model.put(CommonConst.DATA_RESULT_KEY, articleVo);
@@ -226,8 +230,8 @@ public class BlogsController extends BaseController {
             //1.新增数据库文章
             articleVo.setAuthorId(super.getProfile().getId());
             Article article = articleService.addArticle(articleVo);
-            //2.同步es文章信息
-            esArticleService.save(article);
+            //2.发送保存es文章信息的异步请求
+            asyncEsAricleService.sendHandeESArticleMsg(EArticleHandleMessage.save(article));
         } catch (BusinessException e) {
             super.getModelMap(e, model);
             return ViewUrl.ARTICLE_PUBLISH;

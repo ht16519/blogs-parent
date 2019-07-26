@@ -89,19 +89,16 @@ public class ArticleServiceImpl extends BaseServiceImpl implements IArticleServi
         ArticleContent content = new ArticleContent();
         content.setContent(doc.html());
         content.setId(article.getId());
-        if(res > 0){
-            res = articleContentMapper.insertSelective(content);
-            if(res > 0){
-                //4.用户发布文章数 +1
-                userMapper.updatePostsById(article.getAuthorId());
-                //5.保存文章附件信息
-                List<ArticleAccessory> articleAccessories = this.extractImages(doc, article.getId());
-                if(articleAccessories.size() > 0){
-                    res = articleAccessoryMapper.insertList(articleAccessories);
-                }
+        if (res > 0) {
+            articleContentMapper.insertSelective(content);
+            //4.用户发布文章数 +1
+            userMapper.updatePostsById(article.getAuthorId());
+            //5.保存文章附件信息
+            List<ArticleAccessory> articleAccessories = this.extractImages(doc, article.getId());
+            if (articleAccessories.size() > 0) {
+                articleAccessoryMapper.insertList(articleAccessories);
             }
         }
-        //TODO 文章信息加入图片数和最后一张图片id
         return articleMapper.selectByPrimaryKey(article.getId());
     }
 
@@ -114,7 +111,7 @@ public class ArticleServiceImpl extends BaseServiceImpl implements IArticleServi
     }
 
     @Override
-    public Article getById(int id){
+    public Article getById(int id) {
         return articleMapper.selectById(id);
     }
 
@@ -125,7 +122,7 @@ public class ArticleServiceImpl extends BaseServiceImpl implements IArticleServi
 
     @Override
     public PageResult<Article> getByConditionWithPage(String title, Integer number) {
-        if(number == null){
+        if (number == null) {
             number = 1;
         }
         Map<String, Object> parameters = new HashMap<>();
@@ -138,6 +135,7 @@ public class ArticleServiceImpl extends BaseServiceImpl implements IArticleServi
     }
 
     @Override
+    @Transactional
     public int removeById(int id, int userId) throws BusinessException {
         //1.校验文章属性
         this.checkArticleInfo(id, userId);
@@ -146,7 +144,7 @@ public class ArticleServiceImpl extends BaseServiceImpl implements IArticleServi
         article.setStatus(CommonConst.INVALID_STATUS);
         article.setId(id);
         int res = articleMapper.updateByPrimaryKeySelective(article);
-        if(res > 0){
+        if (res > 0) {
             //3.逻辑删除文章所属图片
             articleAccessoryMapper.removeByArticleId(id);
         }
@@ -169,19 +167,19 @@ public class ArticleServiceImpl extends BaseServiceImpl implements IArticleServi
         article.setSummary(PreviewTextUtil.getText(voContent, cutOutArticleSummaryIndex));
         article.setUpdateTime(new Date());
         int res = articleMapper.updateByPrimaryKeySelective(article);
-        if(res > 0){
+        if (res > 0) {
             //4.保存文章内容信息
             Document doc = Jsoup.parse(voContent);
             ArticleContent content = new ArticleContent();
             content.setContent(doc.html());
             content.setId(article.getId());
             res = articleContentMapper.updateByPrimaryKeySelective(content);
-            if(res > 0){
+            if (res > 0) {
                 //6.物理删除修改前的文章图片
                 articleAccessoryMapper.deleteOldAccessorysByArticleId(article.getId());
                 //5.获取文章附件信息
                 List<ArticleAccessory> articleAccessories = this.extractImages(doc, article.getId());
-                if(articleAccessories.size() > 0){
+                if (articleAccessories.size() > 0) {
                     //7.新增当前图片
                     res = articleAccessoryMapper.insertList(articleAccessories);
                 }
@@ -211,7 +209,7 @@ public class ArticleServiceImpl extends BaseServiceImpl implements IArticleServi
         String key = KeyConst.ARTICLE_VIEWS_REDIS_KEY_PREFIX + id;
         Map<String, Integer> cacheMap;
         String cache = ops.get(key);
-        if(cache == null){
+        if (cache == null) {
             cacheMap = new HashMap<>();
             //浏览量 +1
             cacheMap.put(ip, 1);
@@ -220,7 +218,7 @@ public class ArticleServiceImpl extends BaseServiceImpl implements IArticleServi
         } else {
             //判断用户是否浏览过文章
             cacheMap = JsonUtil.parseMap(cache, String.class, Integer.class);
-            if(cacheMap.get(ip) == null){
+            if (cacheMap.get(ip) == null) {
                 //浏览量 +1
                 cacheMap.put(ip, 1);
                 ops.set(key, JsonUtil.serialize(cacheMap));
@@ -230,14 +228,14 @@ public class ArticleServiceImpl extends BaseServiceImpl implements IArticleServi
     }
 
     /**
-     * @Name getCommonWithPage
-     * @Description 获取公共的
-     * @Author wen
-     * @Date 2019/4/27
      * @param sort
      * @param number
      * @param parameters
      * @return com.xh.blogs.domain.vo.PageResult<com.xh.blogs.domain.po.Article>
+     * @Name getCommonWithPage
+     * @Description 获取公共的
+     * @Author wen
+     * @Date 2019/4/27
      */
     private PageResult<Article> getCommonWithPage(int sort, int number, Map<String, Object> parameters) {
         parameters.put(CommonConst.STATUS_KEY, CommonConst.EFFECTIVE_STATUS);
@@ -248,35 +246,35 @@ public class ArticleServiceImpl extends BaseServiceImpl implements IArticleServi
     }
 
     /**
-    * @Name checkArticleInfo
-    * @Description 1.校验文章是否存在 2.判断是否是自己的文章
-    * @Author wen
-    * @Date 2019/5/7
-    * @param id
-    * @param userId
-    * @return void
-    */
+     * @param id
+     * @param userId
+     * @return void
+     * @Name checkArticleInfo
+     * @Description 1.校验文章是否存在 2.判断是否是自己的文章
+     * @Author wen
+     * @Date 2019/5/7
+     */
     private void checkArticleInfo(int id, int userId) throws BusinessException {
         //1.判断文章是否存在
         Article dbArticle = articleMapper.selectByPrimaryKey(id);
-        if(dbArticle == null){
+        if (dbArticle == null) {
             throw new BusinessException(EmError.ARTICLE_IS_NOT_EXIST);
         }
         //2.判断是否是自己的文章
-        if(!dbArticle.getAuthorId().equals(userId)){
+        if (!dbArticle.getAuthorId().equals(userId)) {
             throw new BusinessException(EmError.CANT_HANDLE_OTHER);
         }
     }
 
 
     /**
-    * @Name extractImages
-    * @Description 提取图片信息
-    * @Author wen
-    * @Date 2019/4/24
-    * @param html
-    * @return List<ArticleAccessory>
-    */
+     * @param html
+     * @return List<ArticleAccessory>
+     * @Name extractImages
+     * @Description 提取图片信息
+     * @Author wen
+     * @Date 2019/4/24
+     */
     private List<ArticleAccessory> extractImages(Document html, Integer aricleId) {
         List<ArticleAccessory> rets = new ArrayList<>();
         Elements elements = html.select(CommonConst.CSS_QUERY_IMG);

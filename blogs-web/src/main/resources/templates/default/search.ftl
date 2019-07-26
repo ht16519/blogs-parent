@@ -1,11 +1,19 @@
 <#include "/default/utils/layout.ftl"/>
+<style>
+    em{
+        color:red;
+        font-style: normal;
+        /*text-decoration: underline;*/
+        font-weight: bold;
+    }
+</style>
 <@ui_ltr>
 
     <div class="shadow-box">
         <!-- tab -->
         <div class="filter">
             <div class="alert" style="margin-bottom:0">
-                <li><span><i class="fa fa-search"></i> 搜索关键字 "<strong><span style="color: red;"><span style="color: red;">${q}</span></span></strong>", 共找到 <span style="color: red;">${page.total}</span> 个结果.</span></li>
+                <li><i class="fa fa-search"></i> 搜索关键字 "<em>${q}</em>", 共找到 <em>${page.total}</em> 个结果.</span></li>
             </div>
         </div>
         <!-- tab end -->
