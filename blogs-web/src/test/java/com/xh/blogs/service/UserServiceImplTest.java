@@ -19,4 +19,6 @@ public class UserServiceImplTest extends IArticleServiceTest {
         String password = userMapper.selectPasswordByUsername("1000000824935174");
         System.err.println(password);
     }
+
+
 }

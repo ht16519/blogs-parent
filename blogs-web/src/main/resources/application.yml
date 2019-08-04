@@ -1,8 +1,9 @@
 server:
   port: 8888
   tomcat:
-    uri-encoding: UTF-8
-    max-http-header-size: 8192
+    uriEncoding: UTF-8
+    maxHttpHeaderSize: 8192
+    maxSwallowSize: 100MB
 spring:
   data:
     elasticsearch:

@@ -15,7 +15,7 @@
 			<div class="form-group">
 				<label class="col-sm-2 control-label no-padding-right">标题</label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control" name="title" maxlength="32" data-required value="${data.title}">
+					<input type="text" class="form-control" name="title" maxlength="64" data-required value="${data.title}">
 				</div>
 			</div>
             <div class="form-group">
