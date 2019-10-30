@@ -66,6 +66,8 @@ public interface KeyConst {
 
     String BLOGS_GROUP_KEY = "groupsCache";
 
+    String BLOGS_LINK_KEY = "friendLinksCache";
+
     String EMAIL_CODE_KEY = "emailCodeKey";
 
     String RESTUL_EMAIL_CODE_KEY = "verifyCode";

@@ -15,15 +15,14 @@ import javax.servlet.http.HttpServletResponse;
  * @Author wen
  */
 @Slf4j
-@Component
 public class HttpInterceptor extends HandlerInterceptorAdapter {
 
     /**
      * 请求处理之前
      */
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-            throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        log.info("=============访问路径：{}============", request.getRequestURI());
 //        if (handler instanceof HandlerMethod) {
 //            HandlerMethod handlerMethod = (HandlerMethod) handler;
 //            //获取方法注解
@@ -45,7 +44,6 @@ public class HttpInterceptor extends HandlerInterceptorAdapter {
 //        }
         //检查是否限制用户访问接口
 //		if(!this.checkAccessLimit(handler, request, response)){
-        System.err.println("=======================访问拦截器===================");
         return true;
 //		}
 //		log.info("---请求路径:{}，---请求参数:{}", request.getRequestURI(), JsonUtil.serialize(request.getParameterMap()));

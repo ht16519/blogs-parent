@@ -4,34 +4,34 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>友情链接<#if friendLink??>修改<#else>添加</#if></h2>
+                <h2>友情链接<#if data??>修改<#else>添加</#if></h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
                 <br>
                 <#include "/admin/message.ftl">
-                <form id="qForm" class="form-horizontal form-label-left" method="post" action="save">
-                    <#if friendLink??>
-                        <input type="hidden" name="id" value="${friendLink.id}" />
+                <form id="qForm" class="form-horizontal form-label-left" method="post" action="${base}/admin/link/save">
+                    <#if data??>
+                        <input type="hidden" name="id" value="${data.id}" />
                     </#if>
 
                     <div class="form-group">
                         <label class="col-lg-2 control-label">站点名称</label>
                         <div class="col-lg-5">
-                            <input type="text" name="siteName" class="form-control" value="${friendLink.siteName}">
+                            <input type="text" name="siteName" class="form-control" value="${data.siteName}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-lg-2 control-label">LOGO</label>
                         <div class="col-lg-5">
-                            <input type="text" name="logo" class="form-control" value="${friendLink.logo}">
+                            <input type="text" name="logo" class="form-control" value="${data.logo}">
                             <p class="help-block">示例：http://mtons.com/logo.png</p>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-lg-2 control-label">网址</label>
                         <div class="col-lg-8">
-                            <input type="text" name="url" class="form-control" value="${friendLink.url}">
+                            <input type="text" name="url" class="form-control" value="${data.url}">
                             <p class="help-block">示例: http://mtons.com</p>
                         </div>
                     </div>
@@ -39,13 +39,13 @@
                     <div class="form-group">
                         <label class="col-lg-2 control-label">站点描述</label>
                         <div class="col-lg-8">
-                            <textarea rows="3" class="form-control" name="remark" class="form-control" placeholder="站点描述">${friendLink.remark}</textarea>
+                            <textarea rows="3" class="form-control" name="remark" class="form-control" placeholder="站点描述">${data.remark}</textarea>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-lg-2 control-label">排序</label>
                         <div class="col-lg-2">
-                            <input type="text" name="sort" class="form-control {digits:true}" value="${friendLink.sort!'0'}">
+                            <input type="text" name="sort" class="form-control {digits:true}" value="${data.sort!'0'}">
                         </div>
                     </div>
 

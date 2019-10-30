@@ -42,6 +42,8 @@ public interface RequestUrl {
 
     String REDIRECT_ADMIN_GROUP_LIST = "redirect:/admin/group/list";
 
+    String REDIRECT_ADMIN_LINK_LIST = "redirect:/admin/link/list";
+
     String REDIRECT_ADMIN_TAGS_LIST = "redirect:/admin/tags/list";
 
 }

@@ -27,12 +27,10 @@
 	<div class="container mode-link bg-color">
         <h3 class="t-h3">友情链接</h3>
         <ul class="list-inline">
-            <li><a href="http://mtons.com/?copyright" target="_blank" title="Mtons社区">参考Mtons社区</a></li>
-            <li><a href="https://github.com/ht16519/blogs-parent" target="_blank" title="source code">Source Code</a></li>
-            <#list friendLinks as row>
-                <li>
-                    <a href="${link.url}" target="_blank" title="${link.remark}">${link.siteName}</a>
-                </li>
+            <#--<li><a href="http://mtons.com/?copyright" target="_blank" title="Mtons社区">参考Mtons社区</a></li>-->
+            <#--<li><a href="https://github.com/ht16519/blogs-parent" target="_blank" title="source code">Source Code</a></li>-->
+            <#list friendLinksCache as row>
+                <li><a href="${row.url}" target="_blank" title="${row.remark}">${row.siteName}</a></li>
             </#list>
         </ul>
     </div>

@@ -1,9 +1,11 @@
 package com.xh.blogs.config;
 
+import com.xh.blogs.Interceptor.HttpInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -18,14 +20,14 @@ import javax.servlet.MultipartConfigElement;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    @Value("${fileUpload.rootSavePath}")
-    private String rootSavePath;
+//    @Value("${fileUpload.rootSavePath}")
+//    private String rootSavePath;
     @Value("${fileUpload.maxFileSize}")
     private int maxFileSize;
-    @Value("${blogs.accessory.path}")
-    private String accessoryPath;
-    @Value("${blogs.accessoryPrefix}")
-    private String accessoryMappingPrefix;
+//    @Value("${blogs.accessory.path}")
+//    private String accessoryPath;
+//    @Value("${blogs.accessoryPrefix}")
+//    private String accessoryMappingPrefix;
 
     @Bean
     public MultipartConfigElement multipartConfigElement(){
@@ -35,10 +37,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
         return factory.createMultipartConfig();
     }
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler(accessoryPath).addResourceLocations(accessoryMappingPrefix + rootSavePath);
-    }
+//    @Override
+//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        registry.addResourceHandler(accessoryPath).addResourceLocations(accessoryMappingPrefix + rootSavePath);
+//    }
 
 
 //    @Bean
@@ -49,8 +51,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 //        };
 //    }
 
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(new HttpInterceptor());
-//    }
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new HttpInterceptor());
+    }
 }

@@ -29,6 +29,8 @@ public class InitializationRunner implements ApplicationRunner {
     private IAttachsService attachsService;
     @Autowired
     private IConfigService configService;
+    @Autowired
+    private IFriendLinkService friendLinkService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -44,6 +46,8 @@ public class InitializationRunner implements ApplicationRunner {
         esArticleService.createEsLibrary();
         //5.初始化底部顶链接
         attachsService.createAttachsCache();
+        //6.创建友情链接
+        friendLinkService.updateShowCache();
     }
 
 

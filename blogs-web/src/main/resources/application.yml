@@ -3,7 +3,6 @@ server:
   tomcat:
     uriEncoding: UTF-8
     maxHttpHeaderSize: 8192
-    maxSwallowSize: 100MB
 spring:
   data:
     elasticsearch:

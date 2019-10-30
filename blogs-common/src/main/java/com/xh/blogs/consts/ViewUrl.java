@@ -16,6 +16,10 @@ public interface ViewUrl {
 
     String ADMIN_GROUP_LIST = "/admin/group/list";
 
+    String ADMIN_LINK_LIST = "/admin/friendLink/list";
+
+    String ADMIN_LINK_EDIT = "/admin/friendLink/edit";
+
     String ADMIN_COMMENTS_LIST = "admin/comments/list";
 
     String ADMIN_ARTICLE_LIST = "admin/posts/list";
