@@ -8,7 +8,7 @@
     <meta name="description" content="${site_description}">
 
 
-    <link rel="shortcut icon" href="/static/assets/images/logo/logo90.jpg"/>
+    <link href="http://www.itcloud.top/static/assets/images/logo/logo90.ico" rel="icon" type="image/x-icon" />
     <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
     <style>
         html { height: 100%; }

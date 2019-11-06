@@ -45,10 +45,6 @@ spring:
       template_update_delay: 0
       datetime_format: yyyy-MM-dd HH:mm
       number_format: 0.##
-#  resources:
-#      static-locations: classpath:/static/
-#  mvc:
-#      static-path-pattern: /static/**
 mybatis:
   mapper-locations: classpath:mappers/*Mapper.xml
   type-aliases-package: com.xh.blogs.domain.po

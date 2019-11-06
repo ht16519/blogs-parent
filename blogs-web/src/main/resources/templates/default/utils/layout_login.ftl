@@ -20,7 +20,7 @@
 
     <!-- Favicons -->
     <link rel="apple-touch-icon-precomposed" href="/static/assets/images/logo/m99.png"/>
-    <link rel="shortcut icon" href="/static/assets/images/logo/logo90.jpg"/>
+    <link href="http://www.itcloud.top/static/assets/images/logo/logo90.ico" rel="icon" type="image/x-icon" />
 
 </head>
 <body class="sign">
