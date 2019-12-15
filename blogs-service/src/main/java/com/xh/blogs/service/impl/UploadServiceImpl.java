@@ -1,9 +1,9 @@
 package com.xh.blogs.service.impl;
 
-import com.xh.blogs.api.IUploadService;
+import com.xh.blogs.service.IUploadService;
 import com.xh.blogs.consts.ConfigConst;
-import com.xh.blogs.domain.dos.DArticleAccessory;
-import com.xh.blogs.domain.dos.DPath;
+import com.xh.blogs.domain.dto.DArticleAccessory;
+import com.xh.blogs.domain.dto.DPath;
 import com.xh.blogs.domain.vo.AvatarVo;
 import com.xh.blogs.domain.vo.UMEditorResult;
 import com.xh.blogs.enums.EmError;

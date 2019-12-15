@@ -6,10 +6,10 @@
         <artifactId>blogs-parent</artifactId>
         <groupId>com.xh.blogs</groupId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.xh.blogs</groupId>
     <artifactId>blogs-web</artifactId>
     <packaging>jar</packaging>
     <name>blogs-web</name>
@@ -47,12 +47,6 @@
             <artifactId>shiro-freemarker-tags</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.xh.blogs</groupId>
-            <artifactId>blogs-service</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
         <!-- AspectJ支持 -->
         <dependency>
             <groupId>org.aspectj</groupId>
@@ -63,11 +57,19 @@
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
         </dependency>
-    </dependencies>
 
-    <!--<build>-->
-        <!--<finalName>blogs-web</finalName>-->
-    <!--</build>-->
+        <dependency>
+            <groupId>com.xh.blogs</groupId>
+            <artifactId>blogs-service</artifactId>
+            <version>${blogs.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.xh.blogs</groupId>
+            <artifactId>blogs-search</artifactId>
+            <version>${blogs.version}</version>
+        </dependency>
+    </dependencies>
 
     <build>
         <finalName>blogs-web</finalName>
@@ -75,8 +77,21 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <classifier>exec</classifier>
+                </configuration>
             </plugin>
         </plugins>
     </build>
+
+    <!--<build>-->
+    <!--<finalName>blogs-web</finalName>-->
+    <!--<plugins>-->
+    <!--<plugin>-->
+    <!--<groupId>org.springframework.boot</groupId>-->
+    <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
+    <!--</plugin>-->
+    <!--</plugins>-->
+    <!--</build>-->
 
 </project>

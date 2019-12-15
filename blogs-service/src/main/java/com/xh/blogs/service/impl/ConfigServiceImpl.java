@@ -1,6 +1,6 @@
 package com.xh.blogs.service.impl;
 
-import com.xh.blogs.api.IConfigService;
+import com.xh.blogs.service.IConfigService;
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.dao.mapper.ConfigMapper;
 import com.xh.blogs.domain.po.Config;

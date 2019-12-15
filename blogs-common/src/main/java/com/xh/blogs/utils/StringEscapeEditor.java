@@ -1,5 +1,6 @@
 package com.xh.blogs.utils;
 
+import com.xh.blogs.consts.StringConst;
 import lombok.extern.slf4j.Slf4j;
 import java.beans.PropertyEditorSupport;
 
@@ -25,7 +26,7 @@ public class StringEscapeEditor extends PropertyEditorSupport {
     @Override
     public String getAsText() {
         Object value = getValue();
-        return value != null ? value.toString() : "";
+        return value != null ? value.toString() : StringConst.EMPTY_CHARACTER;
     }
 
     @Override

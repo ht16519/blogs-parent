@@ -6,13 +6,8 @@
 
     <groupId>com.xh.blogs</groupId>
     <artifactId>blogs-parent</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <modules>
-        <module>blogs-common</module>
-        <module>blogs-interface</module>
-        <module>blogs-service</module>
-        <module>blogs-web</module>
-    </modules>
+    <version>${blogs.version}</version>
+
     <packaging>pom</packaging>
     <name>blogs-parent</name>
     <description>A blogs project for Spring Boot</description>
@@ -24,14 +19,21 @@
         <relativePath/>
     </parent>
 
+    <modules>
+        <module>blogs-common</module>
+        <module>blogs-service</module>
+        <module>blogs-search</module>
+        <module>blogs-web</module>
+    </modules>
+
     <properties>
         <start-class>com.xh.WebApplication</start-class>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <mybatis.starter.version>1.3.2</mybatis.starter.version>
-        <mapper.starter.version>2.0.2</mapper.starter.version>
+        <blogs.version>1.0-SNAPSHOT</blogs.version>
         <druid.starter.version>1.1.10</druid.starter.version>
+        <mapper.starter.version>2.0.3</mapper.starter.version>
         <pageHelper.starter.version>1.2.3</pageHelper.starter.version>
         <thumbnailator.version>0.4.8</thumbnailator.version>
         <jsoup.version>1.9.2</jsoup.version>
@@ -102,13 +104,6 @@
                 <artifactId>hibernate-validator</artifactId>
                 <version>${hibernate.validator.version}</version>
             </dependency>
-
-            <!-- mybatis启动器 -->
-            <dependency>
-                <groupId>org.mybatis.spring.boot</groupId>
-                <artifactId>mybatis-spring-boot-starter</artifactId>
-                <version>${mybatis.starter.version}</version>
-            </dependency>
             <!-- 通用Mapper启动器 -->
             <dependency>
                 <groupId>tk.mybatis</groupId>
@@ -133,6 +128,7 @@
                 <artifactId>commons-collections</artifactId>
                 <version>${commons.collections.version}</version>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -158,54 +154,69 @@
         <finalName>blogs-parent</finalName>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <mainClass>com.xh.WebApplication</mainClass>
-                    <layout>ZIP</layout>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal><!--可以把依赖的包都打包到生成的Jar包中-->
-                        </goals>
-                    </execution>
-                </executions>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
             </plugin>
-        </plugins>
-    </build>
-
-    <!--<build>-->
-        <!--<finalName>blogs-parent</finalName>-->
-        <!--<plugins>-->
             <!--<plugin>-->
                 <!--<groupId>org.springframework.boot</groupId>-->
                 <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
             <!--</plugin>-->
+        </plugins>
+    </build>
 
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-compiler-plugin</artifactId>-->
-                <!--<version>3.8.0</version>-->
-                <!--<configuration>-->
-                    <!--<source>1.8</source>-->
-                    <!--<target>1.8</target>-->
-                <!--</configuration>-->
-            <!--</plugin>-->
-        <!--</plugins>-->
+
+    <!--<build>-->
+    <!--<finalName>blogs-parent</finalName>-->
+    <!--<plugins>-->
+    <!--<plugin>-->
+    <!--<groupId>org.springframework.boot</groupId>-->
+    <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
+    <!--<configuration>-->
+    <!--<mainClass>com.xh.WebApplication</mainClass>-->
+    <!--<layout>ZIP</layout>-->
+    <!--</configuration>-->
+    <!--<executions>-->
+    <!--<execution>-->
+    <!--<goals>-->
+    <!--<goal>repackage</goal>&lt;!&ndash;可以把依赖的包都打包到生成的Jar包中&ndash;&gt;-->
+    <!--</goals>-->
+    <!--</execution>-->
+    <!--</executions>-->
+    <!--</plugin>-->
+    <!--</plugins>-->
+    <!--</build>-->
+
+    <!--<build>-->
+    <!--<finalName>blogs-parent</finalName>-->
+    <!--<plugins>-->
+    <!--<plugin>-->
+    <!--<groupId>org.springframework.boot</groupId>-->
+    <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
+    <!--</plugin>-->
+
+    <!--<plugin>-->
+    <!--<groupId>org.apache.maven.plugins</groupId>-->
+    <!--<artifactId>maven-compiler-plugin</artifactId>-->
+    <!--<version>3.8.0</version>-->
+    <!--<configuration>-->
+    <!--<source>1.8</source>-->
+    <!--<target>1.8</target>-->
+    <!--</configuration>-->
+    <!--</plugin>-->
+    <!--</plugins>-->
     <!--</build>-->
 
 
-    <repositories>
-        <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
+    <!--<repositories>-->
+    <!--<repository>-->
+    <!--<id>spring-milestones</id>-->
+    <!--<name>Spring Milestones</name>-->
+    <!--<url>https://repo.spring.io/milestone</url>-->
+    <!--<snapshots>-->
+    <!--<enabled>false</enabled>-->
+    <!--</snapshots>-->
+    <!--</repository>-->
+    <!--</repositories>-->
 
 
 </project>

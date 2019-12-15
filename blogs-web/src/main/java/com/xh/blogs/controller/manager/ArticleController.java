@@ -1,10 +1,12 @@
 package com.xh.blogs.controller.manager;
 
-import com.xh.blogs.api.IArticleService;
-import com.xh.blogs.api.IEsArticleService;
+import com.xh.blogs.domain.po.Article;
+import com.xh.blogs.service.IArticleService;
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.ViewUrl;
 import com.xh.blogs.domain.vo.WebApiResult;
+import com.xh.blogs.service.ISolrArticleService;
+import com.xh.blogs.utils.JsonUtil;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 /**
  * @Name ArticleController
@@ -27,7 +31,7 @@ public class ArticleController {
     @Autowired
     private IArticleService articleService;
     @Autowired
-    private IEsArticleService esArticleService;
+    private ISolrArticleService solrArticleService;
 
     @GetMapping("/list")
     @RequiresPermissions("sys:article:view")
@@ -41,8 +45,10 @@ public class ArticleController {
     @PostMapping("/es/reset.json")
     @RequiresPermissions("sys:article:edit")
     public @ResponseBody WebApiResult resetEsIndex(){
-        //生成文章的全文检索信息
-        esArticleService.createEsLibrary();
+       //1.查询所有有效的文章
+        List<Article> articles = articleService.getAllByStatus();
+        //2.生成文章的全文检索信息
+        solrArticleService.createEsLibrary(JsonUtil.serialize(articles));
         return WebApiResult.success();
     }
 

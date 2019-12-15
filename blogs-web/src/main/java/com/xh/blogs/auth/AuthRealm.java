@@ -1,7 +1,7 @@
 package com.xh.blogs.auth;
 
-import com.xh.blogs.api.IMenuService;
-import com.xh.blogs.api.IUserService;
+import com.xh.blogs.service.IMenuService;
+import com.xh.blogs.service.IUserService;
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.ConfigConst;
 import com.xh.blogs.domain.entity.ERoleMenu;

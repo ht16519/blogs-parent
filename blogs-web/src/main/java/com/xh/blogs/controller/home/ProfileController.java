@@ -1,10 +1,10 @@
 package com.xh.blogs.controller.home;
 
 import com.xh.blogs.annotation.AccessLimit;
-import com.xh.blogs.api.IAsyncSmsService;
-import com.xh.blogs.api.IMailService;
-import com.xh.blogs.api.IUploadService;
-import com.xh.blogs.api.IUserService;
+import com.xh.blogs.service.IAsyncSmsService;
+import com.xh.blogs.service.IMailService;
+import com.xh.blogs.service.IUploadService;
+import com.xh.blogs.service.IUserService;
 import com.xh.blogs.consts.*;
 import com.xh.blogs.controller.base.BaseController;
 import com.xh.blogs.dao.cache.RedisCacheUtil;

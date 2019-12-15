@@ -1,6 +1,6 @@
 package com.xh.blogs.controller.manager;
 
-import com.xh.blogs.api.IMenuService;
+import com.xh.blogs.service.IMenuService;
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.KeyConst;
 import com.xh.blogs.consts.ViewUrl;

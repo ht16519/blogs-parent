@@ -1,7 +1,7 @@
 package com.xh.blogs.service.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.xh.blogs.api.IMenuService;
+import com.xh.blogs.service.IMenuService;
 import com.xh.blogs.consts.ConfigConst;
 import com.xh.blogs.consts.KeyConst;
 import com.xh.blogs.dao.mapper.MenuMapper;

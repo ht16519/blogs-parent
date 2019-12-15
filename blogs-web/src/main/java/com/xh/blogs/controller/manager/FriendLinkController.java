@@ -1,6 +1,6 @@
 package com.xh.blogs.controller.manager;
 
-import com.xh.blogs.api.IFriendLinkService;
+import com.xh.blogs.service.IFriendLinkService;
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.RequestUrl;
 import com.xh.blogs.consts.ViewUrl;

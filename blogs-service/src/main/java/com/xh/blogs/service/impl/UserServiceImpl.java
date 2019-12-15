@@ -1,6 +1,6 @@
 package com.xh.blogs.service.impl;
 
-import com.xh.blogs.api.IUserService;
+import com.xh.blogs.service.IUserService;
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.ConfigConst;
 import com.xh.blogs.consts.NotifyConst;

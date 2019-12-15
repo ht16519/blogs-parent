@@ -20,6 +20,8 @@ public interface StringConst {
 
     String FAVOR_FOCUS_IS_EXIST = "您已经收藏过该博客了！";
 
+    String EMPTY_CHARACTER = "";
+
 
 
 }

@@ -1,7 +1,7 @@
 package com.xh.blogs.controller.home;
 
-import com.xh.blogs.api.IOAuth2Service;
-import com.xh.blogs.api.IUserService;
+import com.xh.blogs.service.IOAuth2Service;
+import com.xh.blogs.service.IUserService;
 import com.xh.blogs.consts.*;
 import com.xh.blogs.controller.base.BaseController;
 import com.xh.blogs.domain.po.User;

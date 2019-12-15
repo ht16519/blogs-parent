@@ -1,7 +1,7 @@
 package com.xh.blogs.controller;
 
-import com.xh.blogs.api.IAsyncEsAricleHandleService;
-import com.xh.blogs.api.IAsyncSmsService;
+import com.xh.blogs.service.IAsyncEsAricleHandleService;
+import com.xh.blogs.service.IAsyncSmsService;
 import com.xh.blogs.domain.entity.EArticleHandleMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,7 +41,7 @@ public class TestController {
     public Object testMQ(){
         EArticleHandleMessage data = new EArticleHandleMessage();
         data.setId(1);
-        asyncEsAricleHandleService.sendHandeESArticleMsg(data);
+        asyncEsAricleHandleService.sendHandeSearchArticleMsg(data);
 
 //        Map<String, Object> data = new HashMap<>();
 //        data.put("wwww", "itcloud");

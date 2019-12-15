@@ -1,6 +1,6 @@
 package com.xh.blogs.service.impl;
 
-import com.xh.blogs.api.IFriendLinkService;
+import com.xh.blogs.service.IFriendLinkService;
 import com.xh.blogs.consts.KeyConst;
 import com.xh.blogs.dao.mapper.FriendLinkMapper;
 import com.xh.blogs.domain.po.FriendLink;

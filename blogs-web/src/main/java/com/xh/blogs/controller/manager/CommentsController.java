@@ -1,6 +1,6 @@
 package com.xh.blogs.controller.manager;
 
-import com.xh.blogs.api.ICommentsService;
+import com.xh.blogs.service.ICommentsService;
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.KeyConst;
 import com.xh.blogs.consts.ViewUrl;

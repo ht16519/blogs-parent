@@ -1,7 +1,7 @@
 package com.xh.blogs.utils;
 
 import com.xh.blogs.consts.CommonConst;
-import com.xh.blogs.domain.dos.DArticleAccessory;
+import com.xh.blogs.domain.dto.DArticleAccessory;
 import com.xh.blogs.domain.vo.AvatarVo;
 import com.xh.blogs.enums.EmError;
 import com.xh.blogs.exception.BusinessException;
