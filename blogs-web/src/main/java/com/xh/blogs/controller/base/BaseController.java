@@ -81,15 +81,11 @@ public class BaseController {
 	* @return com.xh.blogs.domain.vo.AccountProfile
 	*/
 	protected AccountProfile getProfile() throws BusinessException {
-		try {
-			AccountProfile profile = (AccountProfile) ShiroUtil.sessionGetValue(CommonConst.SYSTEM_PROFILE);
-			if(profile == null){
-				throw new BusinessException(EmError.USER_NOT_LOGGED_IN);
-			}
-			return profile;
-		} catch (Exception e) {
+		AccountProfile profile = (AccountProfile) ShiroUtil.sessionGetValue(CommonConst.SYSTEM_PROFILE);
+		if(profile == null){
 			throw new BusinessException(EmError.USER_NOT_LOGGED_IN);
 		}
+		return profile;
 	}
 
 	protected ModelMap getModelMap(CommomError commomError, ModelMap model){
