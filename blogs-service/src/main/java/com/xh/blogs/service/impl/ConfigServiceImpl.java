@@ -33,12 +33,12 @@ public class ConfigServiceImpl implements IConfigService {
 
     @Override
     public void createSystemConfig(){
-        log.info("================ START创建系统配置信息 ==================");
+        log.info("================ 【初始化】START创建系统配置信息 ==================");
         for (Config config : this.getAll()) {
             servletContext.setAttribute(config.getKey(), config.getValue());
             log.info("--------- 加载key:{} <>  value:{}", config.getKey(), config.getValue());
         }
-        log.info("================ END创建系统配置信息成功 ==================");
+        log.info("================ 【初始化】END创建系统配置信息成功 ==================");
     }
 
 

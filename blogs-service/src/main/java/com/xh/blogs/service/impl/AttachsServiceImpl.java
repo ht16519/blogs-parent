@@ -15,6 +15,7 @@ import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.utils.BeanValidator;
 import com.xh.blogs.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,17 +54,17 @@ public class AttachsServiceImpl implements IAttachsService {
 
     @Override
     public List<Attachs> createAttachsCache() {
-        log.info("================= START创建系统公告缓存 =================");
+        log.info("================= 【Redis服务】START创建系统公告缓存 =================");
         //排序获取显示的公告
         List<Attachs> attachsList = attachsMapper.selectBySort(new Attachs(CommonConst.EFFECTIVE_STATUS));
-        if(attachsList.size() > 0){
+        if(CollectionUtils.isNotEmpty(attachsList)){
             //1.存入servletContext
             servletContext.setAttribute(KeyConst.SITE_FOOTER_TOPS_KEY, this.getFooterTops(attachsList));
             //2.存入redis
             ValueOperations<String, String> ops = redisTemplate.opsForValue();
             ops.set(KeyConst.SITE_ATTACHS_COLLECTION_KEY, JsonUtil.serialize(this.getShowAttachsMap(attachsList)));
         }
-        log.info("================= END创建系统公告缓存成功 =================");
+        log.info("================= 【Redis服务】END创建系统公告缓存成功 =================");
         return attachsList;
     }
 

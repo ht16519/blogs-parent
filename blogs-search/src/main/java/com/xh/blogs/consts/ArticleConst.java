@@ -14,6 +14,6 @@ public interface ArticleConst {
 
     String ARTICLE_KEYWORDS = "art_keywords";
 
-    String SOLR_COLLECTION1 = "collection1";
+    String SOLR_COLLECTION_1 = "collection1";
 
 }

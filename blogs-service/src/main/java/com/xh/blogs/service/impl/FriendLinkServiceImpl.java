@@ -53,7 +53,7 @@ public class FriendLinkServiceImpl implements IFriendLinkService {
         try {
             return (List<FriendLink>)servletContext.getAttribute(KeyConst.BLOGS_LINK_KEY);
         } catch (Exception e) {
-            log.error("==================== 未创建LINK友情链接分类 ====================");
+            log.error("==================== 【Redis服务】未创建LINK友情链接分类 ====================");
             return new ArrayList<>();
         }
 
@@ -61,9 +61,9 @@ public class FriendLinkServiceImpl implements IFriendLinkService {
 
     @Override
     public void updateShowCache(){
-        log.info("============ START创建博客友情链接缓存 ===========");
+        log.info("============ 【Redis服务】START创建博客友情链接缓存 ===========");
         servletContext.setAttribute(KeyConst.BLOGS_LINK_KEY, this.getByShow4Db());
-        log.info("============ END创建博客友情链接缓存初始化成功 ===========");
+        log.info("============ 【Redis服务】END创建博客友情链接缓存初始化成功 ===========");
     }
 
     @Override

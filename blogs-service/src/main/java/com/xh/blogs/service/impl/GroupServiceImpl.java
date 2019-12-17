@@ -66,9 +66,9 @@ public class GroupServiceImpl implements IGroupService {
 
     @Override
     public void createShowCache(){
-        log.info("============ START创建博客header分类缓存 ===========");
+        log.info("============ 【Redis服务】START创建博客header分类缓存 ===========");
         servletContext.setAttribute(KeyConst.BLOGS_GROUP_KEY, this.getByShow4Db());
-        log.info("============ END创建博客header分类缓存初始化成功 ===========");
+        log.info("============ 【Redis服务】END创建博客header分类缓存初始化成功 ===========");
     }
 
     @Override

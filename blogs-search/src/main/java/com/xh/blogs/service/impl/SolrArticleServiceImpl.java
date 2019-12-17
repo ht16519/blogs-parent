@@ -1,9 +1,7 @@
 package com.xh.blogs.service.impl;
 
 import com.xh.blogs.bean.SolrArticle;
-import com.xh.blogs.consts.ArticleConst;
-import com.xh.blogs.consts.CommonConst;
-import com.xh.blogs.consts.StringConst;
+import com.xh.blogs.consts.*;
 import com.xh.blogs.domain.vo.PageResult;
 import com.xh.blogs.service.ISolrArticleService;
 import com.xh.blogs.utils.JsonUtil;
@@ -37,50 +35,50 @@ public class SolrArticleServiceImpl implements ISolrArticleService {
 
     @Override
     public void batchInsert(String solrArticleListJson) {
-        log.info("============ 【solr服务】START批量新增文章信息 ===========");
+        log.info("============ 【初始化】START批量新增文章信息 ===========");
         List<SolrArticle> solrArticles = JsonUtil.parseList(solrArticleListJson, SolrArticle.class);
-        solrTemplate.saveBeans(ArticleConst.SOLR_COLLECTION1, solrArticles);
-        solrTemplate.commit(ArticleConst.SOLR_COLLECTION1);
-        log.info("============ 【solr服务】END批量新增文章信息成功 ===========");
+        solrTemplate.saveBeans(ArticleConst.SOLR_COLLECTION_1, solrArticles);
+        solrTemplate.commit(ArticleConst.SOLR_COLLECTION_1);
+        log.info("============ 【Solr服务】END批量新增文章信息成功 ===========");
     }
 
     @Override
     public void createEsLibrary(String solrArticleListJson) {
         this.deleteAll();
-        log.info("============ 【solr服务】START初始化文章的全文检索信息 ===========");
+        log.info("============ 【Solr服务】START初始化文章的全文检索信息 ===========");
         this.batchInsert(solrArticleListJson);
-        log.info("============ 【solr服务】END初始化文章的全文检索信息成功 ===========");
+        log.info("============ 【Solr服务】END初始化文章的全文检索信息成功 ===========");
     }
 
     @Override
     public void deleteById(int id) {
-        log.info("============ 【solr服务】START删除文章信息By Id ===========");
-        solrTemplate.deleteByIds(ArticleConst.SOLR_COLLECTION1, String.valueOf(id));
-        solrTemplate.commit(ArticleConst.SOLR_COLLECTION1);
-        log.info("============ 【solr服务】END删除文章信息成功By Id ===========");
+        log.info("============ 【Solr服务】START删除文章信息By Id ===========");
+        solrTemplate.deleteByIds(ArticleConst.SOLR_COLLECTION_1, String.valueOf(id));
+        solrTemplate.commit(ArticleConst.SOLR_COLLECTION_1);
+        log.info("============ 【Solr服务】END删除文章信息成功By Id ===========");
     }
 
     @Override
     public SolrArticle save(String solrArticleJson) {
-        log.info("============ 【solr服务】START保存文章信息 ===========");
+        log.info("============ 【Solr服务】START保存文章信息 ===========");
         SolrArticle solrArticle = JsonUtil.parse(solrArticleJson, SolrArticle.class);
-        solrTemplate.saveBean(ArticleConst.SOLR_COLLECTION1, solrArticle);
-        solrTemplate.commit(ArticleConst.SOLR_COLLECTION1);
-        log.info("============ 【solr服务】END保存文章信息成功 ===========");
+        solrTemplate.saveBean(ArticleConst.SOLR_COLLECTION_1, solrArticle);
+        solrTemplate.commit(ArticleConst.SOLR_COLLECTION_1);
+        log.info("============ 【Solr服务】END保存文章信息成功 ===========");
         return solrArticle;
     }
 
     @Override
     public void deleteAll() {
-        log.info("============ 【solr服务】START删除所有文章信息 ===========");
-        Query query = new SimpleQuery("*:*");
-        solrTemplate.delete(ArticleConst.SOLR_COLLECTION1, query);
-        log.info("============ 【solr服务】END删除所有文章信息成功 ===========");
+        log.info("============ 【Solr服务】START删除所有文章信息 ===========");
+        Query query = new SimpleQuery(SolrQueryConst.QUERY_ALL);
+        solrTemplate.delete(ArticleConst.SOLR_COLLECTION_1, query);
+        log.info("============ 【Solr服务】END删除所有文章信息成功 ===========");
     }
 
     @Override
     public SolrArticle getById(int id) {
-        Optional<SolrArticle> optionalSoArticle = solrTemplate.getById(ArticleConst.SOLR_COLLECTION1, id, SolrArticle.class);
+        Optional<SolrArticle> optionalSoArticle = solrTemplate.getById(ArticleConst.SOLR_COLLECTION_1, id, SolrArticle.class);
         return optionalSoArticle.get();
     }
 
@@ -94,22 +92,18 @@ public class SolrArticleServiceImpl implements ISolrArticleService {
         query.setHighlightOptions(highlightOptions);
         Criteria criteria = new Criteria(ArticleConst.ARTICLE_KEYWORDS).is(keywords);
         query.addCriteria(criteria);
-        query.setOffset((number - 1) * pageSize).setRows(pageSize);
-        HighlightPage<SolrArticle> highlightPage = solrTemplate.queryForHighlightPage(ArticleConst.SOLR_COLLECTION1, query, SolrArticle.class);
+        query.setOffset((number - NumberConst.INT_1) * pageSize).setRows(pageSize);
+        HighlightPage<SolrArticle> highlightPage = solrTemplate.queryForHighlightPage(ArticleConst.SOLR_COLLECTION_1, query, SolrArticle.class);
         List<HighlightEntry<SolrArticle>> list = highlightPage.getHighlighted();
         for (HighlightEntry<SolrArticle> entry : list) {
             SolrArticle solrArticle = entry.getEntity();
             List<HighlightEntry.Highlight> highlights = entry.getHighlights();
-            if (highlights.size() == 1) {
-                if (ArticleConst.ARTICLE_TITLE.equals(highlights.get(0).getField().getName())) {
-                    solrArticle.setTitle(entry.getHighlights().get(0).getSnipplets().get(0));
+            for (HighlightEntry.Highlight highlight : highlights) {
+                if (ArticleConst.ARTICLE_TITLE.equals(highlight.getField().getName())) {
+                    solrArticle.setTitle(highlight.getSnipplets().get(IndexConst.COLLECTION_0));
                 } else {
-                    solrArticle.setSummary(entry.getHighlights().get(0).getSnipplets().get(0));
+                    solrArticle.setSummary(highlight.getSnipplets().get(IndexConst.COLLECTION_0));
                 }
-            }
-            if (highlights.size() == 2) {
-                solrArticle.setTitle(entry.getHighlights().get(0).getSnipplets().get(0));
-                solrArticle.setSummary(entry.getHighlights().get(1).getSnipplets().get(0));
             }
         }
         return new PageResult(highlightPage.getTotalElements(), (int) number, highlightPage.getTotalPages(), highlightPage.getContent());
