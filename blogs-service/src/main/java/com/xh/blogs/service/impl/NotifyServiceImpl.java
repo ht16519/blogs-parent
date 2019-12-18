@@ -2,7 +2,7 @@ package com.xh.blogs.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.xh.blogs.api.INotifyService;
+import com.xh.blogs.service.INotifyService;
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.dao.mapper.NotifyMapper;
 import com.xh.blogs.domain.po.Notify;

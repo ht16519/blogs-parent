@@ -1,6 +1,6 @@
 package com.xh.blogs.service.impl;
 
-import com.xh.blogs.api.ITagsService;
+import com.xh.blogs.service.ITagsService;
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.KeyConst;
 import com.xh.blogs.dao.mapper.TagsMapper;

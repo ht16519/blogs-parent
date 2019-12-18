@@ -1,6 +1,6 @@
 package com.xh.blogs.service.impl;
 
-import com.xh.blogs.api.IBaseMQService;
+import com.xh.blogs.service.IBaseMQService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.Binding;
@@ -37,7 +37,7 @@ public class BaseMQServiceImpl implements IBaseMQService {
 
     @Override
     public void createMQConfig(boolean flag, String exchange, String queue, String routingKey){
-        log.info("======================== START初始化RabbitMQ的配置 >>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        log.info("======================== 【RabbitMQ服务】START初始化RabbitMQ的配置 >>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         if(flag){
             log.info("---------------- 0.删除原有的{}交换机，及{}队列 ----------------", exchange, queue);
             //--删除已有的--
@@ -54,6 +54,6 @@ public class BaseMQServiceImpl implements IBaseMQService {
         Binding binding = new Binding(queue, Binding.DestinationType.QUEUE, exchange, routingKey, null);
         log.info("---------------- 3.绑定{}交换机和{}队列 ----------------", exchange, queue);
         amqpAdmin.declareBinding(binding);
-        log.info("<<<<<<<<<<<<<<<<<<<<<<<<<<<< END初始化RabbitMQ的配置 ========================");
+        log.info("<<<<<<<<<<<<<<<<<<<<<<<<<<<< RabbitMQ服务】END初始化RabbitMQ的配置 ========================");
     }
 }

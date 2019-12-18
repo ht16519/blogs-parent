@@ -1,7 +1,7 @@
 package com.xh.blogs.controller.manager;
 
-import com.xh.blogs.api.ICommentsService;
-import com.xh.blogs.api.IGroupService;
+import com.xh.blogs.service.ICommentsService;
+import com.xh.blogs.service.IGroupService;
 import com.xh.blogs.domain.vo.WebApiResult;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;

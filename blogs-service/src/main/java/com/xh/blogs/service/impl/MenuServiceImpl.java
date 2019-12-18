@@ -1,7 +1,8 @@
 package com.xh.blogs.service.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.xh.blogs.api.IMenuService;
+import com.xh.blogs.consts.NumberConst;
+import com.xh.blogs.service.IMenuService;
 import com.xh.blogs.consts.ConfigConst;
 import com.xh.blogs.consts.KeyConst;
 import com.xh.blogs.dao.mapper.MenuMapper;
@@ -16,6 +17,8 @@ import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.utils.BeanValidator;
 import com.xh.blogs.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +66,7 @@ public class MenuServiceImpl implements IMenuService {
 
     @Override
     public Map<Integer, ERoleMenu> createRoleMenuTreeCache() {
-        log.info("============ START初始化角色菜单关系树 ===========");
+        log.info("============ 【初始化】START初始化角色菜单关系树 ===========");
         Map<Integer, Set<ERoleMenu>> roleMenuCache = this.createRoleMenuCache();
         Map<Integer, ERoleMenu> roleMenuMap = new HashMap<>();
         ValueOperations<String, String> ops = redisTemplate.opsForValue();
@@ -74,7 +77,7 @@ public class MenuServiceImpl implements IMenuService {
         }
         //角色菜单树放入缓存
         ops.set(KeyConst.ADMIN_ROLE_MENU_TREE_CACHE_KEY, JsonUtil.serialize(roleMenuMap));
-        log.info("============ END初始化角色菜单关系树成功 ===========");
+        log.info("============ 【初始化】END初始化角色菜单关系树成功 ===========");
         return roleMenuMap;
     }
 
@@ -86,7 +89,7 @@ public class MenuServiceImpl implements IMenuService {
             map.put(roleMenu.getId(), roleMenu);
         }
         for (ERoleMenu roleMenu : roleMenus) {
-            if(roleMenu.getParentId() == 0){
+            if(roleMenu.getParentId() == NumberConst.INT_0){
                 result = roleMenu;
             }else {
                 ERoleMenu roleMenu4Map = map.get(roleMenu.getParentId());
@@ -101,17 +104,17 @@ public class MenuServiceImpl implements IMenuService {
 
     @Override
     public Map<Integer, Set<ERoleMenu>> createRoleMenuCache() {
-        log.info("============ START初始化角色菜单缓存 ===========");
+        log.info("============ 【Redis服务】START初始化角色菜单缓存 ===========");
         Map<Integer, Set<ERoleMenu>> menuListMap = this.getRoleMenuRoleSetMap();
-        log.info("============ END角色菜单缓存初始化成功 ===========");
+        log.info("============ 【Redis服务】END角色菜单缓存初始化成功 ===========");
         return menuListMap;
     }
 
     @Override
     public Map<Integer, Set<ERoleMenu>> updateRoleMenuCache() {
-        log.info("============ START更新角色菜单缓存 ===========");
+        log.info("============ 【Redis服务】START更新角色菜单缓存 ===========");
         Map<Integer, Set<ERoleMenu>> menuListMap = this.getRoleMenuRoleSetMap();
-        log.info("============ END更新角色菜单缓存成功 ===========");
+        log.info("============ 【Redis服务】END更新角色菜单缓存成功 ===========");
         return menuListMap;
     }
 
@@ -156,7 +159,7 @@ public class MenuServiceImpl implements IMenuService {
     public Set<ERoleMenu> getUserMenuCache(User user) {
         Map<Integer, Set<ERoleMenu>> roleMenuMap = this.getRoleMenu();
         Set<ERoleMenu> menus = new HashSet<>();
-        if (roleMenuMap.size() > 0) {
+        if (MapUtils.isNotEmpty(roleMenuMap)) {
             Set<Role> roles = user.getRoles();
             for (Role role : roles) {
                 if (null != roleMenuMap.get(role.getId())) {
@@ -199,13 +202,13 @@ public class MenuServiceImpl implements IMenuService {
             //新增操作
             //判断菜单等级
             if(menu.getParentId() == null){
-                menu.setLevel(2);
+                menu.setLevel(NumberConst.INT_2);
             } else {
                 Menu dbMenu = menuMapper.selectByPrimaryKey(menu.getParentId());
                 if(dbMenu == null){
                     throw new BusinessException(EmError.FAIL);
                 }
-                menu.setLevel(dbMenu.getLevel() + 1);
+                menu.setLevel(dbMenu.getLevel() + NumberConst.INT_1);
             }
             menu.setCreateBy(userId);
             menu.setCreateTime(new Date());
@@ -216,7 +219,7 @@ public class MenuServiceImpl implements IMenuService {
             menu.setUpdateTime(new Date());
             res = menuMapper.updateByPrimaryKeySelective(menu);
         }
-        if(res <= 0){
+        if(res <= NumberConst.INT_0){
             throw new BusinessException(EmError.FAIL);
         }
         return res;

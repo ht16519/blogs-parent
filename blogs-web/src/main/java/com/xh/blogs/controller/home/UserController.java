@@ -1,7 +1,7 @@
 package com.xh.blogs.controller.home;
 
-import com.xh.blogs.api.IArticleService;
-import com.xh.blogs.api.IUserService;
+import com.xh.blogs.service.IArticleService;
+import com.xh.blogs.service.IUserService;
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.RequestUrl;
 import com.xh.blogs.consts.StringConst;

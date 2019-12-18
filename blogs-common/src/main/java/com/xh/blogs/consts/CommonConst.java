@@ -28,6 +28,10 @@ public interface CommonConst {
 
     String ATTRIBUTE_KEY_SRC = "src";
 
+    String HTML_HIGHLIGHT_PREFIX = "<em style='color:red;'>";
+
+    String HTML_HIGHLIGHT_SUFFIX = "</em>";
+
     String ARTICLE_GROUP = "groups";
 
     String RESULT_PAGE_INFO_KEY = "page";

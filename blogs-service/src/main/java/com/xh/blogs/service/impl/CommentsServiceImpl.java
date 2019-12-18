@@ -2,7 +2,7 @@ package com.xh.blogs.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.xh.blogs.api.ICommentsService;
+import com.xh.blogs.service.ICommentsService;
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.KeyConst;
 import com.xh.blogs.consts.NotifyConst;

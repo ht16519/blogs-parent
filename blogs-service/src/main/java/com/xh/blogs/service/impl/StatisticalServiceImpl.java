@@ -1,6 +1,6 @@
 package com.xh.blogs.service.impl;
 
-import com.xh.blogs.api.IStatisticalService;
+import com.xh.blogs.service.IStatisticalService;
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.dao.mapper.ArticleMapper;
 import com.xh.blogs.dao.mapper.UserMapper;

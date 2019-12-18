@@ -1,6 +1,7 @@
 package com.xh.blogs.utils;
 
 import com.xh.blogs.consts.CommonConst;
+import com.xh.blogs.consts.NumberConst;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -18,7 +19,7 @@ import java.util.regex.Pattern;
 public class CommonUtil {
 
     public static int null2Int(String s) {
-        int v = -1;
+        int v = NumberConst.INT_NEGATIVE_1;
         try {
             v = Integer.parseInt(s);
         } catch (Exception e) {
@@ -28,7 +29,7 @@ public class CommonUtil {
 
 
     public static int null2Int(Float f) {
-        return null2Int(f, -1);
+        return null2Int(f, NumberConst.INT_NEGATIVE_1);
     }
 
 
@@ -57,11 +58,11 @@ public class CommonUtil {
     }
 
     public static String getSalt() {
-        return getRAS(7);
+        return getRAS(NumberConst.INT_7);
     }
 
     public static String getRAS32() {
-        return getRAS(32);
+        return getRAS(NumberConst.INT_32);
     }
 
     /**
