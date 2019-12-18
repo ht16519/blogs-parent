@@ -3,6 +3,7 @@ package com.xh.blogs.service;
 import com.xh.blogs.domain.po.User;
 import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.exception.LoginException;
+import me.zhyd.oauth.model.AuthCallback;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 
 /**
@@ -28,9 +29,9 @@ public interface IOAuth2Service {
     * @Description 通过QQ API调用获取用户信息
     * @Author wen
     * @Date 2019/7/10
-    * @param request
+    * @param authCallback
     * @return User
     */
-    User getOAuthUserByQQAPI(HttpServletRequest request) throws BusinessException;
+    User getOAuthUserByQQAPI(AuthCallback authCallback) throws BusinessException;
 
 }

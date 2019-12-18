@@ -1,5 +1,7 @@
 package com.xh.blogs.utils;
 
+import com.xh.blogs.consts.NumberConst;
+
 import java.util.UUID;
 
 /**
@@ -19,9 +21,9 @@ public class StringUtil {
     * @return java.lang.String
     */
     public static String getUUID16() {
-        int machineId = 1;//最大支持1-9个集群机器部署
+        int machineId = NumberConst.INT_1;//最大支持1-9个集群机器部署
         int hashCodeV = UUID.randomUUID().toString().hashCode();
-        if (hashCodeV < 0) {//有可能是负数
+        if (hashCodeV < NumberConst.INT_0) {//有可能是负数
             hashCodeV = -hashCodeV;
         }
         // 0 代表前面补充0

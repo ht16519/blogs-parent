@@ -22,11 +22,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.sdk4j</groupId>
-            <artifactId>sdk4j</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
@@ -70,6 +65,11 @@
             <version>${blogs.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>me.zhyd.oauth</groupId>
+            <artifactId>JustAuth</artifactId>
+            <version>1.13.1</version>
+        </dependency>
     </dependencies>
 
     <build>

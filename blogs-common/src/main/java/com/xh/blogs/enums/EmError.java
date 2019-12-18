@@ -46,6 +46,7 @@ public enum EmError implements CommomError {
     USER_DOES_NOT_ASSOCIATE(20018, "用户未关联系统"),
     OAUTH_TOKEN_NOT_EXIST(20019, "授权TOKEN不存在或已失效"),
     OAUTH_DO_AUTHENTICATIONINFO_IS_FAIL(20020, "用户认证失败"),
+    REPEAT_BIND_USERNMAE(20021, "您已绑定账号，如需更改账号，请联系管理员"),
 
     //300开头为文件相关错误
     FILE_WRITE_ERROR(30001, "文件上传失败"),

@@ -1,14 +1,14 @@
 package com.xh.blogs.controller.home;
 
-import com.xh.blogs.service.IOAuth2Service;
-import com.xh.blogs.service.IUserService;
 import com.xh.blogs.consts.*;
 import com.xh.blogs.controller.base.BaseController;
 import com.xh.blogs.domain.po.User;
 import com.xh.blogs.enums.EmError;
 import com.xh.blogs.enums.OAuthEnum;
+import com.xh.blogs.service.IOAuth2Service;
 import com.xh.blogs.utils.ShiroUtil;
 import lombok.extern.slf4j.Slf4j;
+import me.zhyd.oauth.model.AuthCallback;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +26,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Slf4j
 public class OAuth2Controller extends BaseController{
 
-    @Autowired
-    private IUserService userService;
     @Autowired
     private IOAuth2Service oauth2Service;
 
@@ -50,13 +48,13 @@ public class OAuth2Controller extends BaseController{
      * @Description qq登录回调
      * @Author wen
      * @Date 2019/7/10
-     * @param request
+     * @param authCallback
      * @return java.lang.String
      */
     @GetMapping("/login/qq/callback")
-    public String qqLoginCallBack(HttpServletRequest request, ModelMap model) {
+    public String qqLoginCallBack(AuthCallback authCallback, ModelMap model) {
         //1.通过QQAPI获取用户账号
-        User user = oauth2Service.getOAuthUserByQQAPI(request);
+        User user = oauth2Service.getOAuthUserByQQAPI(authCallback);
         if(user == null){
             super.getModelMap(EmError.OAUTH_DO_AUTHENTICATIONINFO_IS_FAIL, model);
             return ViewUrl.LOGIN;
@@ -64,7 +62,7 @@ public class OAuth2Controller extends BaseController{
         //1.已关联，直接登录，检验登录信息
         ShiroUtil.checkLogin(user.getUserName(), ConfigConst.DEFAULT_DEFAULT_PASSWORD, CommonConst.DEFALUT_REMEMBER_VALUE);
         //2.设置用户是否可以绑定账号
-        ShiroUtil.sessionSetValue(KeyConst.BIND_ACCOUNT_KEY, StringUtils.isEmpty(user.getPassword()) ? OAuthEnum.QQ.getCode() : 0);
+        ShiroUtil.sessionSetValue(KeyConst.BIND_ACCOUNT_KEY, StringUtils.isEmpty(user.getPassword()) ? OAuthEnum.QQ.getCode() : NumberConst.INT_0);
         //TODO 3.登录记录生成
         return RequestUrl.REDIRECT_HOME;
     }

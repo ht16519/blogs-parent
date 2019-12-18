@@ -43,18 +43,11 @@
         <shiro.correlation.version>1.4.0</shiro.correlation.version>
         <kaptcha.version>2.3.2</kaptcha.version>
         <shiro.freemarker.tags.version>1.0.0</shiro.freemarker.tags.version>
-        <sdk4j.version>1.0</sdk4j.version>
     </properties>
 
     <dependencyManagement>
 
         <dependencies>
-
-            <dependency>
-                <groupId>com.sdk4j</groupId>
-                <artifactId>sdk4j</artifactId>
-                <version>${sdk4j.version}</version>
-            </dependency>
 
             <!-- https://mvnrepository.com/artifact/com.github.penggle/kaptcha -->
             <dependency>

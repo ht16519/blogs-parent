@@ -1,12 +1,5 @@
 package com.xh.blogs.service.impl;
 
-import com.qq.connect.QQConnectException;
-import com.qq.connect.api.OpenID;
-import com.qq.connect.api.qzone.UserInfo;
-import com.qq.connect.javabeans.AccessToken;
-import com.qq.connect.javabeans.qzone.UserInfoBean;
-import com.qq.connect.oauth.Oauth;
-import com.xh.blogs.service.IOAuth2Service;
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.KeyConst;
 import com.xh.blogs.consts.NotifyConst;
@@ -17,20 +10,23 @@ import com.xh.blogs.domain.po.User;
 import com.xh.blogs.enums.EmError;
 import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.exception.LoginException;
+import com.xh.blogs.service.IOAuth2Service;
 import com.xh.blogs.utils.CommonUtil;
-import com.xh.blogs.utils.MD5Util;
+import com.xh.blogs.utils.JsonUtil;
 import com.xh.blogs.utils.NotifyUtil;
 import com.xh.blogs.utils.StringUtil;
 import lombok.extern.slf4j.Slf4j;
+import me.zhyd.oauth.model.AuthCallback;
+import me.zhyd.oauth.model.AuthResponse;
+import me.zhyd.oauth.model.AuthUser;
+import me.zhyd.oauth.request.AuthRequest;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -44,7 +40,7 @@ import java.util.Map;
 public class OAuth2ServiceImpl implements IOAuth2Service {
 
     @Autowired
-    private Oauth oauth;
+    private AuthRequest authQqRequest;
     @Autowired
     private UserMapper userMapper;
     @Autowired
@@ -52,76 +48,52 @@ public class OAuth2ServiceImpl implements IOAuth2Service {
 
     @Override
     public String getQQAuthorizeUrl(HttpServletRequest request) throws LoginException {
-        try {
-            return oauth.getAuthorizeURL(request);
-        } catch (QQConnectException e) {
-            throw new LoginException(EmError.GET_QQ_CONNECT_ERROR);
-        }
+        return authQqRequest.authorize();
     }
 
     @Override
     @Transactional
-    public User getOAuthUserByQQAPI(HttpServletRequest request) throws BusinessException {
-        try {
-            //1.获取accessTkoen
-            AccessToken accessToken = oauth.getAccessTokenByRequest(request);
-            if (accessToken == null) {
-                throw new BusinessException(EmError.GET_QQ_ACCESS_TOKEN_FAIL);
-            }
-            String accessTokenStr = accessToken.getAccessToken();
-            //2.获取openID
-            OpenID openID = new OpenID(accessTokenStr);
-            if (openID == null) {
-                throw new BusinessException(EmError.GET_QQ_CONNECT_ERROR);
-            }
-            String qqOpenId = openID.getUserOpenID();
-            if (StringUtils.isEmpty(qqOpenId)) {
-                throw new BusinessException(EmError.GET_QQ_ACCESS_TOKEN_FAIL);
-            }
-            //3.查看本地数据是否有对应用户openID
-            Map<String, String> openIdMap = new HashMap<>();
-            openIdMap.put(KeyConst.QQ_OPEN_ID_KEY, qqOpenId);
-            User user = userMapper.selectUserInfoByOpenId(openIdMap);
-            //本地数据库没有该用户信息
-            if (user == null) {
-                return this.saveQQUserBaseInfoToLocalDB(accessTokenStr, qqOpenId);
-            }
-            return user;
-        } catch (QQConnectException e) {
-            throw new BusinessException(EmError.GET_QQ_CONNECT_ERROR);
+    public User getOAuthUserByQQAPI(AuthCallback authCallback) throws BusinessException {
+        //1.QQ授权
+        AuthResponse<AuthUser> response = authQqRequest.login(authCallback);
+        log.info("【QQ授权】授权返回信息：{}", JsonUtil.serialize(response));
+        if (response == null || !response.ok()) {
+            throw new BusinessException(EmError.GET_QQ_ACCESS_TOKEN_FAIL);
         }
+        AuthUser data = response.getData();
+        if (data == null) {
+            throw new BusinessException(EmError.GET_QQ_ACCESS_TOKEN_FAIL);
+        }
+        //2.通过返回的openid查看本地数据是否有对应用户openID
+        Map<String, String> openIdMap = new HashMap<>();
+        openIdMap.put(KeyConst.QQ_OPEN_ID_KEY, data.getToken().getOpenId());
+        User user = userMapper.selectUserInfoByOpenId(openIdMap);
+        //3.本地数据库没有该用户信息，保存用户信息到本地数据库
+        if (user == null) {
+            return this.saveQQUserBaseInfoToLocalDB(data);
+        }
+        return user;
     }
 
     /**
-     * @param accessTokenStr
-     * @param qqOpenId
+     * @param data
      * @return User
      * @Name saveQQUserBaseInfoToLocalDB
      * @Description 设置QQ用户基本信息到本地User实体
      * @Author wen
      * @Date 2019/7/10
      */
-    private User saveQQUserBaseInfoToLocalDB(String accessTokenStr, String qqOpenId) throws BusinessException, QQConnectException {
-        //1.获取QQ用户基本信息
-        UserInfo qzoneUserInfo = new UserInfo(accessTokenStr, qqOpenId);
-        if (qzoneUserInfo == null) {
-            throw new BusinessException(EmError.GET_QQ_ACCESS_TOKEN_FAIL);
-        }
-        UserInfoBean userInfoBean = qzoneUserInfo.getUserInfo();
-        //2-1.昵称查重并处理
-        String nickname = userInfoBean.getNickname();
-        this.checkAndHandleNickName(nickname);
-        //2-2.存入本地数据库
+    private User saveQQUserBaseInfoToLocalDB(AuthUser data) throws BusinessException {
+        //1.保存QQ用户基本信息
         User user = new User();
-        user.setNickName(nickname);
-        user.setAvatar(userInfoBean.getAvatar().getAvatarURL100());
-        user.setSex(userInfoBean.getGender().equals(CommonConst.BLOGS_SEX_MAN) ? 1 : 0);
-        user.setQqOpenId(qqOpenId);
-        String uuid16 = StringUtil.getUUID16();
-        user.setUserName(uuid16);      //生成16位的账号
+        user.setNickName(this.checkAndHandleNickName(data.getNickname()));  //昵称查重并保存
+        user.setAvatar(data.getAvatar());
+        user.setSex(data.getGender().getCode());
+        user.setQqOpenId(data.getToken().getOpenId());
+        user.setUserName(StringUtil.getUUID16());      //生成16位的账号
         user.setPassword(CommonConst.EMPTY_STRING);
         user.setCreateTime(new Date());
-        if(userMapper.insertSelective(user) > 0 ){
+        if (userMapper.insertSelective(user) > 0) {
             //3.发送认证成功站内信
             NotifyUtil.sendNotify(notifyMapper, NotifyConst.EVENT_REGISTERED_SUCCESSFULLY2, SystemConst.SYSTEM_ID, user.getId());
             return user;
@@ -130,22 +102,22 @@ public class OAuth2ServiceImpl implements IOAuth2Service {
     }
 
     /**
-    * @Name checkAndHandleNickName
-    * @Description 昵称查重并处理
-    * @Author wen
-    * @Date 2019/7/19
-    * @param nickname
-    * @return
-    */
-    private void checkAndHandleNickName(String nickname) {
+     * @param nickname
+     * @return
+     * @Name checkAndHandleNickName
+     * @Description 昵称查重并处理
+     * @Author wen
+     * @Date 2019/7/19
+     */
+    private String checkAndHandleNickName(String nickname) {
         User user = new User();
         user.setNickName(nickname);
         //昵称重复
-        List<User> list = userMapper.select(user);
-        if(list.size() > 0){
-            //TODO 可根据需求生成昵称
-            nickname += CommonUtil.getSalt();
+        if (userMapper.select(user).size() > 0) {
+            //可根据需求生成昵称
+            return nickname + CommonUtil.getSalt();
         }
+        return nickname;
     }
 
 

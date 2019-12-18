@@ -219,7 +219,7 @@ public class UserServiceImpl implements IUserService {
     public void checkIsAccess(String userName) throws BusinessException{
         String password = userMapper.selectPasswordByUsername(userName);
         if(StringUtils.isNotEmpty(password)){
-            throw new BusinessException(EmError.USER_UNAUTHORIZED);
+            throw new BusinessException(EmError.REPEAT_BIND_USERNMAE);
         }
     }
 
