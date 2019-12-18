@@ -5,9 +5,13 @@
 <div class="panel panel-default stacked">
 	<div class="panel-heading">
 		<ul class="nav nav-pills account-tab">
-			<li class="active"><a href="basic">基本信息</a></li>
-			<li><a href="avatar">修改头像</a></li>
-			<li><a href="password">修改密码</a></li>
+			<li class="active"><a href="${base}/home/account/basic">基本信息</a></li>
+			<#if (bindAccount > 0)>
+			<li><a href="${base}/home/account/bind">绑定账号</a></li>
+			<#else>
+			<li><a href="${base}/home/account/password">修改密码</a></li>
+			</#if>
+            <li><a href="${base}/home/account/avatar">修改头像</a></li>
 		</ul>
 	</div>
 	<div class="panel-body">
@@ -35,12 +39,12 @@
 						<span class="form-control">${profile.email}</span>
 					</div>
 					<div class="col-lg-3" style="padding-top: 6px;">
-						<#if (profile.activeEmail == 1)>
+						<#if (profile.activeEmail == 10)>
 							<span class="label label-success">已验证</span>
 						<#else>
 							<span class="label label-warning">未验证</span>
 						</#if>
-						<a href="email">修改邮箱</a>
+						<a href="${base}/home/account/email">修改邮箱</a>
 					</div>
 				</div>
 				<div class="form-group">

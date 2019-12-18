@@ -7,6 +7,7 @@
 				<h2>文章管理</h2>
                 <ul class="nav navbar-right panel_toolbox">
 					<#--<@shiro.hasPermission name="posts:edit">-->
+                    <li><a href="#" onclick="resetIndex();">重建索引</a></li>
                     <li><a href="javascrit:void(0);" data-action="batch_del">批量删除</a></li>
 					<#--</@shiro.hasPermission>-->
                 </ul>
@@ -84,6 +85,34 @@
 </div>
 
 <script type="text/javascript">
+    function resetIndex(){
+        if(confirm('您确定要重建索引吗？此过程可能会花费许多时间！')){
+            loading("索引生成中，请稍等...");
+            jQuery.ajax({
+                url: '${base}/admin/article/es/reset.json',
+                data: {},
+                type :  "POST",
+                cache : false,
+                async: true,
+                dataType:'json',
+                error : function() {
+                    layer.closeAll();
+                    layer.msg('索引生成失败，请联系开发人员！', {icon: 2});
+                },
+                success: function(ret){
+                    layer.closeAll();
+                    if(ret){
+                        if (ret.code == 0) {
+                            layer.msg(ret.msg, {icon: 1});
+                        } else {
+                            layer.msg(ret.msg, {icon: 5});
+                        }
+                    }
+                }
+            });
+        }
+    }
+
 var J = jQuery;
 
 function ajaxReload(json){
@@ -105,7 +134,17 @@ function doUpdateFeatured(id, featured) {
     J.getJSON('${base}/admin/posts/featured', J.param({'id': id, 'featured': featured}, true), ajaxReload);
 }
 
+//加载层
+function loading(msg){
+    layer.msg(msg, {
+        icon:16,
+        shade:[0.1, '#333'],
+        time: false  //取消自动关闭
+    })
+}
+
 $(function() {
+
 	// 删除
     $('#dataGrid a[rel="delete"]').bind('click', function(){
         var that = $(this);

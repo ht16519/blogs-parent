@@ -1,14 +1,18 @@
 <#include "/default/utils/layout.ftl"/>
-<@ui_simple "修改用户信息">
+<@ui_simple "邮箱验证">
 
 <script type="text/javascript" src="/static/assets/vendors/validate/jquery-validate.js"></script>
 
 <div class="panel panel-default stacked">
 	<div class="panel-heading">
 		<ul class="nav nav-pills account-tab">
-			<li class="active"><a href="profile">基本信息</a></li>
-			<li><a href="avatar">修改头像</a></li>
-			<li><a href="password">修改密码</a></li>
+			<li class="active"><a href="${base}/home/account/basic">基本信息</a></li>
+			<#if (bindAccount > 0)>
+			<li><a href="${base}/home/account/bind">绑定账号</a></li>
+            <#else>
+			<li><a href="${base}/home/account/password">修改密码</a></li>
+            </#if>
+            <li><a href="${base}/home/account/avatar">修改头像</a></li>
 		</ul>
 	</div>
 	<div class="panel-body">
@@ -16,14 +20,27 @@
 			<#include "/default/inc/action_message.ftl"/>
 		</div>
 		<div class="tab-pane active" id="profile">
-			<form id="pf" action="email" method="post" class="form-horizontal">
+			<form id="pf" action="${base}/home/account/email" method="post" class="form-horizontal">
 				<div class="form-group">
-					<label class="control-label col-lg-3" for="email">修改邮箱地址</label>
+					<label class="control-label col-lg-3" for="email">邮箱地址</label>
 					<div class="col-lg-4">
-						<input type="text" class="form-control" name="email" value="${profile.email}" maxlength="64" data-required data-conditional="email" data-description="email" data-describedby="message">
-						<p class="help-block">修改后将会重新发送验证邮件.</p>
+						<input type="text" class="form-control" id="email" name="email"
+                               value="<#if (inputEmail?default("")?trim?length gt 1)>${inputEmail}<#else>${profile.email}</#if>"
+                               maxlength="20" data-required data-conditional="email" data-description="email" data-describedby="message">
+					</div>
+                    <div class="col-lg-2">
+                        <button type="button" class="btn btn-primary" onclick="getCodeDialog();">获取激活码</button>
 					</div>
 				</div>
+                <div class="form-group">
+                    <label class="control-label col-lg-3" for="email">邮箱激活码</label>
+                    <div class="col-lg-4">
+                        <input type="text" class="form-control" name="verifyCode" value="${verifyCode}" maxlength="6" data-required data-description="number">
+                    </div>
+                    <div >
+                    	<p class="help-block">获取激活码，提交完成邮箱验证</p>
+					</div>
+                </div>
 				<div class="form-group">
 					<div class="text-center">
 						<button type="submit" class="btn btn-primary">提交</button>
@@ -34,7 +51,82 @@
 	</div><!-- /panel-content -->
 </div><!-- /panel -->
 
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" id="emailCodeModalDialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">获取激活码</h3>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-striped" id="emailCodeTable">
+                    <tr>
+                        <td><img id="emailCodeImage" alt="验证码" title="点击刷新" onclick="refreshCode()" src="${base}/article/codeImage.jpg" /></td>
+                        <td><input id="emailSecurityCode" style="height: 40px;" class="form-control border" placeholder="请输入验证码" type="text" data-required></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" data-dismiss="modal" onclick="getEmailCode()">获取</button>
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
+
+    function getCodeDialog() {
+        var email = $('#email').val();
+        if(email == ''){
+            layer.msg('请输入邮箱地址！', {icon: 5});
+            return;
+        }
+        $('#emailSecurityCode').val('');
+        refreshCode();
+        $('#myModal').modal();
+    }
+
+    function refreshCode() {
+        $('#emailCodeImage').attr('src', '${base}/article/codeImage.jpg');
+    }
+
+    //加载层
+    function loading(msg){
+        layer.msg(msg, {
+            icon:16,
+            shade:[0.1, '#333'],
+            time: false  //取消自动关闭
+        })
+    }
+
+    function getEmailCode() {
+        var email = $('#email').val();
+        var code = $('#emailSecurityCode').val();
+        // loading("邮件发送中，请稍等...");
+        jQuery.ajax({
+            url: '${base}/home/account/email/send.json',
+            data: {'email': email, 'code': code},
+            type :  "POST",
+            cache : false,
+            async: true,
+            dataType:'json',
+            error : function() {
+                layer.closeAll();
+                layer.msg('发送邮件失败，请检查邮箱是否正确！', {icon: 2});
+            },
+            success: function(ret){
+                if(ret){
+                    if (ret.code == 0) {
+                        alert("邮件已发送至您的邮箱，请注意查收，如长时间未收到邮件，请联系管理员！");
+                    } else {
+                        layer.msg(ret.msg, {icon: 5});
+                    }
+                }
+            }
+        });
+    }
+
 $(function () {
 	$('#pf').validate({
         onKeyup : true,

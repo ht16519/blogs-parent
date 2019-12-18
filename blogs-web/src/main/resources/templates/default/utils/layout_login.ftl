@@ -4,9 +4,9 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>${title} - ${site_name}</title>
-    <meta name="keywords" content="mtons,$!{site_keywords}">
-    <meta name="description" content="$!{site_description}">
+    <title>${title}</title>
+    <meta name="keywords" content="${site_keywords}">
+    <meta name="description" content="${site_description}">
     <!-- v3 -->
     <link rel="stylesheet" href="/static/assets/vendors/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/assets/css/login.css">
@@ -20,15 +20,15 @@
 
     <!-- Favicons -->
     <link rel="apple-touch-icon-precomposed" href="/static/assets/images/logo/m99.png"/>
-    <link rel="shortcut icon" href="/static/assets/images/logo/m.png"/>
+    <link href="http://www.itcloud.top/static/assets/images/logo/logo90.ico" rel="icon" type="image/x-icon" />
 
 </head>
 <body class="sign">
     <#nested>
 
-    <p class="small">
-    ${site_copyright} <a href="http://www.miitbeian.gov.cn/" target="_blank">${site_icp}
-    </p>
+    <#--<p class="small">-->
+    <#--${site_copyright} <a href="http://www.miitbeian.gov.cn/" target="_blank">${site_icp}-->
+    <#--</p>-->
 
     <script type="text/javascript">
         //<!CDATA[

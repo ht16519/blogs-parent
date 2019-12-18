@@ -7,14 +7,14 @@
     -->
 
     <a href="${base}/index">
-        <img src="/static/assets/images/logo/m90.png" height="72" width="72">
+        <img src="/static/assets/images/logo/logo90.jpg" height="72" width="72">
     </a>
     <h1>${site_welcomes}</h1>
     <hr>
     <form action="login" method="post">
         <div id="message">
             <#if msg??>
-            <div class="alert alert-danger">${msg}</div>
+                <div class="alert alert-danger">${msg}</div>
             </#if>
         </div>
         <label for="id_email">登录名:</label>
@@ -25,34 +25,42 @@
         <div id="id_password">
             <input name="password" class="form-control border" placeholder="密码" type="password" data-required>
         </div>
+        <label for="id_code">验证码:</label>
+        <div class="form-group" id="security-code-div">
+            <div class="col-lg-5 append">
+                <img id="codeImage" alt="验证码" title="点击刷新" onclick="refreshCode()" src="${base}/article/codeImage.jpg" />
+            </div>
+            <div class="col-lg-7 append2" id="securityCode" class="securityCode">
+                <input name="securityCode" class="form-control border" placeholder="请输入验证码" type="text" data-required>
+            </div>
+        </div>
         <div class="checkbox">
             <label>
                 <input type="checkbox" name="rememberMe" value="1"> 记住登录？
             </label>
         </div>
-
         <div style="margin-top: 15px;">
             <input type="submit" class="btn btn-success border" value="登录 Use it">
-
             <div class="forgot">
-                <a href="${base}/register">
-                    注册
-                </a>
-                <a href="${base}/forgot/apply">
-                    忘记密码
-                </a>
+                <a href="${base}/register">注册</a>
+                <a href="${base}/forgot/apply">忘记密码</a>
             </div>
         </div>
     </form>
     <div class="with-line">使用第三方帐号登录</div>
     <div class="buttons">
-        <a href="${base}/oauth/callback/call_weibo" title="微博帐号登录" rel="nofollow" class="weibo"></a>
-        <a href="${base}/oauth/callback/call_qq" title="QQ帐号登录" rel="nofollow" class="qzone"></a>
-        <a href="${base}/oauth/callback/call_douban" title="豆瓣帐号登录" rel="nofollow" class="douban"></a>
+        <#--<a href="${base}/qq/authorize" title="微博帐号登录" rel="nofollow" class="weibo"></a>-->
+        <a href="${base}/login/qq/authorize" title="QQ帐号登录" rel="nofollow" class="qzone"></a>
+        <#--<a href="#" title="微信帐号登录" rel="nofollow" class="wechar"></a>-->
     </div>
 </div>
 
 <script type="text/javascript">
+
+    function refreshCode(){
+        $('#codeImage').attr('src', '${base}/article/codeImage.jpg');
+    }
+
     $(function () {
         $('form').validate({
             onKeyup: true,

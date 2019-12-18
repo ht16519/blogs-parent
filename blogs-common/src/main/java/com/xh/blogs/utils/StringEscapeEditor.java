@@ -8,6 +8,7 @@ import java.beans.PropertyEditorSupport;
  */
 @Slf4j
 public class StringEscapeEditor extends PropertyEditorSupport {
+
     private boolean escapeHTML;// 编码HTML
     private boolean escapeJavaScript;// 编码JavaScript
 

@@ -24,8 +24,8 @@ ${site_metas}
 <script type="text/javascript" src="/static/assets/js/sea.config.js"></script>
 
 <!-- Favicons -->
-<link rel="apple-touch-icon-precomposed" href="http://mtons.com/dist/images/logo.png"/>
-<link rel="shortcut icon" href="http://mtons.com/dist/images/logo.png"/>
+<link rel="apple-touch-icon-precomposed" href="/static/assets/images/logo/logo90.jpg"/>
+<link href="http://www.itcloud.top/static/assets/images/logo/logo90.ico" rel="icon" type="image/x-icon" />
 
 <script type="text/javascript">
     var _base_path = '$!{base}';

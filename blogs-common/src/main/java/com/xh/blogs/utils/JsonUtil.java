@@ -25,7 +25,6 @@ public class JsonUtil {
 
     public static final ObjectMapper mapper = new ObjectMapper();
 
-
     /**
     * @Name serialize
     * @Description 序列化对象（转json）
@@ -122,6 +121,7 @@ public class JsonUtil {
         }
     }
 
+    //============================测试使用========
 
     @Data
     @AllArgsConstructor

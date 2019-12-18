@@ -9,7 +9,7 @@ import com.xh.blogs.error.CommomError;
  * @Date 2018-03-21 
  * @author deng.wenqin
  */
-public class BusinessException extends Exception implements CommomError {
+public class BusinessException extends RuntimeException implements CommomError {
 
 	private static final long serialVersionUID = 1L;
 	

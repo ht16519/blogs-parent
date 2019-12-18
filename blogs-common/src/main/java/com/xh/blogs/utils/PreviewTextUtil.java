@@ -56,7 +56,7 @@ public class PreviewTextUtil {
         return image == null ? null : image.attr(CommonConst.ATTRIBUTE_KEY_SRC);
     }
 
-    public static void main(String[] args) {
-        System.out.println(PreviewTextUtil.getText("<script>alert</script>test  ", 5));
-    }
+//    public static void main(String[] args) {
+//        System.out.println(PreviewTextUtil.getText("<script>alert</script>test  ", 5));
+//    }
 }

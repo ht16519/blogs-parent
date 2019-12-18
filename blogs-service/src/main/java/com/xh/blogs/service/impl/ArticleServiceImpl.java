@@ -4,10 +4,11 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.xh.blogs.api.IArticleService;
 import com.xh.blogs.consts.CommonConst;
-import com.xh.blogs.consts.ConfigConst;
+import com.xh.blogs.consts.KeyConst;
 import com.xh.blogs.dao.mapper.ArticleAccessoryMapper;
 import com.xh.blogs.dao.mapper.ArticleContentMapper;
 import com.xh.blogs.dao.mapper.ArticleMapper;
+import com.xh.blogs.dao.mapper.UserMapper;
 import com.xh.blogs.domain.po.Article;
 import com.xh.blogs.domain.po.ArticleAccessory;
 import com.xh.blogs.domain.po.ArticleContent;
@@ -15,10 +16,7 @@ import com.xh.blogs.domain.vo.ArticleVo;
 import com.xh.blogs.domain.vo.PageResult;
 import com.xh.blogs.enums.EmError;
 import com.xh.blogs.exception.BusinessException;
-import com.xh.blogs.utils.ArticleUtil;
-import com.xh.blogs.utils.BeanValidator;
-import com.xh.blogs.utils.PageUtil;
-import com.xh.blogs.utils.PreviewTextUtil;
+import com.xh.blogs.utils.*;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -26,6 +24,9 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -43,14 +44,20 @@ import java.util.*;
  */
 @Service
 @Slf4j
-public class ArticleServiceImpl implements IArticleService {
+public class ArticleServiceImpl extends BaseServiceImpl implements IArticleService {
 
+    @Autowired
+    private UserMapper userMapper;
     @Autowired
     private ArticleMapper articleMapper;
     @Autowired
     private ArticleContentMapper articleContentMapper;
     @Autowired
     private ArticleAccessoryMapper articleAccessoryMapper;
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+    @Value("${blogs.cutOutArticleSummaryIndex}")
+    private int cutOutArticleSummaryIndex;
 
     @Override
     public PageResult<Article> getInfoWithPage(int sort, int number) {
@@ -65,34 +72,16 @@ public class ArticleServiceImpl implements IArticleService {
         return this.getCommonWithPage(CommonConst.ARTICLE_ORDER_NEWSET, number, parameters);
     }
 
-    /**
-    * @Name getCommonWithPage
-    * @Description 获取公共的
-    * @Author wen
-    * @Date 2019/4/27
-    * @param sort
-    * @param number
-    * @param parameters
-    * @return com.xh.blogs.domain.vo.PageResult<com.xh.blogs.domain.po.Article>
-    */
-    private PageResult<Article> getCommonWithPage(int sort, int number, Map<String, Object> parameters) {
-        parameters.put(CommonConst.STATUS_KEY, CommonConst.EFFECTIVE_STATUS);
-        parameters.put(CommonConst.ORDER_BY_KEY, sort);
-        Page<Article> page = PageHelper.startPage(number, CommonConst.PAGE_SIZE);
-        articleMapper.selectInfoWithPage(parameters);
-        return PageUtil.create(page, ArticleUtil.getArticles(page.getResult()));
-    }
-
     @Override
     @Transactional
-    public int addArticle(ArticleVo articleVo) throws BusinessException {
+    public Article addArticle(ArticleVo articleVo) throws BusinessException {
         //1.参数校验
         BeanValidator.check(articleVo);
         //2.保存文章基本信息
         Article article = new Article();
         BeanUtils.copyProperties(articleVo, article);
         String voContent = articleVo.getContent();
-        article.setSummary(PreviewTextUtil.getText(voContent, ConfigConst.CUT_OUT_ARTICLE_SUMMARY_INDEX));
+        article.setSummary(PreviewTextUtil.getText(voContent, cutOutArticleSummaryIndex));
         article.setCreateTime(new Date());
         int res = articleMapper.insertSelective(article);
         //3.保存文章内容信息
@@ -100,18 +89,17 @@ public class ArticleServiceImpl implements IArticleService {
         ArticleContent content = new ArticleContent();
         content.setContent(doc.html());
         content.setId(article.getId());
-        if(res > 0){
-            res = articleContentMapper.insertSelective(content);
-            if(res > 0){
-                //4.保存文章附件信息
-                List<ArticleAccessory> articleAccessories = this.extractImages(doc, article.getId());
-                if(articleAccessories.size() > 0){
-                    res = articleAccessoryMapper.insertList(articleAccessories);
-                }
+        if (res > 0) {
+            articleContentMapper.insertSelective(content);
+            //4.用户发布文章数 +1
+            userMapper.updatePostsById(article.getAuthorId());
+            //5.保存文章附件信息
+            List<ArticleAccessory> articleAccessories = this.extractImages(doc, article.getId());
+            if (articleAccessories.size() > 0) {
+                articleAccessoryMapper.insertList(articleAccessories);
             }
         }
-        //TODO 文章信息加入图片数和最后一张图片id
-        return res;
+        return articleMapper.selectByPrimaryKey(article.getId());
     }
 
     @Override
@@ -123,7 +111,7 @@ public class ArticleServiceImpl implements IArticleService {
     }
 
     @Override
-    public Article getById(int id){
+    public Article getById(int id) {
         return articleMapper.selectById(id);
     }
 
@@ -134,19 +122,20 @@ public class ArticleServiceImpl implements IArticleService {
 
     @Override
     public PageResult<Article> getByConditionWithPage(String title, Integer number) {
-        if(number == null){
+        if (number == null) {
             number = 1;
         }
         Map<String, Object> parameters = new HashMap<>();
         parameters.put(CommonConst.ARTICLE_TITLE_KEY, title);
         parameters.put(CommonConst.STATUS_KEY, CommonConst.EFFECTIVE_STATUS);
         parameters.put(CommonConst.ORDER_BY_KEY, CommonConst.ARTICLE_ORDER_NEWSET);
-        Page<Article> page = PageHelper.startPage(number, CommonConst.PAGE_SIZE);
+        Page<Article> page = PageHelper.startPage(number, pageSize);
         articleMapper.selectInfoWithPage(parameters);
         return PageUtil.create(page);
     }
 
     @Override
+    @Transactional
     public int removeById(int id, int userId) throws BusinessException {
         //1.校验文章属性
         this.checkArticleInfo(id, userId);
@@ -155,16 +144,18 @@ public class ArticleServiceImpl implements IArticleService {
         article.setStatus(CommonConst.INVALID_STATUS);
         article.setId(id);
         int res = articleMapper.updateByPrimaryKeySelective(article);
-        if(res > 0){
+        if (res > 0) {
             //3.逻辑删除文章所属图片
-            res = articleAccessoryMapper.removeByArticleId(id);
+            articleAccessoryMapper.removeByArticleId(id);
         }
+        //用户文章发布数 -1
+        userMapper.reducePosts(userId);
         return res;
     }
 
     @Override
     @Transactional
-    public int updateArticleById(ArticleVo articleVo) throws BusinessException {
+    public Article updateArticleById(ArticleVo articleVo) throws BusinessException {
         //1.校验数据
         BeanValidator.check(articleVo);
         //2.校验文章属性
@@ -173,60 +164,117 @@ public class ArticleServiceImpl implements IArticleService {
         Article article = new Article();
         BeanUtils.copyProperties(articleVo, article);
         String voContent = articleVo.getContent();
-        article.setSummary(PreviewTextUtil.getText(voContent, ConfigConst.CUT_OUT_ARTICLE_SUMMARY_INDEX));
+        article.setSummary(PreviewTextUtil.getText(voContent, cutOutArticleSummaryIndex));
         article.setUpdateTime(new Date());
         int res = articleMapper.updateByPrimaryKeySelective(article);
-        if(res > 0){
+        if (res > 0) {
             //4.保存文章内容信息
             Document doc = Jsoup.parse(voContent);
             ArticleContent content = new ArticleContent();
             content.setContent(doc.html());
             content.setId(article.getId());
             res = articleContentMapper.updateByPrimaryKeySelective(content);
-            if(res > 0){
+            if (res > 0) {
                 //6.物理删除修改前的文章图片
                 articleAccessoryMapper.deleteOldAccessorysByArticleId(article.getId());
                 //5.获取文章附件信息
                 List<ArticleAccessory> articleAccessories = this.extractImages(doc, article.getId());
-                if(articleAccessories.size() > 0){
+                if (articleAccessories.size() > 0) {
                     //7.新增当前图片
                     res = articleAccessoryMapper.insertList(articleAccessories);
                 }
             }
         }
-        return res;
+        return articleMapper.selectByPrimaryKey(article.getId());
+    }
+
+    @Override
+    public PageResult<Article> getInfoByTagWithPage(String tagName, int number) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put(KeyConst.ARTICLE_TAG_KEY, tagName);
+        return this.getCommonWithPage(CommonConst.ARTICLE_ORDER_NEWSET, number, parameters);
+    }
+
+    @Override
+    public PageResult<Article> getInfoByGroupWithPage(int groupId, int number) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put(KeyConst.ARTICLE_GROUP_PARAMETER_KEY, groupId);
+        return this.getCommonWithPage(CommonConst.ARTICLE_ORDER_NEWSET, number, parameters);
+    }
+
+    @Override
+    public void addViews(int id, String ip) {
+        ValueOperations<String, String> ops = redisTemplate.opsForValue();
+        //文章缓存id
+        String key = KeyConst.ARTICLE_VIEWS_REDIS_KEY_PREFIX + id;
+        Map<String, Integer> cacheMap;
+        String cache = ops.get(key);
+        if (cache == null) {
+            cacheMap = new HashMap<>();
+            //浏览量 +1
+            cacheMap.put(ip, 1);
+            ops.set(key, JsonUtil.serialize(cacheMap));
+            articleMapper.addViews(id);
+        } else {
+            //判断用户是否浏览过文章
+            cacheMap = JsonUtil.parseMap(cache, String.class, Integer.class);
+            if (cacheMap.get(ip) == null) {
+                //浏览量 +1
+                cacheMap.put(ip, 1);
+                ops.set(key, JsonUtil.serialize(cacheMap));
+                articleMapper.addViews(id);
+            }
+        }
     }
 
     /**
-    * @Name checkArticleInfo
-    * @Description 1.校验文章是否存在 2.判断是否是自己的文章
-    * @Author wen
-    * @Date 2019/5/7
-    * @param id
-    * @param userId
-    * @return void
-    */
+     * @param sort
+     * @param number
+     * @param parameters
+     * @return com.xh.blogs.domain.vo.PageResult<com.xh.blogs.domain.po.Article>
+     * @Name getCommonWithPage
+     * @Description 获取公共的
+     * @Author wen
+     * @Date 2019/4/27
+     */
+    private PageResult<Article> getCommonWithPage(int sort, int number, Map<String, Object> parameters) {
+        parameters.put(CommonConst.STATUS_KEY, CommonConst.EFFECTIVE_STATUS);
+        parameters.put(CommonConst.ORDER_BY_KEY, sort);
+        Page<Article> page = PageHelper.startPage(number, pageSize);
+        articleMapper.selectInfoWithPage(parameters);
+        return PageUtil.create(page, ArticleUtil.getArticles(page.getResult()));
+    }
+
+    /**
+     * @param id
+     * @param userId
+     * @return void
+     * @Name checkArticleInfo
+     * @Description 1.校验文章是否存在 2.判断是否是自己的文章
+     * @Author wen
+     * @Date 2019/5/7
+     */
     private void checkArticleInfo(int id, int userId) throws BusinessException {
         //1.判断文章是否存在
         Article dbArticle = articleMapper.selectByPrimaryKey(id);
-        if(dbArticle == null){
+        if (dbArticle == null) {
             throw new BusinessException(EmError.ARTICLE_IS_NOT_EXIST);
         }
         //2.判断是否是自己的文章
-        if(!dbArticle.getAuthorId().equals(userId)){
+        if (!dbArticle.getAuthorId().equals(userId)) {
             throw new BusinessException(EmError.CANT_HANDLE_OTHER);
         }
     }
 
 
     /**
-    * @Name extractImages
-    * @Description 提取图片信息
-    * @Author wen
-    * @Date 2019/4/24
-    * @param html
-    * @return List<ArticleAccessory>
-    */
+     * @param html
+     * @return List<ArticleAccessory>
+     * @Name extractImages
+     * @Description 提取图片信息
+     * @Author wen
+     * @Date 2019/4/24
+     */
     private List<ArticleAccessory> extractImages(Document html, Integer aricleId) {
         List<ArticleAccessory> rets = new ArrayList<>();
         Elements elements = html.select(CommonConst.CSS_QUERY_IMG);
@@ -243,12 +291,6 @@ public class ArticleServiceImpl implements IArticleService {
             accessory.setToId(aricleId);
             //TODO 暂时写
             accessory.setStore(CommonConst.ARTICLE_STORE_NETWORK);
-            //判断是否网络图片
-//            if (imageUrl.startsWith(CommonConst.THE_HTTP_PREFIX)) {
-//                accessory.setStore(CommonConst.ARTICLE_STORE_NETWORK);
-//            }else {
-//                accessory.setStore(CommonConst.ARTICLE_STORE_LOCAL);
-//            }
             rets.add(accessory);
         }
         return rets;

@@ -3,7 +3,6 @@ package com.xh.blogs.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.xh.blogs.api.IFavorsService;
-import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.NotifyConst;
 import com.xh.blogs.dao.mapper.ArticleMapper;
 import com.xh.blogs.dao.mapper.FavorsMapper;
@@ -13,6 +12,7 @@ import com.xh.blogs.domain.po.Favors;
 import com.xh.blogs.domain.po.Notify;
 import com.xh.blogs.domain.vo.PageResult;
 import com.xh.blogs.utils.ArticleUtil;
+import com.xh.blogs.utils.NotifyUtil;
 import com.xh.blogs.utils.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * @Name FavorsServiceImpl
@@ -29,7 +28,7 @@ import java.util.List;
  * @Date 2019-04-25
  */
 @Service
-public class FavorsServiceImpl implements IFavorsService {
+public class FavorsServiceImpl extends BaseServiceImpl implements IFavorsService {
 
     @Autowired
     private ArticleMapper articleMapper;
@@ -56,7 +55,8 @@ public class FavorsServiceImpl implements IFavorsService {
                 notify.setEvent(NotifyConst.EVENT_FAVORS);
                 notify.setFromId(ownId);
                 notify.setToId(userId);
-                res = notifyMapper.insertSelective(notify);
+                notify.setArticleId(articleId);
+                notifyMapper.insertSelective(notify);
             }
             return res;
         } catch (DataIntegrityViolationException e) {
@@ -66,7 +66,7 @@ public class FavorsServiceImpl implements IFavorsService {
 
     @Override
     public PageResult<Article> getByUserIdWithPage(int userId, int number) {
-        Page<Article> page = PageHelper.startPage(number, CommonConst.PAGE_SIZE);
+        Page<Article> page = PageHelper.startPage(number, pageSize);
         favorsMapper.selectByUserIdWithPage(userId);
         return PageUtil.create(page, ArticleUtil.getArticles(page.getResult()));
     }

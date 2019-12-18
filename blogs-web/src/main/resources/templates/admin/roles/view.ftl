@@ -31,9 +31,8 @@
 
     };
     $(document).ready(function(){
-        jQuery.ajax({url:"${base}/admin/authMenus/tree?roleId=${role.id}",success:function(data){
-            $.fn.zTree.init($("#treeDemo"), setting, data);
-            console.log(data);
+        jQuery.ajax({url:"${base}/admin/menu/tree/${data.id}",success:function(res){
+            $.fn.zTree.init($("#treeDemo"), setting, res.data);
         },dataType:"json"});
 
         $("button").click(function(){
@@ -62,15 +61,21 @@
             <div class="x_content">
                 <br>
                 <#include "/admin/message.ftl">
-                <form id="qForm" class="form-horizontal form-label-left" method="post" action="save">
-                    <#if role?? && (role.id > 0)>
-                        <input type="hidden" name="id" value="${role.id}" />
+                <form id="qForm" class="form-horizontal form-label-left" method="post" action="${base}/admin/role/save">
+                    <#if data?? && (data.id > 0)>
+                        <input type="hidden" name="id" value="${data.id}" />
                     </#if>
 
                     <div class="form-group">
                         <label for="name" class="col-lg-2 control-label">角色名称：</label>
                         <div class="col-lg-3">
-                            <input type="text" class="form-control" placeholder="请输入角色名称" name="name" value="${role.name}">
+                            <input type="text" class="form-control" placeholder="请输入角色名称" name="name" value="${data.name}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="col-lg-2 control-label">角色备注：</label>
+                        <div class="col-lg-3">
+                            <input type="text" class="form-control" placeholder="请输入角色备注" name="remark" value="${data.remark}">
                         </div>
                     </div>
                     <div class="form-group">

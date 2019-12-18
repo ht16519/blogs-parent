@@ -6,10 +6,10 @@
             <div class="x_title">
                 <h2>菜单管理</h2>
                 <ul class="nav navbar-right panel_toolbox">
-                    <@shiro.hasPermission name="authMenus:edit">
-                        <li><a href="${base}/admin/authMenus/view">添加菜单</a>
+                    <#--<@shiro.hasPermission name="sys:menus:edit">-->
+                        <li><a href="${base}/admin/menu/view/-1">添加菜单</a>
                         </li>
-                    </@shiro.hasPermission>
+                    <#--</@shiro.hasPermission>-->
                 </ul>
                 <div class="clearfix"></div>
             </div>
@@ -20,11 +20,11 @@
                         <th>URL</th>
                         <th>权限</th>
                         <th>顺序</th>
-                        <@shiro.hasPermission name="authMenus:edit">
+                        <#--<@shiro.hasPermission name="sys:menus:edit">-->
                             <th width="300">操作</th>
-                        </@shiro.hasPermission>
+                        <#--</@shiro.hasPermission>-->
                     </tr>
-                    <#list list as row>
+                    <#list data as row>
                         <#if (row.parentId > 0)>
                         <tr id="${row.id}" pId="${row.parentId}">
                         <#else>
@@ -34,25 +34,25 @@
                         <td>${row.url}</td>
                         <td>${row.permission}</td>
                         <td>${row.sort}</td>
-                        <@shiro.hasPermission name="authMenus:edit">
+                        <#--<@shiro.hasPermission name="sys:menus:edit">-->
                             <td class="text-center">
                                 <#if (row.id > 1)>
-                                <a href="${base}/admin/authMenus/view?id=${row.id}" class="btn btn-xs btn-primary">
+                                <a href="${base}/admin/menu/view/${row.id}" class="btn btn-xs btn-primary">
                                     <i class="fa fa-check-square-o"></i> 修改
                                 </a>
                                 </#if>
 
-                                <a href="${base}/admin/authMenus/view?parentId=${row.id}"
+                                <a href="${base}/admin/menu/create/${row.id}"
                                    class="btn btn-xs btn-primary">
                                     <i class="fa fa-check-square-o"></i> 添加下级菜单
                                 </a>
 
                                 <#if (row.id > 1)>
-                                <a href="${base}/admin/authMenus/delete?id=${row.id}" class="btn btn-xs btn-default"><i
+                                <a href="${base}/admin/menu/delete/${row.id}" class="btn btn-xs btn-default"><i
                                         class="fa fa-check-square-o"></i> 删除</a>
                                 </#if>
                             </td>
-                        </@shiro.hasPermission>
+                        <#--</@shiro.hasPermission>-->
                     </tr>
                     </#list>
                 </table>

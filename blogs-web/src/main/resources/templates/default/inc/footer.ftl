@@ -1,41 +1,50 @@
-<footer>
+<#--<style type="text/css">-->
+    <#--html {-->
+        <#--position: relative;-->
+        <#--min-height: 100%;-->
+    <#--}-->
+    <#--body {-->
+        <#--margin-bottom: 60px;-->
+    <#--}-->
+    <#--.footer1 {-->
+        <#--position: absolute;-->
+        <#--bottom: 0;  width: 100%;-->
+        <#--/* Set the fixed height of the footer here */-->
+        <#--height: 60px;-->
+        <#--background-color: red;-->
+    <#--}-->
+<#--</style>-->
+<footer class="footer1">
 	<div class="footer-nav">
 		<div class="container">
 			<ul class="about-ul list-inline clearfix">
-				<li><a href="${base}/about">关于我们</a></li>
-				<li><a href="${base}/joinus">联系我们</a></li>
-				<li><a href="${base}/faqs">常见问题</a></li>
-                <li>
-                    <script>
-                        var _hmt = _hmt || [];
-                        (function() {
-                            var hm = document.createElement("script");
-                            hm.src = "//hm.baidu.com/hm.js?a029e6c6dddf427f4cbfb2b00d7d5311";
-                            var s = document.getElementsByTagName("script")[0];
-                            s.parentNode.insertBefore(hm, s);
-                        })();
-                    </script>
-				</li>
+                <#list footerTops as tag>
+                    <li><a href="${base}/affiche/${tag.id}" target="_blank" >${tag.name}</a></li>
+                </#list>
 			</ul>
 		</div>
 	</div>
-	<div class="container mode-link">
+	<div class="container mode-link bg-color">
         <h3 class="t-h3">友情链接</h3>
         <ul class="list-inline">
-            <li><a href="http://www.mtons.com" target="_blank" title="Mtons社区">Mtons社区</a></li>
-            <#list friendLinks as row>
-                <li>
-                    <a href="${link.url}" target="_blank" title="${link.remark}">${link.siteName}</a>
-                </li>
+            <#--<li><a href="http://mtons.com/?copyright" target="_blank" title="Mtons社区">参考Mtons社区</a></li>-->
+            <#--<li><a href="https://github.com/ht16519/blogs-parent" target="_blank" title="source code">Source Code</a></li>-->
+            <#list friendLinksCache as row>
+                <li><a href="${row.url}" target="_blank" title="${row.remark}">${row.siteName}</a></li>
             </#list>
         </ul>
     </div>
-	<div class="container copy-right">
-		<span>${site_copyright} <a
-			href="http://www.miitbeian.gov.cn/" target="_blank">${site_icp}</a>
-		</span>
-		<span class="pull-right">Powered By <a href="http://mtons.com/?copyright" target="_blank">Mtons</a></span>
-	</div>
+
+	<#--<div class="container copy-right">-->
+        <#--<span class="pull-right">Powered By <a href="https://github.com/ht16519" target="_blank">烛火流风</a> V1.0</span>-->
+        <#--<span class="pull-right"><a href="${base}/affiche/3">免责申明</a>&nbsp;&nbsp;|&nbsp;&nbsp;</span>-->
+	<#--</div>-->
+
+    <div class="container copy-right text-center">
+        <span class="center-block">${site_powered_by}&nbsp;&nbsp;|&nbsp;&nbsp;<a href="${base}/affiche/3">免责申明</a></span>
+        <span class="center-block">${site_copyright}</span>
+        <span class="center-block">${site_icp}</span>
+    </div>
 
 </footer>
 

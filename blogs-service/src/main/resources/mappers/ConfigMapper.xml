@@ -9,5 +9,15 @@
     <result column="key" property="key" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="INTEGER" />
     <result column="value" property="value" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
+
+  <select id="selectByStatus" resultType="com.xh.blogs.domain.po.Config">
+      SELECT
+          *
+      FROM
+          t_config
+      WHERE
+          `status` = #{status}
+  </select>
 </mapper>

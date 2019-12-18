@@ -19,9 +19,17 @@
     <result column="tags" property="tags" jdbcType="VARCHAR" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="views" property="views" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
+
+
+  <update id="addViews" parameterType="java.lang.Integer" >
+        UPDATE t_article
+        SET views = views + 1
+        WHERE id = #{id}
+  </update>
 
   <update id="addComments" parameterType="java.lang.Integer" >
         UPDATE t_article
@@ -49,6 +57,24 @@
         WHERE id = #{articleId}
   </update>
 
+  <select id="selectAll2EsArticle" resultType="com.xh.blogs.domain.es.EsArticle">
+        SELECT
+            a.id,
+            a.featured,
+            a.summary,
+            a.tags,
+            a.belong_group,
+            a.comments,
+            a.favors,
+            a.type,
+            a.title,
+            a.create_time
+        FROM
+            t_article a
+        WHERE
+            a.`status` = 10
+  </select>
+
   <select id="selectByUserId" resultType="com.xh.blogs.domain.po.Article">
       <include refid="selectByIdCommon"/>
       AND a.author_id = #{userId}
@@ -57,6 +83,7 @@
           <sql id="selectByIdCommon">
               <include refid="commonField"/>
               u.comments "user.comments",
+              u.favors "user.favors",
               u.posts "user.posts",
               u.fans "user.fans",
               act.content "editor"
@@ -78,8 +105,10 @@
       <where>
           <if test="status != null and status != ''"> a.`status` = #{status} </if>
           <if test="userId != null and userId != ''"> AND u.id = #{userId} </if>
+          <if test="groupId != null and groupId != ''"> AND a.belong_group = #{groupId} </if>
           <if test="sort == 10"> AND a.featured = 10 </if>
           <if test="title != null and title != ''"> AND a.title LIKE CONCAT('%', #{title}, '%') </if>
+          <if test="tagName != null and tagName != ''"> AND a.tags LIKE CONCAT('%', #{tagName}, '%') </if>
       </where>
       GROUP BY a.id
       <if test="sort == 20"> ORDER BY (a.favors + FLOOR(a.views / 3)) DESC </if>
@@ -122,6 +151,7 @@
             a.favors,
             a.belong_group,
             a.images,
+            a.type,
             a.last_image_id,
             a.summary,
             a.tags,

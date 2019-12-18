@@ -22,7 +22,7 @@
 				</div>
 			</div>
 			<div class="summary">
-				<h2 class="title"><a href="${base}/article/${row.id}">${row.title}</a></h2>
+				<h2 class="title"><a href="${base}/article/details/${row.id}">${row.title}</a></h2>
 				<div class="excerpt wordbreak hidden-xs">${row.summary} &nbsp;</div>
 
 				<!--前端图片显示样式-->
@@ -45,12 +45,12 @@
 
 				<div class="foot-block clearfix">
 					<div class="author">
-						<#--TODO 加上时间<time>${timeAgo(row.createTime)}</time>-->
+                        <time><@timeline_dt row.createTime/></time>
 					</div>
 					<ul class="tags">
 						<#list row.tagsArray as tag>
 						<li>
-							<a class="tag tag-sm" href="${base}/tag/${tag}">${tag}</a>
+							<a class="tag tag-sm" href="${base}/article/${tag}/1">${tag}</a>
 						</li>
 						</#list>
 					</ul>

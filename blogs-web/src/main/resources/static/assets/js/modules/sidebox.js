@@ -103,6 +103,25 @@ define(function(require, exports, module) {
 					}
 				} );
 			}
+
+            if (opts.hotTagsUrl) {
+                J.ajax( {
+                    url: opts.hotTagsUrl,
+                    cache : true,
+                    success: function (ret) {
+                        $('#cloud-content').empty();
+                        if(ret.code == 0){
+                            var data = ret.data;
+                            if(data && data.length > 0){
+                                jQuery.each(data, function (i, n) {
+                                    var item = opts.onLoadHotTags.call(that, i, n);
+                                    $('#cloud-content').append(item);
+                                });
+                            }
+                        }
+                    }
+                } );
+            }
 			
         }
     };

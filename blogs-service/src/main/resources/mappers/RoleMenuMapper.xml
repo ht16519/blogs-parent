@@ -9,4 +9,8 @@
     <result column="menu_id" property="menuId" jdbcType="INTEGER" />
   </resultMap>
 
+  <delete id="batchDeleteByRoleId">
+      DELETE FROM t_role_menu WHERE role_id = #{roleId}
+  </delete>
+
 </mapper>

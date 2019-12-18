@@ -1,6 +1,8 @@
 package com.xh.blogs.controller.manager;
 
 import com.xh.blogs.consts.ViewUrl;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminController {
 
     @GetMapping({"", "/index"})
+    @RequiresPermissions("sys:admin")
     public String index(ModelMap model) {
         this.pushSystemStatus(model);
         return ViewUrl.ADMIN_INDEX;

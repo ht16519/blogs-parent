@@ -8,6 +8,10 @@ package com.xh.blogs.consts;
  */
 public interface CommonConst {
 
+    String EMPTY_STRING = "";
+
+    String BLOGS_SEX_MAN = "男";
+
     String ARTICLE_TITLE_KEY = "title";
 
     String DATA_RESULT_KEY = "data";
@@ -36,8 +40,6 @@ public interface CommonConst {
 
     String PAGE_NUMBER_KEY = "pn";
 
-    int PAGE_SIZE = 3;
-
     String USER_ID_KEY = "userId";
 
     String STATUS_KEY = "status";
@@ -45,8 +47,6 @@ public interface CommonConst {
     int EFFECTIVE_STATUS = 10;
 
     int INVALID_STATUS = -10;
-
-    String COMMON_REDIS_KEY_PREFIX = "redisKey:";
 
     String SYSTEM_PROFILE = "profile";
 
@@ -70,5 +70,18 @@ public interface CommonConst {
     String SEPARATOR_SEMICOLON = ";";
 
     String SEPARATOR_POINT = ".";
+
+    long DEFAULT_REDIS_KEY_DURATION = 30 * 60;
+
+    String REQUEST_LIMIT_PREFIX = "request_limit:";
+
+    char UNDERLINE = '_';
+
+    String HORIZONTAL_LINE = "-";
+
+    char THE_COLON = ':';
+
+    /** 默认登录记住我的值**/
+    int DEFALUT_REMEMBER_VALUE = 0;
 
 }

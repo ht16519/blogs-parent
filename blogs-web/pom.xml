@@ -11,7 +11,7 @@
 
     <groupId>com.xh.blogs</groupId>
     <artifactId>blogs-web</artifactId>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>blogs-web</name>
 
     <dependencies>
@@ -28,8 +28,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-freemarker</artifactId>
+            <groupId>com.github.penggle</groupId>
+            <artifactId>kaptcha</artifactId>
         </dependency>
 
         <!-- shiro支持 -->
@@ -42,6 +42,10 @@
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-spring</artifactId>
         </dependency>
+        <dependency>
+            <groupId>net.mingsoft</groupId>
+            <artifactId>shiro-freemarker-tags</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>com.xh.blogs</groupId>
@@ -49,10 +53,30 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
+        <!-- AspectJ支持 -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+        </dependency>
     </dependencies>
+
+    <!--<build>-->
+        <!--<finalName>blogs-web</finalName>-->
+    <!--</build>-->
 
     <build>
         <finalName>blogs-web</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
 
 </project>

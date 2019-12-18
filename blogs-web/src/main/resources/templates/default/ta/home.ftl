@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>${user.nickName} 的Mtons</title>
+    <title>个人空间</title>
 	<#include "/default/inc/include.ftl"/>
 </head>
 <body>
@@ -56,7 +56,7 @@
 										</div>
 									</div>
 									<div class="summary">
-										<h2 class="title"><a href="${base}/article/${row.id}">${row.title}</a></h2>
+										<h2 class="title"><a href="${base}/article/details/${row.id}">${row.title}</a></h2>
 
 										<div class="excerpt wordbreak hidden-xs">${row.summary} &nbsp;</div>
 
@@ -77,12 +77,12 @@
 
 										<div class="foot-block clearfix">
 											<div class="author">
-												<#--<time>${timeAgo(row.created)}</time>-->
+                                                <time><@timeline_dt row.createTime/></time>
 											</div>
 											<ul class="tags">
 												<#list row.tagsArray as tag>
 												<li>
-													<a class="tag tag-sm" href="${base}/tag/${tag}/">${tag}</a>
+													<a class="tag tag-sm" href="${base}/article/${tag}/1">${tag}</a>
 												</li>
 												</#list>
 											</ul>

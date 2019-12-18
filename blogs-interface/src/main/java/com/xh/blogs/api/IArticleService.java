@@ -6,6 +6,8 @@ import com.xh.blogs.domain.vo.ArticleVo;
 import com.xh.blogs.domain.vo.PageResult;
 import com.xh.blogs.exception.BusinessException;
 
+import java.util.List;
+
 
 /**
  * @Name IUserService
@@ -41,9 +43,9 @@ public interface IArticleService {
     * @Author wen
     * @Date 2019/4/24
     * @param articleVo
-    * @return int
+    * @return Article
     */
-    int addArticle(ArticleVo articleVo) throws BusinessException;
+    Article addArticle(ArticleVo articleVo) throws BusinessException;
 
     /**
     * @Name getById
@@ -103,7 +105,39 @@ public interface IArticleService {
     * @Author wen
     * @Date 2019/5/8
     * @param articleVo
-    * @return int
+    * @return Article
     */
-    int updateArticleById(ArticleVo articleVo) throws BusinessException;
+    Article updateArticleById(ArticleVo articleVo) throws BusinessException;
+
+    /**
+    * @Name getInfoByTagWithPage
+    * @Description 通过标签获取文章
+    * @Author wen
+    * @Date 2019/5/29
+    * @param name
+    * @param number
+    * @return PageResult<Article>
+    */
+    PageResult<Article> getInfoByTagWithPage(String name, int number);
+
+    /**
+    * @Name getInfoByGroupWithPage
+    * @Description 查询文章by group
+    * @Author wen
+    * @Date 2019/5/31
+    * @param tagName
+    * @param pageNumber
+    * @return com.xh.blogs.domain.vo.PageResult<com.xh.blogs.domain.po.Article>
+    */
+    PageResult<Article> getInfoByGroupWithPage(int tagName, int pageNumber);
+
+    /**
+    * @Name addViews
+    * @Description 增加浏览量
+    * @Author wen
+    * @Date 2019/5/29
+    * @param id
+    * @return
+    */
+    void addViews(int id, String ip);
 }

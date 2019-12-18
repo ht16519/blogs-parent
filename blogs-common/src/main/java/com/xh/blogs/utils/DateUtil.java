@@ -11,8 +11,6 @@ import java.util.Date;
  */
 public class DateUtil {
 
-	public static Date CURRENT_DATE = new Date();
-
 	private static final String DATE_PATTERN = "yyyyMMddHHmmssSSS";
 
 	/**
@@ -23,8 +21,12 @@ public class DateUtil {
 	 * @return
 	 */
 	public static String getDateStr() {
+		return getDateStr(new Date());
+	}
+
+	public static String getDateStr(Date date) {
 		SimpleDateFormat sdf = new SimpleDateFormat(DATE_PATTERN);
-		return sdf.format(new Date()).toString();
+		return sdf.format(date).toString();
 	}
 	
 	/**
@@ -38,5 +40,7 @@ public class DateUtil {
 		 Long nanoTime = System.nanoTime();
 		 return nanoTime.toString();
 	}
-	
+
+
+
 }

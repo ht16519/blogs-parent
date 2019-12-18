@@ -24,8 +24,8 @@ img { height: auto; max-width: 100%;}
 }
 
 /*热门用户样式 */
-.hotusers { overflow: hidden; float: left; padding: 2px;}
-.hotusers > li { float: left; border-radius: 2px; display: inline-block; width: 53px; margin: 2.4px;}
+.hotusers { overflow: hidden; float: left; padding: 5px;}
+.hotusers > li { border-radius: 2px; display: inline-block; width: 57px; margin: 3px;}
 
 .write-btn {
     float: right;
@@ -37,6 +37,14 @@ img { height: auto; max-width: 100%;}
     font-size: 15px;
     color: #fff;
     background-color: #ea6f5a;
+}
+
+#emailCodeModalDialog{
+	width: 330px;
+}
+
+#emailCodeTable{
+	margin-bottom: 1px;
 }
 
 /* common */
@@ -99,6 +107,10 @@ ul,li,h1,h2,h3,p,ol { padding: 0; margin: 0; list-style: none; }
 label {font-weight: normal;}
 .label-violet {background-color: #A576F7;}
 .label-danger {background-color: #F56864;}
+.label-cream {background-color: #428BCA;}
+.label-source {background-color: #1CBA11;}
+.label-not-source {background-color: #A576F7;}
+.label-hot {background-color: #F56864;}
 
 .form-control {border-radius: 2px; box-shadow: none!important; -webkit-box-shadow: none!important; border: 1px solid #eee;}
 .btn {padding: 6px 18px; border-radius: 2px;}
@@ -206,6 +218,7 @@ background-color: #ea6f5a;}
 	box-shadow: 0px 1px 1px rgba(209, 212, 221, 0.15);
 	border-radius: 0;
 }
+
 .no-bg {background-color: transparent;}
 
 .filter {border-bottom: 1px solid #ebebeb; height:50px;}
@@ -277,7 +290,8 @@ background-color: #ea6f5a;}
 .p-rank { margin-bottom: 10px; }
 .p-rank  .users{}
 .p-rank  .users .ava { width: 40px; height: 35px; float: left; }
-.p-rank  .users .info { float: left; padding-left: 12px; padding-top:12px;}
+.p-rank  .users .info { float: left; padding-left: 12px; }
+/*.p-rank  .users .info { float: left; padding-left: 12px; padding-top:12px;}*/
 .p-rank  .users .info strong { margin-bottom: 2px; font-size:14px;}
 .p-rank  .users .info time { color: #888; font-size:13px;}
 .p-rank  .counts {float: right; font-size: 14px; color: #888; margin-top:15px;}
@@ -347,8 +361,32 @@ background-color: #ea6f5a;}
 .widget-box .box-list li span { display: inline-block; margin-right: 5px; font-size: 14px; color: #999; line-height: 30px; }
 .widget-box .box-list li span.last { float: left; width: 24px; margin-right: 6px; }
 .widget-box .box-list li span.last i { background-color: #7f8c8d; border-radius: 50%; font-style: normal; height: 20px; padding: 2px 6px; line-height: 20px; margin: 5px auto; color: #fff; }
-.widget-box .box-list li span.name {width: 135px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+.widget-box .box-list li span.name {width: 180px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
 .widget-box .box-list li span.nums { float: right; text-align: right; max-width: 33px; height:30px; margin-right: 0; color: #333; display:block; overflow: hidden;}
+
+/*tags*/
+.cloud div { clear: both; overflow: hidden; background: #fff; margin-bottom: 10px; width: 90%; margin-left:15px; margin-top: 5px; }
+.cloud div { overflow: hidden; font-size: 12px }
+.cloud div a { line-height: 24px; display: block; background: #999; float: left; padding: 0px 11px; margin: 10px 5px 0 0; transition: all 0.5s; color: #FFF }
+.cloud div a:nth-child(8n-15) { background: #8A9B0F }
+.cloud div a:nth-child(8n-14) { background: #EB6841 }
+.cloud div a:nth-child(8n-13) { background: #3FB8AF }
+.cloud div a:nth-child(8n-12) { background: #FE4365 }
+.cloud div a:nth-child(8n-11) { background: #8A9B0F }
+.cloud div a:nth-child(8n-10) { background: #EB6841 }
+.cloud div a:nth-child(8n-9) { background: #3FB8AF }
+.cloud div a:nth-child(8n-8) { background: #FE4365 }
+.cloud div a:nth-child(8n-7) { background: #8A9B0F }
+.cloud div a:nth-child(8n-6) { background: #EB6841 }
+.cloud div a:nth-child(8n-5) { background: #3FB8AF }
+.cloud div a:nth-child(8n-4) { background: #FE4365 }
+.cloud div a:nth-child(8n-3) { background: #FC9D9A }
+.cloud div a:nth-child(8n-2) { background: #EDC951 }
+.cloud div a:nth-child(8n-1) { background: #3FB8AF }
+.cloud div a:nth-child(8n) { background: #83AF9B }
+.cloud div a:first-child { background: #036564 }
+.cloud div a:last-child { background: #3299BB }
+.cloud div a:hover { border-radius: 8px; text-shadow: #000 1px 1px 1px }
 
 .box-list li:nth-child(1) span.last i{background-color: #e71f19;}
 .box-list li:nth-child(2) span.last i{background-color: #e76b19;}
@@ -372,8 +410,8 @@ background-color: #ea6f5a;}
 .about-user .nk { font-size:16px;}
 
 .about-user .user-datas ul{ height: 50px; overflow: hidden; margin: 0; }
-.about-user .user-datas ul li { float: left; width: 102px; height: 50px; text-align: center; border-right: 1px solid #e8e8e8; }
-.about-user .user-datas ul li strong { height: 26px; line-height: 26px; font-size: 26px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: normal; display: block; margin-bottom: 5px; }
+.about-user .user-datas ul li { float: left; width: 61px; height: 50px; text-align: center; border-right: 1px solid #e8e8e8; }
+.about-user .user-datas ul li strong { height: 26px; line-height: 26px; font-size: 20px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: normal; display: block; margin-bottom: 5px; }
 .about-user .user-datas ul li span { font-size: 12px; color: #999; }
 
 .user-nav { margin-bottom: 15px;}

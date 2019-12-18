@@ -1,5 +1,5 @@
 <#include "/default/utils/layout.ftl"/>
-<@ui_ltr group.name>
+<@ui_ltr>
 
 <@contents group=group.id>
 <div class="shadow-box">

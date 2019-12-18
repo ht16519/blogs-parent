@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -47,7 +47,7 @@ public class Article implements Serializable{
     private String editor;
 
     /**
-     * 粉丝数量
+     * 收藏数量
      */
     private Integer favors;
 
@@ -91,6 +91,9 @@ public class Article implements Serializable{
      * 浏览量
      */
     private Integer views;
+
+    /** 文章类型（1，0：是，否）*/
+    private Integer type;
 
     @Column(name = "create_time")
     private Date createTime;

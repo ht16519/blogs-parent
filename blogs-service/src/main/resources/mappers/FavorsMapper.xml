@@ -22,6 +22,7 @@
             a.views,
             a.title,
             a.tags,
+            a.type,
             a.summary,
             u.id "user.id",
             u.nick_name "user.nickName",

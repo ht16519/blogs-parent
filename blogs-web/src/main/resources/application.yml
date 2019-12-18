@@ -1,8 +1,13 @@
 server:
   port: 8888
   tomcat:
-    uri-encoding: UTF-8
+    uriEncoding: UTF-8
+    maxHttpHeaderSize: 8192
 spring:
+  data:
+    elasticsearch:
+      cluster-name: elasticsearch-blogs
+      cluster-nodes: 127.0.0.1:9300
   application:
     name: the_blogs
   http:
@@ -15,19 +20,31 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/db_blogs?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT
     username: root
     password: 123456
+    type: com.alibaba.druid.pool.DruidDataSource
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    filters: stat,wall,logback
+    maxPoolPreparedStatementPerConnectionSize: 20
+    useGlobalDataSourceStat: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
   freemarker:
     suffix: .ftl
     template-loader-path: classpath:/templates/
-    cache: false
+    cache: true
     settings:
       classic_compatible: true
       template_update_delay: 0
       datetime_format: yyyy-MM-dd HH:mm
       number_format: 0.##
-  resources:
-      static-locations: classpath:/static/
-  mvc:
-      static-path-pattern: /static/**
 mybatis:
   mapper-locations: classpath:mappers/*Mapper.xml
   type-aliases-package: com.xh.blogs.domain.po
@@ -36,16 +53,12 @@ mybatis:
     callSettersOnNulls: true
 mapper:
   mappers: com.xh.blogs.dao.base.IBaseMapper
-  not-empty: false
+  notEmpty: false
   identity: MYSQL
 pagehelper:
-    helper-dialect: mysql
+    helperDialect: mysql
     reasonable: true
     supportMethodsArguments: true
     params: count=countSql
-logging:
-  level:
-    com.xh.blogs.dao.mapper: debug
-fileUpload:
-  rootSavePath: C:/accessory/
-  rootHttpPath: /accessory/
+
+

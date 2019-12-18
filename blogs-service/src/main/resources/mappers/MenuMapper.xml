@@ -7,24 +7,76 @@
     -->
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="status" property="status" jdbcType="INTEGER" />
-    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-    <result column="create_by" property="createBy" jdbcType="INTEGER" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="permission" property="permission" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
     <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="INTEGER" />
     <result column="parent_id" property="parentId" jdbcType="INTEGER" />
     <result column="parent_ids" property="parentIds" jdbcType="VARCHAR" />
-    <result column="level" property="level" jdbcType="INTEGER" />
     <result column="icon" property="icon" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="create_by" property="createBy" jdbcType="INTEGER" />
+    <result column="update_by" property="updateBy" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
 
   <select id="selectAllMenu" resultType="com.xh.blogs.domain.entity.ERoleMenu">
+    SELECT
+        m.*,
+        rm.role_id
+    FROM
+        t_menu m
+    INNER JOIN t_role_menu rm ON m.id = rm.menu_id
+    WHERE m.`status` = 10
+  </select>
+
+  <select id="checkIds" resultType="java.lang.Integer" parameterType="java.util.List">
+        SELECT
+            id
+        FROM
+            t_menu
+        WHERE id IN
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+  </select>
+
+  <select id="selectNode" resultType="com.xh.blogs.domain.entity.EMenuNode">
       SELECT
-          m.*,
-          rm.role_id
+          m.id,
+          m.`name`,
+          m.parent_id "pId"
       FROM
           t_menu m
-      INNER JOIN t_role_menu rm ON m.id = rm.menu_id
-      WHERE m.`status` = 10
   </select>
+
+  <select id="selectNodeByRoleId" resultType="com.xh.blogs.domain.entity.EMenuNode">
+      SELECT
+          m.id,
+          m.`name`,
+          m.parent_id "pId",
+          IFNULL((SELECT menu_id FROM t_role_menu WHERE role_id = #{roleId} AND menu_id = m.id), FALSE) AS "checked"
+      FROM
+          t_menu m
+  </select>
+
+  <select id="selectByRoleId" resultType="com.xh.blogs.domain.po.Menu">
+      SELECT
+          t_menu.*
+      FROM
+          t_role_menu
+      LEFT JOIN t_menu ON t_menu.id = t_role_menu.menu_id
+      WHERE t_role_menu.role_id = #{roleId}
+  </select>
+
+  <select id="selectAllMenus" resultType="com.xh.blogs.domain.entity.ERoleMenu">
+    SELECT
+        m.*
+    FROM
+        t_menu m
+    WHERE m.`status` = 10
+  </select>
+
+
 </mapper>

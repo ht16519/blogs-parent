@@ -8,19 +8,41 @@ package com.xh.blogs.consts;
  */
 public interface ViewUrl {
 
+    String ADMIN_TAGS_LIST = "/admin/tags/list";
+
+    String ADMIN_TAGS_VIEW = "/admin/tags/view";
+
     String ADMIN_GROUP_VIEW = "/admin/group/view";
 
     String ADMIN_GROUP_LIST = "/admin/group/list";
 
+    String ADMIN_LINK_LIST = "/admin/friendLink/list";
+
+    String ADMIN_LINK_EDIT = "/admin/friendLink/edit";
+
     String ADMIN_COMMENTS_LIST = "admin/comments/list";
 
-    String ADMIN_ARTICLE_LIST ="admin/posts/list";
+    String ADMIN_ARTICLE_LIST = "admin/posts/list";
 
-    String ADMIN_INDEX ="admin/index";
+    String ADMIN_INDEX = "admin/index";
+
+    String ADMIN_MENU_LIST = "admin/authMenus/list";
+
+    String ADMIN_MENU_VIEW = "admin/authMenus/view";
+
+    String ADMIN_ROLE_LIST = "admin/roles/list";
+
+    String ADMIN_ROLE_VIEW = "admin/roles/view";
 
     //==============
 
-    String DEFAULT_ERROR = "error.ftl";
+    String BLOG_OAUTH_REG = "default/oauth_reg";
+
+    String BLOG_AFFICHES = "default/about/attachs";
+
+    String DEFAULT_ERROR = "/error1";
+
+    String DEFAULT_ERROR_SUB = "/error";
 
     String ROUTE_POST_UPDATE = "default/blog/update";
 
@@ -48,6 +70,10 @@ public interface ViewUrl {
 
     String INDEX = "default/index";
 
+    String ARTICLE = "default/article";
+
+    String ARTICLE_GROUP = "default/article_group";
+
     String REGISTER_RESULT = "default/reg_result";
 
     String HOME_FEEDS = "default/home/feeds";
@@ -57,4 +83,14 @@ public interface ViewUrl {
     String ARTICLE_PUBLISH = "default/blog/post";
 
     String ARTICLE_VIEW = "default/blog/view";
+
+    String ACCOUNT_EMAIL = "default/account/email";
+
+    String ACCOUNT_OAUTH_BIND = "default/account/oauth_bind";
+
+    String ARTICLE_SEARCH = "default/search";
+
+    String ACCOUNT_ACTIVATE_EMAIL = "default/account/activate.ftl";
+
+
 }

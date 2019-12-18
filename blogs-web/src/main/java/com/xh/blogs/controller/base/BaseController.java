@@ -1,6 +1,7 @@
 package com.xh.blogs.controller.base;
 
 import com.xh.blogs.consts.CommonConst;
+import com.xh.blogs.consts.HttpConst;
 import com.xh.blogs.domain.po.User;
 import com.xh.blogs.domain.vo.AccountProfile;
 import com.xh.blogs.enums.EmError;
@@ -8,7 +9,7 @@ import com.xh.blogs.error.CommomError;
 import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.utils.ShiroUtil;
 import com.xh.blogs.utils.StringEscapeEditor;
-import org.apache.commons.lang3.StringUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -16,7 +17,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,11 +27,8 @@ import java.util.Date;
 * @Author wen
 * @Date 2019/4/23
 */
+@Slf4j
 public class BaseController {
-
-	protected static final String MESSAGE_KEY = "msg";
-
-	protected static final String CODE_KEY = "code";
 
 	protected static final String DATA_KEY = "data";
 
@@ -69,10 +66,11 @@ public class BaseController {
 		}
 	}
 
-	protected void putProfile(User user) {
+	protected AccountProfile putProfile(User user) {
 		AccountProfile profile = new AccountProfile();
 		BeanUtils.copyProperties(user, profile);
 		ShiroUtil.sessionSetValue(CommonConst.SYSTEM_PROFILE, profile);
+		return profile;
 	}
 
 	/**
@@ -83,70 +81,33 @@ public class BaseController {
 	* @return com.xh.blogs.domain.vo.AccountProfile
 	*/
 	protected AccountProfile getProfile() throws BusinessException {
-		try {
-			AccountProfile profile = (AccountProfile) ShiroUtil.sessionGetValue(CommonConst.SYSTEM_PROFILE);
-			if(profile == null){
-				throw new BusinessException(EmError.USER_NOT_LOGGED_IN);
-			}
-			return profile;
-		} catch (Exception e) {
+		AccountProfile profile = (AccountProfile) ShiroUtil.sessionGetValue(CommonConst.SYSTEM_PROFILE);
+		if(profile == null){
 			throw new BusinessException(EmError.USER_NOT_LOGGED_IN);
 		}
-	}
-
-	public String getIpAddr(HttpServletRequest request){
-		String ip = request.getHeader("X-Real-IP");
-		if (!StringUtils.isBlank(ip) && !"unknown".equalsIgnoreCase(ip)) {
-			return ip;
-		}
-		ip = request.getHeader("X-Forwarded-For");
-		if (!StringUtils.isBlank(ip) && !"unknown".equalsIgnoreCase(ip)) {
-			// 多次反向代理后会有多个IP值，第一个为真实IP。
-			int index = ip.indexOf(',');
-			if (index != -1) {
-				return ip.substring(0, index);
-			} else {
-				return ip;
-			}
-		} else {
-			return request.getRemoteAddr();
-		}
+		return profile;
 	}
 
 	protected ModelMap getModelMap(CommomError commomError, ModelMap model){
-		model.put(CODE_KEY, commomError.getErrCode());
-		model.put(MESSAGE_KEY, commomError.getErrMsg());
-		return model;
-	}
-
-	protected ModelMap getModelMap(BusinessException ex, ModelMap model){
-		model.put(CODE_KEY, ex.getErrCode());
-		model.put(MESSAGE_KEY, ex.getErrMsg());
+		model.put(HttpConst.HTTP_RESPONSE_CODE_KEY, commomError.getErrCode());
+		model.put(HttpConst.HTTP_RESPONSE_MSG_KEY, commomError.getErrMsg());
 		return model;
 	}
 
 	protected ModelMap getModelMap(ModelMap model){
-		model.put(CODE_KEY, 0);
-		model.put(MESSAGE_KEY, SUCCESSED_MESSAGE);
-		return model;
+		return this.getModelMap(SUCCESSED_MESSAGE, model);
 	}
 
 	protected ModelMap getModelMap(String msg, ModelMap model){
-		model.put(CODE_KEY, 0);
-		model.put(MESSAGE_KEY, msg);
-		return model;
+		return this.getModelMap(null, msg, model);
 	}
 
 	protected ModelMap getModelMap(Object data, String msg, ModelMap model){
-		model.put(CODE_KEY, 0);
-		model.put(MESSAGE_KEY, msg);
-		model.put(DATA_KEY, data);
-		return model;
-	}
-
-	protected ModelMap getModel(BusinessException ex, ModelMap model){
-		model.addAttribute(CODE_KEY, ex.getErrCode());
-		model.addAttribute(MESSAGE_KEY, ex.getErrMsg());
+		model.put(HttpConst.HTTP_RESPONSE_CODE_KEY, 0);
+		model.put(HttpConst.HTTP_RESPONSE_MSG_KEY, msg);
+		if(data != null){
+			model.put(DATA_KEY, data);
+		}
 		return model;
 	}
 

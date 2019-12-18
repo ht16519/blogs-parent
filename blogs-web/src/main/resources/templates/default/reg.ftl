@@ -3,7 +3,7 @@
 <@layout "注册">
 <div class="login">
     <a href="${base}/index">
-        <img src="/static/assets/images/logo/m90.png" height="72" width="72">
+        <img src="/static/assets/images/logo/logo90.jpg" height="72" width="72">
     </a>
     <h1>${site_welcomes}</h1>
     <a href="${base}/login" class="signup-link gapps"><span>已有账号, 登录</span></a>
@@ -22,7 +22,7 @@
         </div>
         <label for="id_name">邮箱:</label>
         <div id="id_name">
-            <input maxlength="16" class="form-control border" name="email" value="${post.email}" placeholder="邮箱地址" type="text" data-required data-conditional="email" data-description="email" data-describedby="message">
+            <input maxlength="20" class="form-control border" name="email" value="${post.email}" placeholder="邮箱地址" type="text" data-required data-conditional="email" data-description="email" data-describedby="message">
         </div>
         <label for="id_password">密码:</label>
         <div id="id_password">

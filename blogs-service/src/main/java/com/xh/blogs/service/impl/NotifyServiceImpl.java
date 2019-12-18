@@ -22,7 +22,7 @@ import java.util.Map;
  * @Date 2019-04-25
  */
 @Service
-public class NotifyServiceImpl implements INotifyService {
+public class NotifyServiceImpl extends BaseServiceImpl implements INotifyService {
 
     @Autowired
     private NotifyMapper notifyMapper;
@@ -47,7 +47,7 @@ public class NotifyServiceImpl implements INotifyService {
     public PageResult<Notify> getByUserIdWithPage(Integer userId, int number) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put(CommonConst.USER_ID_KEY, userId);
-        Page<Notify> page = PageHelper.startPage(number, CommonConst.PAGE_SIZE);
+        Page<Notify> page = PageHelper.startPage(number, pageSize);
         notifyMapper.selectByCondition(parameters);
         return PageUtil.create(page);
     }

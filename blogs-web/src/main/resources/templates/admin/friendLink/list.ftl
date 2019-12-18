@@ -6,10 +6,9 @@
             <div class="x_title">
                 <h2>友情链接管理</h2>
                 <ul class="nav navbar-right panel_toolbox">
-                    <@shiro.hasPermission name="friendLink:edit">
-                        <li><a href="${base}/admin/friendLink/edit">添加链接</a>
-                        </li>
-                    </@shiro.hasPermission>
+                    <#--<@shiro.hasPermission name="sys:link:edit">-->
+                        <li><a href="${base}/admin/link/edit/-1">添加链接</a></li>
+                    <#--</@shiro.hasPermission>-->
                 </ul>
                 <div class="clearfix"></div>
             </div>
@@ -22,26 +21,27 @@
                         <th>URL</th>
                         <th>描述</th>
                         <th class="col-lg-1">排序</th>
-                        <@shiro.hasPermission name="friendLink:edit">
+                        <#--<@shiro.hasPermission name="friendLink:edit">-->
                             <th width="300" class="col-lg-2">操作</th>
-                        </@shiro.hasPermission>
+                        <#--</@shiro.hasPermission>-->
                     </tr>
-                    <#list list as row>
-                        <td>${velocityCount}</td>
+                    <#list data as row>
+                        <#--<td>${velocityCount}</td>-->
+                        <td>${row.id}</td>
                         <td>${row.siteName}</td>
                         <td>${row.logo}</td>
                         <td>${row.url}</td>
                         <td>${row.remark}</td>
                         <td>${row.sort}</td>
-                        <@shiro.hasPermission name="friendLink:edit">
+                        <#--<@shiro.hasPermission name="friendLink:edit">-->
                             <td class="text-center">
-                                <a href="${base}/admin/friendLink/edit?id=${row.id}" class="btn btn-xs btn-primary">
+                                <a href="${base}/admin/link/edit/${row.id}" class="btn btn-xs btn-primary">
                                     <i class="fa fa-check-square-o"></i> 修改
                                 </a>
-                                <a href="${base}/admin/friendLink/delete?id=${row.id}" class="btn btn-xs btn-default"><i
+                                <a href="${base}/admin/link/delete/${row.id}" class="btn btn-xs btn-default"><i
                                         class="fa fa-check-square-o"></i> 删除</a>
                             </td>
-                        </@shiro.hasPermission>
+                        <#--</@shiro.hasPermission>-->
                         </tr>
                     </#list>
                 </table>

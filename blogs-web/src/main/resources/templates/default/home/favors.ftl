@@ -20,10 +20,10 @@
 							<div class="ava">
 								<@showAva row.user.avatar "img-circle"/>
 							</div>
-							<div class="info append">
+							<div class="info">
 								<strong>${row.user.nickName}</strong><br/>
                                 <time> ${row.createTime?string('yyyy-MM-dd')}</time>
-								<#--<time>${timeAgo(row.createTime)}</time>-->
+								<time><@timeline_dt row.createTime/></time>
 							</div>
 						</a>
 					</div>
@@ -33,20 +33,18 @@
 					</div>
 				</div>
 				<div class="summary">
-					<a href="${base}/article/${row.id}">
+					<a href="${base}/article/details/${row.id}">
 						<div class="title"><@showGroup row/><h2><strong>${row.title}</strong></h2></div>
 						<div class="excerpt wordbreak hidden-xs">${row.summary}</div>
 					</a>
 					<!--前端图片显示样式-->
-					<#if row.article.albums??>
+					<#if row.albums??>
 						<!--Start-->
 						<div class="thumbs clearfix">
 							<#list row.albums as alb>
 								<#if (alb_index <= 3)>
 									<div class="media col-xs-4 col-sm-4 col-md-4">
-										<#--<a title="${row.title}" href="${"/static" + alb.original}">-->
 										<@albShow2 row alb/>
-										<#--</a>-->
 									</div>
 								</#if>
 							</#list>
@@ -56,9 +54,10 @@
 
 					<div class="foot-block clearfix">
 						<ul class="tags">
+                            <span class="act">浏览 (<i>${row.views}</i>)</span>
 							<#list row.tagsArray as tag>
 								<li>
-									<a class="tag tag-sm" href="${base}/tag/${tag}/">${tag}</a>
+									<a class="tag tag-sm" href="${base}/article/${tag}/1">${tag}</a>
 								</li>
 							</#list>
 						</ul>
@@ -72,13 +71,11 @@
 			</#if>
 		</div>
 		</#list>
-
 		<#if page.items?size == 0>
             <div class="stream-item">
                 <i class="fa fa-info-circle fa-lg"></i> 您还没收藏过文章!
             </div>
 		</#if>
-
 	</div>
 </div>
 <div class="text-center clr">

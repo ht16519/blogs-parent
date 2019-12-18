@@ -40,7 +40,7 @@
         <div class="col-md-3 left_col">
             <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
-                    <a href="${base}/index" class="site_title"><span>Mtons</span></a>
+                    <a href="${base}/index" class="site_title"><span>IT云博客</span></a>
                 </div>
 
                 <div class="clearfix"></div>
@@ -54,7 +54,9 @@
                         <ul class="nav side-menu">
                             <li><a href="${base}/admin"><i class="fa fa-home"></i> Home</a></li>
                             <#list userMenus as menu>
-                                <li><a href="${base}/${menu.url}" nav="${menu.seq}"><i class="${menu.icon}"></i>${menu.name}</a></li>
+                                <#if (menu.parentId == 2)>
+                                <li><a href="${base}/${menu.url}" nav="${menu.sort}"><i class="${menu.icon}"></i>${menu.name}</a></li>
+                                </#if>
                             </#list>
                         </ul>
                     </div>
@@ -100,7 +102,7 @@
         <!-- footer content -->
         <footer>
             <div class="pull-right">
-                Mblog - Powered By <a href="http://mtons.com/?copyright" target="_blank">Mtons</a>
+                ${site_powered_by}
             </div>
             <div class="clearfix"></div>
         </footer>

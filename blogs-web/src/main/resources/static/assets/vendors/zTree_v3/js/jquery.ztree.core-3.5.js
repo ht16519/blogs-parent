@@ -83,7 +83,7 @@
 			simpleData: {
 				enable: false,
 				idKey: "id",
-				pIdKey: "pId",
+				pIdKey: "pid",
 				rootPId: null
 			},
 			keep: {

@@ -4,9 +4,13 @@
 <div class="panel panel-default stacked">
 	<div class="panel-heading">
 		<ul class="nav nav-pills account-tab">
-			<li><a href="basic">基本信息</a></li>
-			<li class="active"><a href="avatar">修改头像</a></li>
-			<li><a href="password">修改密码</a></li>
+            <li><a href="${base}/home/account/basic">基本信息</a></li>
+			<#if (bindAccount > 0)>
+			<li><a href="${base}/home/account/bind">绑定账号</a></li>
+			<#else>
+			<li><a href="${base}/home/account/password">修改密码</a></li>
+			</#if>
+            <li class="active"><a href="${base}/home/account/avatar">修改头像</a></li>
 		</ul>
 	</div>
 	<div class="panel-body">
@@ -30,7 +34,7 @@
 			</div>
             <div class="form-group">
                 <div class="text-center">
-                    <span style="color: red;">提示：截取图片宽高需大于100px</span>
+                    <span style="color: red;">提示：图片需小于1M，截取图片宽高需大于100px,</span>
                 </div>
             </div>
 			<div class="form-group">

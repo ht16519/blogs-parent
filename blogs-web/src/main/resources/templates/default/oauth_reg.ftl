@@ -1,40 +1,31 @@
 <#include "/default/utils/layout_login.ftl"/>
 
-<@layout "注册">
+<@layout>
 <div class="login">
     <a href="${base}/index">
-        <img src="/static/assets/images/logo/m90.png" height="72" width="72">
+        <img src="/static/assets/images/logo/logo90.jpg" height="72" width="72">
     </a>
-    <h1>离成功只差一步</h1>
+    <h1>离成功还差一步哦!</h1>
     <hr>
-    <form action="${base}/oauth/callback/bind_oauth" method="post">
-        <input type="hidden" name="oauthType" value="$!{open.oauthType}"/>
-
-        <input type="hidden" name="code" value="$!{open.oauthCode}"/>
-        <input type="hidden" name="oauthUserId" value="$!{open.oauthUserId}"/>
-        <input type="hidden" name="accessToken" value="$!{open.accessToken}"/>
-        <input type="hidden" name="expireIn" value="$!{open.expireIn}"/>
-        <input type="hidden" name="refreshToken" value="$!{open.refreshToken}"/>
-        <input type="hidden" name="avatar" value="$!{open.avatar}"/>
-
+    <form action="${base}/login/oauth/bind" method="post">
+        <#--<input type="hidden" name="oauthType" value="$!{user.nickName}"/>-->
+        <#--<input type="hidden" name="code" value="$!{user.oauthCode}"/>-->
+        <#--<input type="hidden" name="avatar" value="$!{user.sex}"/>-->
+        <input type="hidden" name="authToken" value="${authToken}"/>
         <div id="message">
-			<#include "/default/inc/action_message.ftl"/>
+            <#if msg??>
+                <div class="alert alert-danger">${msg}</div>
+            </#if>
         </div>
-        <label for="id_email">用户名:</label>
+        <label for="id_email">登录名:</label>
         <div id="id_email">
-            <input maxlength="18" class="form-control border" name="username" placeholder="用户名" type="text" value="$!{open.username}" data-required data-conditional="username" data-description="username" data-describedby="message">
+            <input name="userName" class="form-control border" placeholder="用户名" type="text" data-required>
         </div>
-        <label for="id_name">昵称:</label>
+        <label for="id_name">密码:</label>
         <div id="id_name">
-            <input maxlength="9" class="form-control border" name="nickname" placeholder="昵称" type="text" value="$!{open.nickname}" data-required>
+            <input name="password" class="form-control border" placeholder="密码" type="password" data-required>
         </div>
-        <!--
-        <label for="id_name">邮箱:</label>
-        <div id="id_name">
-            <input maxlength="64" class="form-control border" name="email" placeholder="邮箱地址" type="text" data-required data-conditional="email" data-description="email" data-describedby="message">
-        </div>
-        -->
-        <input type="submit" class="btn btn-success border" value="注 册">
+        <input type="submit" class="btn btn-success border" value="关联账号">
     </form>
 </div>
 

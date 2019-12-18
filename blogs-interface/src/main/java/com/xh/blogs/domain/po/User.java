@@ -1,15 +1,11 @@
 package com.xh.blogs.domain.po;
 
-import com.xh.blogs.domain.entity.ERoleMenu;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Table(name = "t_user")
@@ -115,6 +111,11 @@ public class User implements Serializable{
      * 签名
      */
     private String signature;
+
+    /** 随机字符串*/
+    private String salt;
+
+    private String qqOpenId;
 
     /** 用户角色*/
     private Set<Role> roles;

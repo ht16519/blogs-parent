@@ -70,6 +70,24 @@ input[type=text],input[type=password],textarea {
 	font-weight: normal;
 }
 
+#security-code-div{
+	height: 40px;
+	margin-bottom: 0px;
+}
+
+#security-code-div .append{
+	padding-left: 1px;
+	height: 40px;
+}
+
+#security-code-div .append{
+	padding-left: 5px;
+}
+
+#security-code-div .border{
+	height: 40px;
+}
+
 .sign .login form {
 	text-align: left;
 	padding: 0;
@@ -182,13 +200,13 @@ input[type=text],input[type=password],textarea {
 	margin-right: 10px;
 	width: 64px;
 	height: 64px;
-	background: url(../images/first/login_icons_small.png) 0 0 no-repeat;
+	background: url(../images/first/login_icons_small.jpg) 0 0 no-repeat;
 }
 
 .buttons a.qzone {
 	background-position: -80px 0;
 }
-.buttons a.douban {
+.buttons a.wechar {
 	background-position: -160px 0;
 }
 .buttons a.renren {
@@ -201,7 +219,7 @@ input[type=text],input[type=password],textarea {
 .buttons a.qzone:hover {
 	background-position: -80px -80px;
 }
-.buttons a.douban:hover {
+.buttons a.wechar:hover {
 	background-position: -160px -80px;
 }
 .buttons a.renren:hover {

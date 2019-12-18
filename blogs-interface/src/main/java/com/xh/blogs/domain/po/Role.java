@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 @Table(name = "t_role")
@@ -34,7 +35,8 @@ public class Role implements Serializable {
      */
     private String name;
 
-    /** 角色权限*/
-    Set<Permission> permissions;
+    private String remark;
+
+    private List<Menu> menus;
 
 }

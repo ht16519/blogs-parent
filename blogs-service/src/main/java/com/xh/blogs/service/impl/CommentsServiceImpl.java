@@ -9,6 +9,7 @@ import com.xh.blogs.consts.NotifyConst;
 import com.xh.blogs.dao.mapper.ArticleMapper;
 import com.xh.blogs.dao.mapper.CommentsMapper;
 import com.xh.blogs.dao.mapper.NotifyMapper;
+import com.xh.blogs.dao.mapper.UserMapper;
 import com.xh.blogs.domain.entity.EArticleComments;
 import com.xh.blogs.domain.entity.EComments;
 import com.xh.blogs.domain.po.Article;
@@ -21,7 +22,6 @@ import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.utils.BeanValidator;
 import com.xh.blogs.utils.PageUtil;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,12 +36,14 @@ import java.util.*;
  * @Date 2019-04-27
  */
 @Service
-public class CommentsServiceImpl implements ICommentsService {
+public class CommentsServiceImpl extends BaseServiceImpl implements ICommentsService {
 
     @Autowired
     private CommentsMapper commentsMapper;
     @Autowired
     private ArticleMapper articleMapper;
+    @Autowired
+    private UserMapper userMapper;
     @Autowired
     private NotifyMapper notifyMapper;
 
@@ -60,9 +62,11 @@ public class CommentsServiceImpl implements ICommentsService {
         comments.setCreateTime(new Date());
         int res = commentsMapper.insertSelective(comments);
         if(res > 0 && comments.getPid() != null && comments.getPid() <= 0){
-            //3.文章评论数+1
+            //3.文章评论数 +1
             articleMapper.addComments(article.getId());
-            //4.发送文章被评论通知
+            //4.用户评论数 +1
+            userMapper.addCommentsById(article.getAuthorId());
+            //5.发送文章被评论通知
             Notify notify = new Notify();
             notify.setCreateTime(new Date());
             notify.setEvent(NotifyConst.EVENT_COMMENTS);
@@ -76,14 +80,14 @@ public class CommentsServiceImpl implements ICommentsService {
 
     @Override
     public PageResult<EComments> getByArticleIdWithPage(int articleId, int number) {
-        Page<EComments> page = PageHelper.startPage(number, CommonConst.PAGE_SIZE);
+        Page<EComments> page = PageHelper.startPage(number, pageSize);
         commentsMapper.selectByArticleId(articleId, CommonConst.EFFECTIVE_STATUS);
         return PageUtil.create(page, this.getItems(page.getResult(), articleId));
     }
 
     @Override
     public PageResult<EArticleComments> getByUserIdWithPage(int userId, int number) {
-        Page<EArticleComments> page = PageHelper.startPage(number, CommonConst.PAGE_SIZE);
+        Page<EArticleComments> page = PageHelper.startPage(number, pageSize);
         commentsMapper.selectByUserId(userId, CommonConst.EFFECTIVE_STATUS);
         return PageUtil.create(page);
     }
@@ -91,7 +95,7 @@ public class CommentsServiceImpl implements ICommentsService {
     @Override
     @Transactional
     public int removeById(int id, int userId) throws BusinessException {
-        //1.判断评论书否存在
+        //1.判断评论是否存在
         Comments condition = new Comments();
         condition.setId(id);
         condition.setUserId(userId);
@@ -122,7 +126,7 @@ public class CommentsServiceImpl implements ICommentsService {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put(KeyConst.COMMENTS_CONTENT_KEY, cont);
         parameters.put(CommonConst.STATUS_KEY, CommonConst.EFFECTIVE_STATUS);
-        Page<EComments> page = PageHelper.startPage(number, CommonConst.PAGE_SIZE);
+        Page<EComments> page = PageHelper.startPage(number, pageSize);
         commentsMapper.selectByCondition(parameters);
         return PageUtil.create(page);
     }

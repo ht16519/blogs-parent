@@ -1,30 +1,37 @@
 <#include "/default/utils/layout.ftl"/>
-<@ui_ltr group.name>
+<style>
+    em{
+        color:red;
+        font-style: normal;
+        /*text-decoration: underline;*/
+        font-weight: bold;
+    }
+</style>
+<@ui_ltr>
 
     <div class="shadow-box">
         <!-- tab -->
         <div class="filter">
             <div class="alert" style="margin-bottom:0">
-                <li><span>搜索 <strong>${q}</strong>, 共 ${page.totalElements} 个结果.</span></li>
+                <li><i class="fa fa-search"></i> 搜索关键字 "<em>${q}</em>", 共找到 <em>${page.total}</em> 个结果.</span></li>
             </div>
         </div>
         <!-- tab end -->
         <!-- tab panes -->
         <div class="stream-list p-stream">
 			<#list page.items as row>
-				<@showBlog row/>
+				<@showBlog2 row/>
 			</#list>
 
-			<#if  page.items?size == 0>
+			<#if page.items?size == 0>
                 <div class="stream-item">
                     该目录下还没有内容!
                 </div>
 			</#if>
-
         </div>
     </div>
     <div class="text-center clr">
-		<#assign url = "/search?q=" +q />
+		<#assign url = "/article/search?q=" + q />
 		<@pager url page 3 />
     </div>
 

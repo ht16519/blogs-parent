@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Name EMenuRole
@@ -21,26 +22,32 @@ public class ERoleMenu {
 
     private String name;
 
-    private Integer status;
+    private String permission;
 
-    private Date updateTime;
-
-    private Integer createBy;
-
-    private Date createTime;
+    private Integer sort;
 
     private String url;
+
+    private Integer level;
 
     private Integer parentId;
 
     private String parentIds;
 
-    private Integer level;
-
     private String icon;
 
-    private Integer seq;
+    private Date createTime;
+
+    private Date updateTime;
+
+    private Integer createBy;
+
+    private Integer updateBy;
+
+    private Integer status;
 
     private Integer roleId;
+
+    private List<ERoleMenu> childs;
 
 }

@@ -2,36 +2,47 @@
 <@ui_simple "写文章">
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<i class="fa fa-pencil-square"></i> 写文章
+		<i class="fa fa-pencil-square"></i> 写文章&nbsp;&nbsp;&nbsp;&nbsp;发帖规范，利于seo，必看&nbsp;&nbsp;<a href="${base}/affiche/2"><span style="color: red;">发帖规范</span></a>
 	</div>
 	<div class="panel-body">
-		<div id="message"></div>
+		<div id="message">
+            <#include "/default/inc/action_message.ftl"/>
+		</div>
 		<form class="form-horizontal" action="${base}/home/article/push" method="post" enctype="multipart/form-data">
 			<div class="form-group">
-				<label class="col-sm-2 control-label no-padding-right">标题</label>
+				<label class="col-sm-1 control-label no-padding-right">标题</label>
 				<div class="col-sm-8">
-					<input type="text" class="form-control" name="title" maxlength="32" data-required >
+					<input type="text" class="form-control" name="title" maxlength="64" data-required >
 				</div>
 			</div>
             <div class="form-group">
-                <label class="col-sm-2 control-label no-padding-right">发布到</label>
+                <label class="col-sm-1 control-label no-padding-right">类型</label>
+                <div class="col-sm-3">
+                    <select class="form-control" name="type">
+                        <option value="1">原创</option>
+                        <option value="0">转载</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-1 control-label no-padding-right">发布到</label>
                 <div class="col-sm-3">
                     <select class="form-control" name="belongGroup">
-						<#list groups as row>
+						<#list groupsCache as row>
                         <option value="${row.id}">${row.groupValue}</option>
 						</#list>
                     </select>
                 </div>
             </div>
 			<div class="form-group">
-				<label for="desc" class="col-sm-2 control-label no-padding-right">内容</label>
+				<label for="desc" class="col-sm-1 control-label no-padding-right">内容</label>
 				<input type="hidden" name="editor" value="$!{site_editor}"/>
-				<div class="col-sm-8">
+				<div class="col-sm-10" style="width: 77%;">
 					<#include "/default/blog/editor/ueditor.ftl"/>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-2 control-label no-padding-right">标签</label>
+				<label class="col-sm-1 control-label no-padding-right">标签</label>
 				<div class="col-sm-8">
 					<input type="hidden" name="tags" id="fieldTags">
 					<ul id="tags"></ul>

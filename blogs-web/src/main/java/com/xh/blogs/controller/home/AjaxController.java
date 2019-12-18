@@ -1,18 +1,20 @@
 package com.xh.blogs.controller.home;
 
 import com.xh.blogs.api.*;
-import com.xh.blogs.consts.ConfigConst;
+import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.StringConst;
 import com.xh.blogs.controller.base.BaseController;
 import com.xh.blogs.domain.entity.EHotArticle;
 import com.xh.blogs.domain.entity.EHotUser;
+import com.xh.blogs.domain.po.Tags;
 import com.xh.blogs.domain.vo.CommentsVo;
 import com.xh.blogs.domain.vo.UMEditorResult;
 import com.xh.blogs.domain.vo.WebApiResult;
 import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.utils.JsonUtil;
+import com.xh.blogs.utils.ShiroUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.ModelMap;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,10 +43,12 @@ public class AjaxController extends BaseController {
     @Autowired
     private IUploadService uploadService;
     @Autowired
-    private IArticleService articleService;
-    @Autowired
     private ICommentsService commentsService;
-
+    @Autowired
+    private ITagsService tagsService;
+    @Value("${blogs.statisticalCount}")
+    private int statisticalCount;
+    
     /**
     * @Name ueditorIpload
     * @Description 富文本图片上传
@@ -147,6 +151,9 @@ public class AjaxController extends BaseController {
     */
     @GetMapping("/free/follow/check.json/{uid}")
     public WebApiResult checkFollowIsExist(@PathVariable("uid") int uid) throws BusinessException {
+        if(ShiroUtil.sessionGetValue(CommonConst.SYSTEM_PROFILE) == null){
+            return WebApiResult.fail();
+        }
         return WebApiResult.getResult(followsService.checkIsExistByUserId(uid, super.getProfile().getId()));
     }
 
@@ -191,6 +198,19 @@ public class AjaxController extends BaseController {
     }
 
     /**
+    * @Name tagsArticles
+    * @Description 获取博客标签推荐
+    * @Author wen
+    * @Date 2019/5/27
+    * @param 
+    * @return com.xh.blogs.domain.vo.WebApiResult<java.util.List<com.xh.blogs.domain.po.Tags>> 
+    */
+    @GetMapping("/free/hottags.json")
+    public WebApiResult<List<Tags>> tagsArticles(){
+        return WebApiResult.success(tagsService.getBlogsTagsCache());
+    }
+    
+    /**
     * @Name latestArticles
     * @Description 获取最新文章
     * @Author wen
@@ -200,7 +220,7 @@ public class AjaxController extends BaseController {
     */
     @GetMapping("/free/latests.json")
     public WebApiResult<List<EHotArticle>> latestArticles(){
-        return WebApiResult.success(statisticalService.getLatestsArticles(ConfigConst.STATISTICAL_COUNT));
+        return WebApiResult.success(statisticalService.getLatestsArticles(statisticalCount));
     }
 
     /**
@@ -213,7 +233,7 @@ public class AjaxController extends BaseController {
     */
     @GetMapping("/free/hottests.json")
     public WebApiResult<List<EHotArticle>> hottestArticles(){
-        return WebApiResult.success(statisticalService.getHottestArticles(ConfigConst.STATISTICAL_COUNT));
+        return WebApiResult.success(statisticalService.getHottestArticles(statisticalCount));
     }
 
     /**
@@ -226,7 +246,7 @@ public class AjaxController extends BaseController {
     */
     @GetMapping("/free/hotusers.json")
     public WebApiResult<EHotUser> hottestUsers(){
-        return WebApiResult.success(statisticalService.getHottestUsers(ConfigConst.STATISTICAL_COUNT));
+        return WebApiResult.success(statisticalService.getHottestUsers(8));
     }
 
 

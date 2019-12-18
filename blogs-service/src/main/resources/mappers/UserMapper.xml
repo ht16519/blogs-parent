@@ -24,21 +24,36 @@
     <result column="favors" property="favors" jdbcType="INTEGER" />
     <result column="follows" property="follows" jdbcType="INTEGER" />
     <result column="posts" property="posts" jdbcType="INTEGER" />
+    <result column="qq_open_id" property="qqOpenId" jdbcType="VARCHAR" />
     <result column="signature" property="signature" jdbcType="VARCHAR" />
+    <result column="salt" property="salt" jdbcType="VARCHAR" />
   </resultMap>
 
     <resultMap id="selectUserInfoByNameMap" type="com.xh.blogs.domain.po.User" extends="BaseResultMap">
         <collection property="roles" ofType="com.xh.blogs.domain.po.Role" javaType="java.util.Set">
             <id column="role_id" property="id" jdbcType="INTEGER" />
             <result column="role_name" property="name" jdbcType="VARCHAR" />
-            <collection property="permissions" ofType="com.xh.blogs.domain.po.Permission" javaType="java.util.Set">
-                <id column="permission_id" property="id" jdbcType="INTEGER" />
-                <result column="permission_name" property="name" jdbcType="VARCHAR" />
-                <result column="permission_url" property="url" jdbcType="VARCHAR" />
-                <result column="permission_status" property="status" jdbcType="INTEGER" />
-            </collection>
+            <result column="role_remark" property="remark" jdbcType="VARCHAR" />
         </collection>
     </resultMap>
+
+    <update id="reducePosts">
+        UPDATE t_user
+        SET posts = posts + 1
+        WHERE id = #{userId}
+    </update>
+
+    <update id="addCommentsById">
+        UPDATE t_user
+        SET comments = comments + 1
+        WHERE id = #{authorId}
+    </update>
+
+    <update id="updatePostsById">
+        UPDATE t_user
+        SET posts = posts + 1
+        WHERE id = #{authorId}
+    </update>
 
     <update id="minusFansByUserId">
         UPDATE t_user
@@ -64,23 +79,54 @@
       LIMIT #{count}
   </select>
 
-  <select id="selectUserInfoByName" parameterType="java.lang.String" resultMap="selectUserInfoByNameMap">
-      SELECT
-          r.id AS role_id,
-          r.`name` AS role_name,
-          p.`name` AS permission_name,
-          p.id AS permission_id,
-          p.url AS permission_url,
-          p.`status` AS permission_status,
-          u.*
-      FROM
-          t_user u
-      LEFT JOIN t_user_role ur ON u.id = ur.user_id
-      LEFT JOIN t_role r ON r.id = ur.role_id
-      LEFT JOIN t_role_permission pr ON r.id = pr.permission_id
-      LEFT JOIN t_permission p ON p.id = pr.role_id
-      WHERE
-          u.user_name = #{userName}
-      AND u.`status` = 10
-  </select>
+    <select id="selectUserInfoByName" parameterType="java.lang.String" resultMap="selectUserInfoByNameMap">
+        <include refid="commonUserInfo" />
+        WHERE
+            u.user_name = #{userName}
+        AND u.`status` = 10
+    </select>
+
+    <select id="selectByUserName" resultMap="BaseResultMap">
+        SELECT * FROM t_user WHERE user_name = #{userName}
+    </select>
+
+    <select id="selectPasswordByUsername" resultType="java.lang.String">
+        SELECT `password` FROM t_user WHERE user_name = #{userName}
+    </select>
+
+    <update id="updateByQQOpenId" parameterType="com.xh.blogs.domain.po.User">
+        UPDATE t_user
+        SET email = #{email},
+         `password` = #{password},
+         user_name = #{userName},
+         nick_name = #{nickName},
+         salt = #{salt}
+        WHERE
+            qq_open_id = #{qqOpenId}
+    </update>
+
+    <sql id="commonUserInfo">
+        SELECT
+            u.*, r.id AS role_id,
+            r.`name` AS role_name,
+            r.remark AS role_remark
+        FROM
+            t_user AS u
+        LEFT JOIN t_user_role AS ur ON ur.user_id = u.id
+        LEFT JOIN t_role AS r ON r.id = ur.role_id
+    </sql>
+
+    <select id="selectUserInfoByOpenId" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT user_name, `password` FROM t_user
+        <where>
+            <choose>
+                <when test="qqOpenId != null and qqOpenId != ''"> qq_open_id = #{qqOpenId} </when>
+                <otherwise> user_name = '-1' </otherwise>
+            </choose>
+            AND `status` = 10
+        </where>
+    </select>
+
+
+
 </mapper>

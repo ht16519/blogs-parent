@@ -9,7 +9,7 @@
         <div class="user-info">
             <div class="nk mb10">${profile.nickName}</div>
             <div class="mb6">
-                <a class="btn btn-success btn-xs" href="${base}/account/profile/basic"><i class="fa fa-pencil"></i> 修改账户</a>
+                <a class="btn btn-success btn-xs" href="${base}/home/account/basic"><i class="fa fa-pencil"></i> 修改账户</a>
             </div>
         </div>
     </li>
