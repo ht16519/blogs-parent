@@ -1,6 +1,6 @@
 package com.xh.blogs.service.impl;
 
-import com.xh.blogs.api.IRoleService;
+import com.xh.blogs.service.IRoleService;
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.dao.mapper.MenuMapper;
 import com.xh.blogs.dao.mapper.RoleMapper;

@@ -1,7 +1,7 @@
 package com.xh.blogs.config;
 
-import com.xh.blogs.api.IAsyncEsAricleHandleService;
-import com.xh.blogs.api.IAsyncSmsService;
+import com.xh.blogs.service.IAsyncEsAricleHandleService;
+import com.xh.blogs.service.IAsyncSmsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -45,22 +45,22 @@ public class RabbitMQConfig {
     /** 创建{BLOGS_EMAIL_EXCHANGE}交换机**/
     @Bean
     public DirectExchange esArticleDirectExchange(){
-        log.info("---------------- 1.创建{}交换机 ----------------", IAsyncEsAricleHandleService.MQ_ES_ARTICLE_EXCHANGE);
-        return new DirectExchange(IAsyncEsAricleHandleService.MQ_ES_ARTICLE_EXCHANGE);
+        log.info("---------------- 1.创建{}交换机 ----------------", IAsyncEsAricleHandleService.MQ_SEARCH_ARTICLE_EXCHANGE);
+        return new DirectExchange(IAsyncEsAricleHandleService.MQ_SEARCH_ARTICLE_EXCHANGE);
     }
 
     /**创建{EMAIL_QUEUE}队列**/
     @Bean
     public Queue esArticleQueue(){
-        log.info("---------------- 2.创建{}队列 ----------------", IAsyncEsAricleHandleService.MQ_ES_ARTICLE_QUEUE);
-        return new Queue(IAsyncEsAricleHandleService.MQ_ES_ARTICLE_QUEUE, true);
+        log.info("---------------- 2.创建{}队列 ----------------", IAsyncEsAricleHandleService.MQ_SEARCH_ARTICLE_QUEUE);
+        return new Queue(IAsyncEsAricleHandleService.MQ_SEARCH_ARTICLE_QUEUE, true);
     }
 
     /**绑定{BLOGS_EMAIL_EXCHANGE}交换机和{EMAIL_QUEUE}队列**/
     @Bean
     public Binding esArticleBinding(Queue esArticleQueue, DirectExchange esArticleDirectExchange){
-        log.info("---------------- 3.绑定{}交换机和{}队列 ----------------", IAsyncEsAricleHandleService.MQ_ES_ARTICLE_EXCHANGE, IAsyncEsAricleHandleService.MQ_ES_ARTICLE_QUEUE);
-        return BindingBuilder.bind(esArticleQueue).to(esArticleDirectExchange).with(IAsyncEsAricleHandleService.MQ_ES_ARTICLE_ROUTINGKEY);
+        log.info("---------------- 3.绑定{}交换机和{}队列 ----------------", IAsyncEsAricleHandleService.MQ_SEARCH_ARTICLE_EXCHANGE, IAsyncEsAricleHandleService.MQ_SEARCH_ARTICLE_QUEUE);
+        return BindingBuilder.bind(esArticleQueue).to(esArticleDirectExchange).with(IAsyncEsAricleHandleService.MQ_SEARCH_ARTICLE_ROUTINGKEY);
     }
 
 

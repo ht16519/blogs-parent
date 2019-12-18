@@ -22,7 +22,7 @@ public class HttpInterceptor extends HandlerInterceptorAdapter {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        log.info("=============访问路径：{}============", request.getRequestURI());
+        log.debug("=============访问路径：{}============", request.getRequestURI());
 //        if (handler instanceof HandlerMethod) {
 //            HandlerMethod handlerMethod = (HandlerMethod) handler;
 //            //获取方法注解

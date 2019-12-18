@@ -4,10 +4,6 @@ server:
     uriEncoding: UTF-8
     maxHttpHeaderSize: 8192
 spring:
-  data:
-    elasticsearch:
-      cluster-name: elasticsearch-blogs
-      cluster-nodes: 127.0.0.1:9300
   application:
     name: the_blogs
   http:

@@ -1,7 +1,7 @@
 package com.xh.blogs.runner;
 
-import com.xh.blogs.api.IAsyncEsAricleHandleService;
-import com.xh.blogs.api.IAsyncSmsService;
+import com.xh.blogs.service.IAsyncEsAricleHandleService;
+import com.xh.blogs.service.IAsyncSmsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,6 +26,6 @@ public class InitializationExecutor {
         //1.创建RabbitMQ的邮件配置
         asyncSmsService.createEmailMQ(false);
         //2.创建ES文章相关MQ配置
-        asyncEsAricleHandleService.createESAricleMQ(false);
+        asyncEsAricleHandleService.createSearchAricleMQ(false);
     }
 }

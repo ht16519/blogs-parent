@@ -1,6 +1,6 @@
 package com.xh.blogs.service.impl;
 
-import com.xh.blogs.api.IMailService;
+import com.xh.blogs.service.IMailService;
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.ViewUrl;
 import com.xh.blogs.domain.vo.EmailVo;

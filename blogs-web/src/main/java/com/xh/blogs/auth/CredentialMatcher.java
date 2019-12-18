@@ -1,6 +1,6 @@
 package com.xh.blogs.auth;
 
-import com.xh.blogs.api.IUserService;
+import com.xh.blogs.service.IUserService;
 import com.xh.blogs.consts.ConfigConst;
 import com.xh.blogs.domain.po.User;
 import com.xh.blogs.utils.MD5Util;

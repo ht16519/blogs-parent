@@ -2,7 +2,7 @@ package com.xh.blogs.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.xh.blogs.api.IArticleService;
+import com.xh.blogs.service.IArticleService;
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.KeyConst;
 import com.xh.blogs.dao.mapper.ArticleAccessoryMapper;
@@ -31,7 +31,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
@@ -225,6 +224,12 @@ public class ArticleServiceImpl extends BaseServiceImpl implements IArticleServi
                 articleMapper.addViews(id);
             }
         }
+    }
+
+    public List<Article> getAllByStatus() {
+        Article article = new Article();
+        article.setStatus(CommonConst.EFFECTIVE_STATUS);
+        return articleMapper.select(article);
     }
 
     /**

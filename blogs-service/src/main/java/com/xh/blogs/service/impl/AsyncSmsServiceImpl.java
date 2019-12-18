@@ -1,7 +1,7 @@
 package com.xh.blogs.service.impl;
 
-import com.xh.blogs.api.IAsyncSmsService;
-import com.xh.blogs.api.IMailService;
+import com.xh.blogs.service.IAsyncSmsService;
+import com.xh.blogs.service.IMailService;
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.KeyConst;
 import com.xh.blogs.consts.ViewUrl;

@@ -1,9 +1,8 @@
 package com.xh.blogs.controller.home;
 
-import com.xh.blogs.api.IArticleService;
-import com.xh.blogs.api.IAsyncEsAricleHandleService;
-import com.xh.blogs.api.IAttachsService;
-import com.xh.blogs.api.IEsArticleService;
+import com.xh.blogs.service.IArticleService;
+import com.xh.blogs.service.IAsyncEsAricleHandleService;
+import com.xh.blogs.service.IAttachsService;
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.KeyConst;
 import com.xh.blogs.consts.RequestUrl;
@@ -16,6 +15,7 @@ import com.xh.blogs.domain.vo.PageResult;
 import com.xh.blogs.domain.vo.WebApiResult;
 import com.xh.blogs.enums.EmError;
 import com.xh.blogs.exception.BusinessException;
+import com.xh.blogs.service.ISolrArticleService;
 import com.xh.blogs.utils.CommonUtil;
 import com.xh.blogs.utils.RequestUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +45,7 @@ public class BlogsController extends BaseController {
     @Autowired
     private IAttachsService attachsService;
     @Autowired
-    private IEsArticleService esArticleService;
+    private ISolrArticleService solrArticleService;
     @Autowired
     private IAsyncEsAricleHandleService asyncEsAricleService;
 
@@ -79,7 +79,7 @@ public class BlogsController extends BaseController {
         int res = articleService.removeById(id, super.getProfile().getId());
         if(res > 0){
             //2.发送删除es中的文章异步请求
-            asyncEsAricleService.sendHandeESArticleMsg(EArticleHandleMessage.delete(id));
+            asyncEsAricleService.sendHandeSearchArticleMsg(EArticleHandleMessage.delete(id));
         }
         return WebApiResult.getResult(res);
     }
@@ -100,7 +100,7 @@ public class BlogsController extends BaseController {
             articleVo.setAuthorId(super.getProfile().getId());
             Article article = articleService.updateArticleById(articleVo);
             //2.发送修改es文章信息的异步请求
-            asyncEsAricleService.sendHandeESArticleMsg(EArticleHandleMessage.save(article));
+            asyncEsAricleService.sendHandeSearchArticleMsg(EArticleHandleMessage.save(article));
         } catch (BusinessException e) {
             super.getModelMap(e, model);
             model.put(CommonConst.DATA_RESULT_KEY, articleVo);
@@ -182,7 +182,7 @@ public class BlogsController extends BaseController {
     @GetMapping("/article/search")
     public String articleSearch(String q, int pn, ModelMap model) {
         String keyword = CommonUtil.handleSpecial(q);
-        model.put(CommonConst.RESULT_PAGE_INFO_KEY, StringUtils.isEmpty(keyword) ? PageResult.createNull() : esArticleService.search(keyword, pn));
+        model.put(CommonConst.RESULT_PAGE_INFO_KEY, StringUtils.isEmpty(keyword) ? PageResult.createNull() : solrArticleService.search(keyword, pn));
         model.put(KeyConst.ARTICLE_SEARCH_PARAMETER_KEY, q);
         return ViewUrl.ARTICLE_SEARCH;
     }
@@ -231,7 +231,7 @@ public class BlogsController extends BaseController {
             articleVo.setAuthorId(super.getProfile().getId());
             Article article = articleService.addArticle(articleVo);
             //2.发送保存es文章信息的异步请求
-            asyncEsAricleService.sendHandeESArticleMsg(EArticleHandleMessage.save(article));
+            asyncEsAricleService.sendHandeSearchArticleMsg(EArticleHandleMessage.save(article));
         } catch (BusinessException e) {
             super.getModelMap(e, model);
             return ViewUrl.ARTICLE_PUBLISH;

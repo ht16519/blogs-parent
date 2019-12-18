@@ -6,10 +6,10 @@
         <artifactId>blogs-parent</artifactId>
         <groupId>com.xh.blogs</groupId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.xh.blogs</groupId>
     <artifactId>blogs-common</artifactId>
     <packaging>jar</packaging>
     <name>blogs-common</name>
@@ -70,10 +70,6 @@
 
     </dependencies>
 
-    <!--<build>-->
-        <!--<finalName>blogs-common</finalName>-->
-    <!--</build>-->
-
     <build>
         <finalName>blogs-common</finalName>
         <plugins>
@@ -86,4 +82,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

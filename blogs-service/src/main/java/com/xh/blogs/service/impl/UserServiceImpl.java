@@ -1,6 +1,6 @@
 package com.xh.blogs.service.impl;
 
-import com.xh.blogs.api.IUserService;
+import com.xh.blogs.service.IUserService;
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.ConfigConst;
 import com.xh.blogs.consts.NotifyConst;
@@ -219,7 +219,7 @@ public class UserServiceImpl implements IUserService {
     public void checkIsAccess(String userName) throws BusinessException{
         String password = userMapper.selectPasswordByUsername(userName);
         if(StringUtils.isNotEmpty(password)){
-            throw new BusinessException(EmError.USER_UNAUTHORIZED);
+            throw new BusinessException(EmError.REPEAT_BIND_USERNMAE);
         }
     }
 
