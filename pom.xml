@@ -40,7 +40,7 @@
         <persistence.api.version>1.0</persistence.api.version>
         <commons.collections.version>3.2.1</commons.collections.version>
         <hibernate.validator.version>5.2.4.Final</hibernate.validator.version>
-        <shiro.correlation.version>1.4.0</shiro.correlation.version>
+        <shiro.correlation.version>1.5.0</shiro.correlation.version>
         <kaptcha.version>2.3.2</kaptcha.version>
         <shiro.freemarker.tags.version>1.0.0</shiro.freemarker.tags.version>
     </properties>
