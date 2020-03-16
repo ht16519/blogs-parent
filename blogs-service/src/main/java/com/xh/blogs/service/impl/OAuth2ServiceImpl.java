@@ -20,7 +20,7 @@ import me.zhyd.oauth.model.AuthCallback;
 import me.zhyd.oauth.model.AuthResponse;
 import me.zhyd.oauth.model.AuthUser;
 import me.zhyd.oauth.request.AuthRequest;
-import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import me.zhyd.oauth.utils.AuthStateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,8 +47,8 @@ public class OAuth2ServiceImpl implements IOAuth2Service {
     private NotifyMapper notifyMapper;
 
     @Override
-    public String getQQAuthorizeUrl(HttpServletRequest request) throws LoginException {
-        return authQqRequest.authorize();
+    public String getQQAuthorizeUrl() throws LoginException {
+        return authQqRequest.authorize(AuthStateUtils.createState());
     }
 
     @Override

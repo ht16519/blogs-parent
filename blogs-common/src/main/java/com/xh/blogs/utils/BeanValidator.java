@@ -2,7 +2,6 @@ package com.xh.blogs.utils;
 
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.enums.EmError;
-import com.xh.blogs.error.CommomError;
 import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.exception.LoginException;
 import org.apache.commons.collections.CollectionUtils;
@@ -10,8 +9,6 @@ import org.apache.commons.collections.CollectionUtils;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 
 /**
@@ -22,23 +19,24 @@ import java.util.Set;
  */
 public class BeanValidator {
 
+    //获得验证器
+    private static final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+
     /**
      * 验证登陆中的Bean参数
      */
     public static <T> void checkLogin(T object) throws LoginException {
-        commoncheck(object, false);
+        commoncheck(object, Boolean.FALSE);
     }
 
-    public static <T> void check(T object) throws LoginException {
-        commoncheck(object, true);
+    public static <T> void check(T object) throws BusinessException {
+        commoncheck(object, Boolean.TRUE);
     }
 
     /**
      * 验证某个bean的参数
      */
     private static <T> void commoncheck(T object, boolean flag) throws BusinessException {
-        //获得验证器
-        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
         //执行验证
         Set<ConstraintViolation<T>> constraintViolations = validator.validate(object);
         //如果有验证信息，则取出来包装成异常返回
@@ -60,10 +58,8 @@ public class BeanValidator {
      * @return
      */
     private static <T> String convertErrorMsg(Set<ConstraintViolation<T>> set) {
-        StringBuffer sb = new StringBuffer();
-        for (ConstraintViolation<T> cv : set) {
-            sb.append(cv.getMessage()).append(CommonConst.SEPARATOR_SEMICOLON);
-        }
+        StringBuilder sb = new StringBuilder();
+        set.forEach(cv -> sb.append(cv.getMessage()).append(CommonConst.SEPARATOR_SEMICOLON));
         return sb.toString();
     }
 }

@@ -1,5 +1,8 @@
 package com.xh.blogs;
 
+import com.xh.blogs.domain.vo.AccountVo;
+import com.xh.blogs.utils.BeanValidator;
+
 /**
  * @Name Test
  * @Description
@@ -32,6 +35,8 @@ public class Test extends Thread{
     }
 
     public static void main(String[] args) {
+        AccountVo accountVo = new AccountVo();
+        BeanValidator.check(accountVo);
 //        Object o1 = new Object();
 //        Object o2 = new Object();
 //        new Test(o1, o2).start();

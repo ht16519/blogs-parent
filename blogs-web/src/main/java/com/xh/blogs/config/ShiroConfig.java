@@ -20,7 +20,8 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.LinkedHashMap;
 
-@Configuration
+//@Configuration
+@Deprecated
 public class ShiroConfig {
 
 	@Value("${blogs.accessory.path}")

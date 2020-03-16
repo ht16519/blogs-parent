@@ -4,7 +4,6 @@ import com.xh.blogs.domain.po.User;
 import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.exception.LoginException;
 import me.zhyd.oauth.model.AuthCallback;
-import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 
 /**
  * @Name ILoginService
@@ -19,10 +18,9 @@ public interface IOAuth2Service {
     * @Description 获取qq授权地址
     * @Author wen
     * @Date 2019/7/10
-    * @param request
-    * @return java.lang.String 
+    * @return java.lang.String
     */
-    String getQQAuthorizeUrl(HttpServletRequest request) throws LoginException;
+    String getQQAuthorizeUrl() throws LoginException;
 
     /**
     * @Name getOAuthUserByQQAPI

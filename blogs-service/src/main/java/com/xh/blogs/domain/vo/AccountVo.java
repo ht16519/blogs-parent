@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 /**
  * @Name AccountVo
@@ -19,7 +20,9 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class AccountVo {
+public class AccountVo implements Serializable {
+
+    private static final long serialVersionUID = -3376551803423560261L;
 
     @NotEmpty(message = "验证码不为空")
     private String securityCode;

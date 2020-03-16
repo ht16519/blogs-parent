@@ -9,7 +9,12 @@
     <title>${ret.title?default(site_name)}</title>
     <meta name="keywords" content="${ret.tags?default(site_keywords)}">
     <meta name="description" content="${ret.summary?default(site_description)}">
-<#include "/default/inc/include.ftl"/>
+    <#include "/default/inc/include.ftl"/>
+
+    <link rel="stylesheet" type="text/css" href="/static/assets/css/tomorrow-night-eighties.css">
+    <script type="text/javascript" src="/static/assets/js/highlight.pack.js"></script>
+    <script type="text/javascript"> hljs.initHighlightingOnLoad(); </script>
+
 </head>
 <body>
 <#include "/default/inc/header.ftl"/>
@@ -25,7 +30,8 @@
                         <div class="clearfix post-other">
                             <time class="pull-left time">${ret.createTime?string('yyyy-MM-dd HH:mm:ss')}</time>
                             <span class="pull-left author">
-                                <a class="author-name" href="${base}/ta/${ret.user.id}/1" target="_blank"><span style="color: #78a5f1;">${ret.user.nickName}</span></a>
+                                <a class="author-name" href="${base}/ta/${ret.user.id}/1" target="_blank"><span
+                                        style="color: #78a5f1;">${ret.user.nickName}</span></a>
                             </span>
                             <span class="pull-left time">浏览: ${ret.views}</span>
                             <ul class="tags">
@@ -63,7 +69,7 @@
                                                 "bdSize": "24"
                                             }, "share": {}
                                         };
-                                        with (document)0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];
+                                        with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];
                                     </script>
                                     <style>
                                         .bdshare-button-24 a, .bdshare-button-24 .bds_more {
@@ -94,7 +100,8 @@
                             </div>
                             <div class="cbox-post">
                                 <div class="cbox-input">
-                                    <textarea id="chat_text" rows="3" placeholder="请输入评论内容" onfocus="onChanger()"></textarea>
+                                    <textarea id="chat_text" rows="3" placeholder="请输入评论内容"
+                                              onfocus="onChanger()"></textarea>
                                     <input type="hidden" value="0" name="chat_pid" id="chat_pid"/>
                                 </div>
                                 <div class="cbox-ats clearfix">
@@ -127,7 +134,7 @@
                 <!-- right sidebar-->
                 <div class="col-xs-12 col-md-3 side-right hidden-xs hidden-sm">
                     <ul class="list-group about-user">
-                        <li class="list-group-item user-card" >
+                        <li class="list-group-item user-card">
                             <div class="ava">
                                 <a href="${base}/ta/${ret.user.id}/1">
                                     <@showAva ret.user.avatar "img-circle"/>
@@ -136,7 +143,8 @@
                             <div class="user-info">
                                 <div class="nk mb10">${ret.user.nickName}</div>
                                 <div class="mb6">
-                                    <a class="btn btn-success btn-xs" href="javascript:void(0);" data-id="${ret.user.id}" rel="follow">+ 关注</a>
+                                    <a class="btn btn-success btn-xs" href="javascript:void(0);"
+                                       data-id="${ret.user.id}" rel="follow">+ 关注</a>
                                 </div>
                             </div>
                         </li>
@@ -154,7 +162,8 @@
                     </ul>
                     <ul class="list-group">
                         <li class="list-group-item">
-                            <a class="btn btn-success btn-sm" href="javascript:void(0);" data-user-id="${ret.user.id}" data-id="${ret.id}" rel="favor">喜欢</a>
+                            <a class="btn btn-success btn-sm" href="javascript:void(0);" data-user-id="${ret.user.id}"
+                               data-id="${ret.id}" rel="favor">喜欢</a>
                             <strong id="favors">${ret.favors}</strong> 喜欢
                         </li>
                     </ul>
@@ -184,9 +193,17 @@
         <div class="clear"></div>
         <div class="chat_reply"></div>
     </li>
-</script>
 
+</script>
 <script type="text/javascript">
+
+    var allpre = document.getElementsByTagName("pre");
+    for (var i = 0; i < allpre.length; i++) {
+        var onepre = document.getElementsByTagName("pre")[i];
+        var mycode = document.getElementsByTagName("pre")[i].innerHTML;
+        onepre.innerHTML = '<code id="mycode">' + mycode + '</code>';
+    }
+
     function goto(pid, user) {
         document.getElementById('chat_text').scrollIntoView();
         $('#chat_text').focus();
@@ -202,7 +219,7 @@
 
     seajs.use('comment', function (comment) {
         comment.init({
-            load_url: '${base}/api/free/comment/list.json/'+ ${ret.id} + '/',
+            load_url: '${base}/api/free/comment/list.json/' + ${ret.id} +'/',
             post_url: '${base}/api/free/comment/submit.json',
             toId: '${ret.id}',
             onLoad: function (i, data) {
@@ -210,11 +227,11 @@
                 var quoto = '';
                 if (!(data.childs === null) && data.childs.length > 0) {
                     var pat = data.childs;
-                    for(var i = 0; i < pat.length; i++){
-                        if(i < 3) {
+                    for (var i = 0; i < pat.length; i++) {
+                        if (i < 3) {
                             var pcontent = ContentRender.wrapItem(pat[i].content);
                             quoto += '<div class="quote"><a href="${base}/ta/' + pat[i].userId + '/1' + '">' + pat[i].nickName + '</a>： ' + pcontent + '</div>';
-                        }else{
+                        } else {
                             quoto += '<div class="quote"><a href="#">共' + pat.length + '条回复 ></a></div>';
                             break;
                         }

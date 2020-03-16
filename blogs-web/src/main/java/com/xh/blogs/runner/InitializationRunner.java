@@ -1,16 +1,12 @@
 package com.xh.blogs.runner;
 
-import com.xh.blogs.domain.po.Article;
 import com.xh.blogs.service.*;
-import com.xh.blogs.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * @Name ApplicationRunner
@@ -23,10 +19,10 @@ import java.util.List;
 @Component
 public class InitializationRunner implements ApplicationRunner {
 
-    @Autowired
-    private IArticleService articleService;
-    @Autowired
-    private ISolrArticleService solrArticleService;
+//    @Autowired
+//    private IArticleService articleService;
+//    @Autowired
+//    private ISolrArticleService solrArticleService;
     @Autowired
     private IGroupService groupService;
     @Autowired
@@ -50,9 +46,9 @@ public class InitializationRunner implements ApplicationRunner {
         menuService.createRoleMenuTreeCache();
         //4.初始化文章的全文检索信息
         //1.查询所有有效的文章
-        List<Article> articles = articleService.getAllByStatus();
+//        List<Article> articles = articleService.getAllByStatus();
         //2.生成文章的全文检索信息
-        solrArticleService.createEsLibrary(JsonUtil.serialize(articles));
+//        solrArticleService.createEsLibrary(JsonUtil.serialize(articles));
         //5.初始化底部顶链接
         attachsService.createAttachsCache();
         //6.创建友情链接

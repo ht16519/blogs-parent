@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * @Name EHotUser
  * @Description
@@ -13,7 +15,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EHotUser {
+public class EHotUser implements Serializable {
+
+    private static final long serialVersionUID = 5688331938562946932L;
 
     private Integer id;
 

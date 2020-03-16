@@ -9,7 +9,6 @@ import com.xh.blogs.service.IOAuth2Service;
 import com.xh.blogs.utils.ShiroUtil;
 import lombok.extern.slf4j.Slf4j;
 import me.zhyd.oauth.model.AuthCallback;
-import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,13 +33,12 @@ public class OAuth2Controller extends BaseController{
      * @Description 获取qq授权地址
      * @Author wen
      * @Date 2019/7/10
-     * @param request
      * @return java.lang.String
      */
     @GetMapping("/login/qq/authorize")
-    public String authorizeUrl(HttpServletRequest request){
+    public String authorizeUrl(){
         //重定向到QQ授权页面
-        return KeyConst.REDIRECT_PREFIX_KEY1 + oauth2Service.getQQAuthorizeUrl(request);
+        return KeyConst.REDIRECT_PREFIX_KEY1 + oauth2Service.getQQAuthorizeUrl();
     }
 
     /**

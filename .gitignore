@@ -48,6 +48,8 @@ tree.txt
 *.diff
 *.patch
 *.tmp
+test/java/
+test/java
 
 # system ignore
 .DS_Store

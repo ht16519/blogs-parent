@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 
 /**
  * @Name MenuVo
@@ -15,7 +16,9 @@ import javax.validation.constraints.NotEmpty;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MenuVo {
+public class MenuVo implements Serializable {
+
+    private static final long serialVersionUID = 8772989326884355239L;
 
     private Integer id;
 

@@ -11,10 +11,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>blogs-web</artifactId>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <name>blogs-web</name>
 
     <dependencies>
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -32,10 +33,15 @@
             <artifactId>kaptcha</artifactId>
         </dependency>
 
-        <!-- shiro支持 -->
         <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-core</artifactId>
+            <groupId>org.crazycake</groupId>
+            <artifactId>shiro-redis</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>shiro-core</artifactId>
+                    <groupId>org.apache.shiro</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- spring-shiro整合 -->
         <dependency>
@@ -45,6 +51,20 @@
         <dependency>
             <groupId>net.mingsoft</groupId>
             <artifactId>shiro-freemarker-tags</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>fastjson</artifactId>
+                    <groupId>com.alibaba</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>log4j</artifactId>
+                    <groupId>log4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>shiro-core</artifactId>
+                    <groupId>org.apache.shiro</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- AspectJ支持 -->
@@ -61,27 +81,54 @@
         <dependency>
             <groupId>com.xh.blogs</groupId>
             <artifactId>blogs-service</artifactId>
-            <version>${blogs.version}</version>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
             <groupId>com.xh.blogs</groupId>
             <artifactId>blogs-search</artifactId>
-            <version>${blogs.version}</version>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
     <build>
         <finalName>blogs-web</finalName>
         <plugins>
+            <!-- java编译插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <classifier>exec</classifier>
+                    <!--替换成实际的类全路径-->
+                    <mainClass>com.xh.WebApplication</mainClass>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
+        <!--<plugins>-->
+        <!--<plugin>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
+        <!--<configuration>-->
+        <!--<classifier>exec</classifier>-->
+        <!--</configuration>-->
+        <!--</plugin>-->
+        <!--</plugins>-->
     </build>
 
 

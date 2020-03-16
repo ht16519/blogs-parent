@@ -6,7 +6,7 @@
 
     <groupId>com.xh.blogs</groupId>
     <artifactId>blogs-parent</artifactId>
-    <version>${blogs.version}</version>
+    <version>1.0-SNAPSHOT</version>
 
     <packaging>pom</packaging>
     <name>blogs-parent</name>
@@ -31,7 +31,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <blogs.version>1.0-SNAPSHOT</blogs.version>
         <druid.starter.version>1.1.10</druid.starter.version>
         <mapper.starter.version>2.0.3</mapper.starter.version>
         <pageHelper.starter.version>1.2.5</pageHelper.starter.version>
@@ -39,10 +38,12 @@
         <jsoup.version>1.9.2</jsoup.version>
         <persistence.api.version>1.0</persistence.api.version>
         <commons.collections.version>3.2.1</commons.collections.version>
-        <hibernate.validator.version>5.2.4.Final</hibernate.validator.version>
+        <javax.validator.version>2.0.1.Final</javax.validator.version>
+        <hibernate.validator.version>6.0.16.Final</hibernate.validator.version>
         <shiro.correlation.version>1.4.0</shiro.correlation.version>
         <kaptcha.version>2.3.2</kaptcha.version>
         <shiro.freemarker.tags.version>1.0.0</shiro.freemarker.tags.version>
+        <shiro.redis.version>3.1.0</shiro.redis.version>
     </properties>
 
     <dependencyManagement>
@@ -56,6 +57,17 @@
                 <version>${kaptcha.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.crazycake</groupId>
+                <artifactId>shiro-redis</artifactId>
+                <version>${shiro.redis.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>shiro-core</artifactId>
+                        <groupId>org.apache.shiro</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
             <!-- shiro支持 -->
             <dependency>
                 <groupId>org.apache.shiro</groupId>
@@ -92,11 +104,6 @@
                 <version>${thumbnailator.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-validator</artifactId>
-                <version>${hibernate.validator.version}</version>
-            </dependency>
             <!-- 通用Mapper启动器 -->
             <dependency>
                 <groupId>tk.mybatis</groupId>
@@ -122,6 +129,19 @@
                 <version>${commons.collections.version}</version>
             </dependency>
 
+            <!--参数校验框架-->
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>${javax.validator.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${hibernate.validator.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -145,12 +165,12 @@
 
     <build>
         <finalName>blogs-parent</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>
-        </plugins>
+        <!--<plugins>-->
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-compiler-plugin</artifactId>-->
+            <!--</plugin>-->
+        <!--</plugins>-->
     </build>
 
 
