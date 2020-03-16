@@ -13,7 +13,8 @@ import javax.annotation.PostConstruct;
  * @Author wen
  * @Date 2019-07-23
  */
-@Component
+@Deprecated
+//@Component
 public class InitializationExecutor {
 
     @Autowired

@@ -44,15 +44,17 @@ public class InitializationRunner implements ApplicationRunner {
         groupService.createShowCache();
         //3.初始化用户角色菜单关系树
         menuService.createRoleMenuTreeCache();
-        //4.初始化文章的全文检索信息
-        //1.查询所有有效的文章
-//        List<Article> articles = articleService.getAllByStatus();
-        //2.生成文章的全文检索信息
-//        solrArticleService.createEsLibrary(JsonUtil.serialize(articles));
-        //5.初始化底部顶链接
+        //4.初始化底部顶链接
         attachsService.createAttachsCache();
-        //6.创建友情链接
+        //5.创建友情链接
         friendLinkService.updateShowCache();
+
+        //6.初始化文章的全文检索信息
+        //6-1.查询所有有效的文章
+//        List<Article> articles = articleService.getAllByStatus();
+        //6-2.生成文章的全文检索信息
+//        solrArticleService.createEsLibrary(JsonUtil.serialize(articles));
+
     }
 
 
