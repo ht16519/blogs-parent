@@ -5,6 +5,7 @@ import com.xh.blogs.consts.ViewUrl;
 import com.xh.blogs.enums.EmError;
 import com.xh.blogs.exception.BusinessException;
 import com.xh.blogs.utils.JsonUtil;
+import com.xh.blogs.utils.ResponseUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.web.servlet.HandlerExceptionResolver;
@@ -12,7 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,12 +33,11 @@ public class DefaultExceptionHandler implements HandlerExceptionResolver {
         ModelAndView mv;
         //判断是否ajax请求（本系统ajax请求后缀统一为.json）
         if (requestURI.contains(".json")) {
-            this.writerExceptionInfo(response, ex, request, requestURI);
-            mv = new ModelAndView();
+            ResponseUtil.writer(this.getExceptionResultMap(ex, request, requestURI), response);
+            return null;
         } else {
-            mv = new ModelAndView(ViewUrl.DEFAULT_ERROR, this.getExceptionResultMap(ex, request, requestURI));
+            return new ModelAndView(ViewUrl.DEFAULT_ERROR, this.getExceptionResultMap(ex, request, requestURI));
         }
-        return mv;
     }
 
     /**
@@ -73,25 +72,5 @@ public class DefaultExceptionHandler implements HandlerExceptionResolver {
             return map;
         }
     }
-
-    /**
-    * @Name setExceptionInfo
-    * @Description 通过response将异常信息输出到前台
-    * @Author wen
-    * @Date 2019/4/22
-    * @param response
-    * @param ex
-    * @return void
-    */
-    private void writerExceptionInfo(HttpServletResponse response, Exception ex, HttpServletRequest request, String requestURI) {
-        response.setCharacterEncoding("utf-8");
-        response.setContentType("application/json;charset=utf-8");
-        try {
-            response.getWriter().println(JsonUtil.serialize(this.getExceptionResultMap(ex, request, requestURI)));
-        } catch (IOException e) {
-            log.error("IOException:{}", e);
-        }
-    }
-
 
 }

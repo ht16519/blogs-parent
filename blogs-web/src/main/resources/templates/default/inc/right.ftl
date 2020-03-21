@@ -7,7 +7,7 @@
 
     </div>
     <ul class="box-list" id="hots">
-        <li class="text-center"><img src="/static/assets/images/spinner.gif"></li>
+        <li class="text-center"><img src="${site_domain}/static/assets/images/spinner.gif"></li>
     </ul>
 </div>
 
@@ -29,7 +29,7 @@
         <h3><i class="fa fa-users "></i> 热门用户</h3>
     </div>
     <ul id="hotuser" class="hotusers">
-        <img src="/static/assets/images/spinner.gif">
+        <img src="${site_domain}/static/assets/images/spinner.gif">
     </ul>
 </div>
 
@@ -39,7 +39,7 @@
             <a href="${base}/index/40/1" class="rrh-refresh">更多</a></h3>
     </div>
     <ul class="box-list" id="latests">
-        <li class="text-center"><img src="/static/assets/images/spinner.gif"></li>
+        <li class="text-center"><img src="${site_domain}/static/assets/images/spinner.gif"></li>
     </ul>
 </div>
 

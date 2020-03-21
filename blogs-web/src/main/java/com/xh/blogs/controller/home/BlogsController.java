@@ -182,7 +182,7 @@ public class BlogsController extends BaseController {
     @GetMapping("/article/search")
     public String articleSearch(String q, int pn, ModelMap model) {
         String keyword = CommonUtil.handleSpecial(q);
-        model.put(CommonConst.RESULT_PAGE_INFO_KEY, StringUtils.isEmpty(keyword) ? PageResult.createNull() : solrArticleService.search(keyword, pn));
+        model.put(CommonConst.RESULT_PAGE_INFO_KEY, solrArticleService.search(keyword, pn));
         model.put(KeyConst.ARTICLE_SEARCH_PARAMETER_KEY, q);
         return ViewUrl.ARTICLE_SEARCH;
     }
@@ -256,6 +256,7 @@ public class BlogsController extends BaseController {
             super.getModelMap(EmError.ARTICLE_IS_NOT_EXIST, model);
             return RequestUrl.INDEX_URL;
         }
+        model.put(CommonConst.DATA_RESULT_KEY, solrArticleService.recommend(article.getTitle()));
         model.put(CommonConst.COMMON_RETURN_RESULT_KEY, article);
         return ViewUrl.ARTICLE_VIEW;
     }

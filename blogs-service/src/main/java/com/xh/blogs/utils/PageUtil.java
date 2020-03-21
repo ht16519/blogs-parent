@@ -14,11 +14,11 @@ import java.util.List;
 public class PageUtil {
 
     public static <T> PageResult<T> create(Page<T> page){
-        return new PageResult(page.getTotal(), page.getPageNum(), page.getPages(), page.getResult());
+        return PageResult.create(page.getTotal(), page.getPageNum(), page.getPages(), page.getResult());
     }
 
     public static <T> PageResult<T> create(Page<T> page, List<T> list){
-        return new PageResult(page.getTotal(), page.getPageNum(), page.getPages(), list);
+        return PageResult.create(page.getTotal(), page.getPageNum(), page.getPages(), list);
     }
 
 }

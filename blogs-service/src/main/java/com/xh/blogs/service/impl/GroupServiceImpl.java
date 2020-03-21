@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.ServletContext;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -59,7 +60,7 @@ public class GroupServiceImpl implements IGroupService {
             return (List<Group>)servletContext.getAttribute(KeyConst.BLOGS_GROUP_KEY);
         } catch (Exception e) {
             log.error("==================== 未创建header分类 ====================");
-            return new ArrayList<>();
+            return Collections.emptyList();
         }
 
     }

@@ -1,6 +1,7 @@
 package com.xh.blogs.utils;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.CharEncoding;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -46,7 +47,7 @@ public final class CookieUtil {
 			for (int i = 0; i < cookieList.length; i++) {
 				if (cookieList[i].getName().equals(cookieName)) {
 					if (isDecoder) {
-						retValue = URLDecoder.decode(cookieList[i].getValue(), "UTF-8");
+						retValue = URLDecoder.decode(cookieList[i].getValue(), CharEncoding.UTF_8);
 					} else {
 						retValue = cookieList[i].getValue();
 					}
@@ -138,7 +139,7 @@ public final class CookieUtil {
 			if (cookieValue == null) {
 				cookieValue = "";
 			} else if (isEncode) {
-				cookieValue = URLEncoder.encode(cookieValue, "utf-8");
+				cookieValue = URLEncoder.encode(cookieValue, CharEncoding.UTF_8);
 			}
 			Cookie cookie = new Cookie(cookieName, cookieValue);
 			if (cookieMaxage > 0)

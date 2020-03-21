@@ -1,7 +1,7 @@
 <#include "/admin/utils/ui.ftl"/>
 <@layout>
-<link rel='stylesheet' media='all' href='/static/assets/css/plugins.css'/>
-<script type="text/javascript" src="/static/assets/js/plugins.js"></script>
+<link rel='stylesheet' media='all' href='${site_domain}/static/assets/css/plugins.css'/>
+<script type="text/javascript" src="${site_domain}/static/assets/js/plugins.js"></script>
 
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">

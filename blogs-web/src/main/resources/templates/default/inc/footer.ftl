@@ -55,3 +55,5 @@
         main.init();
     });
 </script>
+
+<script src="${site_domain}/static/assets/vendors/widget/source/autoload.js"></script>

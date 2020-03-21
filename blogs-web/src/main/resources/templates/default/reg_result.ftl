@@ -4,10 +4,10 @@
 
 <div class="login">
     <div class="vegas-overlay"
-         style="opacity: 0.2; margin: 0px; padding: 0px; position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; background-image: url(/static/assets/images/overlay.png); z-index: -1;"></div>
+         style="opacity: 0.2; margin: 0px; padding: 0px; position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; background-image: url(${site_domain}/static/assets/images/overlay.png); z-index: -1;"></div>
 
     <a href="${base}/index">
-        <img src="/static/assets/images/logo/logo90.jpg" height="72" width="72">
+        <img src="${site_domain}/static/assets/images/logo/logo90.jpg" height="72" width="72">
     </a>
     <hr>
     <form action="login" method="post">

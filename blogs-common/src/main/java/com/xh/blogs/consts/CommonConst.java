@@ -30,6 +30,8 @@ public interface CommonConst {
 
     String HTML_HIGHLIGHT_PREFIX = "<em style='color:red;'>";
 
+    String HTML_HIGHLIGHT_BLUE_PREFIX = "<em style='color:blue;'>";
+
     String HTML_HIGHLIGHT_SUFFIX = "</em>";
 
     String ARTICLE_GROUP = "groups";

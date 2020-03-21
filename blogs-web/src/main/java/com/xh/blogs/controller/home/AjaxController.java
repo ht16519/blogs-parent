@@ -1,6 +1,5 @@
 package com.xh.blogs.controller.home;
 
-import com.xh.blogs.service.*;
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.StringConst;
 import com.xh.blogs.controller.base.BaseController;
@@ -11,15 +10,13 @@ import com.xh.blogs.domain.vo.CommentsVo;
 import com.xh.blogs.domain.vo.UMEditorResult;
 import com.xh.blogs.domain.vo.WebApiResult;
 import com.xh.blogs.exception.BusinessException;
-import com.xh.blogs.utils.JsonUtil;
+import com.xh.blogs.service.*;
 import com.xh.blogs.utils.ShiroUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -58,9 +55,8 @@ public class AjaxController extends BaseController {
     * @return com.xh.blogs.domain.vo.WebApiResult 
     */
     @PostMapping("/ueditor/upload.json")
-    public void ueditorUpload(@RequestParam("upfile") MultipartFile file, HttpServletResponse response) throws BusinessException, IOException {
-        UMEditorResult data = uploadService.ueditorImageUpload(file, super.getProfile().getUserName());
-        response.getWriter().write(JsonUtil.serialize(data));
+    public UMEditorResult ueditorUpload(@RequestParam("upfile") MultipartFile file) throws BusinessException {
+        return uploadService.ueditorImageUpload(file, super.getProfile().getUserName());
     }
 
     /**

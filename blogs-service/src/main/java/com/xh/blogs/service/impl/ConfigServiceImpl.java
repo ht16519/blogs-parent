@@ -1,9 +1,9 @@
 package com.xh.blogs.service.impl;
 
-import com.xh.blogs.service.IConfigService;
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.dao.mapper.ConfigMapper;
 import com.xh.blogs.domain.po.Config;
+import com.xh.blogs.service.IConfigService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

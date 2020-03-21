@@ -11,27 +11,27 @@
     <title>${site_name} - 后台管理</title>
 
     <!-- Bootstrap -->
-    <link href="/static/assets/vendors/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${site_domain}/static/assets/vendors/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
-    <link href="/static/assets/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link href="/static/assets/vendors/treeTable/themes/vsStyle/treeTable.min.css" rel="stylesheet"/>
+    <link href="${site_domain}/static/assets/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="${site_domain}/static/assets/vendors/treeTable/themes/vsStyle/treeTable.min.css" rel="stylesheet"/>
 
     <!-- Custom Theme Style -->
-    <link href="/static/assets/admin/css/custom.min.css" rel="stylesheet">
+    <link href="${site_domain}/static/assets/admin/css/custom.min.css" rel="stylesheet">
 
     <!-- jQuery -->
-    <script src="/static/assets/js/jquery.min.js"></script>
+    <script src="${site_domain}/static/assets/js/jquery.min.js"></script>
     <!-- Bootstrap -->
-    <script src="/static/assets/vendors/bootstrap/js/bootstrap.min.js"></script>
-    <script src='/static/assets/vendors/validate/jquery-validate.js'></script>
+    <script src="${site_domain}/static/assets/vendors/bootstrap/js/bootstrap.min.js"></script>
+    <script src='${site_domain}/static/assets/vendors/validate/jquery-validate.js'></script>
     <!-- FastClick -->
-    <script src="/static/assets/vendors/fastclick/lib/fastclick.js"></script>
+    <script src="${site_domain}/static/assets/vendors/fastclick/lib/fastclick.js"></script>
 
-    <script src="/static/assets/vendors/layer/layer.js"></script>
-    <script src="/static/assets/vendors/treeTable/jquery.treeTable.min.js"></script>
+    <script src="${site_domain}/static/assets/vendors/layer/layer.js"></script>
+    <script src="${site_domain}/static/assets/vendors/treeTable/jquery.treeTable.min.js"></script>
 
     <script type="text/javascript">
-        window.UEDITOR_HOME_URL = '/static/assets/vendors/ueditor/';
+        window.UEDITOR_HOME_URL = ${site_domain}'/static/assets/vendors/ueditor/';
     </script>
 </head>
 <body class="nav-md">
@@ -109,8 +109,8 @@
         <!-- /footer content -->
     </div>
     <!-- Custom Theme Scripts -->
-    <script src="/static/assets/admin/js/custom.min.js"></script>
-    <script src="/static/assets/admin/js/app.data.js"></script>
+    <script src="${site_domain}/static/assets/admin/js/custom.min.js"></script>
+    <script src="${site_domain}/static/assets/admin/js/app.data.js"></script>
 </body>
 </html>
 </#macro>

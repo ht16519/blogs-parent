@@ -2,6 +2,8 @@ package com.xh.blogs.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.xh.blogs.consts.NumberConst;
+import com.xh.blogs.consts.StringConst;
 import com.xh.blogs.service.IArticleService;
 import com.xh.blogs.consts.CommonConst;
 import com.xh.blogs.consts.KeyConst;
@@ -88,13 +90,13 @@ public class ArticleServiceImpl extends BaseServiceImpl implements IArticleServi
         ArticleContent content = new ArticleContent();
         content.setContent(doc.html());
         content.setId(article.getId());
-        if (res > 0) {
+        if (res > NumberConst.INT_0) {
             articleContentMapper.insertSelective(content);
             //4.用户发布文章数 +1
             userMapper.updatePostsById(article.getAuthorId());
             //5.保存文章附件信息
             List<ArticleAccessory> articleAccessories = this.extractImages(doc, article.getId());
-            if (articleAccessories.size() > 0) {
+            if (articleAccessories.size() > NumberConst.INT_0) {
                 articleAccessoryMapper.insertList(articleAccessories);
             }
         }
@@ -122,7 +124,7 @@ public class ArticleServiceImpl extends BaseServiceImpl implements IArticleServi
     @Override
     public PageResult<Article> getByConditionWithPage(String title, Integer number) {
         if (number == null) {
-            number = 1;
+            number = NumberConst.INT_1;
         }
         Map<String, Object> parameters = new HashMap<>();
         parameters.put(CommonConst.ARTICLE_TITLE_KEY, title);
@@ -143,7 +145,7 @@ public class ArticleServiceImpl extends BaseServiceImpl implements IArticleServi
         article.setStatus(CommonConst.INVALID_STATUS);
         article.setId(id);
         int res = articleMapper.updateByPrimaryKeySelective(article);
-        if (res > 0) {
+        if (res > NumberConst.INT_0) {
             //3.逻辑删除文章所属图片
             articleAccessoryMapper.removeByArticleId(id);
         }
@@ -166,19 +168,19 @@ public class ArticleServiceImpl extends BaseServiceImpl implements IArticleServi
         article.setSummary(PreviewTextUtil.getText(voContent, cutOutArticleSummaryIndex));
         article.setUpdateTime(new Date());
         int res = articleMapper.updateByPrimaryKeySelective(article);
-        if (res > 0) {
+        if (res > NumberConst.INT_0) {
             //4.保存文章内容信息
             Document doc = Jsoup.parse(voContent);
             ArticleContent content = new ArticleContent();
             content.setContent(doc.html());
             content.setId(article.getId());
             res = articleContentMapper.updateByPrimaryKeySelective(content);
-            if (res > 0) {
+            if (res > NumberConst.INT_0) {
                 //6.物理删除修改前的文章图片
                 articleAccessoryMapper.deleteOldAccessorysByArticleId(article.getId());
                 //5.获取文章附件信息
                 List<ArticleAccessory> articleAccessories = this.extractImages(doc, article.getId());
-                if (articleAccessories.size() > 0) {
+                if (articleAccessories.size() > NumberConst.INT_0) {
                     //7.新增当前图片
                     res = articleAccessoryMapper.insertList(articleAccessories);
                 }
@@ -211,15 +213,15 @@ public class ArticleServiceImpl extends BaseServiceImpl implements IArticleServi
         if (cache == null) {
             cacheMap = new HashMap<>();
             //浏览量 +1
-            cacheMap.put(ip, 1);
+            cacheMap.put(ip, NumberConst.INT_1);
             ops.set(key, JsonUtil.serialize(cacheMap));
             articleMapper.addViews(id);
         } else {
             //判断用户是否浏览过文章
             cacheMap = JsonUtil.parseMap(cache, String.class, Integer.class);
-            if (cacheMap.get(ip) == null) {
+            if (!cacheMap.containsKey(ip)) {
                 //浏览量 +1
-                cacheMap.put(ip, 1);
+                cacheMap.put(ip, NumberConst.INT_1);
                 ops.set(key, JsonUtil.serialize(cacheMap));
                 articleMapper.addViews(id);
             }
@@ -286,8 +288,8 @@ public class ArticleServiceImpl extends BaseServiceImpl implements IArticleServi
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         for (Element el : elements) {
             String imageUrl = el.attr(CommonConst.ATTRIBUTE_KEY_SRC);
-            if (request.getContextPath().length() > 1 && imageUrl.startsWith(request.getContextPath())) {
-                imageUrl = imageUrl.replace(request.getContextPath(), "");
+            if (request.getContextPath().length() > NumberConst.INT_1 && imageUrl.startsWith(request.getContextPath())) {
+                imageUrl = imageUrl.replace(request.getContextPath(), StringConst.EMPTY_CHARACTER);
             }
             ArticleAccessory accessory = new ArticleAccessory();
             accessory.setStatus(CommonConst.EFFECTIVE_STATUS);

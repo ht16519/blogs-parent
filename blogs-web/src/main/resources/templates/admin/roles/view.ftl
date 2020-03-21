@@ -2,10 +2,10 @@
 <@layout>
 
 
-<link rel="stylesheet" href="/static/assets/vendors/zTree_v3/css/demo.css" type="text/css">
-<link rel="stylesheet" href="/static/assets/vendors/zTree_v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
-<script type="text/javascript" src="/static/assets/vendors/zTree_v3/js/jquery.ztree.core-3.5.js"></script>
-<script type="text/javascript" src="/static/assets/vendors/zTree_v3/js/jquery.ztree.excheck-3.5.js"></script>
+<link rel="stylesheet" href="${site_domain}/static/assets/vendors/zTree_v3/css/demo.css" type="text/css">
+<link rel="stylesheet" href="${site_domain}/static/assets/vendors/zTree_v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
+<script type="text/javascript" src="${site_domain}/static/assets/vendors/zTree_v3/js/jquery.ztree.core-3.5.js"></script>
+<script type="text/javascript" src="${site_domain}/static/assets/vendors/zTree_v3/js/jquery.ztree.excheck-3.5.js"></script>
 <style>
     .ztree .line{
         height: auto;

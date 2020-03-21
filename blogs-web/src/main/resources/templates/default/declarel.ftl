@@ -1,7 +1,7 @@
 <#include "/default/utils/layout.ftl"/>
 <@ui_simple "免责申明">
 
-<script type="text/javascript" src="/static/assets/vendors/validate/jquery-validate.js"></script>
+<script type="text/javascript" src="${site_domain}/static/assets/vendors/validate/jquery-validate.js"></script>
 
 <div class="panel panel-default stacked">
 	<div class="panel-heading">

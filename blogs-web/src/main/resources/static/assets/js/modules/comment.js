@@ -59,7 +59,7 @@ define(function(require, exports, module) {
 						return "//<a href='/k/u/name/" + k + "'>@" + k + "</a>:";
 					case '[':
 						var k = ms.slice(1, -1);
-						return "<img src='"+ContentConstants.url("/static/assets/images/phiz/" + ContentPost.phizs[k] + ".gif")+"' alt='" + k + "' title='" + k + "'/>";
+						return "<img src='"+ContentConstants.url("${site_domain}/static/assets/images/phiz/" + ContentPost.phizs[k] + ".gif")+"' alt='" + k + "' title='" + k + "'/>";
 					default:
 						return ms;
 				}

@@ -21,7 +21,7 @@
                     </div>
                 <#else>
                     <div class="user" title="系统消息">
-                        <img class="img-circle" src="/static/assets/images/logo/logo90.jpg"/>
+                        <img class="img-circle" src="${site_domain}/static/assets/images/logo/logo90.jpg"/>
                     </div>
                 </#if>
                 </div>

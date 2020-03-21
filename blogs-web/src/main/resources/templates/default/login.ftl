@@ -7,7 +7,7 @@
     -->
 
     <a href="${base}/index">
-        <img src="/static/assets/images/logo/logo90.jpg" height="72" width="72">
+        <img src="${site_domain}/static/assets/images/logo/logo90.jpg" height="72" width="72">
     </a>
     <h1>${site_welcomes}</h1>
     <hr>

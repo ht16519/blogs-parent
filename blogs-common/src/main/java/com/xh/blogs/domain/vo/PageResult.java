@@ -1,8 +1,9 @@
 package com.xh.blogs.domain.vo;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -11,7 +12,8 @@ import java.util.List;
  * @Author wen
  * @Date 2019-03-30
  */
-@Data
+@Getter
+@Setter
 public class PageResult<T> {
 
     private long total;         // 总条数
@@ -22,30 +24,32 @@ public class PageResult<T> {
 
     private List<T> items;      // 当前页数据
 
-    public PageResult() {
+    private PageResult() {
+        items = Collections.emptyList();
     }
 
-    public PageResult(long total, List<T> items) {
-        this(items);
+    private PageResult(long total, int number, List<T> items) {
         this.total = total;
-    }
-
-    public PageResult(List<T> items) {
+        this.number = number;
         this.items = items;
     }
 
-    public PageResult(long total, int number, List<T> items) {
-        this(total, items);
-        this.number = number;
-    }
-
-    public PageResult(long total, int number, int pages, List<T> items) {
+    private PageResult(long total, int number, int pages, List<T> items) {
         this(total, number, items);
         this.pages = pages;
     }
 
-    public static PageResult createNull(){
-        return new PageResult(0, 1, 0, new ArrayList<>());
+    public static <T> PageResult<T> createEmpty() {
+        return new PageResult<>();
     }
+
+    public static <T> PageResult<T> create(long totalElements, int number, List<T> content) {
+        return new PageResult<>(totalElements, number, content);
+    }
+
+    public static <T> PageResult<T> create(long totalElements, int number, int totalPages, List<T> content) {
+        return new PageResult<>(totalElements, number, totalPages, content);
+    }
+
 
 }

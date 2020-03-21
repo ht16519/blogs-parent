@@ -4,6 +4,8 @@ package com.xh.blogs.service;
 import com.xh.blogs.bean.SolrArticle;
 import com.xh.blogs.domain.vo.PageResult;
 
+import java.util.List;
+
 /**
  * @Name ISearchService
  * @Description
@@ -81,4 +83,15 @@ public interface ISolrArticleService {
      * @return PageResult
      */
     PageResult<SolrArticle> search(String keywords, long number);
+
+    /**
+    * @Name recommend
+    * @Description 相关文章推荐
+    * @Author wen
+    * @Date 2020/3/20
+    * @param keywords
+    * @return java.util.List<com.xh.blogs.bean.SolrArticle>
+    */
+    List<SolrArticle> recommend(String keywords);
+
 }

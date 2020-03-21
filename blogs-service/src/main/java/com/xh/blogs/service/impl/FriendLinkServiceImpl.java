@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.ServletContext;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -54,7 +55,7 @@ public class FriendLinkServiceImpl implements IFriendLinkService {
             return (List<FriendLink>)servletContext.getAttribute(KeyConst.BLOGS_LINK_KEY);
         } catch (Exception e) {
             log.error("==================== 【Redis服务】未创建LINK友情链接分类 ====================");
-            return new ArrayList<>();
+            return Collections.emptyList();
         }
 
     }

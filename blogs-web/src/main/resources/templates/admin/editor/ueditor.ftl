@@ -1,7 +1,7 @@
-<link href="/static/assets/vendors/ueditor/themes/default/css/ueditor.css" type="text/css" rel="stylesheet">
+<link href="${site_domain}/static/assets/vendors/ueditor/themes/default/css/ueditor.css" type="text/css" rel="stylesheet">
 
-<script type="text/javascript" charset="utf-8" src="/static/assets/vendors/ueditor/ueditor.config.js"></script>
-<script type="text/javascript" charset="utf-8" src="/static/assets/vendors/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="${site_domain}/static/assets/vendors/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="${site_domain}/static/assets/vendors/ueditor/ueditor.all.min.js"></script>
 
 <textarea id="view_content" name="content" rows="5" data-required data-describedby="message" data-description="content">${view.content}</textarea>
 

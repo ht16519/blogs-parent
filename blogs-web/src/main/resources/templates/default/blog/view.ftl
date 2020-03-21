@@ -11,8 +11,8 @@
     <meta name="description" content="${ret.summary?default(site_description)}">
     <#include "/default/inc/include.ftl"/>
 
-    <link rel="stylesheet" type="text/css" href="/static/assets/css/tomorrow-night-eighties.css">
-    <script type="text/javascript" src="/static/assets/js/highlight.pack.js"></script>
+    <link rel="stylesheet" type="text/css" href="${site_domain}/static/assets/css/tomorrow-night-eighties.css">
+    <script type="text/javascript" src="${site_domain}/static/assets/js/highlight.pack.js"></script>
     <script type="text/javascript"> hljs.initHighlightingOnLoad(); </script>
 
 </head>
@@ -25,6 +25,7 @@
             <div class="main clearfix">
                 <!-- left -->
                 <div class="col-xs-12 col-md-9 side-left">
+                    <!-- post start -->
                     <div class="shadow-box">
                         <h2 class="post-title"><@showGroup ret/><strong>${ret.title}</strong></h2>
                         <div class="clearfix post-other">
@@ -73,7 +74,7 @@
                                     </script>
                                     <style>
                                         .bdshare-button-24 a, .bdshare-button-24 .bds_more {
-                                            background-image: url("/static/assets/images/btn/icons_0_24.png");
+                                            background-image: url("${site_domain}/static/assets/images/btn/icons_0_24.png");
                                             border-radius: 4px;
                                         }
 
@@ -88,6 +89,7 @@
                     </div>
                     <!-- post/end -->
 
+                    <!-- comment start -->
                     <div id="chat" class="chats shadow-box">
                         <div class="chat_other">
                             <h4>全部评论: <i id="chat_count">0</i> 条</h4>
@@ -123,6 +125,23 @@
                             </div>
                         </div>
                     </div>
+                    <!-- comment end -->
+
+                    <!-- Recommend Start -->
+                    <div class="stream-list p-stream">
+                        <#if data?size != 0>
+                        <div class="stream-item">
+                            <div class="summary">
+                                <div class="title"><h2><strong>相关推荐:</strong></h2></div>
+                            </div>
+                        </div>
+                        </#if>
+                        <#list data as row>
+                            <@showBlog3 row/>
+                        </#list>
+                    </div>
+                    <!-- Recommend End -->
+
                 </div>
 
                 <script>
@@ -251,7 +270,7 @@
 
     seajs.use('phiz', function (phiz) {
         $("#c-btn").jphiz({
-            base: '/static/assets',
+            base: '${site_domain}/static/assets',
             textId: 'chat_text',
             lnkBoxId: 'c-lnk',
             phizBoxId: 'c-phiz'

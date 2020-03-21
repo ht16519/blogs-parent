@@ -19,7 +19,7 @@
 
 <#macro albShow2 row att>
 <a title="${row.title}" href="${att.original}">
-    <img src="/static/assets/images/spinner-overlay.png" data-original="${att.preview}"/>
+    <img src="${site_domain}/static/assets/images/spinner-overlay.png" data-original="${att.preview}"/>
 </a>
 </#macro>
 
@@ -31,20 +31,20 @@
             <div class="title"><@showGroup row/><h2>${row.title}</h2></div>
             <div class="excerpt wordbreak hidden-xs">${row.summary} </div>
         </a>
-        <!--前端图片显示样式-->
-        <#if row.albums??>
-        <!--Start-->
-        <div class="thumbs clearfix">
-            <#list row.albums as alb>
-                <#if (alb_index < 4) >
-                <div class="media col-xs-3 col-sm-3 col-md-3">
-                    <@albShow2 row alb/>
-                </div>
-                </#if>
-            </#list>
-        </div>
-        <!--End-->
-        </#if>
+        <#--<!--前端图片显示样式&ndash;&gt;-->
+        <#--<#if row.albums??>-->
+        <#--<!--Start&ndash;&gt;-->
+        <#--<div class="thumbs clearfix">-->
+            <#--<#list row.albums as alb>-->
+                <#--<#if (alb_index < 4) >-->
+                <#--<div class="media col-xs-3 col-sm-3 col-md-3">-->
+                    <#--<@albShow2 row alb/>-->
+                <#--</div>-->
+                <#--</#if>-->
+            <#--</#list>-->
+        <#--</div>-->
+        <#--<!--End&ndash;&gt;-->
+        <#--</#if>-->
     </div>
     <div class="p-rank clearfix">
         <#--<#if row.user??>-->
@@ -80,6 +80,36 @@
             </ul>
         </div>
     </div>
+</div>
+</#macro>
+
+<#-- 相关博文列表推荐3 -->
+<#macro showBlog3 row>
+<div class="stream-item" id="loop-${row.id}">
+    <div class="summary">
+        <a href="${base}/article/details/${row.id}">
+            <div class="title"><h2><strong>${row.title}</strong></h2></div>
+            <div class="excerpt wordbreak hidden-xs">${row.summary} </div>
+        </a>
+    </div>
+    <#--<div class="p-rank clearfix">-->
+        <#--<div class="counts">-->
+            <#--&lt;#&ndash;<time>${row.createTime?string('yyyy-MM-dd HH:mm:ss')}</time>&ndash;&gt;-->
+        <#--<span class="act"><i class="praise_icon"></i>${row.favors}</span>-->
+        <#--<span class="act"><i class="comment_icon"></i>${row.comments}</span>-->
+        <#--</div>-->
+        <#--<div class="foot-block clearfix">-->
+            <#--<ul class="tags">-->
+            <#--&lt;#&ndash;<span class="act">浏览 (<i>${row.views}</i>)</span>&ndash;&gt;-->
+                <#--<time><@timeline_dt row.createTime/></time>-->
+                <#--<#list row.tagsArray as tag>-->
+                <#--<li>-->
+                    <#--<a class="tag tag-sm" href="${base}/article/${tag}/1/">${tag}</a>-->
+                <#--</li>-->
+                <#--</#list>-->
+            <#--</ul>-->
+        <#--</div>-->
+    <#--</div>-->
 </div>
 </#macro>
 
