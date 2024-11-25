@@ -38,7 +38,7 @@
         <thumbnailator.version>0.4.8</thumbnailator.version>
         <jsoup.version>1.9.2</jsoup.version>
         <persistence.api.version>1.0</persistence.api.version>
-        <commons.collections.version>3.2.1</commons.collections.version>
+        <commons.collections.version>3.2.2</commons.collections.version>
         <hibernate.validator.version>5.2.4.Final</hibernate.validator.version>
         <shiro.correlation.version>1.4.0</shiro.correlation.version>
         <kaptcha.version>2.3.2</kaptcha.version>
